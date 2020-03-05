@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,14 +21,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Report extends BaseEntity {
 
-	@OneToOne
-	@NotNull
-	@Column(name = "summoner")
+	@Valid
+	@ManyToOne
 	private Summoner summoner;
 	
+	@Valid
 	@ManyToOne
-	@NotNull
-	@Column(name = "message")
+	private Reviewer reviewer;
+	
+	@Valid
+	@ManyToOne
 	private Message message;
 
 	@NotBlank
@@ -35,7 +38,7 @@ public class Report extends BaseEntity {
 	private String reason; //Esto será un desplegable con varios motivos posibles
 		
 	@Column(name = "text")
-	@Size(min = 10, max = 40)
+	@Size(min = 4, max = 40)
 	private String text; //Si el motivo fuera "Otro", se da la opción de especificarlo vía texto
 	
 	@Column(name = "revisado")

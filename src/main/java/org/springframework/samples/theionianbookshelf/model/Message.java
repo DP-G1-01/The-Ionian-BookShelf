@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,5 +34,11 @@ public class Message extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm")
 	private LocalDateTime moment;
 	
-
+	@Valid
+	@ManyToOne
+	private Summoner summoner;
+	
+	@Valid
+	@ManyToOne
+	private Thread thread;
 }
