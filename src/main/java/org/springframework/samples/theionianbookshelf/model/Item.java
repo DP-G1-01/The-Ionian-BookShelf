@@ -1,8 +1,11 @@
 package org.springframework.samples.theionianbookshelf.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +29,12 @@ public class Item extends BaseEntity {
 	@Size(min = 10, max = 500)
 	private String description;
 
-	@NotBlank
-	private String role;
+	@NotEmpty
+	@Size(min = 1, max = 3)
+	private Collection<String> atributtes;
+
+	@NotEmpty
+	@Size(min = 1, max = 3)
+	private Collection<String> role;
 
 }

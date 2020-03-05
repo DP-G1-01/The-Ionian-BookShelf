@@ -23,7 +23,7 @@ import lombok.Setter;
 public class Vote extends BaseEntity {
 
 	@Valid
-	@OneToOne(optional = true)
+	@OneToOne(optional = false)
 	private Summoner voter;
 
 	@Valid
