@@ -1,6 +1,14 @@
 package org.springframework.samples.theionianbookshelf.model;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,5 +21,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message extends BaseEntity {
+
+	@NotBlank
+	@Column(name = "text")
+	@Size(min = 10, max = 500)
+	private String text;
+	
+	@NotNull
+	@Column(name = "moment")
+	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm")
+	private LocalDateTime moment;
+	
 
 }
