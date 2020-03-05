@@ -2,6 +2,7 @@ package org.springframework.samples.theionianbookshelf.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Check(constraints = "mana IS NOT NULL AND energy IS NULL OR" + "mana IS NULL AND energy IS NOT NULL")
+@Check(constraints = "mana IS NOT NULL AND energy IS NULL" + "OR" + "mana IS NULL AND energy IS NOT NULL")
 public class Champion extends BaseEntity {
 
 	@NotBlank
@@ -55,5 +56,6 @@ public class Champion extends BaseEntity {
 	private Double speed;
 
 	@NotBlank
-	private String role;
+	@Valid
+	private Role role;
 }

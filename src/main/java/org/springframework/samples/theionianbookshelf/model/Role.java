@@ -1,42 +1,32 @@
 package org.springframework.samples.theionianbookshelf.model;
 
-import java.util.Collection;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.URL;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item extends BaseEntity {
+@Getter
+@Setter
+@Entity
+public class Role extends BaseEntity {
 
-	@Column(unique = true)
 	@NotBlank
 	@Size(min = 1, max = 20)
-	private String title;
+	private String name;
 
 	@NotBlank
 	@Size(min = 10, max = 500)
 	private String description;
 
-	@NotEmpty
-	@Size(min = 1, max = 3)
-	private Collection<String> atributtes;
-
-	@NotEmpty
-	@Valid
-	@Size(min = 1, max = 3)
-	private Collection<Role> roles;
-
+	@NotBlank
+	@URL
+	private String image;
 }

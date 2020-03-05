@@ -29,18 +29,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
+@Transactional
 public class UserAccountService {
 
+	@Autowired
 	private UserAccountRepository uaRepository;
 
-	@Autowired
-	public UserAccountService(UserAccountRepository uaRepository) {
-		this.uaRepository = uaRepository;
+	public UserAccount create() {
+
+		final UserAccount res = new UserAccount();
+
+		return res;
 	}
 
-	@Transactional
-	public void saveUser(UserAccount userAccount) throws DataAccessException {
-		userAccount.setEnabled(true);
-		uaRepository.save(userAccount);
-	}
 }
