@@ -31,6 +31,6 @@ public class Summoner extends Actor {
 
 	@Valid
 	@ManyToOne(optional = false)
-	private Ligue ligue;
+	private League ligue;
 
 }

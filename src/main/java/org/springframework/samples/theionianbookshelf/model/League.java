@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Ligue extends BaseEntity {
+public class League extends BaseEntity {
 
 	@NotBlank
 	@Column(unique = true)

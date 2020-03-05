@@ -3,6 +3,7 @@ package org.springframework.samples.theionianbookshelf.model;
 import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -30,10 +31,12 @@ public class Item extends BaseEntity {
 	@Size(min = 10, max = 500)
 	private String description;
 
+	@ElementCollection
 	@NotEmpty
 	@Size(min = 1, max = 3)
-	private Collection<String> atributtes;
+	private Collection<String> attributes;
 
+	@ElementCollection
 	@NotEmpty
 	@Valid
 	@Size(min = 1, max = 3)

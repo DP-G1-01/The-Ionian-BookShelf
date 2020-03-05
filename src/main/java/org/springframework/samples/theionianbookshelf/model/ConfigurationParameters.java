@@ -3,6 +3,7 @@ package org.springframework.samples.theionianbookshelf.model;
 import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -36,8 +37,18 @@ public class ConfigurationParameters extends BaseEntity {
 //	@NotEmpty
 //	private Collection<String> voidWords;
 
+	@ElementCollection
 	@NotEmpty
 	@Column(unique = true)
 	private Collection<String> roles;
 
+	@ElementCollection
+	@NotEmpty
+	@Column(unique = true)
+	private Collection<String> branches;
+
+	@ElementCollection	
+	@NotEmpty
+	@Column(unique = true)
+	private Collection<String> nodes;
 }

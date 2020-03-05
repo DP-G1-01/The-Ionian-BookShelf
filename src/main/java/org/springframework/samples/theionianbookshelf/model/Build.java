@@ -1,5 +1,7 @@
 package org.springframework.samples.theionianbookshelf.model;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -31,10 +33,15 @@ public class Build extends BaseEntity {
 
 	@Valid
 	@ManyToMany
-	private Item items;
+	@Size(min = 0, max = 6)
+	private Collection<Item> items;
 
 	@Valid
 	@ManyToOne(optional = false)
 	private Champion champion;
+	
+	@Valid
+	@ManyToOne(optional = false)
+	private RunePage runePage;
 
 }
