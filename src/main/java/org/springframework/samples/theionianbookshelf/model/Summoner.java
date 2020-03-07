@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -33,4 +34,7 @@ public class Summoner extends Actor {
 	@ManyToOne(optional = false)
 	private League ligue;
 
+	@Valid
+	@OneToMany
+	private ChangeRequest changeRequest;
 }
