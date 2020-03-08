@@ -1,5 +1,8 @@
 package org.springframework.samples.theionianbookshelf.model;
 
+import java.util.Collection;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -10,14 +13,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Getter
 @Setter
 @Entity
 public class Reviewer extends Actor {
-	
-	@OneToMany()
-	private ChangeRequest request;
+
+//	@OneToMany()
+//	@ElementCollection
+//	@Valid
+//	private Collection<ChangeRequest> request;
 
 }

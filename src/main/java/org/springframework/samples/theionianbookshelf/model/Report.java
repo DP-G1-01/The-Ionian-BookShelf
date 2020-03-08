@@ -7,6 +7,7 @@ import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -21,32 +22,33 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Report extends BaseEntity {
 
+//	@Valid
+//	@ManyToOne
+//	private Summoner summoner;
+
 	@Valid
-	@ManyToOne
-	private Summoner summoner;
-	
-	@Valid
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Reviewer reviewer;
-	
+
 	@Valid
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Message message;
 
 	@NotBlank
 	@Column(name = "reason")
-	private String reason; //Esto será un desplegable con varios motivos posibles
-		
+	private String reason; // Esto será un desplegable con varios motivos posibles
+
 	@Column(name = "text")
 	@Size(min = 4, max = 40)
-	private String text; //Si el motivo fuera "Otro", se da la opción de especificarlo vía texto
-	
-	@Column(name = "revisado")
-	private boolean revisado;
-	
+	private String text; // Si el motivo fuera "Otro", se da la opción de especificarlo vía texto
+
+	@NotBlank
+	@Pattern(regexp = "^(DENIED|PENDING|ACCEPTED)$")
+	private String status;
+
 	@NotBlank
 	@Size(min = 5, max = 50)
 	@Column(name = "resolution")
-	private String resolution; //Esto será la acción que llevó a cabo el revisor, si es que procedía
-		
+	private String resolution; // Esto será la acción que llevó a cabo el revisor, si es que procedía
+
 }

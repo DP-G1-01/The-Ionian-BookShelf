@@ -34,7 +34,4 @@ public class Summoner extends Actor {
 	@ManyToOne(optional = false)
 	private League ligue;
 
-	@Valid
-	@OneToMany
-	private ChangeRequest changeRequest;
 }

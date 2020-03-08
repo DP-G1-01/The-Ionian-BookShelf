@@ -38,13 +38,13 @@ public class AdministratorService {
 		return res;
 	}
 
-//	public Collection<Administrator> findAll() {
-//
-//		final Collection<Administrator> res = this.adminRepo.findAll();
-//		Assert.notNull(res);
-//
-//		return res;
-//	}
+	public Collection<Administrator> findAll() {
+
+		final Collection<Administrator> res = this.adminRepo.findAll();
+		Assert.notNull(res);
+
+		return res;
+	}
 
 	public Administrator findOne(final int id) {
 		

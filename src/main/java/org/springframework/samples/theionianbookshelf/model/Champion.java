@@ -2,6 +2,7 @@ package org.springframework.samples.theionianbookshelf.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -58,5 +59,6 @@ public class Champion extends BaseEntity {
 
 	@NotBlank
 	@Valid
+	@ManyToOne(optional = false)
 	private Role role;
 }

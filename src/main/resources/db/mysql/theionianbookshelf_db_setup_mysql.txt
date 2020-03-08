@@ -1,10 +1,8 @@
 ================================================================================
-===        Spring PetClinic sample application - MySQL Configuration         ===
+===        Spring The Ionian Bookshelf application - MySQL Configuration         ===
 ================================================================================
 
-@author Sam Brannen
-@author Costin Leau
-@author Dave Syer
+@author CavernaryBeast
 
 --------------------------------------------------------------------------------
 
