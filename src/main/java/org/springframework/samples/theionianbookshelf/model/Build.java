@@ -41,7 +41,7 @@ public class Build extends BaseEntity {
 	private Champion champion;
 	
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	private RunePage runePage;
 
 }

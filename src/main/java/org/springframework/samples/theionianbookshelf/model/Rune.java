@@ -1,7 +1,6 @@
 package org.springframework.samples.theionianbookshelf.model;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -25,12 +24,10 @@ public class Rune extends BaseEntity{
 	
 	@Valid
 	@NotBlank
-	@ManyToOne(optional = false)
 	private Branch branch;
 	
 	@Valid
 	@NotBlank
-	@ManyToOne(optional = false)
 	private Node node;
 	
 }
