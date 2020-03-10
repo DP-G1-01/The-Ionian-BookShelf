@@ -12,10 +12,10 @@ import the_ionian_bookshelf.model.Actor;
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
-	@Query("select a from Actor a where a.userAccount.id = ?1")
+	@Query(value = "select a from Actor a where a.userAccount.id = ?1", nativeQuery = true)
 	Actor findByUserAccountId(int id);
 
-	@Query("select a from Actor a join a.userAccount ua join ua.authorities auths where 'AUTHOR' member of auths")
+	@Query(value = "select a from Actor a join a.userAccount ua join ua.authorities auths where 'AUTHOR' member of auths", nativeQuery = true)
 	Collection<Actor> findAllAuthors();
 
 	// @Query("select author from Conference conf join conf.submissions subs join

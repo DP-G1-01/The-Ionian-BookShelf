@@ -55,7 +55,9 @@ public class UserAccount extends BaseEntity implements UserDetails {
 	 * Will be a date, for ban an user of the system for a period of time. <br>
 	 * Change pending
 	 */
+	@Column(name = "enabled")
 	boolean enabled;
+	
 
 	// ATTRIBUTES OF USER ACCOUNT
 
