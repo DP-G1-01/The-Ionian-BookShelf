@@ -28,6 +28,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Check(constraints = "champion IS NOT NULL AND changeChamp IS NOT NULL AND item IS NULL AND changeItem IS NULL" + "OR"
 		+ "champion IS NULL AND changeChamp IS NULL AND item IS NOT NULL AND changeItem IS NOT NULL")
+@Table(name = "change_requests")
 public class ChangeRequest extends BaseEntity {
 
 	@Valid

@@ -42,12 +42,16 @@ public class ConfigurationParameters extends BaseEntity {
 
 	@ElementCollection
 	@NotEmpty
-	@Column(unique = true, name = "roles")
-	private Collection<String> roles;
+	@Column(unique = true)
+	private Collection<Role> roles;
 
 	@ElementCollection
 	@NotEmpty
 	@Column(unique = true, name = "branches")
 	private Collection<String> branches;
 
+	@ElementCollection
+	@NotEmpty
+	@Column(unique = true)
+	private Collection<String> nodes;
 }

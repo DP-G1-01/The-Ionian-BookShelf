@@ -20,7 +20,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "branches")
 public class Branch extends BaseEntity {
-	
+
 	@NotBlank
 	@Size(min = 1, max = 20)
 	@Column(name="name")

@@ -1,4 +1,3 @@
--- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO userAccounts(username,password,enabled) VALUES ('admin','admin',TRUE);
 INSERT INTO authorities VALUES ('admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r

@@ -24,6 +24,7 @@ import lombok.Setter;
 @Entity
 @Table(name="champions")
 @Check(constraints = "mana IS NOT NULL AND energy IS NULL" + "OR" + "mana IS NULL AND energy IS NOT NULL")
+@Table(name = "champions")
 public class Champion extends BaseEntity {
 
 	@NotBlank
