@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,9 +29,8 @@ public class Rune extends BaseEntity {
 	@ManyToOne(optional = false)
 	private Branch branch;
 
-	@Valid
 	@NotBlank
-	@ManyToOne(optional = false)
-	private Node node;
+	@Pattern(regexp = "^(KEY|1|2|3)$")
+	private String node;
 
 }

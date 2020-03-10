@@ -2,6 +2,7 @@ package the_ionian_bookshelf.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
@@ -25,13 +26,14 @@ import lombok.Setter;
 @Setter
 public class Actor extends BaseEntity {
 
-	@Column(unique = true)
+	@Column(name = "email", unique = true)
 	@Email(regexp = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
 	@NotBlank
 	private String email;
 
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@JoinColumn(name = "user_account_id")
 	private UserAccount userAccount;
 
 }

@@ -3,6 +3,7 @@ package the_ionian_bookshelf.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Check(constraints = "mana IS NOT NULL AND energy IS NULL" + "OR" + "mana IS NULL AND energy IS NOT NULL")
+@Table(name = "champions")
 public class Champion extends BaseEntity {
 
 	@NotBlank

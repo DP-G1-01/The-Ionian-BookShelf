@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS theionianbookshelf;
 
-ALTER DATABASE petclinic
+ALTER DATABASE theionianbookshelf
   DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
 
