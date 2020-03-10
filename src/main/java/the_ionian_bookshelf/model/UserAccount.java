@@ -46,6 +46,7 @@ public class UserAccount extends BaseEntity implements UserDetails {
 
 	@NotBlank
 	@Valid
+	@ElementCollection
 	private Collection<Authority> authorities;
 
 	/**

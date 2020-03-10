@@ -2,7 +2,9 @@ package the_ionian_bookshelf.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -17,6 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name="reports")
 @AllArgsConstructor
 public class Report extends BaseEntity {
 
@@ -26,10 +29,12 @@ public class Report extends BaseEntity {
 
 	@Valid
 	@ManyToOne(optional = false)
+	@JoinColumn(name="reviewer_id")
 	private Reviewer reviewer;
 
 	@Valid
 	@ManyToOne(optional = false)
+	@JoinColumn(name="message_id")
 	private Message message;
 
 	@NotBlank
@@ -42,6 +47,7 @@ public class Report extends BaseEntity {
 
 	@NotBlank
 	@Pattern(regexp = "^(DENIED|PENDING|ACCEPTED)$")
+	@Column(name="status")
 	private String status;
 
 	@NotBlank

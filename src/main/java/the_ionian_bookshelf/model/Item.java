@@ -5,6 +5,11 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -20,26 +25,32 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="items")
 public class Item extends BaseEntity {
 
-	@Column(unique = true)
+	@Column(unique = true, name="title")
 	@NotBlank
 	@Size(min = 1, max = 20)
 	private String title;
 
 	@NotBlank
 	@Size(min = 10, max = 500)
+	@Column(name="description")
 	private String description;
 
 	@ElementCollection
 	@NotEmpty
 	@Size(min = 1, max = 3)
+	@Column(name="attributes")
 	private Collection<String> attributes;
 
 	@ElementCollection
 	@NotEmpty
 	@Valid
 	@Size(min = 1, max = 3)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
+			inverseJoinColumns = @JoinColumn(name="role_id"))
 	private Collection<Role> roles;
 
 }

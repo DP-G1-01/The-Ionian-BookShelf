@@ -21,17 +21,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "configParams")
+@Table(name = "config_params")
 public class ConfigurationParameters extends BaseEntity {
 
 	@NotBlank
+	@Column(name="sys_name")
 	private String sysName;
 
 	@NotBlank
 	@URL
+	@Column(name="banner")
 	private String banner;
 
 	@NotBlank
+	@Column(name="message")
 	private String message;
 
 //	@NotEmpty
@@ -39,16 +42,12 @@ public class ConfigurationParameters extends BaseEntity {
 
 	@ElementCollection
 	@NotEmpty
-	@Column(unique = true)
+	@Column(unique = true, name = "roles")
 	private Collection<String> roles;
 
 	@ElementCollection
 	@NotEmpty
-	@Column(unique = true)
+	@Column(unique = true, name = "branches")
 	private Collection<String> branches;
 
-	@ElementCollection	
-	@NotEmpty
-	@Column(unique = true)
-	private Collection<String> nodes;
 }

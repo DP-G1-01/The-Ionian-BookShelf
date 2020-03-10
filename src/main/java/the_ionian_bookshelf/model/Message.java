@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,6 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="messages")
 public class Message extends BaseEntity {
 
 	@NotBlank
@@ -36,9 +39,11 @@ public class Message extends BaseEntity {
 	
 	@Valid
 	@ManyToOne
+	@JoinColumn(name="summoner_id")
 	private Summoner summoner;
 	
 	@Valid
 	@ManyToOne
+	@JoinColumn(name="thread_id")
 	private Thread thread;
 }

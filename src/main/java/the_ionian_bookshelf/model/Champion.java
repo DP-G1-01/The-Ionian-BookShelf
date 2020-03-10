@@ -2,7 +2,9 @@ package the_ionian_bookshelf.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -20,6 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name="champions")
 @Check(constraints = "mana IS NOT NULL AND energy IS NULL" + "OR" + "mana IS NULL AND energy IS NOT NULL")
 public class Champion extends BaseEntity {
 
@@ -60,5 +63,6 @@ public class Champion extends BaseEntity {
 	@NotBlank
 	@Valid
 	@ManyToOne(optional = false)
+	@JoinColumn(name = "role_id")
 	private Role role;
 }
