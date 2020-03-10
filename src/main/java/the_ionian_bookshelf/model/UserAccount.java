@@ -27,7 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "userAccounts")
+@Table(name = "user_accounts")
 public class UserAccount extends BaseEntity implements UserDetails {
 
 	/**
@@ -35,16 +35,17 @@ public class UserAccount extends BaseEntity implements UserDetails {
 	 */
 	private static final long serialVersionUID = 4601834758022261151L;
 
-	@Column(unique = true)
+	@Column(unique = true, name = "username")
 	@NotBlank
 	@Size(min = 5, max = 32)
 	private String username;
 
 	@NotBlank
 	@Size(min = 5, max = 32)
+	@Column(name = "password")
 	private String password;
 
-	@NotBlank
+	@NotEmpty
 	@Valid
 	@ElementCollection
 	private Collection<Authority> authorities;
@@ -58,9 +59,6 @@ public class UserAccount extends BaseEntity implements UserDetails {
 
 	// ATTRIBUTES OF USER ACCOUNT
 
-	@NotEmpty
-	@Valid
-	@ElementCollection
 	@Override
 	public Collection<Authority> getAuthorities() {
 		// WARNING: Should return an unmodifiable copy, but it's not possible with

@@ -17,9 +17,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Check(constraints = "build IS NOT NULL AND thread IS NULL AND message IS NULL "
-		+ "OR build IS NULL AND thread IS NOT NULL AND message IS NULL OR"
-		+ "build IS NULL AND thread IS NULL AND message IS NOT NULL")
 public class Vote extends BaseEntity {
 
 	@Valid

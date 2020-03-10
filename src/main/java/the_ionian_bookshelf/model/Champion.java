@@ -10,8 +10,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Check;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +20,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="champions")
-@Check(constraints = "mana IS NOT NULL AND energy IS NULL" + "OR" + "mana IS NULL AND energy IS NOT NULL")
 @Table(name = "champions")
 public class Champion extends BaseEntity {
 

@@ -1,4 +1,4 @@
-INSERT INTO userAccounts(username,password,enabled) VALUES ('admin','admin',TRUE);
+INSERT INTO user_accounts(username,password,enabled) VALUES ('admin','admin',TRUE);
 INSERT INTO authorities VALUES ('admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
