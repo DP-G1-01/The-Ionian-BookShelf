@@ -32,7 +32,7 @@ public class ItemController {
 	}
 	
 	@GetMapping(value = "/items")
-	public String processFindForm(Item item, BindingResult result, Map<String, Object> model) {
+	public String processFindForm(Item item, BindingResult result, Model model) {
 
 		// allow parameterless GET request for /owners to return all records
 		if (item.getTitle() == null) {
@@ -53,7 +53,7 @@ public class ItemController {
 //		}
 //		else {
 			// multiple owners found
-			model.put("items", results);
+			model.addAttribute("items",results);
 			return "items/itemsList";
 		}
 	

@@ -26,7 +26,7 @@ public class ItemService {
 
 	public Collection<Item> findAll() {
 
-		final Collection<Item> res = (Collection<Item>) this.itemRepository.findAll();
+		final Collection<Item> res = this.itemRepository.findAll();
 
 		assertNotNull(res);
 
