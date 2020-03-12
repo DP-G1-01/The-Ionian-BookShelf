@@ -74,28 +74,4 @@ public class Champion extends BaseEntity {
 	@JoinColumn(name = "role_id")
 	private Role role;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "champion")
-	private Set<ChangeRequest>	changeRequests;
-	
-	protected Set<ChangeRequest> getChangeRequestsInternal() {
-		if (this.changeRequests == null) {
-			this.changeRequests = new HashSet<>();
-		}
-		return this.changeRequests;
-	}
-
-	protected void setChangeRequestsInternal(Set<ChangeRequest> changeRequests) {
-		this.changeRequests = changeRequests;
-	}
-
-	public List<ChangeRequest> getChangeRequests() {
-		List<ChangeRequest> sortedChangeRequests = new ArrayList<>(getChangeRequestsInternal());
-		PropertyComparator.sort(sortedChangeRequests, new MutableSortDefinition("date", false, false));
-		return Collections.unmodifiableList(sortedChangeRequests);
-	}
-
-	public void addChangeRequest(ChangeRequest changeRequest) {
-		getChangeRequestsInternal().add(changeRequest);
-		changeRequest.setChampion(this);
-	}
 }
