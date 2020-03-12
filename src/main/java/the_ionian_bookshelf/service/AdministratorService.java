@@ -50,10 +50,7 @@ public class AdministratorService {
 
 	public Collection<Administrator> findAll() {
 
-		ArrayList<Administrator> res = new ArrayList<Administrator>();
-		for (Administrator admin : adminRepo.findAll()) {
-			res.add(admin);
-		}
+		Collection<Administrator> res = this.adminRepo.findAll();
 
 		assertNotNull(res);
 		return res;

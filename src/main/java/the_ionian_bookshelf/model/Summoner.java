@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -28,11 +29,12 @@ public class Summoner extends Actor {
 	@Valid
 	@ManyToMany()
 	@ElementCollection
-	@JoinColumn
+	@JoinTable(name = "summoner_mains", joinColumns = @JoinColumn(name = "summoner_id"), inverseJoinColumns = @JoinColumn(name = "champion_id"))
 	private Collection<Champion> mains;
 
 	@Valid
 	@ManyToOne(optional = false)
+	@JoinColumn(name = "ligue_id")
 	private League ligue;
 
 }

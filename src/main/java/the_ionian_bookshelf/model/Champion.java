@@ -18,8 +18,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
+import org.hibernate.annotations.Check;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +31,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "champions")
+@Check(constraints = "mana IS NOT NULL AND energy IS NULL" + " OR " + "mana IS NULL AND energy IS NOT NULL" + " OR "
+		+ "mana IS NULL AND energy IS NULL")
 public class Champion extends BaseEntity {
 
 	@NotBlank
@@ -68,7 +69,6 @@ public class Champion extends BaseEntity {
 	@Column(name = "speed")
 	private Double speed;
 
-	@NotBlank
 	@Valid
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "role_id")

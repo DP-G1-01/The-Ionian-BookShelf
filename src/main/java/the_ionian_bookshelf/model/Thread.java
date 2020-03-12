@@ -2,9 +2,9 @@ package the_ionian_bookshelf.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,15 +16,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="thread")
-public class Thread {
+@Table(name = "thread")
+public class Thread extends BaseEntity {
 
 	@NotBlank
-	@Id
-	@Column(name="title")
+	@Column(name = "title")
+	@Size(min = 5, max = 50)
 	public String title;
-	
+
 	@NotBlank
-	@Column(name="description")
+	@Column(name = "description")
+	@Size(min = 20, max = 500)
 	public String description;
 }

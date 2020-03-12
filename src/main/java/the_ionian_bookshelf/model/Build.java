@@ -2,12 +2,14 @@ package the_ionian_bookshelf.model;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -42,18 +44,22 @@ public class Build extends BaseEntity {
 	@Valid
 	@ManyToMany
 	@Size(min = 0, max = 6)
-	@JoinTable(name = "build_items", joinColumns = @JoinColumn(name="build_id"), 
-		inverseJoinColumns = @JoinColumn(name="item_id"))
+	@JoinTable(name = "build_items", joinColumns = @JoinColumn(name = "build_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private Collection<Item> items;
 
 	@Valid
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "champion_id")
 	private Champion champion;
-	
+
 	@Valid
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "rune_page_id")
 	private RunePage runePage;
+
+	@Valid
+	@OneToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "thread_id")
+	private Thread thread;
 
 }
