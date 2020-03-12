@@ -1,9 +1,17 @@
 package the_ionian_bookshelf.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -65,4 +73,29 @@ public class Champion extends BaseEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "role_id")
 	private Role role;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "champion")
+	private Set<ChangeRequest>	changeRequests;
+	
+	protected Set<ChangeRequest> getChangeRequestsInternal() {
+		if (this.changeRequests == null) {
+			this.changeRequests = new HashSet<>();
+		}
+		return this.changeRequests;
+	}
+
+	protected void setChangeRequestsInternal(Set<ChangeRequest> changeRequests) {
+		this.changeRequests = changeRequests;
+	}
+
+	public List<ChangeRequest> getChangeRequests() {
+		List<ChangeRequest> sortedChangeRequests = new ArrayList<>(getChangeRequestsInternal());
+		PropertyComparator.sort(sortedChangeRequests, new MutableSortDefinition("date", false, false));
+		return Collections.unmodifiableList(sortedChangeRequests);
+	}
+
+	public void addChangeRequest(ChangeRequest changeRequest) {
+		getChangeRequestsInternal().add(changeRequest);
+		changeRequest.setChampion(this);
+	}
 }
