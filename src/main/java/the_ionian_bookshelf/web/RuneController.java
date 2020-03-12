@@ -23,19 +23,21 @@ import the_ionian_bookshelf.service.RuneService;
 @Controller
 @RequestMapping("/runes")
 public class RuneController {
+	
+	@Autowired
 	private final RuneService runeService;
 	
 	@Autowired
 	public RuneController(RuneService runeService) {
 		this.runeService = runeService;
 	}
-	
+	/*
 	//Para poner las branches en un select o algo así en el jsp
 	@ModelAttribute("branches")
 	public Collection<Branch> populateBranches() {
 		return this.runeService.findBranches();
 	}
-	
+	*/
 	@GetMapping(value = "/runes/new")
 	public String initCreationForm(UserAccount user, ModelMap model) throws AccessException {
 		assert user != null;
@@ -80,4 +82,34 @@ public class RuneController {
 			}
 		}
 	}
+	
+	@GetMapping()
+	public String listadoRunas(ModelMap modelMap) {
+		String vista = "runes/listadoRunas";
+		Iterable<Rune> runes = runeService.findAll();
+		modelMap.addAttribute("runes", runes );
+		return vista;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
