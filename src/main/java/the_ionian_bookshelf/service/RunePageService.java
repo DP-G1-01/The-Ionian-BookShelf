@@ -14,43 +14,24 @@ import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
 import the_ionian_bookshelf.model.Authority;
-import the_ionian_bookshelf.model.Branch;
-import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.model.RunePage;
-import the_ionian_bookshelf.repository.BranchRepository;
 import the_ionian_bookshelf.repository.RunePageRepository;
-import the_ionian_bookshelf.repository.RuneRepository;
 
 @Service
 public class RunePageService {
 
 	@Autowired
-	private RuneRepository runeRepository;
-	
-	@Autowired
 	private RunePageRepository runePageRepository;
 	
 	@Autowired
-	private AdministratorService administratorService;
-	
-	@Autowired
 	private ActorService actorService;
-	
-	@Autowired
-	private BranchRepository branchRepository;
-	
-	@Autowired
-	public RunePageService(RuneRepository runeRepository, BranchRepository branchRepository) {
-		this.runeRepository = runeRepository;
-		this.branchRepository = branchRepository;
-	}
 
 	//Método para listar runas
 	@Transactional
 	public Set<RunePage> findAllMine() throws DataAccessException {
 		Set<RunePage> runePages = new TreeSet<>();
 		Actor principal = this.actorService.findByPrincipal();
-		this.runePageRepository.findAllByActorId(principal.getId()).forEach(runePages::add);
+		this.runePageRepository.findAllByUserAccountId(principal.getUserAccount().getId()).forEach(runePages::add);
 		return runePages;
 	}
 	
@@ -70,7 +51,7 @@ public class RunePageService {
 	public void delete(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
 		Actor principal = this.actorService.findByPrincipal();
-		assertTrue(principal.equals(runePage.getActor()));
+		assertTrue(principal.getUserAccount().equals(runePage.getUserAccount()));
 		this.runePageRepository.delete(runePage);
 	}
 	

@@ -34,12 +34,6 @@ public class RuneService {
 	@Autowired
 	private BranchRepository branchRepository;
 	
-	@Autowired
-	public RuneService(RuneRepository runeRepository, BranchRepository branchRepository) {
-		this.runeRepository = runeRepository;
-		this.branchRepository = branchRepository;
-	}
-
 	//Método para listar runas
 	@Transactional
 	public Set<Rune> findAll() throws DataAccessException {
