@@ -41,15 +41,6 @@ public class ActorService {
 		return res;
 	}
 
-	public Collection<Actor> findAllAuthors() {
-
-		final Collection<Actor> res = this.actorRepository.findAllAuthors();
-
-		assertNotNull(res);
-
-		return res;
-	}
-
 	public Actor findOne(final int id) {
 
 		assertTrue(id != 0);
@@ -108,26 +99,6 @@ public class ActorService {
 		assertNotNull(res);
 
 		return res;
-	}
-
-	// ----------------------------------------------------------------------------
-
-	public Actor findActorLogged() {
-		Actor res;
-		UserAccount userAccount;
-		userAccount = LoginService.getPrincipal();
-		assertNotNull(userAccount);
-		res = this.actorRepository.findByUserAccountId(userAccount.getId());
-		assertNotNull(res);
-		// Assert.isTrue(res.getUserAccount().getStatusAccount());
-		return res;
-	}
-
-	public void checkUserLoginAdministrator(final Actor actor) {
-		final Authority auth = new Authority();
-		auth.setAuthority(Authority.ADMINISTRATOR);
-		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-		assertTrue(authorities.contains(auth));
 	}
 
 }

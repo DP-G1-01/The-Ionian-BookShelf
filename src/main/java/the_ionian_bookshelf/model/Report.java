@@ -19,35 +19,32 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="reports")
+@Table(name = "reports")
 @AllArgsConstructor
 public class Report extends BaseEntity {
 
-//	@Valid
-//	@ManyToOne
-//	private Summoner summoner;
-
 	@Valid
 	@ManyToOne(optional = false)
-	@JoinColumn(name="reviewer_id")
+	@JoinColumn(name = "reviewer_id")
 	private Reviewer reviewer;
 
 	@Valid
 	@ManyToOne(optional = false)
-	@JoinColumn(name="message_id")
+	@JoinColumn(name = "message_id")
 	private Message message;
 
 	@NotBlank
 	@Column(name = "reason")
 	private String reason; // Esto será un desplegable con varios motivos posibles
 
+	@NotBlank
 	@Column(name = "text")
 	@Size(min = 4, max = 40)
 	private String text; // Si el motivo fuera "Otro", se da la opción de especificarlo vía texto
 
 	@NotBlank
 	@Pattern(regexp = "^(DENIED|PENDING|ACCEPTED)$")
-	@Column(name="status")
+	@Column(name = "status")
 	private String status;
 
 	@NotBlank

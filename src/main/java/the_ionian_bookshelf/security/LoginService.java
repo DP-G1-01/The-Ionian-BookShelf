@@ -33,7 +33,7 @@ public class LoginService implements UserDetailsService {
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
-	UserAccountRepository userRepository;
+	UserAccountRepository userAccountRepository;
 
 	// Business methods -------------------------------------------------------
 
@@ -44,7 +44,7 @@ public class LoginService implements UserDetailsService {
 
 		UserDetails res;
 
-		res = this.userRepository.findByUsername(username);
+		res = this.userAccountRepository.findByUsername(username);
 
 		assertNotNull(res);
 

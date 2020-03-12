@@ -28,18 +28,16 @@ public class Rune extends BaseEntity {
 
 	@NotBlank
 	@Column(name = "description")
-
 	private String description;
 
 	@Valid
 	@NotBlank
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "branch_id")
-
 	private Branch branch;
 
 	@NotBlank
-	@Pattern (regexp = "^(KEY|1|2|3)$")
+	@Pattern(regexp = "^(KEY|1|2|3)$")
 	@Column(name = "node")
 	private String node;
 

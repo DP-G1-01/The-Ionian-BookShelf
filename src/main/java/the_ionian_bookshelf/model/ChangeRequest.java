@@ -13,8 +13,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Check;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +49,7 @@ public class ChangeRequest extends BaseEntity {
 	// un array con valores positivos o negativos de los cambios que van a hacerse
 	// a los atributos de Champion [Health, Mana, Energy, Attack, Speed]
 	// ej: [0,-2,+50,0,0] -> -2 en Mana y +50 en Energy
+
 	@ElementCollection
 	@Size(min = 5, max = 5)
 	@Column(name = "change_champ")
