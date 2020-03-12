@@ -75,7 +75,7 @@ public class RuneController {
 				model.put("rune", rune);
 				return "/runes/CreateOrUpdateRuneForm";
 			}else {
-				this.runeService.saveRune(rune);
+				this.runeService.save(rune);
 				return "redirect:/runes/list";
 			}
 		}
