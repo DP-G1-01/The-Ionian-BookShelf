@@ -53,8 +53,4 @@ public class ConfigurationParameters extends BaseEntity {
 	@Column(unique = true, name = "branches")
 	private Collection<String> branches;
 
-	@ElementCollection
-	@NotEmpty
-	@Column(unique = true)
-	private Collection<String> nodes;
 }
