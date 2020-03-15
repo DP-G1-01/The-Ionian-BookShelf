@@ -15,6 +15,8 @@
             <th style="width: 200px;">Description</th>
             <th>Node</th>
             <th style="width: 120px">Branch</th>
+            <th style="width: 120px">Actions</th>
+            <th>Id</th>
         </tr>
         </thead>
         <tbody>
@@ -32,7 +34,15 @@
                 <td>
                  <c:out value="${rune.branch.name}"/>
                 </td>
-               
+               <td>
+               	<spring:url value="/runes/{runeId}/remove" var="runeRemoveUrl">
+                        <spring:param name="runeId" value="${rune.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(runeRemoveUrl)}">Remove owner</a>
+                </td>
+                <td>
+                 <c:out value="${rune.id}"/>
+                </td>
     
             </tr>
         </c:forEach>
