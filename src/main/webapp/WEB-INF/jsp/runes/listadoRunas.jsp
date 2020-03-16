@@ -5,18 +5,21 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="owners">
-    <h2>Owners</h2>
+<petclinic:layout pageName="runes">
+    <h2>Runes</h2>
 
+	<spring:url value="/runes/new" var="runeNewUrl">
+    </spring:url>
+    <a style="background-color: #000000 ; padding: 10px; border-radius:20px; float:right;" href="${fn:escapeXml(runeNewUrl)}">Add New Rune</a><br><br>
+    <br>
     <table id="runeTable" class="table table-striped">
         <thead>
         <tr>
             <th style="width: 150px;">Name</th>
-            <th style="width: 200px;">Description</th>
+            <th style="width: 400px;">Description</th>
             <th>Node</th>
-            <th style="width: 120px">Branch</th>
+            <th style="width: 100px">Branch</th>
             <th style="width: 120px">Actions</th>
-            <th>Id</th>
         </tr>
         </thead>
         <tbody>
@@ -38,10 +41,7 @@
                	<spring:url value="/runes/{runeId}/remove" var="runeRemoveUrl">
                         <spring:param name="runeId" value="${rune.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(runeRemoveUrl)}">Remove owner</a>
-                </td>
-                <td>
-                 <c:out value="${rune.id}"/>
+                    <a href="${fn:escapeXml(runeRemoveUrl)}">Remove rune</a>
                 </td>
     
             </tr>

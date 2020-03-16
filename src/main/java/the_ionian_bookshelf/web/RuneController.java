@@ -107,20 +107,26 @@ public class RuneController {
 	public String crearRuna(ModelMap modelMap) {
 		String view="runes/editRune";
 		modelMap.addAttribute("rune", new Rune());
+		
 		return view;
 	}
 	
 	@PostMapping(value="runes/save")
 	public String salvarRuna(@Valid Rune rune, BindingResult result, ModelMap model) {
 		String view = "runes/listadoRunas";
-		if(result.hasErrors()) {
+		if(rune.getBranch()==null) {
+			model.addAttribute("rune", rune);
+			return "runes/editRune";
+		}
+		else if(result.hasErrors()) {
 			model.addAttribute("rune", rune);
 			return "runes/editRune";
 		}else {
 			runeService.saveRune(rune);
 			model.addAttribute("message","Rune save successfully");
 		}
-		return view;
+		
+		return "redirect:/runes/";
 	}
 	
 	//Remove

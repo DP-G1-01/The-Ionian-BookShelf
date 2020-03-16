@@ -83,6 +83,12 @@ public class RuneService {
 	public Rune findRuneById(final int id) throws DataAccessException {
 		return runeRepository.findById(id).get();
 	}
+	
+	//Metodos para los tests
+	@Transactional()
+	public Collection<Rune> findRuneByName(final String name) throws DataAccessException {
+		return this.runeRepository.findByName(name);
+	}
 
 	
 }
