@@ -42,7 +42,7 @@ public class Rune extends BaseEntity {
 	private Branch branch;
 
 	@NotBlank
-	@Pattern (regexp = "^(KEY|1|2|3)$")
+	@Pattern (regexp = "^(Key|1|2|3)$")
 	@Column(name = "node")
 	private String node;
 
