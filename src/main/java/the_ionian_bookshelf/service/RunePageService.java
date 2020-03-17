@@ -27,13 +27,13 @@ public class RunePageService {
 	private ActorService actorService;
 
 	//Método para listar runas
-	@Transactional
-	public Set<RunePage> findAllMine() throws DataAccessException {
-		Set<RunePage> runePages = new TreeSet<>();
-		Actor principal = this.actorService.findByPrincipal();
-		this.runePageRepository.findAllByUserAccountId(principal.getUserAccount().getId()).forEach(runePages::add);
-		return runePages;
-	}
+//	@Transactional
+//	public Set<RunePage> findAllMine() throws DataAccessException {
+//		Set<RunePage> runePages = new TreeSet<>();
+//		Actor principal = this.actorService.findByPrincipal();
+//		this.runePageRepository.findAllByUserAccountId(principal.getUserAccount().getId()).forEach(runePages::add);
+//		return runePages;
+//	}
 	
 	@Transactional
 	public void save(RunePage runePage) throws DataAccessException {
@@ -51,7 +51,7 @@ public class RunePageService {
 	public void delete(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
 		Actor principal = this.actorService.findByPrincipal();
-		assertTrue(principal.getUserAccount().equals(runePage.getUserAccount()));
+		assertTrue(principal.getUserAccount().equals(runePage.getSummoner().getUserAccount()));
 		this.runePageRepository.delete(runePage);
 	}
 	

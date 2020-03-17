@@ -41,3 +41,10 @@ INSERT INTO RUNES VALUES(33,'PASSIVE: After taking damage from an enemy champion
 INSERT INTO RUNES VALUES(34,'PASSIVE: Every 8 minions that die near you permanently grants 3 bonus health','Overgrowth','3',3);
 INSERT INTO RUNES VALUES(35,'PASSIVE: Grants 5% heal and shield power, incoming healing and shielding is increased by 10%','Revitalize','3',3);
 
+
+INSERT INTO THREADS VALUES(1, 'Bronze League thread', 'Bronze League');
+INSERT INTO LEAGUES VALUES(1, 'Bronze', 1);
+INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');
+INSERT INTO SUMMONERS VALUES(1, 'pepe@gmail.com', 1, 1);
+INSERT INTO RUNE_PAGES VALUES(1, 'Precision rune page', 1, 5, 8, 12, 18, 21, 1);
+
