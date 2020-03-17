@@ -1,66 +1,43 @@
-INSERT INTO user_accounts(username,password,enabled) VALUES ('admin','admin',TRUE);
-INSERT INTO authorities VALUES ('admin1','admin');
--- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
-INSERT INTO authorities VALUES ('owner1','owner');
--- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities VALUES ('vet1','veterinarian');
+INSERT INTO BRANCHES VALUES(1,'Slay your enemies in long term combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8000-8008.jpg','Precision');
+INSERT INTO BRANCHES VALUES(2,'Slay your enemies in short combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8100-8128.jpg','Domination');
+INSERT INTO BRANCHES VALUES(3,'Stay alive in long term combats','https://blog.gamersensei.com/wp-content/uploads/2017/12/RR102-Header.jpg','Resolve');
 
-INSERT INTO vets VALUES (1, 'James', 'Carter');
-INSERT INTO vets VALUES (2, 'Helen', 'Leary');
-INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
-INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');
-INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
-INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
 
-INSERT INTO specialties VALUES (1, 'radiology');
-INSERT INTO specialties VALUES (2, 'surgery');
-INSERT INTO specialties VALUES (3, 'dentistry');
+INSERT INTO RUNES VALUES(1,'PASSIVE: You get AP and AD for every second you are in combat','Conqueror','Key',1);
+INSERT INTO RUNES VALUES(2,'PASSIVE: When you hit 3 times a champion, he receives 20% more damage for 3 seconds','Press the Attack','Key',1);
+INSERT INTO RUNES VALUES(3,'PASSIVE: When you enter in combat, your Attack Speed gets boosted for 2 seconds','Lethal Tempo','Key',1);
+INSERT INTO RUNES VALUES(4,'PASSIVE: Once every 3 seconds, you have a charged attack that heals you and raises your Movement Speed','Fleet Footwork','Key',1);
+INSERT INTO RUNES VALUES(5,'PASSIVE: When you try to heal yourself with 100% maximum health, you get a shield','Overheal','1',1);
+INSERT INTO RUNES VALUES(6,'PASSIVE: Whenever you kill an enemy champion, you heal 5% of your maximum health','Triumph','1',1);
+INSERT INTO RUNES VALUES(7,'PASSIVE: Whenever you kill an enemy champion, you get 500 more maximum mana, up to 2500','Presence of Mind','1',1);
+INSERT INTO RUNES VALUES(8,'PASSIVE: You gain Attack Speed every time you kill a minion or an enemy champion','Legend: Alacrity','2',1);
+INSERT INTO RUNES VALUES(9,'PASSIVE: You gain Tenacity every time you kill a minion or an enemy champion','Legend: Tenacity','2',1);
+INSERT INTO RUNES VALUES(10,'PASSIVE: You gain Life Steal every time you kill a minion or an enemy champion','Legend: Bloodline','2',1);
+INSERT INTO RUNES VALUES(11,'PASSIVE: When an enemy champion is below 40% of his maximum health, you deal 15% more damage to him','Coup De Grace','3',1);
+INSERT INTO RUNES VALUES(12,'PASSIVE: You deal more damage to enemies with more maximum health than you','Cut Down','3',1);
+INSERT INTO RUNES VALUES(13,'PASSIVE: When you are below 60% maximum health, you deal 11% more damage','Last Stand','3',1);
 
-INSERT INTO vet_specialties VALUES (2, 1);
-INSERT INTO vet_specialties VALUES (3, 2);
-INSERT INTO vet_specialties VALUES (3, 3);
-INSERT INTO vet_specialties VALUES (4, 2);
-INSERT INTO vet_specialties VALUES (5, 1);
+INSERT INTO RUNES VALUES(14,'PASSIVE: When you hit 3 times an enemy champion, a lightning strikes him, dealing damage','Electrocute','Key',2);
+INSERT INTO RUNES VALUES(15,'ACTIVE: You can activate your boots to boost your Movement Speed when heading towards an enemy champion','Predator','Key',2);
+INSERT INTO RUNES VALUES(16,'PASSIVE: When you hit an enemy below 50% maximum health, you harvest his soul and deal more damage to him','Dark Harvest','Key',2);
+INSERT INTO RUNES VALUES(17,'PASSIVE: When you enter combat, your next 3 basic attacks get an Attack Speed boost','Hail of Blades','Key',2);
+INSERT INTO RUNES VALUES(18,'PASSIVE: Once every 3 seconds, your next ability that damages a champion deals 30 aditional True Damage','Cheap Shot','1',2);
+INSERT INTO RUNES VALUES(19,'PASSIVE: Once every 3 seconds, your next ability that damages a champion heals you 30 health points','Taste of Blood','1',2);
+INSERT INTO RUNES VALUES(20,'PASSIVE: When you dash, you get bonus Armor and Magic Resistance penetration','Sudden Impact','1',2);
+INSERT INTO RUNES VALUES(21,'PASSIVE: When you kill a ward, a zombie ward spawns in that position, giving you more damage','Zombie Ward','2',2);
+INSERT INTO RUNES VALUES(22,'PASSIVE: When your wards expire, they leave a Ghost Poro, which give you vision and damage','Ghost Poro','2',2);
+INSERT INTO RUNES VALUES(23,'PASSIVE: When you kill for the first time an enemy champion, you gain damage permanently','Eyeball Collection','2',2);
+INSERT INTO RUNES VALUES(24,'PASSIVE: When you kill for the first time an enemy champion, you gain Life Steal permanently','Ravenous Hunter','3',2);
+INSERT INTO RUNES VALUES(25,'PASSIVE: When you kill for the first time an enemy champion, you gain item''s cooldown reduction permanently','Ingenious Hunter','3',2);
+INSERT INTO RUNES VALUES(26,'PASSIVE: When you kill for the first time an enemy champion, you gain Movement Speed permanently','Relentless Hunter','3',2);
+INSERT INTO RUNES VALUES(27,'PASSIVE: When you kill for the first time an enemy champion, you gain ultimate''s cooldown reduction permanently','Ultimate Hunter','3',2);
 
-INSERT INTO types VALUES (1, 'cat');
-INSERT INTO types VALUES (2, 'dog');
-INSERT INTO types VALUES (3, 'lizard');
-INSERT INTO types VALUES (4, 'snake');
-INSERT INTO types VALUES (5, 'bird');
-INSERT INTO types VALUES (6, 'hamster');
-
-INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
-INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
-INSERT INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763', 'owner1');
-INSERT INTO owners VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198', 'owner1');
-INSERT INTO owners VALUES (5, 'Peter', 'McTavish', '2387 S. Fair Way', 'Madison', '6085552765', 'owner1');
-INSERT INTO owners VALUES (6, 'Jean', 'Coleman', '105 N. Lake St.', 'Monona', '6085552654', 'owner1');
-INSERT INTO owners VALUES (7, 'Jeff', 'Black', '1450 Oak Blvd.', 'Monona', '6085555387', 'owner1');
-INSERT INTO owners VALUES (8, 'Maria', 'Escobito', '345 Maple St.', 'Madison', '6085557683', 'owner1');
-INSERT INTO owners VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435', 'owner1');
-INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487', 'owner1');
-
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (4, 'Jewel', '2010-03-07', 2, 3);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (5, 'Iggy', '2010-11-30', 3, 4);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (6, 'George', '2010-01-20', 4, 5);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (7, 'Samantha', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (8, 'Max', '2012-09-04', 1, 6);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (9, 'Lucky', '2011-08-06', 5, 7);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2007-02-24', 2, 8);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
-
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
-
-INSERT INTO BRANCHES VALUES(1,'Hola','https://www.google.es','Pepe');
-INSERT INTO RUNES VALUES(1,'nOMBRE','Descripcion','Nodito',1);
+INSERT INTO RUNES VALUES(28,'PASSIVE: Every 5 seconds, your next attack with heal you and you will gain 20 maximum health','Grasp of the Undying','Key',3);
+INSERT INTO RUNES VALUES(29,'PASSIVE: Immobilizing an enemy champion grants you more Armor and Magic Resistance for 2.5 seconds','Aftershock','Key',3);
+INSERT INTO RUNES VALUES(30,'PASSIVE: After 3 seconds being near a structure, your next attack will deal more damage to it','Demolish','1',3);
+INSERT INTO RUNES VALUES(31,'PASSIVE: Immobilizing an enemy champion marks him for 4 seconds, allied champions who deal damage to him will heal themselves','Font of Life','1',3);
+INSERT INTO RUNES VALUES(32,'PASSIVE: After 10 minutes, you gain 10 Armor and Magic Resistance and your total resistances are increased by 5%','Conditioning','2',3);
+INSERT INTO RUNES VALUES(33,'PASSIVE: After taking damage from an enemy champion, gain health regeneration based on your missing health over 10 seconds','Second Wind','2',3);
+INSERT INTO RUNES VALUES(34,'PASSIVE: Every 8 minions that die near you permanently grants 3 bonus health','Overgrowth','3',3);
+INSERT INTO RUNES VALUES(35,'PASSIVE: Grants 5% heal and shield power, incoming healing and shielding is increased by 10%','Revitalize','3',3);
 
