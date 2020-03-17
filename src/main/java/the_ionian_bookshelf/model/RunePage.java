@@ -25,6 +25,10 @@ public class RunePage extends BaseEntity {
 	@Column(name = "name")
 	private String name;
 
+	@NotBlank
+	@ManyToOne(optional = false)
+	@JoinColumn(name="user_account_id")
+	private UserAccount userAccount;
 	@Valid
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "keyrune_id")
