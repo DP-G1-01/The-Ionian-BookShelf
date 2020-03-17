@@ -4,18 +4,24 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Item;
+import the_ionian_bookshelf.model.Role;
 import the_ionian_bookshelf.repository.ItemRepository;
+import the_ionian_bookshelf.repository.RoleRepository;
 
 @Service
 public class ItemService {
 	
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	public Item create() {
 
@@ -48,6 +54,15 @@ public class ItemService {
 	}
 	
 	public void removeItemById(int itemId) {
-		itemRepository.removeItemById(itemId);
+		Item item = itemRepository.findItemById(itemId);
+		itemRepository.delete(item);
+	}
+	
+	public void saveItem(Item i) {
+		itemRepository.save(i);
+	}
+
+	public Collection<Role> findRoles() {
+		return roleRepository.findAll();
 	}
 }

@@ -1,6 +1,8 @@
 package the_ionian_bookshelf.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -15,18 +17,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name = "roles")
 @Entity
 public class Role extends BaseEntity {
 
 	@NotBlank
 	@Size(min = 1, max = 20)
+	@Column(name = "name")
 	private String name;
 
 	@NotBlank
 	@Size(min = 10, max = 500)
+	@Column(name = "description")
 	private String description;
 
 	@NotBlank
 	@URL
+	@Column(name = "image")
 	private String image;
 }

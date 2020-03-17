@@ -1,6 +1,7 @@
 package the_ionian_bookshelf.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -40,7 +41,7 @@ public class Item extends BaseEntity {
 	@NotEmpty
 	@Size(min = 1, max = 3)
 	@Column(name="attributes")
-	private Collection<String> attributes;
+	private List<String> attributes;
 
 	@ElementCollection
 	@NotEmpty
@@ -49,6 +50,6 @@ public class Item extends BaseEntity {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
 			inverseJoinColumns = @JoinColumn(name="role_id"))
-	private Collection<Role> roles;
+	private List<Role> roles;
 
 }

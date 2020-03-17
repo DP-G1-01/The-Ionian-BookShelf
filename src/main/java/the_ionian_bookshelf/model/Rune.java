@@ -30,7 +30,6 @@ public class Rune extends BaseEntity {
 
 	@NotBlank
 	@Column(name = "description")
-
 	private String description;
 
 //	@Valid
