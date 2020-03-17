@@ -98,7 +98,7 @@ public class ChangeRequestService {
 
 		assertNotNull(change);
 		this.reviewerService.findByPrincipal();
-
+		this.changeRepository.delete(change);
 	}
 
 }
