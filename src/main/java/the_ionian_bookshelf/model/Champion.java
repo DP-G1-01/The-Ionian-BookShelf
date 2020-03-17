@@ -1,21 +1,14 @@
 package the_ionian_bookshelf.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Check;
@@ -45,7 +38,7 @@ public class Champion extends BaseEntity {
 	@Size(min = 10, max = 500)
 	private String description;
 
-	@NotBlank
+	@NotNull
 	@Column(name = "health")
 	private Double health;
 
@@ -61,11 +54,11 @@ public class Champion extends BaseEntity {
 	@Column(name = "energy")
 	private Double energy;
 
-	@NotBlank
+	@NotNull
 	@Column(name = "attack")
 	private Double attack;
 
-	@NotBlank
+	@NotNull
 	@Column(name = "speed")
 	private Double speed;
 

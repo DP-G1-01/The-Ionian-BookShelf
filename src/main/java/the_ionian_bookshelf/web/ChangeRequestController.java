@@ -1,49 +1,70 @@
-//package the_ionian_bookshelf.web;
-//
-//import java.util.Map;
-//
-//import javax.validation.Valid;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.WebDataBinder;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.InitBinder;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//
-//import the_ionian_bookshelf.model.Champion;
-//import the_ionian_bookshelf.model.ChangeRequest;
-//import the_ionian_bookshelf.model.Item;
-//import the_ionian_bookshelf.service.ChangeRequestService;
-//
-//@Controller
-//public class ChangeRequestController {
-//
-//	private final ChangeRequestService changeRequestService;
-//
-//	@Autowired
-//	public ChangeRequestController(ChangeRequestService changeRequestService) {
-//		this.changeRequestService = changeRequestService;
-//	}
-//
-//	@InitBinder
-//	public void setAllowedFields(WebDataBinder dataBinder) {
-//		dataBinder.setDisallowedFields("id");
-//	}
-//	
-//	//**********CHAMPION**********//
-//	/**
-//	 * Called before each and every @GetMapping or @PostMapping annotated method. 2
-//	 * goals: - Make sure we always have fresh data - Since we do not use the
-//	 * session scope, make sure that Champion object always has an id (Even though
-//	 * id is not part of the form fields)
-//	 * 
-//	 * @param championId
-//	 * @return Champion
-//	 */
+package the_ionian_bookshelf.web;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import the_ionian_bookshelf.model.ChangeRequest;
+import the_ionian_bookshelf.service.ChampionService;
+import the_ionian_bookshelf.service.ChangeRequestService;
+
+@Controller
+public class ChangeRequestController {
+	
+	@Autowired
+	private final ChangeRequestService changeRequestService;
+	
+	@Autowired
+	private final ChampionService championService;
+
+	@Autowired
+	public ChangeRequestController(ChangeRequestService changeRequestService, ChampionService championService) {
+		this.changeRequestService = changeRequestService;
+		this.championService = championService;
+	}
+
+	
+	@GetMapping(value = "/requests")
+	public String listadoRunas(ModelMap modelMap) {
+		String vista = "requests/listadoRequests";
+		Iterable<ChangeRequest> requests = changeRequestService.findAll();
+		modelMap.addAttribute("requests", requests);
+		return vista;
+	}
+	
+	@GetMapping(value="/requests/{requestId}/accept")
+	public String aceptarChangeRequest(@PathVariable("requestId") int requestId, ModelMap modelMap) {
+		ChangeRequest request = changeRequestService.findOne(requestId);
+		request.setStatus("ACCEPTED");
+		changeRequestService.resolve(request);
+		modelMap.addAttribute("message","Request accepted successfully");
+		
+		return "redirect:/requests/";
+	}
+	
+	@GetMapping(value="/requests/{requestId}/reject")
+	public String rechazarChangeRequest(@PathVariable("requestId") int requestId, ModelMap modelMap) {
+		ChangeRequest request = changeRequestService.findOne(requestId);
+		request.setStatus("REJECTED");
+		changeRequestService.resolve(request);
+		modelMap.addAttribute("message","Request rejected successfully");
+		
+		return "redirect:/requests/";
+	}
+	
+	//**********CHAMPION**********//
+	/**
+	 * Called before each and every @GetMapping or @PostMapping annotated method. 2
+	 * goals: - Make sure we always have fresh data - Since we do not use the
+	 * session scope, make sure that Champion object always has an id (Even though
+	 * id is not part of the form fields)
+	 * 
+	 * @param championId
+	 * @return Champion
+	 */
 //	@ModelAttribute("changeRequest")
 //	public ChangeRequest loadChampionWithChangeRequest(@PathVariable("championId") int championId) {
 //		Champion champion = this.changeRequestService.findChampionById(championId);
@@ -112,4 +133,4 @@
 //		return "changeRequestList";
 //	}
 //
-//}
+}

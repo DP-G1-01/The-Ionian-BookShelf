@@ -5,7 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
@@ -19,9 +22,6 @@ public class ChangeRequestService {
 
 	@Autowired
 	private ChangeRequestRepository changeRepository;
-	
-	@Autowired
-	private AdministratorService adminService;
 
 	@Autowired
 	private ReviewerService reviewerService;
@@ -52,9 +52,9 @@ public class ChangeRequestService {
 
 		return res;
 	}
-
-	public Collection<ChangeRequest> findAll() {
-
+	
+	@Transactional
+	public Iterable<ChangeRequest> findAll() {
 		Collection<ChangeRequest> res = this.changeRepository.findAll();
 		assertNotNull(res);
 
@@ -72,32 +72,35 @@ public class ChangeRequestService {
 
 	}
 
-	public ChangeRequest save(ChangeRequest change) {
+	@Transactional
+	public void save(ChangeRequest change) throws DataAccessException {
 
 		assertNotNull(change);
 
-		Actor principal = this.actorService.findByPrincipal();
+//		Actor principal = this.actorService.findByPrincipal();
+//
+//		assertTrue(this.actorService.checkAuthority(principal, Authority.SUMMONER));
 
-		assertTrue(this.actorService.checkAuthority(principal, Authority.SUMMONER));
-
-		return this.changeRepository.save(change);
-	}
-	
-	public ChangeRequest resolve(ChangeRequest change) {
-
-		assertNotNull(change);
-
-		Actor principal = this.actorService.findByPrincipal();
-
-		assertTrue(this.actorService.checkAuthority(principal, Authority.REVIEWER));
-
-		return this.changeRepository.save(change);
+		this.changeRepository.save(change);
 	}
 
-	public void delete(ChangeRequest change) {
+	@Transactional()
+	public void resolve(ChangeRequest change) throws DataAccessException {
 
 		assertNotNull(change);
-		this.reviewerService.findByPrincipal();
+
+//		Actor principal = this.actorService.findByPrincipal();
+//
+//		assertTrue(this.actorService.checkAuthority(principal, Authority.REVIEWER));
+
+		this.changeRepository.save(change);
+	}
+
+	@Transactional
+	public void delete(ChangeRequest change) throws DataAccessException {
+
+		assertNotNull(change);
+		//this.reviewerService.findByPrincipal();
 		this.changeRepository.delete(change);
 	}
 
