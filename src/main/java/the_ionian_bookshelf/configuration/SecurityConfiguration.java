@@ -34,7 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll().antMatchers("/users/new").permitAll()
-				.antMatchers("/runes/**").permitAll().antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR").antMatchers("/summoners/**")
+				.antMatchers("/runes/**").permitAll().antMatchers("/runePages/**").permitAll()./*Para que runas no requiera permisos*/
+				antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR").antMatchers("/summoners/**")
 				.hasAnyAuthority("SUMMONER").antMatchers("/reviewer/**").hasAnyAuthority("REVIEWER").anyRequest()
 				.denyAll().and().formLogin()
 				/* .loginPage("/login") */

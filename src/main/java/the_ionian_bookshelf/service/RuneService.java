@@ -1,10 +1,6 @@
 package the_ionian_bookshelf.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import the_ionian_bookshelf.model.Actor;
-import the_ionian_bookshelf.model.Authority;
 import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.repository.BranchRepository;

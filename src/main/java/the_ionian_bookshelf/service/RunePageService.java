@@ -3,8 +3,8 @@ package the_ionian_bookshelf.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
 import the_ionian_bookshelf.model.Authority;
+import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.model.RunePage;
 import the_ionian_bookshelf.repository.RunePageRepository;
+import the_ionian_bookshelf.repository.RuneRepository;
 
 @Service
 public class RunePageService {
@@ -23,17 +25,21 @@ public class RunePageService {
 	@Autowired
 	private RunePageRepository runePageRepository;
 	
+//	@Autowired
+//	private ActorService actorService;
+	
 	@Autowired
-	private ActorService actorService;
+	private RuneRepository runeRepository;
 
 	//Método para listar runas
-//	@Transactional
-//	public Set<RunePage> findAllMine() throws DataAccessException {
-//		Set<RunePage> runePages = new TreeSet<>();
+	@Transactional
+	public Iterable<RunePage> findAllMine() throws DataAccessException {
+		List<RunePage> runePages = new ArrayList<>();
 //		Actor principal = this.actorService.findByPrincipal();
 //		this.runePageRepository.findAllByUserAccountId(principal.getUserAccount().getId()).forEach(runePages::add);
-//		return runePages;
-//	}
+		this.runePageRepository.findAll().forEach(runePages::add);
+		return runePages;
+	}
 	
 	@Transactional
 	public void save(RunePage runePage) throws DataAccessException {
@@ -50,17 +56,11 @@ public class RunePageService {
 	@Transactional
 	public void delete(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
-		Actor principal = this.actorService.findByPrincipal();
-		assertTrue(principal.getUserAccount().equals(runePage.getSummoner().getUserAccount()));
+//		Actor principal = this.actorService.findByPrincipal();
+//		assertTrue(principal.getUserAccount().equals(runePage.getSummoner().getUserAccount()));
 		this.runePageRepository.delete(runePage);
 	}
 	
-//	@Transactional
-//	public Set<Branch> findBranches() throws DataAccessException {
-//		Set<Branch> branches = new TreeSet<>();
-//		this.branchRepository.findAll().forEach(branches::add);
-//		return branches;
-//	}
 	
 	@Transactional
 	public RunePage findOne(int id) {
@@ -72,6 +72,11 @@ public class RunePageService {
 
 		return res;
 
+	}
+
+	public List<Rune> findRunes() {
+		
+		return this.runeRepository.findAll();
 	}
 	
 //	@Transactional
