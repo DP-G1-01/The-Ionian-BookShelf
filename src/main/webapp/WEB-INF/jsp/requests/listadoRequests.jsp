@@ -14,7 +14,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>State</th>
-            <th>Champion</th>
+            <th>Champion / Item</th>
             <th></th>
         </tr>
         </thead>
@@ -32,6 +32,7 @@
                 </td>
                 <td>
                  <c:out value="${request.champion.name}"/>
+                 <c:out value="${request.item.title}"/>
                 </td>
                 <td>
                 <c:if test = "${request.status == 'PENDING'}">
@@ -40,8 +41,12 @@
                 </spring:url>
                 <spring:url value="/requests/{requestId}/reject" var="requestRejectUrl">
                         <spring:param name="requestId" value="${request.id}"/>
-                </spring:url>
-                <a href="${fn:escapeXml(requestAcceptUrl)}">Accept</a> / <a href="${fn:escapeXml(requestRejectUrl)}">Reject</a>
+                </spring:url><spring:url value="/requests/{requestId}/remove" var="requestRemoveUrl">
+                        <spring:param name="requestId" value="${request.id}"/>
+                    </spring:url>
+                <a href="${fn:escapeXml(requestAcceptUrl)}">Accept</a> / 
+                <a href="${fn:escapeXml(requestRejectUrl)}">Reject</a> / 
+                <a href="${fn:escapeXml(requestRemoveUrl)}">Remove</a>
     			</c:if>
     			</td>
             </tr>

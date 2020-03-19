@@ -1,6 +1,6 @@
 package the_ionian_bookshelf.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -57,12 +57,12 @@ public class ChangeRequest extends BaseEntity {
 	@ElementCollection
 	@Size(min = 5, max = 5)
 	@Column(name = "change_champ")
-	private Collection<Double> changeChamp;
+	private List<String> changeChamp;
 
 	@ElementCollection
 	@Size(min = 1, max = 3)
 	@Column(name = "change_item")
-	private Collection<String> changeItem; // cambios en los items
+	private List<String> changeItem; // cambios en los items
 
 	@NotBlank
 	@Pattern(regexp = "^(REJECTED|PENDING|ACCEPTED)$")

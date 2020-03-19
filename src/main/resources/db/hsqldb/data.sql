@@ -1,7 +1,13 @@
-INSERT INTO ROLES VALUES(1,'Soy el rol base','Base','Sin imagen');
-INSERT INTO ROLES VALUES(2,'Descripcion','https://www.google.es','Rol1');
-INSERT INTO ROLES VALUES(3,'Descripcion','https://www.google.es','Rol2');
+INSERT INTO ROLES VALUES(1,'Soy el rol base','https://www.google.es','Rol1');
+INSERT INTO ROLES VALUES(2,'Descripcion','https://www.google.es','Rol2');
+INSERT INTO ROLES VALUES(3,'Descripcion','https://www.google.es','Rol3');
 INSERT INTO CHAMPIONS VALUES(1, 5.0, 'Soy un campeón sin mana, pero con energía', 3.0, 1000.0, null, 'Kiko Matafachas', 40.0, 1);
+
+INSERT INTO ITEMS VALUES(1, 'Soy un item', 'Item 1');
+INSERT INTO ITEM_ROLES VALUES(1, 1);
+INSERT INTO ITEM_ATTRIBUTES VALUES(1, '1');
+INSERT INTO ITEM_ATTRIBUTES VALUES(1, '6');
+INSERT INTO ITEM_ATTRIBUTES VALUES(1, '0');
 
 INSERT INTO CHANGE_REQUESTS VALUES(1, 'Soy una prueba', 'PENDING', 'Gran titulo', 1, null, null, null);
 

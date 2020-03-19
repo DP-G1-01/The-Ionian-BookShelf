@@ -24,9 +24,9 @@ public class RunePageService {
 
 	@Autowired
 	private RunePageRepository runePageRepository;
-	
-//	@Autowired
-//	private ActorService actorService;
+		
+	@Autowired
+	private ActorService actorService;
 	
 	@Autowired
 	private RuneRepository runeRepository;

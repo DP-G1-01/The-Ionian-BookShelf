@@ -1,7 +1,10 @@
 package the_ionian_bookshelf.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -17,7 +20,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "roles")
 @Entity
 @Table(name = "roles")
 public class Role extends BaseEntity {
@@ -36,4 +38,10 @@ public class Role extends BaseEntity {
 	@URL
 	@Column(name = "image")
 	private String image;
+	
+	@ManyToMany(mappedBy = "roles")
+    private List<Item> items;
+//
+//	@OneToMany(mappedBy = "role")
+//	private List<ItemRoles> itemRoles;
 }

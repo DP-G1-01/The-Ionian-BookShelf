@@ -1,12 +1,11 @@
 package the_ionian_bookshelf.model;
 
-import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -17,7 +16,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,9 +48,16 @@ public class Item extends BaseEntity {
 	@NotEmpty
 	@Valid
 	@Size(min = 1, max = 3)
-	@ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
 			inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<Role> roles;
+	
+//	@ElementCollection
+//	@NotEmpty
+//	@Valid
+//	@Size(min = 1, max = 3)
+//	@Column(name="roles")
+//	private List<Role> roles;
 
 }

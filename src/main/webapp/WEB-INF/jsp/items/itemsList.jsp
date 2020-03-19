@@ -17,8 +17,9 @@
         <tr>
             <th style="width: 150px;">Title</th>
             <th style="width: 400px;">Description</th>
-            <th style="width: 100px">Attributes</th>
+            <th style="width: 200px">Attributes</th>
             <th style="width: 120px">Roles</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -42,7 +43,11 @@
                	<spring:url value="/items/{itemId}/remove" var="itemRemoveUrl">
                         <spring:param name="itemId" value="${item.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(itemRemoveUrl)}">Remove item</a>
+                <spring:url value="/items/{itemId}/newChangeRequest" var="itemRequestUrl">
+                        <spring:param name="itemId" value="${item.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(itemRemoveUrl)}">Remove item</a> / 
+                    <a href="${fn:escapeXml(itemRequestUrl)}">New Change Request</a>
                 </td>
     
             </tr>
