@@ -17,8 +17,8 @@
         <tr>
             <th style="width: 150px;">Title</th>
             <th style="width: 400px;">Description</th>
-            <th style="width: 100px">Branch</th>
-            <th style="width: 120px">Actions</th>
+            <th style="width: 100px">Attributes</th>
+            <th style="width: 120px">Roles</th>
         </tr>
         </thead>
         <tbody>
@@ -30,12 +30,14 @@
                 <td>
                     <c:out value="${item.description}"/>
                 </td>
-             <%--    <td>
-                    <c:out value="${item.atributes}"/>
+                <td>
+                    <c:out value="${item.attributes}"/>
                 </td>
                 <td>
-                 <c:out value="${item.roles}"/>
-                </td> --%>
+                  <c:forEach items="${item.roles}" var="rol">
+                  	<c:out value="${rol.name}"/>
+                  </c:forEach>
+                </td> 
                <td>
                	<spring:url value="/items/{itemId}/remove" var="itemRemoveUrl">
                         <spring:param name="itemId" value="${item.id}"/>
