@@ -16,8 +16,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "thread")
-public class Thread extends BaseEntity {
+@Table(name="threads")
+public class Thread extends BaseEntity{
 
 	@NotBlank
 	@Column(name = "title")

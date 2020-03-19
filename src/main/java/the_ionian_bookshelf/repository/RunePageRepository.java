@@ -9,6 +9,8 @@ import the_ionian_bookshelf.model.RunePage;
 
 public interface RunePageRepository extends JpaRepository<RunePage, Integer>{
 
-	//@Query("select rune_page from rune_pages where rune_page.user_account_id = ?1")
+	//Las querys utilizan todo como si estuvieses en java, no usa los nombres que aparecerían
+	//en las tablas de la base de datos
+	@Query("SELECT u FROM RunePage u WHERE u.summoner.id = ?1")
 	Collection<RunePage> findAllByUserAccountId(int id);
 }

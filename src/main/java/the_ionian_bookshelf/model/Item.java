@@ -1,6 +1,7 @@
 package the_ionian_bookshelf.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,15 +43,16 @@ public class Item extends BaseEntity {
 	@ElementCollection
 	@NotEmpty
 	@Size(min = 1, max = 3)
-	@Column(name = "attributes")
-	private Collection<String> attributes;
+	@Column(name="attributes")
+	private List<String> attributes;
 
 	@ElementCollection
 	@NotEmpty
 	@Valid
 	@Size(min = 1, max = 3)
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "item_roles", joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Collection<Role> roles;
+	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
+			inverseJoinColumns = @JoinColumn(name="role_id"))
+	private List<Role> roles;
 
 }
