@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -56,4 +57,8 @@ public class Build extends BaseEntity {
 	@JoinColumn(name = "rune_page_id")
 	private RunePage runePage;
 
+	@Valid
+	@OneToOne(optional = true)
+	@JoinColumn(name="thread_id")
+	private Thread thread;
 }

@@ -5,7 +5,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
-import org.hibernate.annotations.Check;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +35,7 @@ public class Vote extends BaseEntity {
 	private Message message;
 
 	/**
-	 * If 1 -> Positive <br>
+	 * If 1 -> Positive 
 	 * If 0 -> Negative
 	 */
 
