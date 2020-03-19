@@ -28,38 +28,38 @@ import lombok.Setter;
 @Table(name = "builds")
 public class Build extends BaseEntity {
 
-	@NotBlank
-	@Size(min = 10, max = 40)
-	@Column(name = "title")
-	private String title;
+    @NotBlank
+    @Size(min = 10, max = 40)
+    @Column(name = "title")
+    private String title;
 
-	@NotBlank
-	@Size(min = 20, max = 500)
-	@Column(name = "description")
-	private String description;
+    @NotBlank
+    @Size(min = 20, max = 500)
+    @Column(name = "description")
+    private String description;
 
-	@Column(name = "visibility")
-	private boolean visibility;
+    @Column(name = "visibility")
+    private boolean visibility;
 
-	@Valid
-	@ManyToMany
-	@Size(min = 0, max = 6)
-	@JoinTable(name = "build_items", joinColumns = @JoinColumn(name = "build_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
-	private Collection<Item> items;
+    @Valid
+    @ManyToMany
+    @Size(min = 0, max = 6)
+    @JoinTable(name = "build_items", joinColumns = @JoinColumn(name = "build_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private Collection<Item> items;
 
-	@Valid
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "champion_id")
-	private Champion champion;
+    @Valid
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "champion_id")
+    private Champion champion;
 
-	@Valid
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "rune_page_id")
-	private RunePage runePage;
+    @Valid
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "rune_page_id")
+    private RunePage runePage;
 
-	@Valid
-	@OneToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "thread_id")
-	private Thread thread;
+    @Valid
+    @OneToOne(cascade = CascadeType.REMOVE, optional = true)
+    @JoinColumn(name = "thread_id")
+    private Thread thread;
 
 }
