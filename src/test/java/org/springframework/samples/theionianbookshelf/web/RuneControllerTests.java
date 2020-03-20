@@ -1,36 +1,28 @@
 package org.springframework.samples.theionianbookshelf.web;
 
-import org.assertj.core.util.Lists;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.samples.petclinic.model.Specialty;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.service.ClinicService;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.service.RuneService;
 import the_ionian_bookshelf.web.RuneController;
 
-import static org.hamcrest.xml.HasXPath.hasXPath;
-import static org.mockito.BDDMockito.given;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Set;
-
 /**
- * Test class for the {@link VetController}
+ * Test class for the {@link RuneController}
  */
 @WebMvcTest(RuneController.class)
 class RuneControllerTests {
@@ -65,8 +57,8 @@ class RuneControllerTests {
 		rune2.setDescription("Descripcion2");
 		rune2.setId(2);
 		rune2.setBranch(b1);
-		rune2.setNode("KEY");
-		given(this.runeService.findRunes()).willReturn((Set<Rune>) Lists.newArrayList(rune, rune2));
+		rune2.setNode("Key");
+		given(this.runeService.findRunes()).willReturn(Sets.newTreeSet(rune, rune2));
 	}
 
 	@WithMockUser(value = "spring")
@@ -89,15 +81,15 @@ class RuneControllerTests {
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/runes/new").param("name", "name1").param("description", "desc1").param("node", "1"))
-				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("rune"))
+				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("branch"))
 				.andExpect(view().name("runes/editRune"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowVetListHtml() throws Exception {
-		mockMvc.perform(get("/runes.html")).andExpect(status().isOk()).andExpect(model().attributeExists("runes"))
-				.andExpect(view().name("runes/listadoRunes"));
+		mockMvc.perform(get("/runes")).andExpect(status().isOk()).andExpect(model().attributeExists("runes"))
+				.andExpect(view().name("runes/listadoRunas"));
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
 import the_ionian_bookshelf.model.Authority;
+import the_ionian_bookshelf.model.Summoner;
 import the_ionian_bookshelf.model.UserAccount;
 import the_ionian_bookshelf.repository.ActorRepository;
 import the_ionian_bookshelf.security.LoginService;
@@ -24,6 +25,11 @@ public class ActorService {
 
 	@Autowired
 	private ActorRepository actorRepository;
+	
+	public Summoner findSummonerByUserAccountId(int UAId) {
+		
+		return this.actorRepository.findSummonerByUserAccountId(UAId);
+	}
 
 	public Actor create() {
 

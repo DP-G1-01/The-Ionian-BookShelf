@@ -28,7 +28,7 @@ public class BranchFormatter implements Formatter<Branch> {
 
 	@Override
 	public Branch parse(String text, Locale locale) throws ParseException {
-		Collection<Branch> findBranches = this.runeService.findBranchess();
+		Collection<Branch> findBranches = this.runeService.findBranches();
 		for (Branch branch : findBranches) {
 			if (branch.getName().equals(text)) {
 				return branch;

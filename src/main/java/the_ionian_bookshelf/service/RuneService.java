@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
+import the_ionian_bookshelf.model.RunePage;
 import the_ionian_bookshelf.repository.BranchRepository;
+import the_ionian_bookshelf.repository.RunePageRepository;
 import the_ionian_bookshelf.repository.RuneRepository;
 
 @Service
@@ -25,9 +27,13 @@ public class RuneService {
 	private BranchRepository branchRepository;
 	
 	@Autowired
-	public RuneService(RuneRepository runeRepository, BranchRepository branchRepository) {
+	private RunePageRepository runePageRepository;
+	
+	@Autowired
+	public RuneService(RuneRepository runeRepository, BranchRepository branchRepository, RunePageRepository runePageRepository) {
 		this.runeRepository = runeRepository;
 		this.branchRepository = branchRepository;
+		this.runePageRepository = runePageRepository;
 	}
 
 	//Método para listar runas
@@ -50,27 +56,15 @@ public class RuneService {
 	
 	@Transactional
 	public void deleteRune(Rune rune) throws DataAccessException {
+		Collection<RunePage> runePages = this.runePageRepository.findAllByRune(rune.getId());
+		runePages.forEach(x->this.runePageRepository.delete(x));
 		this.runeRepository.delete(rune);
-	}
-	
-
-	
-	@Transactional
-	public Set<Branch> findBranches() throws DataAccessException {
-		Set<Branch> branches = new TreeSet<>();
-		this.branchRepository.findAll().forEach(branches::add);
-		return branches;
 	}
 	
 	//Forma como está puesto el PetType
 	@Transactional()
-	public Collection<Branch> findBranchess() throws DataAccessException {
+	public Collection<Branch> findBranches() throws DataAccessException {
 		return this.branchRepository.findAll();
-	}
-	
-	@Transactional
-	public Iterable<Branch> findAllB(){
-		return branchRepository.findAll();
 	}
 
 	@Transactional

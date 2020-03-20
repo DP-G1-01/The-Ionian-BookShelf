@@ -46,5 +46,7 @@ INSERT INTO THREADS VALUES(1, 'Bronze League thread', 'Bronze League');
 INSERT INTO LEAGUES VALUES(1, 'Bronze', 1);
 INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');
 INSERT INTO SUMMONERS VALUES(1, 'pepe@gmail.com', 1, 1);
-INSERT INTO RUNE_PAGES VALUES(1, 'Precision rune page', 1, 5, 8, 12, 18, 21, 1);
+
+INSERT INTO RUNE_PAGES (id, name, summoner_id, main_branch_id, secondary_branch_id, keyrune_id, mainrune1_id, mainrune2_id, mainrune3_id, 
+secrune1_id, secrune2_id) VALUES(1, 'Precision rune page', 1, 1, 2, 1, 5, 8, 12, 18, 21);
 

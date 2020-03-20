@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import the_ionian_bookshelf.model.Actor;
+import the_ionian_bookshelf.model.Summoner;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
@@ -17,6 +18,9 @@ public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
 	@Query(value = "select a from Actor a join a.userAccount ua join ua.authorities auths where 'AUTHOR' member of auths", nativeQuery = true)
 	Collection<Actor> findAllAuthors();
+	
+	@Query(value = "select * from Summoners s where s.user_account_id = ?1", nativeQuery = true)
+	Summoner findSummonerByUserAccountId(int id);
 
 	// @Query("select author from Conference conf join conf.submissions subs join
 	// subs.author author where conf.id = ?1")
