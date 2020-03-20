@@ -42,6 +42,26 @@ INSERT INTO RUNES VALUES(34,'PASSIVE: Every 8 minions that die near you permanen
 INSERT INTO RUNES VALUES(35,'PASSIVE: Grants 5% heal and shield power, incoming healing and shielding is increased by 10%','Revitalize','3',3);
 
 
+INSERT INTO ROLE VALUES(1,'Especializado en combate cercano. Combinan objetos de daño con objetos de aguante. También se los conoce como offtank','http://www.googleimagenes.es','Luchador');
+INSERT INTO ROLE VALUES(2,' Especializado en ataque a distancia. Popularmente conocido como AD Carry del inglés attack damage carry o carreador de daño de ataque','http://www.googleimagenes.es','Tirador');
+INSERT INTO ROLE VALUES(3,'Especializado en habilidades y daño mágico. Popularmente conocido como AP Carry del inglés ability power carry o carreador de poder de habilidad.','http://www.googleimagenes.es','Mago ');
+INSERT INTO ROLE VALUES(4,'Especializado en emboscar al enemigo, atacando por sorpresa y retirándose rápidamente. Su misión es eliminar al jugador más importante del equipo enemigo (generalmente el tirador) aunque ello suponga morir él también.','http://googleimagenes.es','Asesino');
+INSERT INTO ROLE VALUES(5,'Especializado en resistencia. Su misión es absorber la mayor cantidad de daño posible e iniciar las peleas.','http://googleimagenes.es','Tanque');
+INSERT INTO ROLE VALUES(6,'Especializado en apoyar a su equipo y aportar visión en el mapa mediante guardianes de visión (wards).','http://googleimagenes.es','Apoyo ');
+
+INSERT INTO CHAMPIONS VALUES (1,'1.10','Ashe, comandante hija del hielo de la tribu de Avarosa, lidera las hordas más numerosas del norte. Impasible, inteligente e idealista, aunque incómoda en su papel de líder','0.0','900','500','Ashe','1.0','2');
+INSERT INTO CHAMPIONS VALUES (2,'0.90','Blitzcrank es un autómata enorme, casi indestructible, creado originalmente para el tratamiento de residuos tóxicos.','0.0','1500','500','Blitzcrank ','1.0','6');
+INSERT INTO CHAMPIONS VALUES (3,'1.30','Convertida en un arma viviente diseñada para operar fuera de la ley, Camille es la jefa de espías del clan Ferros, una elegante agente de élite que se asegura de que nada amenace el funcionamiento de Piltover ni de Zaun.','0.0','1000','600','Camile','1.2','1');
+INSERT INTO CHAMPIONS VALUES (4,'0.90','Desde el momento en que ChoGath emergió por primera vez a la dura luz solar de Runaterra, a la bestia solo le impulsaba el hambre más pura e insaciable.','0.0','1700','500','Cho,Gath ','1.0','5');
+INSERT INTO CHAMPIONS VALUES (5,'1.25','Karthus, heraldo del olvido, es un espíritu inmortal cuyos pavorosos cantos preceden al horror de su dantesca aparición.','0.0','900','500','Karthus','1.0','3');
+INSERT INTO CHAMPIONS VALUES (6,'1.10','Imbuida del fuego del sol, Leona es una guerrera sagrada de los Solari que defiende el Monte Targon con su Hoja del cénit y su Escudo del amanecer.','0','1300','500','Leona','1.1','6');
+INSERT INTO CHAMPIONS VALUES (7,'1.25','Maestro Yi ha atemperado su cuerpo y agudizado su mente, de modo que el pensamiento y la acción se han convertido casi en uno.','0.0','1200','500','Maestro Yi','1.125','4');
+INSERT INTO CHAMPIONS VALUES (8,'1.40','Otrora delincuente en las perversas calles de Zaun, Vi es una mujer impulsiva e imponente con muy poco respeto por las figuras de la autoridad.','0.0','1400','600','Vi','1.2','1');
+INSERT INTO CHAMPIONS VALUES (9,'1.00','Un demonio con sed de sangre mortal, Vladimir ha influido en el destino de Noxus desde los primeros días del imperio.','400','1200','0','Vladimir','1.1','3');
+INSERT INTO CHAMPIONS VALUES (10,'1.30','Zed, despiadado y nada compasivo, es el líder de la Orden de la Sombra, una organización que él mismo creó con el propósito de militarizar las tradiciones marciales y mágicas de Jonia','400','1200','0','Zed','1.2','3');
+
+
+
 INSERT INTO THREADS VALUES(1, 'Bronze League thread', 'Bronze League');
 INSERT INTO LEAGUES VALUES(1, 'Bronze', 1);
 INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');

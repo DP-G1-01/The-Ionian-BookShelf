@@ -5,61 +5,43 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
-@Table(name = "champions")
-public class Champion extends BaseEntity {
-
-	@NotBlank
+@Table(name="champions")
+public class Champion extends BaseEntity{
+	
+	
 	@Column(name = "name", unique = true)
-	@Size(min = 1, max = 20)
 	private String name;
 
-	@NotBlank
 	@Column(name = "description")
-	@Size(min = 10, max = 500)
 	private String description;
 
-	@NotBlank
 	@Column(name = "health")
 	private Double health;
 
-	// Sin la anotación @NotBlank para poder seleccionar si tiene mana o energía.
-	// Se hará la comprobación en los servicios
-	@Min(0)
+
 	@Column(name = "mana")
 	private Double mana;
 
-	// Sin la anotación @NotBlank para poder seleccionar si tiene mana o energía.
-	// Se hará la comprobación en los servicios
-	@Min(0)
+
 	@Column(name = "energy")
 	private Double energy;
 
-	@NotBlank
 	@Column(name = "attack")
 	private Double attack;
 
-	@NotBlank
 	@Column(name = "speed")
 	private Double speed;
 
-	@NotBlank
-	@Valid
-	@ManyToOne(optional = false)
+	@NotNull
+	@ManyToOne()
 	@JoinColumn(name = "role_id")
 	private Role role;
+
 }

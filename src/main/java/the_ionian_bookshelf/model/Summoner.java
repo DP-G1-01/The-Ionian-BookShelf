@@ -24,12 +24,12 @@ import lombok.Setter;
 @Table(name = "summoners")
 public class Summoner extends Actor {
 
-	@NotNull
-	@Valid
-	@ManyToMany()
-	@ElementCollection
-	@JoinColumn
-	private Collection<Champion> mains;
+//	@NotNull
+//	@Valid
+//	@ManyToMany()
+//	@ElementCollection
+//	@JoinColumn
+//	private Collection<Champion> mains;
 
 	@Valid
 	@ManyToOne(optional = false)
