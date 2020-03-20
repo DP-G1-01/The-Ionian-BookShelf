@@ -5,7 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
@@ -27,22 +30,29 @@ public class ThreadService {
 	@Autowired
 	private MessageService messageService;
 	
-	public Thread create() {
-		
-		Thread res = new Thread();
-		res.setTitle("New Thread");
-		res.setDescription("New description");
-		return res;
+	@Autowired
+	public ThreadService(ThreadRepository threadRepository) {
+		this.threadRepo=threadRepository;
 	}
 	
-	public Collection<Thread> findAll() {
+//	public Thread create() {
+//		
+//		Thread res = new Thread();
+//		res.setTitle("New Thread");
+//		res.setDescription("New description");
+//		return res;
+//	}
+	
+	@Transactional
+	public Iterable<Thread> findAll() {
 
-		Collection<Thread> res = this.threadRepo.findAll();
+		Iterable<Thread> res = this.threadRepo.findAll();
 		assertNotNull(res);
 
 		return res;
 	}
 
+	@Transactional
 	public Thread findOne(int id) {
 
 		assertTrue(id != 0);
@@ -54,7 +64,7 @@ public class ThreadService {
 
 	}
 
-	public Thread save(Thread thread) {
+	public Thread save(Thread thread) throws DataAccessException{
 
 		assertNotNull(thread);
 
@@ -67,14 +77,14 @@ public class ThreadService {
 		return this.threadRepo.save(thread);
 	}
 
-	public void delete(Thread thread) {
+	public void delete(Thread thread)  throws DataAccessException{
 
 		assertNotNull(thread);
 		//this.adminService.findByPrincipal();
 		this.threadRepo.delete(thread);
 	}
 
-	public void deleteFromVote(Thread thread) {
+	public void deleteFromVote(Thread thread) throws DataAccessException {
 
 		Collection<Vote> votes = this.voteService.findByThread(thread);
 		for (Vote vote : votes) {
@@ -82,7 +92,7 @@ public class ThreadService {
 		}
 	}
 
-	public void deleteFromMessages(Thread thread) {
+	public void deleteFromMessages(Thread thread) throws DataAccessException {
 
 		Collection<Message> messages = this.messageService.findByThread(thread);
 		for (Message message : messages) {
