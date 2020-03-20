@@ -47,5 +47,13 @@ INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');
 INSERT INTO SUMMONERS VALUES(1, 'pepe@gmail.com', 1, 1);
 INSERT INTO RUNE_PAGES VALUES(1, 'Precision rune page', 1, 5, 8, 12, 18, 21, 1);
 
+
 INSERT INTO ROLES VALUES(1,'Descripcion','https://www.google.es','Rol1');
 INSERT INTO ROLES VALUES(2,'Descripcion','https://www.google.es','Rol2');
+
+INSERT INTO ITEMS VALUES(1, 'descripcion1', 'titulo1');
+
+INSERT INTO ITEM_ATTRIBUTES VALUES(1,'Atributo');
+INSERT INTO ITEM_ATTRIBUTES VALUES(1,'Atributo');
+
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(1,1);

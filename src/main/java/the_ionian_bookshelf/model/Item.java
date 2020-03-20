@@ -43,11 +43,11 @@ public class Item extends BaseEntity {
 	@Column(name="attributes")
 	private List<String> attributes;
 
-	@ElementCollection
-	@NotEmpty
+//	@ElementCollection
+//	@NotEmpty
 	@Valid
 	@Size(min = 1, max = 3)
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
 			inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<Role> roles;
