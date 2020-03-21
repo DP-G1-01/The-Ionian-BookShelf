@@ -50,10 +50,48 @@ INSERT INTO RUNE_PAGES VALUES(1, 'Precision rune page', 1, 5, 8, 12, 18, 21, 1);
 
 INSERT INTO ROLES VALUES(1,'Descripcion','https://www.google.es','Rol1');
 INSERT INTO ROLES VALUES(2,'Descripcion','https://www.google.es','Rol2');
+INSERT INTO ROLES VALUES(3,'Descripcion','https://www.google.es','Rol3');
+INSERT INTO ROLES VALUES(4,'Descripcion','https://www.google.es','Rol4');
 
 INSERT INTO ITEMS VALUES(1, 'descripcion1', 'titulo1');
+INSERT INTO ITEMS VALUES(2, 'Mayor velocidad de ataque y reducción de enfriamiento', 'Aguijón');
+INSERT INTO ITEMS VALUES(3, 'Aumenta levemente la regeneración de maná', 'Amuleto de las hadas');
+INSERT INTO ITEMS VALUES(4, 'Hace que el daño recibido ahora se reciba más adelante', 'Baile de la muerte');
+INSERT INTO ITEMS VALUES(5, 'Velocidad de movimiento aumentada al atacar enemigos y obtienes un escudo con la vida baja', 'Bailarín espectral');
+INSERT INTO ITEMS VALUES(6, 'Aumenta la velocidad de movimiento y la reducción de enfriamiento', 'Botas jonias de la lucidez');
+INSERT INTO ITEMS VALUES(7, 'Con el movimiento se acumulan cargas que al liberarse lanzan un ataque de fuego acosador', 'Cañón de fuego rápido');
+INSERT INTO ITEMS VALUES(8, 'Puede activarse para eliminar todos los efectos incapacitantes de un campeón aliado', 'Crisol de Mikael');
+INSERT INTO ITEMS VALUES(9, 'Aumenta considerablemente la armadura y ralentiza los ataques básicos del enemigo', 'Corazón de hielo');
+
 
 INSERT INTO ITEM_ATTRIBUTES VALUES(1,'Atributo');
-INSERT INTO ITEM_ATTRIBUTES VALUES(1,'Atributo');
+INSERT INTO ITEM_ATTRIBUTES VALUES(2,'Ataque');
+INSERT INTO ITEM_ATTRIBUTES VALUES(3,'Defensa');
+INSERT INTO ITEM_ATTRIBUTES VALUES(2,'Daño Físico');
+INSERT INTO ITEM_ATTRIBUTES VALUES(4,'Armadura');
+INSERT INTO ITEM_ATTRIBUTES VALUES(4,'Daño Mágico');
+INSERT INTO ITEM_ATTRIBUTES VALUES(1,'Defensa');
+INSERT INTO ITEM_ATTRIBUTES VALUES(6,'Botas');
+INSERT INTO ITEM_ATTRIBUTES VALUES(5,'Defensa');
+INSERT INTO ITEM_ATTRIBUTES VALUES(7,'Resistencia mágica');
+INSERT INTO ITEM_ATTRIBUTES VALUES(8,'Ataque');
+INSERT INTO ITEM_ATTRIBUTES VALUES(9,'Daño Mágico');
+INSERT INTO ITEM_ATTRIBUTES VALUES(6,'Ataque');
+INSERT INTO ITEM_ATTRIBUTES VALUES(6,'Daño Físico');
+
 
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(1,1);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(1,2);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(2,2);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(3,1);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(4,2);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(5,1);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(5,2);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(5,3);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(6,2);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(7,1);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(8,2);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(8,3);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(9,1);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(9,2);
+INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(9,3);

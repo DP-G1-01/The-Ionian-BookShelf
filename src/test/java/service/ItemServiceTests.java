@@ -1,6 +1,7 @@
 package service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +9,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +30,7 @@ import the_ionian_bookshelf.service.ItemService;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TheIonianBookshelfApplication.class})
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 public class ItemServiceTests {
 
 	@Autowired
@@ -37,16 +43,19 @@ public class ItemServiceTests {
 	private ItemService itemService;
 	
 	@Test
+	@BeforeAll
 	void testFindAll() {
 		Collection<Item> items = itemService.findAll();
 		assertEquals(itemRepository.count(), items.size());
 	}
 	
 	@Test
+	@Transactional
+	@AfterAll
 	void testFindAllEmpty() {
 		itemRepository.deleteAll();
 		assertEquals(0, itemRepository.count());
-	}
+	} 
 	
 	@Test
 	@Transactional
@@ -54,15 +63,31 @@ public class ItemServiceTests {
 		Item i = itemService.findItemById(1);
 		Item ii = itemRepository.findItemById(1);
 		assertEquals(i, ii);
+	} 
+	
+	
+	@Test
+	@Transactional
+	void testFindOneError() {
+		AssertionError exception = assertThrows(AssertionError.class,()->itemService.findItemById(3472));
+		assertEquals(AssertionError.class, exception.getClass());
 	}
+	
 	
 	@Test
 	@Transactional
 	void testRemoveItemById() {
 		long l = itemRepository.count();
-		itemService.removeItemById(1);
+		itemService.removeItemById(2);
 		long l2 = itemRepository.count();
 		assertEquals((l-1), l2);
+	}
+	
+	@Test
+	@Transactional
+	void testRemoveItemByIdError() {
+		AssertionError exception = assertThrows(AssertionError.class,()->itemService.removeItemById(4637));
+		assertEquals(AssertionError.class, exception.getClass());
 	}
 	
 	@Test
@@ -75,9 +100,9 @@ public class ItemServiceTests {
 		roles.add(r);
 		Item i = new Item("test", "testeandoooooooo", attributes, roles);
 		itemService.saveItem(i);
-		Item ii = itemRepository.findItemById(2);
+		Item ii = itemRepository.findItemById(10);
 		assertEquals(i, ii);
-	}
+	} 
 	
 	@Test
 	@Transactional
