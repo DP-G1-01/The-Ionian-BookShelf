@@ -1,10 +1,17 @@
 package service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,12 +22,14 @@ import the_ionian_bookshelf.TheIonianBookshelfApplication;
 import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.repository.BranchRepository;
+import the_ionian_bookshelf.repository.RunePageRepository;
 import the_ionian_bookshelf.repository.RuneRepository;
 import the_ionian_bookshelf.service.RuneService;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TheIonianBookshelfApplication.class})
 @SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 public class RuneServiceTests {
 
 	@Autowired
@@ -31,7 +40,26 @@ public class RuneServiceTests {
 	
 	@Autowired
 	protected RuneRepository runeRepository;
+	
+	@Autowired
+	protected RunePageRepository runePageRepository;
+	
+	@Test
+	@BeforeAll
+	void testFindAll() {
+		Collection<Rune> runes = this.runeService.findAll();
+		assertEquals(this.runeRepository.count(), runes.size());
 
+	}
+	
+//	@Test
+//	@AfterAll
+//	void testFindAllEmpty() {
+//		this.runePageRepository.deleteAll();
+//		this.runeRepository.deleteAll();
+//		assertEquals(0, this.runeRepository.count());
+//	}
+	
 	@Test
 	@Transactional
 	void testSaveRune() {
@@ -39,8 +67,33 @@ public class RuneServiceTests {
 		this.branchRepository.save(branch);
 		Rune rune = new Rune("Name", "Description", branch, "Key");
 		this.runeService.saveRune(rune);
+		//El id lo introduce automáticamente save, no he encontrado forma de ponerlo manualmente
+		//Ni siquiera rune.setId(1000) funcionó
 		Rune search = this.runeRepository.findById(36).get();
 		assertEquals(rune, search);
+	}
+	@Test
+	@Transactional
+	void testFindBranches() {
+		Collection<Branch> branches = runeService.findBranches();
+		assertEquals(this.branchRepository.count(), branches.size());
+	}
+	
+	@Test
+	@Transactional
+	void testDeleteRune() {
+		long initial = this.runeRepository.count();
+		Rune rune = this.runeRepository.findAll().get(0);
+		this.runeService.deleteRune(rune);
+		long after = this.runeRepository.count();
+		assertEquals((initial-1), after);
+	}
+	
+	@Test
+	@Transactional
+	void testDeleteInexistentRuneError() {
+		AssertionError exception = assertThrows(AssertionError.class,()->this.runeService.deleteRune(null));
+		assertEquals(AssertionError.class, exception.getClass());
 	}
 
 //	@Test

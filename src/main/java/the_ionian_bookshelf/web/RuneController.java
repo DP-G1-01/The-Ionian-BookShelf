@@ -91,7 +91,7 @@ public class RuneController {
 	@GetMapping(value = "/runes")
 	public String listadoRunas(ModelMap modelMap) {
 		String vista = "runes/listadoRunas";
-		Iterable<Rune> runes = runeService.findAll();
+		Collection<Rune> runes = runeService.findAll();
 		modelMap.addAttribute("runes", runes );
 		return vista;
 	}

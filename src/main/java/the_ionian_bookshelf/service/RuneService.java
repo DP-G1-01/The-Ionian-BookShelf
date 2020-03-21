@@ -1,5 +1,7 @@
 package the_ionian_bookshelf.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
@@ -45,17 +47,19 @@ public class RuneService {
 	}
 	
 	@Transactional
-	public Iterable<Rune> findAll(){
+	public Collection<Rune> findAll(){
 		return runeRepository.findAll();
 	}
 	
 	@Transactional
 	public void saveRune(Rune rune) throws DataAccessException {
+		assertNotNull(rune);
 		this.runeRepository.save(rune);
 	}
 	
 	@Transactional
 	public void deleteRune(Rune rune) throws DataAccessException {
+		assertNotNull(rune);
 		Collection<RunePage> runePages = this.runePageRepository.findAllByRune(rune.getId());
 		runePages.forEach(x->this.runePageRepository.delete(x));
 		this.runeRepository.delete(rune);
