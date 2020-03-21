@@ -23,7 +23,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="items")
 public class Item extends BaseEntity {
 
