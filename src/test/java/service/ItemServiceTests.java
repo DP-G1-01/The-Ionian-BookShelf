@@ -49,13 +49,13 @@ public class ItemServiceTests {
 		assertEquals(itemRepository.count(), items.size());
 	}
 	
-	@Test
-	@Transactional
-	@AfterAll
-	void testFindAllEmpty() {
-		itemRepository.deleteAll();
-		assertEquals(0, itemRepository.count());
-	} 
+//	@Test
+//	@Transactional
+//	@AfterAll
+//	void testFindAllEmpty() {
+//		itemRepository.deleteAll();
+//		assertEquals(0, itemRepository.count());
+//	} 
 	
 	@Test
 	@Transactional
@@ -94,13 +94,13 @@ public class ItemServiceTests {
 	@Transactional
 	void testSaveItem() {
 		List <String> attributes = new ArrayList<>();
-		attributes.add("atributo");
+		attributes.add("1");
 		List <Role> roles = new ArrayList<>();
-		Role r = new Role("rolTest", "testeoooooooooo", "imagen");
+		Role r = new Role("rolTest", "testeoooooooooo", "https://www.google.es");
 		roles.add(r);
-		Item i = new Item("test", "testeandoooooooo", attributes, roles);
+		Item i = new Item("test", "testeandoooooooooooooooooo", attributes, roles);
 		itemService.saveItem(i);
-		Item ii = itemRepository.findItemById(10);
+		Item ii = itemRepository.findItemById(11);
 		assertEquals(i, ii);
 	} 
 	

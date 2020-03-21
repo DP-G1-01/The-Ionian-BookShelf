@@ -74,7 +74,9 @@ public class ChangeRequestService {
 	}
 
 	public ChangeRequest findChangeRequestById(int id) {
-		return changeRepository.findChangeRequestById(id);
+		ChangeRequest request = changeRepository.findChangeRequestById(id);
+		assertNotNull(request);
+		return request;
 	}
 	
 	@Transactional

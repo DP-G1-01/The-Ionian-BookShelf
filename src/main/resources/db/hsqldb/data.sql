@@ -1,13 +1,14 @@
-INSERT INTO ROLES VALUES(1,'Soy el rol base','https://www.google.es','Rol1');
+INSERT INTO ROLES VALUES(1,'Descripcion','https://www.google.es','Rol1');
 INSERT INTO ROLES VALUES(2,'Descripcion','https://www.google.es','Rol2');
 INSERT INTO ROLES VALUES(3,'Descripcion','https://www.google.es','Rol3');
+INSERT INTO ROLES VALUES(4,'Descripcion','https://www.google.es','Rol4');
 INSERT INTO CHAMPIONS VALUES(1, 5.0, 'Soy un campeón sin mana, pero con energía', 3.0, 1000.0, null, 'Kiko Matafachas', 40.0, 1);
 
-INSERT INTO ITEMS VALUES(1, 'Soy un item', 'Item 1');
-INSERT INTO ITEM_ROLES VALUES(1, 1);
-INSERT INTO ITEM_ATTRIBUTES VALUES(1, '1');
-INSERT INTO ITEM_ATTRIBUTES VALUES(1, '6');
-INSERT INTO ITEM_ATTRIBUTES VALUES(1, '0');
+INSERT INTO ITEMS VALUES(10, 'Soy un item', 'Item 1');
+INSERT INTO ITEM_ROLES VALUES(10, 1);
+INSERT INTO ITEM_ATTRIBUTES VALUES(10, '1');
+INSERT INTO ITEM_ATTRIBUTES VALUES(10, '6');
+INSERT INTO ITEM_ATTRIBUTES VALUES(10, '0');
 
 INSERT INTO CHANGE_REQUESTS VALUES(1, 'Soy una prueba', 'PENDING', 'Gran titulo', 1, null, null, null);
 INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'1');
@@ -64,14 +65,6 @@ INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');
 INSERT INTO SUMMONERS VALUES(1, 'pepe@gmail.com', 1, 1);
 INSERT INTO RUNE_PAGES VALUES(1, 'Precision rune page', 1, 5, 8, 12, 18, 21, 1);
 
-INSERT INTO BUILDS VALUES(1,'Soy la primera build de tus sueños y tengo 20 caracteres, lo juro.', 'Build1', false, 1, 1, null);
-INSERT INTO BUILD_ITEMS VALUES(1, 1);
-
-INSERT INTO ROLES VALUES(1,'Descripcion','https://www.google.es','Rol1');
-INSERT INTO ROLES VALUES(2,'Descripcion','https://www.google.es','Rol2');
-INSERT INTO ROLES VALUES(3,'Descripcion','https://www.google.es','Rol3');
-INSERT INTO ROLES VALUES(4,'Descripcion','https://www.google.es','Rol4');
-
 INSERT INTO ITEMS VALUES(1, 'descripcion1', 'titulo1');
 INSERT INTO ITEMS VALUES(2, 'Mayor velocidad de ataque y reducción de enfriamiento', 'Aguijón');
 INSERT INTO ITEMS VALUES(3, 'Aumenta levemente la regeneración de maná', 'Amuleto de las hadas');
@@ -81,7 +74,6 @@ INSERT INTO ITEMS VALUES(6, 'Aumenta la velocidad de movimiento y la reducción 
 INSERT INTO ITEMS VALUES(7, 'Con el movimiento se acumulan cargas que al liberarse lanzan un ataque de fuego acosador', 'Cañón de fuego rápido');
 INSERT INTO ITEMS VALUES(8, 'Puede activarse para eliminar todos los efectos incapacitantes de un campeón aliado', 'Crisol de Mikael');
 INSERT INTO ITEMS VALUES(9, 'Aumenta considerablemente la armadura y ralentiza los ataques básicos del enemigo', 'Corazón de hielo');
-
 
 INSERT INTO ITEM_ATTRIBUTES VALUES(1,'5');
 INSERT INTO ITEM_ATTRIBUTES VALUES(2,'0');
@@ -98,7 +90,6 @@ INSERT INTO ITEM_ATTRIBUTES VALUES(9,'1');
 INSERT INTO ITEM_ATTRIBUTES VALUES(6,'2');
 INSERT INTO ITEM_ATTRIBUTES VALUES(6,'3');
 
-
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(1,1);
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(1,2);
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(2,2);
@@ -114,3 +105,6 @@ INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(8,3);
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(9,1);
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(9,2);
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(9,3);
+
+INSERT INTO BUILDS VALUES(1,'Soy la primera build de tus sueños y tengo 20 caracteres, lo juro.', 'Build1', false, 1, 1, null);
+INSERT INTO BUILD_ITEMS VALUES(1, 1);
