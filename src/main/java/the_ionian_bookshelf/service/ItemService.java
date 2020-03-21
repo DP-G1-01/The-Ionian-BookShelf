@@ -43,11 +43,15 @@ public class ItemService {
 	}
 
 	public Item findItemById(int itemId) {
-		return itemRepository.findItemById(itemId);
+		Item item = itemRepository.findItemById(itemId);
+		assertNotNull(item);
+		return item;
+		
 	}
 	
 	public void removeItemById(int itemId) {
 		Item item = itemRepository.findItemById(itemId);
+		assertNotNull(item);
 		itemRepository.delete(item);
 	}
 	
