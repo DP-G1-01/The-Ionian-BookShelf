@@ -22,13 +22,6 @@ public class ItemService {
 	
 	@Autowired
 	private RoleRepository roleRepository;
-	
-	public Item create() {
-
-		final Item res = new Item();
-
-		return res;
-	}
 
 	public Collection<Item> findAll() {
 

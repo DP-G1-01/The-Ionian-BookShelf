@@ -23,9 +23,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "items")
+@NoArgsConstructor
+@Table(name="items")
 public class Item extends BaseEntity {
 
 	@Column(unique = true, name = "title")
@@ -44,11 +44,11 @@ public class Item extends BaseEntity {
 	@Column(name="attributes")
 	private List<String> attributes;
 
-	@ElementCollection
-	@NotEmpty
+//	@ElementCollection
+//	@NotEmpty
 	@Valid
 	@Size(min = 1, max = 3)
-    @ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
 			inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<Role> roles;
