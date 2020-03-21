@@ -52,12 +52,10 @@ public class Item extends BaseEntity {
 	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
 			inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<Role> roles;
+
+	public String toString() {
+		return title;
+	}
 	
-//	@ElementCollection
-//	@NotEmpty
-//	@Valid
-//	@Size(min = 1, max = 3)
-//	@Column(name="roles")
-//	private List<Role> roles;
 
 }

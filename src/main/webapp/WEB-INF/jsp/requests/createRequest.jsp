@@ -16,12 +16,18 @@
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Title" name="title" />
 			<petclinic:inputField label="Description" name="description" />
-			<c:if test="${itemId != null}">
+			<c:if test="${request.item!=null}">
+			<petclinic:inputField label="Item" name="item.title"/>
+			</c:if>	
+			<c:if test="${itemId != null || request.item!=null}">
 			<petclinic:inputField label="Attribute1" name="changeItem[0]"  />
 			<petclinic:inputField label="Attribute2" name="changeItem[1]"  />
 			<petclinic:inputField label="Attribute3" name="changeItem[2]" />
 			</c:if>
-			<c:if test="${championId != null}">
+			<c:if test="${request.champion!=null}">
+			<petclinic:inputField label="Champion" name="champion.name"/>
+			</c:if>	
+			<c:if test="${championId != null || request.champion!=null}">
 			<petclinic:inputField label="Health" name="changeChamp[0]"  />
 			<petclinic:inputField label="Mana" name="changeChamp[1]"  />
 			<petclinic:inputField label="Energy" name="changeChamp[2]" />

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import the_ionian_bookshelf.model.Actor;
 import the_ionian_bookshelf.model.Authority;
 import the_ionian_bookshelf.model.ChangeRequest;
+import the_ionian_bookshelf.model.Item;
 import the_ionian_bookshelf.model.Summoner;
 import the_ionian_bookshelf.repository.ChangeRequestRepository;
 
@@ -54,7 +55,7 @@ public class ChangeRequestService {
 	}
 	
 	@Transactional
-	public Iterable<ChangeRequest> findAll() {
+	public Collection<ChangeRequest> findAll() {
 		Collection<ChangeRequest> res = this.changeRepository.findAll();
 		assertNotNull(res);
 
@@ -72,6 +73,10 @@ public class ChangeRequestService {
 
 	}
 
+	public ChangeRequest findChangeRequestById(int id) {
+		return changeRepository.findChangeRequestById(id);
+	}
+	
 	@Transactional
 	public void save(ChangeRequest change) throws DataAccessException {
 

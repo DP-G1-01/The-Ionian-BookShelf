@@ -10,6 +10,11 @@ INSERT INTO ITEM_ATTRIBUTES VALUES(1, '6');
 INSERT INTO ITEM_ATTRIBUTES VALUES(1, '0');
 
 INSERT INTO CHANGE_REQUESTS VALUES(1, 'Soy una prueba', 'PENDING', 'Gran titulo', 1, null, null, null);
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'1');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'5');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'4');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'2');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'1');
 
 INSERT INTO BRANCHES VALUES(1,'Slay your enemies in long term combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8000-8008.jpg','Precision');
 INSERT INTO BRANCHES VALUES(2,'Slay your enemies in short combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8100-8128.jpg','Domination');
@@ -53,9 +58,11 @@ INSERT INTO RUNES VALUES(33,'PASSIVE: After taking damage from an enemy champion
 INSERT INTO RUNES VALUES(34,'PASSIVE: Every 8 minions that die near you permanently grants 3 bonus health','Overgrowth','3',3);
 INSERT INTO RUNES VALUES(35,'PASSIVE: Grants 5% heal and shield power, incoming healing and shielding is increased by 10%','Revitalize','3',3);
 
-
 INSERT INTO THREADS VALUES(1, 'Bronze League thread', 'Bronze League');
 INSERT INTO LEAGUES VALUES(1, 'Bronze', 1);
 INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');
 INSERT INTO SUMMONERS VALUES(1, 'pepe@gmail.com', 1, 1);
 INSERT INTO RUNE_PAGES VALUES(1, 'Precision rune page', 1, 5, 8, 12, 18, 21, 1);
+
+INSERT INTO BUILDS VALUES(1,'Soy la primera build de tus sueños y tengo 20 caracteres, lo juro.', 'Build1', false, 1, 1, null);
+INSERT INTO BUILD_ITEMS VALUES(1, 1);

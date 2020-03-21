@@ -1,6 +1,6 @@
 package the_ionian_bookshelf.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,7 +45,7 @@ public class Build extends BaseEntity {
 	@ManyToMany
 	@Size(min = 0, max = 6)
 	@JoinTable(name = "build_items", joinColumns = @JoinColumn(name = "build_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
-	private Collection<Item> items;
+	private List<Item> items;
 
 	@Valid
 	@ManyToOne(optional = false)

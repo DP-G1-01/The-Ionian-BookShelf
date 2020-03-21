@@ -14,5 +14,7 @@ public interface ChangeRequestRepository extends JpaRepository<ChangeRequest, In
 	
 	@Query("SELECT i FROM Item i where i.id=:itemId")
 	Item findItemById(int itemId);
+	
+	ChangeRequest findChangeRequestById(int id);
 
 }

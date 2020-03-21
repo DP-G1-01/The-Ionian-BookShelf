@@ -54,6 +54,12 @@ public class ChangeRequestController {
 		return vista;
 	}
 	
+	@GetMapping("/requests/{requestId}")
+	public String showRequest(@PathVariable("requestId") int requestId, ModelMap modelmap) {
+		modelmap.addAttribute("request", this.changeRequestService.findOne(requestId));
+		return "requests/createRequest";
+	}
+	
 	@GetMapping(value="/champions/{championId}/newChangeRequest")
 	public String crearChangeRequestChampion(@PathVariable("championId") int championId, ModelMap modelMap) {
 		String view="requests/createRequest";
@@ -82,8 +88,11 @@ public class ChangeRequestController {
 	public String guardarChangeRequest(@Valid ChangeRequest request, BindingResult result, ModelMap model) {
 	
 		if(result.hasErrors()) {
-			model.addAttribute("championId", request.getChampion().getId());
-			model.addAttribute("itemId", request.getItem().getId());
+			if(request.getChampion() != null) {
+				model.addAttribute("championId", request.getChampion().getId());
+			} else {
+				model.addAttribute("itemId", request.getItem().getId());
+			}
 			model.addAttribute("request", request);
 			return "requests/createRequest";
 		}else {

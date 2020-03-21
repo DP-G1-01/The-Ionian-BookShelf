@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Build;
+import the_ionian_bookshelf.model.Champion;
 import the_ionian_bookshelf.model.Item;
-import the_ionian_bookshelf.model.Role;
+import the_ionian_bookshelf.model.RunePage;
 import the_ionian_bookshelf.repository.BuildRepository;
+import the_ionian_bookshelf.repository.ChampionRepository;
 import the_ionian_bookshelf.repository.ItemRepository;
-import the_ionian_bookshelf.repository.RoleRepository;
+import the_ionian_bookshelf.repository.RunePageRepository;
 
 @Service
 public class BuildService {
@@ -23,6 +25,13 @@ public class BuildService {
 	
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private ChampionRepository championRepository;
+	
+
+	@Autowired
+	private RunePageRepository runePageRepository;
 	
 	
 	public Build create() {
@@ -66,5 +75,13 @@ public class BuildService {
 
 	public Collection<Item> findItems() {
 		return itemRepository.findAll();
+	}
+	
+	public Collection<Champion> findChampions() {
+		return championRepository.findAll();
+	}
+	
+	public Collection<RunePage> findRunePages() {
+		return runePageRepository.findAll();
 	}
 }

@@ -7,8 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.annotations.Check;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +27,7 @@ public class RunePage extends BaseEntity {
 	@Column(name = "name")
 	private String name;
 
-	@NotBlank
+	@NotNull
 	@ManyToOne(optional = false)
 	@JoinColumn(name="summoner_id")
 	private Summoner summoner;
