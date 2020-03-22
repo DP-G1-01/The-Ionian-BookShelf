@@ -34,7 +34,7 @@ public class Summoner extends Actor {
 
 	@Valid
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "ligue_id")
-	private League ligue;
+	@JoinColumn(name = "league_id")
+	private League league;
 
 }

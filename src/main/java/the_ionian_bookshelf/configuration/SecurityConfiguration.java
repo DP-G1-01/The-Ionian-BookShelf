@@ -32,13 +32,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll().antMatchers("/users/new").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR").antMatchers("/summoners/**")
-				.hasAnyAuthority("SUMMONER").antMatchers("/reviewer/**").hasAnyAuthority("REVIEWER").anyRequest()
-				.denyAll().and().formLogin()
-				/* .loginPage("/login") */
-				.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
+		http
+			.authorizeRequests()
+				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
+				.antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR")
+				.antMatchers("/summoner/**").hasAnyAuthority("SUMMONER")
+				.antMatchers("/reviewe/**").hasAnyAuthority("REVIEWER")
+				.anyRequest().permitAll()
+				.and()
+			.formLogin()
+				.loginPage("/security/login")
+				.failureUrl("/login-error")
+				.and()
+			.logout().logoutSuccessUrl("/");
 		// Configuración para que funcione la consola de administración
 		// de la BD H2 (deshabilitar las cabeceras de protección contra
 		// ataques de tipo csrf y habilitar los framesets si su contenido
@@ -51,9 +58,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.jdbcAuthentication().dataSource(dataSource)
-				.usersByUsernameQuery("select username,password,enabled " + "from userAccounts " + "where username = ?")
+				.usersByUsernameQuery("select username,password,enabled " + "from user_accounts " + "where username = ?")
 				.authoritiesByUsernameQuery(
-						"select username, authority.authority " + "from userAccounts " + "where username = ?")
+						"select username, authorities" + " from user_accounts " + "where username = ?")
 				.passwordEncoder(passwordEncoder());
 	}
 

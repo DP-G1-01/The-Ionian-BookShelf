@@ -57,10 +57,12 @@ public class UserAccount extends BaseEntity implements UserDetails {
 	 */
 	@Column(name = "enabled")
 	boolean enabled;
-	
 
 	// ATTRIBUTES OF USER ACCOUNT
 
+	@NotEmpty
+	@Valid
+	@ElementCollection
 	@Override
 	public Collection<Authority> getAuthorities() {
 		// WARNING: Should return an unmodifiable copy, but it's not possible with

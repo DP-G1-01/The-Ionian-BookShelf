@@ -107,12 +107,12 @@ public class ChampionService {
 		}
 	}
 
-	public void deleteFromBuilds(Champion champ) {
-
-		Collection<Build> builds = this.buildService.findByChamp(champ);
-		for (Build build : builds) {
-			this.buildService.delete(build);
-		}
-	}
+//	public void deleteFromBuilds(Champion champ) {
+//
+//		Collection<Build> builds = this.buildService.findByChamp(champ);
+//		for (Build build : builds) {
+//			this.buildService.delete(build);
+//		}
+//	}
 
 }

@@ -20,13 +20,22 @@ public class Authority implements GrantedAuthority {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@NotBlank
-	@Pattern(regexp = "^" + Authority.ADMINISTRATOR + "|" + Authority.SUMMONER + "|" + Authority.REVIEWER + "$")
 	private String authority;
 
 	public static final String ADMINISTRATOR = "ADMINISTRATOR";
 	public static final String SUMMONER = "SUMMONER";
 	public static final String REVIEWER = "REVIEWER";
+
+	@NotBlank
+	@Pattern(regexp = "^" + Authority.ADMINISTRATOR + "|" + Authority.SUMMONER + "|" + Authority.REVIEWER + "$")
+	@Override
+	public String getAuthority() {
+		return this.authority;
+	}
+
+	public void setAuthority(final String authority) {
+		this.authority = authority;
+	}
 
 	public static Collection<Authority> listAuthorities() {
 		Collection<Authority> res;
@@ -47,6 +56,34 @@ public class Authority implements GrantedAuthority {
 		res.add(authority);
 
 		return res;
+	}
+
+	// Object interface -------------------------------------------------------
+
+	@Override
+	public int hashCode() {
+		return this.getAuthority().hashCode();
+	}
+
+	@Override
+	public boolean equals(final Object other) {
+		boolean result;
+
+		if (this == other)
+			result = true;
+		else if (other == null)
+			result = false;
+		else if (!this.getClass().isInstance(other))
+			result = false;
+		else
+			result = (this.getAuthority().equals(((Authority) other).getAuthority()));
+
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return this.authority;
 	}
 
 }

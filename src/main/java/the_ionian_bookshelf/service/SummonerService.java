@@ -3,6 +3,7 @@ package the_ionian_bookshelf.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -32,6 +33,9 @@ public class SummonerService {
 	@Autowired
 	private ActorService actorService;
 
+	@Autowired
+	private LeagueService leagueService;
+
 	public Summoner create() {
 
 		Summoner res;
@@ -46,6 +50,9 @@ public class SummonerService {
 		ua.addAuthority(auth);
 
 		res.setUserAccount(ua);
+
+		res.setMains(new ArrayList<Champion>());
+		res.setLeague(this.leagueService.findDefaultLeague());
 
 		return res;
 	}

@@ -15,19 +15,17 @@
  */
 package the_ionian_bookshelf.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import the_ionian_bookshelf.model.Authority;
 import the_ionian_bookshelf.model.UserAccount;
 import the_ionian_bookshelf.repository.UserAccountRepository;
 
-/**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
- * for @Transactional and @Cacheable annotations
- *
- * @author Michael Isvy
- */
 @Service
 @Transactional
 public class UserAccountService {
@@ -38,6 +36,8 @@ public class UserAccountService {
 	public UserAccount create() {
 
 		final UserAccount res = new UserAccount();
+		Collection<Authority> authorities = new ArrayList<Authority>();
+		res.setAuthorities(authorities);
 
 		return res;
 	}
