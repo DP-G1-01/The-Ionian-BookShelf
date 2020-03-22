@@ -3,6 +3,7 @@ package the_ionian_bookshelf.model;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -45,7 +46,7 @@ public class Item extends BaseEntity {
     @Column(name = "attributes")
     private Collection<String> attributes;
 
-    // @ElementCollection
+    @ElementCollection
     @NotEmpty
     @Valid
     @Size(min = 1, max = 3)

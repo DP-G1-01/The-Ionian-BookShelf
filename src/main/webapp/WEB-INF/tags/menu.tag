@@ -28,16 +28,16 @@
 					<span><spring:message code="master.page.home" /></span>
 				</tib:menuItem>
 
-				<tib:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+				<tib:menuItem active="${name eq 'runes'}" url="/runes/"
+					title="Runes">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+					<span>Runes</span>
 				</tib:menuItem>
 
-				<tib:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
+				<tib:menuItem active="${name eq 'champions'}" url="/champions"
+					title="champions">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
+					<span>Champions</span>
 				</tib:menuItem>
 
 				<tib:menuItem active="${name eq 'error'}" url="/oups"

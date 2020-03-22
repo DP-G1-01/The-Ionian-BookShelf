@@ -2,6 +2,8 @@ package the_ionian_bookshelf.service;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +16,32 @@ import the_ionian_bookshelf.repository.RoleRepository;
 @Transactional
 public class RoleService {
 
-	@Autowired
-	private RoleRepository roleRepo;
+    @Autowired
+    private RoleRepository roleRepo;
 
-	@Autowired
-	private AdministratorService adminService;
+    @Autowired
+    private AdministratorService adminService;
 
-	public Role findDefaultRole() {
+    @Transactional
+    public Iterable<Role> findAll() {
 
-		this.adminService.findByPrincipal();
+        Collection<Role> res = this.roleRepo.findAll();
+        assertNotNull(res);
 
-		Role res = this.roleRepo.findDefaultRole();
-		assertNotNull(res);
+        return res;
+    }
 
-		return res;
-	}
+    public Role findDefaultRole() {
 
+        this.adminService.findByPrincipal();
+
+        Role res = this.roleRepo.findDefaultRole();
+        assertNotNull(res);
+
+        return res;
+    }
+
+    public Role findBranchById(final int id) throws DataAccessException {
+        return roleRepository.findById(id).get();
+    }
 }
