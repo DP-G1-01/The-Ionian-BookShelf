@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import the_ionian_bookshelf.model.Item;
 import the_ionian_bookshelf.model.Role;
 import the_ionian_bookshelf.service.ItemService;
+import the_ionian_bookshelf.validators.ItemValidator;
 
 @Controller
 public class ItemController {
@@ -35,6 +36,11 @@ public class ItemController {
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
+	}
+	
+	@InitBinder("Item")
+	public void initItemBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new ItemValidator());
 	}
 	
 	@GetMapping(value = "/items")
@@ -55,7 +61,7 @@ public class ItemController {
 	public Collection<Role> populateRoles() {
 		return this.itemService.findRoles();
 	}
-	//Creacion de una runa
+	
 	@GetMapping(value="/items/new")
 	public String crearItem(ModelMap modelMap) {
 		String view="items/editItem";
