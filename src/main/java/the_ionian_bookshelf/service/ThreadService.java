@@ -68,11 +68,11 @@ public class ThreadService {
 
 		assertNotNull(thread);
 
-		Actor principal = this.actorService.findByPrincipal();
-
-		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR)
-				|| this.actorService.checkAuthority(principal, Authority.REVIEWER)
-				|| this.actorService.checkAuthority(principal, Authority.SUMMONER));
+//		Actor principal = this.actorService.findByPrincipal();
+//
+//		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR)
+//				|| this.actorService.checkAuthority(principal, Authority.REVIEWER)
+//				|| this.actorService.checkAuthority(principal, Authority.SUMMONER));
 
 		return this.threadRepo.save(thread);
 	}
@@ -81,6 +81,8 @@ public class ThreadService {
 
 		assertNotNull(thread);
 		//this.adminService.findByPrincipal();
+//		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR)
+//				|| this.actorService.checkAuthority(principal, Authority.REVIEWER));
 		this.threadRepo.delete(thread);
 	}
 

@@ -32,7 +32,7 @@ public class Message extends BaseEntity {
 	@Size(min = 10, max = 500)
 	private String text;
 	
-	@NotNull
+	
 	@Column(name = "moment")
 	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm")
 	private LocalDateTime moment;

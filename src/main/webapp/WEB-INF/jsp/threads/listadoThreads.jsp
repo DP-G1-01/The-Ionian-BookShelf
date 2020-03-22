@@ -20,7 +20,7 @@
         <c:forEach items="${threads}" var="thread">
             <tr>
                 <td>
-                    <spring:url value="/threads/{threadId}" var="threadUrl">
+                    <spring:url value="/threads/{threadId}/messages" var="threadUrl">
                         <spring:param name="threadId" value="${thread.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(threadUrl)}"><c:out value="${thread.title}"/></a>
@@ -38,4 +38,8 @@
         </c:forEach>
         </tbody>
     </table>
+    
+        <spring:url value="/threads/new" var="addThreadUrl"></spring:url>
+    	<a href="${fn:escapeXml(addThreadUrl)}" class="btn btn-default">Add New Thread</a>
+    
 </petclinic:layout>

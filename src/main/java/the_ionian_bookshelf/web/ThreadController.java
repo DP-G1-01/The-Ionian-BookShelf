@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import the_ionian_bookshelf.model.Thread;
+import the_ionian_bookshelf.service.MessageService;
 import the_ionian_bookshelf.service.ThreadService;
 
 
@@ -21,7 +22,6 @@ public class ThreadController {
 	
 	@Autowired
 	private final ThreadService threadService;
-	
 	
 	@Autowired
 	public ThreadController (final ThreadService threadService) {
@@ -62,12 +62,14 @@ public class ThreadController {
 		return "redirect:/threads";
 	}
 	
-	//Delete de Thread SIN MENSAJES
+	//Delete de Thread
 	@GetMapping(value="/threads/{threadId}/remove")
 	public String deleteThread(@PathVariable("threadId") int threadId, ModelMap modelMap) {
 		Thread thread = threadService.findOne(threadId);
 		if(thread != null) {
-			threadService.delete(thread);
+			this.threadService.deleteFromMessages(thread);
+			this.threadService.delete(thread);
+			
 			modelMap.addAttribute("message", "Thread deleted successfully");
 		}else {
 			modelMap.addAttribute("message", "Thread not found");
