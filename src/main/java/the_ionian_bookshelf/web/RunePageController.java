@@ -35,7 +35,7 @@ public class RunePageController {
 		return this.runePageService.findBranches();
 	}
 	@ModelAttribute("runes")
-	public List<List<Rune>> populateRunesByBranch() {
+	public List<List<Rune>> populateRunesByBranchNode() {
 		return this.runePageService.findRunesByBranchNode();
 	}
 	

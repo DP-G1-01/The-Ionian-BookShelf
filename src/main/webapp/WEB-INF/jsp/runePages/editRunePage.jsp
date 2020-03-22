@@ -32,9 +32,6 @@
             <div class="control-group">
                     <petclinic:selectField name="secondaryBranch" label="Secondary Branch" names="${branches}" size="5"/>
             </div>
-            <div class="control-group">
-                    <petclinic:selectField name="keyRune" label="keyRune" names="${runes}" size="5"/>
-            </div>
             <c:forEach var="runeList" items="${runes}" varStatus="loop">
             	<c:if test="${(loop.index)%4==0}">
         		<petclinic:selectField name="keyRune" label="keyRune branch ${loop.index/4}" names="${runeList}" size="5"/>
@@ -58,6 +55,9 @@
         		</c:if>
         		<c:if test="${(loop.index)%4==3}">
         		<petclinic:selectField name="secRune1" label="secRune1 branch ${loop.index/4}" names="${runeList}" size="5"/>
+        		</c:if>
+        		<c:if test="${(loop.index)%4==3}">
+        		<petclinic:selectField name="secRune2" label="secRune2 branch ${loop.index/4}" names="${runeList}" size="5"/>
         		</c:if>
    			</c:forEach>
 		</div>
