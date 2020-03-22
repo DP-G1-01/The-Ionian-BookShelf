@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
@@ -22,23 +24,25 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Rune extends BaseEntity {
 
-	@NotBlank
-	@Column(name = "name")
-	private String name;
+    @NotBlank
+    @Column(name = "name")
+    private String name;
 
-	@NotBlank
-	@Column(name = "description")
-	private String description;
+    @NotBlank
+    @Column(name = "description")
+    private String description;
 
-	@Valid
-	@NotBlank
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "branch_id")
-	private Branch branch;
+    // @Valid
+    @NotNull
+    // @ManyToOne(optional = false)
+    // @JoinColumn(name = "branch_id")
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
 
-	@NotBlank
-	@Pattern(regexp = "^(KEY|1|2|3)$")
-	@Column(name = "node")
-	private String node;
+    @NotBlank
+    @Pattern(regexp = "^(Key|1|2|3)$")
+    @Column(name = "node")
+    private String node;
 
 }

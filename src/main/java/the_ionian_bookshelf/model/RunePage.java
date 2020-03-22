@@ -8,6 +8,8 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.Check;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//@Check(constraints = "keyrune.branch EQUALS mainrune1.branch")?
 @Table(name = "rune_pages")
 public class RunePage extends BaseEntity {
 
@@ -25,6 +28,10 @@ public class RunePage extends BaseEntity {
 	@Column(name = "name")
 	private String name;
 
+	@NotBlank
+	@ManyToOne(optional = false)
+	@JoinColumn(name="summoner_id")
+	private Summoner summoner;
 	@Valid
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "keyrune_id")

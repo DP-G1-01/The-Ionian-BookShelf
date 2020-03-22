@@ -25,16 +25,16 @@ import lombok.Setter;
 @Table(name = "summoners")
 public class Summoner extends Actor {
 
-	@NotNull
-	@Valid
-	@ManyToMany()
-	@ElementCollection
-	@JoinTable(name = "summoner_mains", joinColumns = @JoinColumn(name = "summoner_id"), inverseJoinColumns = @JoinColumn(name = "champion_id"))
-	private Collection<Champion> mains;
+    @NotNull
+    @Valid
+    @ManyToMany()
+    @ElementCollection
+    @JoinTable(name = "summoner_mains", joinColumns = @JoinColumn(name = "summoner_id"), inverseJoinColumns = @JoinColumn(name = "champion_id"))
+    private Collection<Champion> mains;
 
-	@Valid
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "league_id")
-	private League league;
+    @Valid
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "league_id")
+    private League league;
 
 }

@@ -10,7 +10,7 @@ import the_ionian_bookshelf.model.Champion;
 
 public interface BuildRepository extends JpaRepository<Build, Integer> {
 
-	@Query("select build from Build build where build.champion = ?1")
-	Collection<Build> findByChampion(Champion champ);
+    @Query("select build from Build build where build.champion = ?1")
+    Collection<Build> findByChampion(Champion champ);
 
 }

@@ -16,17 +16,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="threads")
+@Table(name = "threads")
 public class Thread extends BaseEntity {
 
     @NotBlank
-	@Size(min = 5, max = 50)
-	@Column(name="title")
-	public String title;
+    @Column(name = "title")
+    @Size(min = 5, max = 50)
+    public String title;
 
-	@NotBlank
-	@Size(min = 20, max = 500)
-	@Column(name="description")
-	public String description;
-
+    @NotBlank
+    @Column(name = "description")
+    @Size(min = 20, max = 500)
+    public String description;
 }

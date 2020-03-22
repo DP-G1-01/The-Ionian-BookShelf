@@ -7,7 +7,7 @@ import the_ionian_bookshelf.model.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	@Query("select role from Role role where role.name = 'default'")
-	Role findDefaultRole();
+    @Query("select role from Role role where role.name = 'default'")
+    Role findDefaultRole();
 
 }
