@@ -2,8 +2,10 @@ package org.springframework.samples.theionianbookshelf.validators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +31,7 @@ public class ItemValidatorTests {
 		}
 	
 	@Test
-	void shouldNotValidateWhenTitleEmpty() {
+	void shouldNotValidateWhenDescriptionAndTitleBlank() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
@@ -37,37 +39,53 @@ public class ItemValidatorTests {
 		Role rol = new Role("rolTest", "testeoooooooooooooooo", "https://www.google.es");
 		List<Role> roles = new ArrayList<>();
 		roles.add(rol);
-		Item item = new Item("", "Descripciónnnnnnnn", attributes, roles);
+		Item item = new Item("", "", attributes, roles);
 		Validator validator= createValidator();
 		Set<ConstraintViolation<Item>> constraintViolations = validator.validate(item);
-		assertThat(constraintViolations).hasSize(1);
-		ConstraintViolation<Item> violation=   constraintViolations.iterator().next();
-		assertThat(violation.getPropertyPath().toString()) .isEqualTo("title");
-		assertThat(violation.getMessage()).isEqualTo("must not be blank");
+		List<ConstraintViolation<Item>> list = new ArrayList<>();
+		constraintViolations.stream().forEach(x->list.add(x));
+		assertThat(list).hasSize(3);
+
+		for(ConstraintViolation<Item> violation : list) {
+			if(violation.getPropertyPath().toString().contentEquals("description")) {
+				if(violation.getMessage().contentEquals("must not be blank")){
+					assertThat(violation.getPropertyPath().toString()) .isEqualTo("description");
+					assertThat(violation.getMessage()).isEqualTo("must not be blank");
+				}else {
+					assertThat(violation.getPropertyPath().toString()) .isEqualTo("description");
+					assertThat(violation.getMessage()).isEqualTo("size must be between 10 and 500");
+				}
 		}
+			else if(violation.getPropertyPath().toString() .contentEquals("title")){
+						assertThat(violation.getPropertyPath().toString()) .isEqualTo("title");
+						assertThat(violation.getMessage()).isEqualTo("must not be blank");
+			}else {
+				assertTrue(false);
+			}
+		}
+	}
 	
 	@Test
-	void shouldNotValidateWhenDescriptionEmpty() {
+	void shouldNotValidateWhenTitleIsSoBig() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
-		attributes.add("80");
-		Role rol = new Role("rolTest", "testeoooooooooooooooo", "https://www.google.es");
+		Role rol = new Role("rolTestttttt", "testeoooooooooooooooo", "https://www.google.es");
 		List<Role> roles = new ArrayList<>();
 		roles.add(rol);
-		Item item = new Item("Titulo", "", attributes, roles);
+		Item item = new Item("ItemTestttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt\"\r\n" + 
+				"				+ \"ttttttttttttt", "testeoooooooooooooooo", attributes, roles);
 		Validator validator= createValidator();
 		Set<ConstraintViolation<Item>> constraintViolations = validator.validate(item);
-		assertThat(constraintViolations).hasSize(2);
-		Iterator<ConstraintViolation<Item>> iterator;
-		iterator = constraintViolations.iterator();
-		ConstraintViolation<Item> violation=  iterator.next();
-		assertThat(violation.getPropertyPath().toString()) .isEqualTo("description");
-		assertThat(violation.getMessage()).isEqualTo("size must be between 10 and 500");
-		ConstraintViolation<Item> violation2=   iterator.next();
-		assertThat(violation2.getPropertyPath().toString()) .isEqualTo("description");
-		assertThat(violation2.getMessage()).isEqualTo("must not be blank");
+		List<ConstraintViolation<Item>> list = new ArrayList<>();
+		constraintViolations.stream().forEach(x->list.add(x));
+		assertThat(list).hasSize(1);
+
+		for(ConstraintViolation<Item> violation : list) {
+					assertThat(violation.getPropertyPath().toString()) .isEqualTo("title");
+					assertThat(violation.getMessage()).isEqualTo("size must be between 0 and 60");
 		}
+	}
 	
 	@Test
 	void shouldNotValidateWhenListsEmpty() {
@@ -77,25 +95,35 @@ public class ItemValidatorTests {
 		Item item = new Item("Titulo", "Descripcionnnnnn", attributes, roles);
 		Validator validator= createValidator();
 		Set<ConstraintViolation<Item>> constraintViolations = validator.validate(item);
-		assertThat(constraintViolations).hasSize(4);
-		Iterator<ConstraintViolation<Item>> iterator;
-		iterator = constraintViolations.iterator();
-		ConstraintViolation<Item> violation=  iterator.next();
-		assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
-		assertThat(violation.getMessage()).isEqualTo("must not be empty");
-		ConstraintViolation<Item> violation2=   iterator.next();
-		assertThat(violation2.getPropertyPath().toString()) .isEqualTo("roles");
-		assertThat(violation2.getMessage()).isEqualTo("must not be empty");
-		ConstraintViolation<Item> violation3=   iterator.next();
-		assertThat(violation3.getPropertyPath().toString()) .isEqualTo("roles");
-		assertThat(violation3.getMessage()).isEqualTo("size must be between 1 and 3");
-		ConstraintViolation<Item> violation4=   iterator.next();
-		assertThat(violation4.getPropertyPath().toString()) .isEqualTo("attributes");
-		assertThat(violation4.getMessage()).isEqualTo("size must be between 1 and 3");
+		List<ConstraintViolation<Item>> list = new ArrayList<>();
+		constraintViolations.stream().forEach(x->list.add(x));
+		assertThat(list).hasSize(4);
+		
+		for(ConstraintViolation<Item> violation : list) {
+			if(violation.getPropertyPath().toString().contentEquals("roles")) {
+				if(violation.getMessage().contentEquals("must not be empty")){
+					assertThat(violation.getPropertyPath().toString()) .isEqualTo("roles");
+					assertThat(violation.getMessage()).isEqualTo("must not be empty");
+				}else {
+					assertThat(violation.getPropertyPath().toString()) .isEqualTo("roles");
+					assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 3");
+				}
+			}else if(violation.getPropertyPath().toString() .contentEquals("attributes")){
+					if(violation.getMessage().contentEquals("must not be empty")){
+						assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
+						assertThat(violation.getMessage()).isEqualTo("must not be empty");
+					}else {
+						assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
+						assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 3");
+				}
+			}else {
+				assertTrue(false);
+			}
 		}
+	}
 	
 	@Test
-	void shouldNotValidateWhenListsTooBigEmpty() {
+	void shouldNotValidateWhenListsTooBig() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
@@ -114,14 +142,50 @@ public class ItemValidatorTests {
 		Item item = new Item("Titulo", "Descripcionnnnnn", attributes, roles);
 		Validator validator= createValidator();
 		Set<ConstraintViolation<Item>> constraintViolations = validator.validate(item);
-		assertThat(constraintViolations).hasSize(2);
-		Iterator<ConstraintViolation<Item>> iterator;
-		iterator = constraintViolations.iterator();
-		ConstraintViolation<Item> violation=  iterator.next();
-		assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
-		assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 3");
-		ConstraintViolation<Item> violation2=   iterator.next();
-		assertThat(violation2.getPropertyPath().toString()) .isEqualTo("roles");
-		assertThat(violation2.getMessage()).isEqualTo("size must be between 1 and 3");
+		List<ConstraintViolation<Item>> list = new ArrayList<>();
+		constraintViolations.stream().forEach(x->list.add(x));
+		assertThat(list).hasSize(2);
+		
+		for(ConstraintViolation<Item> violation : list) {
+			if(violation.getPropertyPath().toString().contentEquals("roles")) {
+					assertThat(violation.getPropertyPath().toString()) .isEqualTo("roles");
+					assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 3");
+				}
+			else if(violation.getPropertyPath().toString() .contentEquals("attributes")){
+						assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
+						assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 3");
+			}else {
+				assertTrue(false);
+			}
 		}
+	}
+	
+	@Test
+	void shouldNotValidateWhenItemIsEmpty() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Item item = new Item();
+		Validator validator= createValidator();
+		Set<ConstraintViolation<Item>> constraintViolations = validator.validate(item);
+		List<ConstraintViolation<Item>> list = new ArrayList<>();
+		constraintViolations.stream().forEach(x->list.add(x));
+		assertThat(list).hasSize(4);
+		
+		for(ConstraintViolation<Item> violation : list) {
+			if(violation.getPropertyPath().toString().contentEquals("roles")) {
+				assertThat(violation.getPropertyPath().toString()) .isEqualTo("roles");
+				assertThat(violation.getMessage()).isEqualTo("must not be empty");
+			}else if(violation.getPropertyPath().toString() .contentEquals("attributes")){
+				assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
+				assertThat(violation.getMessage()).isEqualTo("must not be empty");
+			}else if(violation.getPropertyPath().toString() .contentEquals("description")){
+				assertThat(violation.getPropertyPath().toString()) .isEqualTo("description");
+				assertThat(violation.getMessage()).isEqualTo("must not be blank");
+			}else if(violation.getPropertyPath().toString() .contentEquals("title")){
+				assertThat(violation.getPropertyPath().toString()) .isEqualTo("title");
+				assertThat(violation.getMessage()).isEqualTo("must not be blank");
+			}else {
+				assertTrue(false);
+			}
+		}
+	}
 }
