@@ -33,12 +33,20 @@
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Runes</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'runePages'}" url="/runePages/mine"
+					title="runePages">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Rune Pages</span>
+				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'champions'}" url="/champions"
 					title="champions">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Champions</span>
 				</petclinic:menuItem>
+				
+				
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">

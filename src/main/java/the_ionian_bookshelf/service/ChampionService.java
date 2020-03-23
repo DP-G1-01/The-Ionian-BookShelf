@@ -1,5 +1,7 @@
 package the_ionian_bookshelf.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
@@ -11,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Champion;
+import the_ionian_bookshelf.model.Item;
 import the_ionian_bookshelf.model.Role;
 import the_ionian_bookshelf.repository.ChampionRepository;
 import the_ionian_bookshelf.repository.RoleRepository;
@@ -42,7 +45,7 @@ public class ChampionService {
 	
 	
 	@Transactional
-	public Iterable<Champion> findAll() throws DataAccessException {
+	public Collection<Champion> findAll() throws DataAccessException {
 		return championRepository.findAll();
 	}
 	
@@ -50,6 +53,7 @@ public class ChampionService {
 	public void saveChampion(Champion champion) throws DataAccessException {
 		this.championRepository.save(champion);
 	}
+	
 	
 	@Transactional
 	public void deleteChampion(Champion champion) throws DataAccessException {
@@ -87,13 +91,13 @@ public class ChampionService {
 	public Collection<Champion> findRuneByName(final String name) throws DataAccessException {
 		return this.championRepository.findByName(name);
 	}
+	
+	public void removeChampionById(int champId) {
+		Champion champion = championRepository.findById(champId).get();
+		assertNotNull(champion);
+		championRepository.delete(champion);
+	}
 
-//	public void deleteFromBuilds(Champion champ) {
-//
-//		Collection<Build> builds = this.buildService.findByChamp(champ);
-//		for (Build build : builds) {
-//			this.buildService.delete(build);
-//		}
-//	}
+
 
 }
