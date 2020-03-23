@@ -54,6 +54,7 @@ public class LoginService implements UserDetailsService {
 
 		return res;
 	}
+	
 
 	public static UserAccount getPrincipal() {
 		UserAccount res;

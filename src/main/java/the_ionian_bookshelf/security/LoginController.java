@@ -12,12 +12,21 @@ package the_ionian_bookshelf.security;
 
 import static org.junit.Assert.assertNotNull;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,6 +44,9 @@ public class LoginController {
 	@Autowired
 	private ConfigurationParametersService configurationParametersService;
 
+	@Autowired
+	AuthenticationManager authManager;
+
 	// Constructors -----------------------------------------------------------
 
 	public LoginController() {
@@ -44,7 +56,7 @@ public class LoginController {
 	// Login ------------------------------------------------------------------
 
 	@GetMapping("/security/login")
-	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult,
+	public ModelAndView loginView(@Valid final Credentials credentials, final BindingResult bindingResult,
 			@RequestParam(required = false) final boolean showError) {
 
 		assertNotNull(credentials);
@@ -56,9 +68,37 @@ public class LoginController {
 		result.addObject("credentials", credentials);
 		result.addObject("showError", showError);
 
-//		final String banner = this.configurationParametersService.getBanner();
-//		result.addObject("banner", banner);
+		return result;
+	}
 
+	@PostMapping("/security/login")
+	public ModelAndView login(@Valid final Credentials credentials, final BindingResult bindingResult,
+			@RequestParam(required = false) final boolean showError, HttpServletRequest request) {
+
+		assertNotNull(credentials);
+		assertNotNull(bindingResult);
+
+		ModelAndView result;
+
+		try {
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+					credentials.getUsername(), credentials.getPassword());
+			Authentication authentication = authManager.authenticate(token);
+			SecurityContext securityContext = SecurityContextHolder.getContext();
+			securityContext.setAuthentication(authentication);
+
+			HttpSession session = request.getSession(true);
+			session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+
+			result = new ModelAndView("/");
+		} catch (Exception oops) {
+			SecurityContextHolder.getContext().setAuthentication(null);
+			System.out.println("Login not succesful");
+
+			result = new ModelAndView("security/login");
+			result.addObject("credentials", credentials);
+			result.addObject("showError", showError);
+		}
 		return result;
 	}
 

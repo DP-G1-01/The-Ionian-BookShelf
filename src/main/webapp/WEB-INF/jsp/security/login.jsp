@@ -32,8 +32,7 @@
 	</div>
 	<br />
 
-	<form:form action="j_spring_security_check"
-		modelAttribute="credentials">
+	<form:form action="security/login" modelAttribute="credentials">
 
 		<form:label path="username">
 			<spring:message code="security.username" />
