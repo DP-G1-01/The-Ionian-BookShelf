@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
-import the_ionian_bookshelf.model.Authority;
 import the_ionian_bookshelf.model.Message;
 import the_ionian_bookshelf.model.Thread;
 import the_ionian_bookshelf.model.Vote;
@@ -17,7 +16,7 @@ import the_ionian_bookshelf.repository.ThreadRepository;
 
 @Service
 public class ThreadService {
-	
+
 	@Autowired
 	private VoteService voteService;
 	@Autowired
@@ -26,15 +25,17 @@ public class ThreadService {
 	private ActorService actorService;
 	@Autowired
 	private MessageService messageService;
-	
+	@Autowired
+	private AuthoritiesService authService;
+
 	public Thread create() {
-		
+
 		Thread res = new Thread();
 		res.setTitle("New Thread");
 		res.setDescription("New description");
 		return res;
 	}
-	
+
 	public Collection<Thread> findAll() {
 
 		Collection<Thread> res = this.threadRepo.findAll();
@@ -58,11 +59,8 @@ public class ThreadService {
 
 		assertNotNull(thread);
 
-		Actor principal = this.actorService.findByPrincipal();
-
-		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR)
-				|| this.actorService.checkAuthority(principal, Authority.REVIEWER)
-				|| this.actorService.checkAuthority(principal, Authority.SUMMONER));
+		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("summoner")
+				|| this.authService.checkAuthorities("reviewer"));
 
 		return this.threadRepo.save(thread);
 	}
@@ -70,7 +68,7 @@ public class ThreadService {
 	public void delete(Thread thread) {
 
 		assertNotNull(thread);
-		//this.adminService.findByPrincipal();
+		// this.adminService.findByPrincipal();
 		this.threadRepo.delete(thread);
 	}
 

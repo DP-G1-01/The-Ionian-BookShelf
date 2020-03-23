@@ -6,7 +6,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +26,7 @@ public class SummonerController extends AbstractController {
 
 	// Edition --------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@GetMapping(value = "/edit")
 	public ModelAndView edit() {
 
 		ModelAndView res;
@@ -37,7 +39,7 @@ public class SummonerController extends AbstractController {
 
 	// Save -----------------------------------------------------------
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	@PostMapping(value = "/edit", params = "save")
 	public ModelAndView save(@ModelAttribute("actor") @Valid final Summoner summoner, final BindingResult binding) {
 
 		ModelAndView res;
@@ -58,7 +60,7 @@ public class SummonerController extends AbstractController {
 
 	// Display --------------------------------------------------------
 
-	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	@GetMapping(value = "/display")
 	public ModelAndView display(@RequestParam final int summonerId) {
 
 		ModelAndView res;
@@ -70,7 +72,7 @@ public class SummonerController extends AbstractController {
 		return res;
 	}
 
-	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	@GetMapping(value = "/show")
 	public ModelAndView display() {
 
 		ModelAndView res;
@@ -100,7 +102,7 @@ public class SummonerController extends AbstractController {
 		res = new ModelAndView("actor/edit");
 		res.addObject("actor", summoner);
 		res.addObject("role", "summoner");
-		res.addObject("requestURI", "summoner/edit.do");
+//		res.addObject("requestURI", "summoner/edit.do");
 		res.addObject("message", messageCode);
 		// the message code references an error message or null
 		return res;

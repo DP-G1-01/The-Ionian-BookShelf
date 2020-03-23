@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import the_ionian_bookshelf.security.LoginService;
@@ -38,14 +39,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR")
-				.antMatchers("/summoner/**").hasAnyAuthority("SUMMONER")
-				.antMatchers("/reviewe/**").hasAnyAuthority("REVIEWER")
+				.antMatchers("/admin/**").permitAll()
+				.antMatchers("/summoner/**").permitAll()
+				.antMatchers("/reviewe/**").permitAll()
 				.anyRequest().permitAll()
 				.and()
 			.formLogin()
-				.loginPage("/security/login")
-		        .loginProcessingUrl("/security/doLogin")
+		        .loginProcessingUrl("/login")
 		        .defaultSuccessUrl("/", true)
 				.failureUrl("/login-error")
 				.and()
@@ -62,21 +62,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
 		auth.jdbcAuthentication()
-			.dataSource(dataSource)
-			.usersByUsernameQuery(
-				"select id, username, password, enabled "
-				+ "from user_accounts "
-				+ "where username = ? ")
-			.authoritiesByUsernameQuery(
-				"select username"
-				+ "from user_account_authorities "
-				+ "where ")
-			.passwordEncoder(passwordEncoder());
+	      .dataSource(dataSource)
+	      .usersByUsernameQuery(
+	       "select username,password,enabled "
+	        + "from users "
+	        + "where username = ?")
+	      .authoritiesByUsernameQuery(
+	       "select username, authority "
+	        + "from authorities "
+	        + "where username = ?")	      	      
+	      .passwordEncoder(passwordEncoder());	
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
+	    return encoder;
 	}
 
 }

@@ -6,33 +6,32 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="tib" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<tib:layout pageName="summoner.display">
-	<spring:message code="actor.email" />: <jstl:out
-		value="${summoner.email}" />
+<petclinic:layout pageName="Display summoner details">
+	Email: <jstl:out value="${summoner.email}" />
 	<br />
 
-	<spring:message code="actor.userAccount.username" />: <jstl:out
-		value="${summoner.userAccount.username}" />
+	Username: <jstl:out value="${summoner.user.username}" />
 	<br />
 
-	<spring:message code="summoner.mains" />: 
+	Mains: 
 	<jstl:forEach items="${summoner.mains}" var="${main}">
-		<spring:message code="champion.name" />: 
+		Champion name: 
 		<jstl:out value="${main.name}" />
-		<tib:button url="champion/display.do?championId=${main.id}"
-			code="champion.display" />
+		<petclinic:button url="champion/display.do?championId=${main.id}"
+			code="Display champ" />
 	</jstl:forEach>
 	<br />
 
-	<spring:message code="summoner.league" />: 
+	League: 
 		<jstl:out value="${summoner.league.name}" />
-	<tib:button url="league/display.do?leagueId=${summoner.league.id}"
-		code="league.display" />
+	<petclinic:button
+		url="league/display.do?leagueId=${summoner.league.id}"
+		code="Display league" />
 	<br />
 
-	<tib:button url="summoner/edit.do" code="actor.edit" />
+	<petclinic:button url="summoner/edit.do" code="Edit" />
 
-	<tib:button url="/" code="actor.back.welcome" />
-</tib:layout>
+	<petclinic:button url="/" code="Welcome page" />
+</petclinic:layout>

@@ -15,31 +15,45 @@
  */
 package the_ionian_bookshelf.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import static org.junit.Assert.assertNotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import the_ionian_bookshelf.model.Authority;
-import the_ionian_bookshelf.model.UserAccount;
-import the_ionian_bookshelf.repository.UserAccountRepository;
+import the_ionian_bookshelf.model.User;
+import the_ionian_bookshelf.repository.UserRepository;
 
+/**
+ * Mostly used as a facade for all Petclinic controllers Also a placeholder
+ * for @Transactional and @Cacheable annotations
+ *
+ * @author Michael Isvy
+ */
 @Service
-@Transactional
-public class UserAccountService {
+public class UserService {
+
+	private UserRepository userRepository;
 
 	@Autowired
-	private UserAccountRepository uaRepository;
+	public UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
-	public UserAccount create() {
+	@Transactional
+	public void saveUser(User user) throws DataAccessException {
+		user.setEnabled(true);
+		userRepository.save(user);
+	}
 
-		final UserAccount res = new UserAccount();
-		Collection<Authority> authorities = new ArrayList<Authority>();
-		res.setAuthorities(authorities);
+	@Transactional
+	public User findOne(String username) {
+
+		assertNotNull(username);
+		User res = this.userRepository.findById(username).get();
+		assertNotNull(res);
 
 		return res;
 	}
-
 }

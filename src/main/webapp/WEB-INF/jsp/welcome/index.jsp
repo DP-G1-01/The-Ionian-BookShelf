@@ -16,11 +16,9 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="tib" tagdir="/WEB-INF/tags"%>
-<tib:layout pageName="master.page.home">
-	<h2>
-		<spring:message code="master.page.home" />
-	</h2>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<petclinic:layout pageName="Home">
+	<h2>Home</h2>
 	<div class="row">
 		<div class="col-md-12">
 			<spring:url value="/resources/images/champs.jpg" htmlEscape="true"
@@ -28,4 +26,4 @@
 			<img class="img-responsive" src="${champsImage}" />
 		</div>
 	</div>
-</tib:layout>
+</petclinic:layout>

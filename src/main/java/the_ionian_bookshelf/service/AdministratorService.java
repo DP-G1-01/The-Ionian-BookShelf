@@ -4,15 +4,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import the_ionian_bookshelf.model.Administrator;
-import the_ionian_bookshelf.model.Authority;
-import the_ionian_bookshelf.model.UserAccount;
+import the_ionian_bookshelf.model.User;
 import the_ionian_bookshelf.repository.AdministratorRepository;
 import the_ionian_bookshelf.security.LoginService;
 
@@ -24,25 +22,22 @@ public class AdministratorService {
 	private AdministratorRepository adminRepo;
 
 	@Autowired
-	private UserAccountService uaService;
+	private UserService userService;
 
 	@Autowired
-	private ActorService actorService;
+	private AuthoritiesService authService;
+	
+	@Autowired
+	private LoginService loginService;
 
 	public Administrator create() {
 
 		Administrator res;
-		UserAccount ua;
-		Authority auth;
+		User user = new User();
 
 		res = new Administrator();
-		ua = this.uaService.create();
 
-		auth = new Authority();
-		auth.setAuthority(Authority.ADMINISTRATOR);
-		ua.addAuthority(auth);
-
-		res.setUserAccount(ua);
+		res.setUser(user);
 
 		return res;
 	}
@@ -69,13 +64,11 @@ public class AdministratorService {
 
 		assertNotNull(admin);
 
-		this.findByPrincipal();
+		Administrator saved = adminRepo.save(admin);
 
-		PasswordEncoder encoder = this.passwordEncoder();
+		userService.saveUser(admin.getUser());
 
-		admin.getUserAccount().setPassword(encoder.encode(admin.getUserAccount().getPassword()));
-
-		final Administrator saved = this.adminRepo.save(admin);
+		authService.saveAuthorities(admin.getUser().getUsername(), "administrator");
 
 		return saved;
 	}
@@ -89,30 +82,21 @@ public class AdministratorService {
 	public Administrator findByPrincipal() {
 
 		Administrator res;
-		final UserAccount ua = LoginService.getPrincipal();
+		final User ua = this.loginService.getPrincipal();
 		assertNotNull(ua);
 
-		res = this.findByUserAccountId(ua.getId());
-
-		final boolean hasAuthority = this.actorService.checkAuthority(res, Authority.ADMINISTRATOR);
-		assertTrue(hasAuthority);
+		res = this.findByUsername(ua.getUsername());
 
 		return res;
 	}
 
-	public Administrator findByUserAccountId(final int id) {
+	private Administrator findByUsername(String username) {
+		assertNotNull(username);
 
-		assertTrue(id != 0);
-
-		final Administrator res = this.adminRepo.findByUserAccountId(id);
+		final Administrator res = this.adminRepo.findByUsername(username);
 		assertNotNull(res);
 
 		return res;
-	}
-
-	private PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder;
 	}
 
 }

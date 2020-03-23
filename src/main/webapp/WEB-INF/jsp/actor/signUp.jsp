@@ -6,31 +6,25 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@taglib prefix="tib" tagdir="/WEB-INF/tags"%>
-<tib:layout pageName="master.page.signUp">
+<%@taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<petclinic:layout pageName="master.page.signUp">
 
-	<h1>
-		<spring:message code="actor.signUp.subtitle" />
-	</h1>
+	<h1>Register your new account here</h1>
 	<br />
-	<h2>
-		<spring:message code="actor.signUp.help" />
-	</h2>
+	<h2>Roles are above each image</h2>
 	<div>
 		<div>
-			<b><spring:message code="actor.signUp.summoner" /></b>
+			<b>Summoner</b>
 		</div>
-		<span> <a href="createSummoner"> <img
-				alt="<spring:message code="actor.signUp.summoner" />"
+		<span> <a href="createSummoner"> <img alt="Summoner"
 				src="<spring:url value="/resources/images/summoner-signup-icon.png" htmlEscape="true" />"
 				width="30%" height="30%">
 		</a>
 		</span> <br /> <br />
 		<div>
-			<b><spring:message code="actor.signUp.reviewer" /></b>
+			<b>Reviewer</b>
 		</div>
-		<span> <a href="createReviewer"> <img
-				alt="<spring:message code="actor.signUp.reviewer" />"
+		<span> <a href="createReviewer"> <img alt="Reviewer"
 				src="<spring:url value="/resources/images/reviewer-signup-icon.png" htmlEscape="true" />"
 				width="20%" height="20%">
 		</a>
@@ -38,5 +32,5 @@
 	</div>
 
 	<br />
-	<tib:button url="security/login" code="actor.cancel" />
-</tib:layout>
+	<petclinic:button url="login" code="Cancel" />
+</petclinic:layout>

@@ -3,6 +3,7 @@ package the_ionian_bookshelf.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +31,7 @@ public class ActorController extends AbstractController {
 
 	// Sign up --------------------------------------------------------
 
-	@RequestMapping(value = "/signUp", method = RequestMethod.GET)
+	@GetMapping(value = "/signUp")
 	public ModelAndView signUp() {
 		ModelAndView result;
 
@@ -39,7 +40,7 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/createSummoner", method = RequestMethod.GET)
+	@GetMapping(value = "/createSummoner")
 	public ModelAndView createSummoner() {
 		ModelAndView result;
 		final Summoner summoner = this.summonerService.create();
@@ -52,7 +53,7 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/createReviewer", method = RequestMethod.GET)
+	@GetMapping(value = "/createReviewer")
 	public ModelAndView createReviewer() {
 		ModelAndView result;
 		final Reviewer reviewer = this.reviewerService.create();
@@ -65,7 +66,7 @@ public class ActorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/administrator/createAdministrator", method = RequestMethod.GET)
+	@GetMapping(value = "/administrator/createAdministrator")
 	public ModelAndView createAdmin() {
 		ModelAndView result;
 		this.administratorService.findByPrincipal();

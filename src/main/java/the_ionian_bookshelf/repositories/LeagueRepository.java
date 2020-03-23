@@ -7,7 +7,7 @@ import the_ionian_bookshelf.model.League;
 
 public interface LeagueRepository extends JpaRepository<League, Integer> {
 
-	@Query("select league from League league where league.name = 'Default'")
-	League findDefaultLeague();
+	@Query("select league from League league where league.name = 'Basic'")
+	League findBasicLeague();
 
 }

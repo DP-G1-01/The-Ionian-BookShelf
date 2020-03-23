@@ -6,42 +6,36 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="tib" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<tib:layout pageName="actor.edit">
-	<form:form action="${role}/edit.do" modelAttribute="actor">
+<petclinic:layout pageName="Edit actor">
+	<form:form action="/${role}/edit" modelAttribute="actor">
 
-		<spring:message code="actor.required" />
+		Properties with a * are required
 		<br />
 
 		<form:hidden path="id" />
-		<form:hidden path="userAccount.authorities" />
 
 		<jstl:if test="${role eq 'summoner'}">
 			<form:hidden path="mains" />
 			<form:hidden path="league" />
 		</jstl:if>
 
-		<tib:inputField label="actor.email" name="email" />
+		<petclinic:inputField label="Email*" name="email" />
 
 		<jstl:choose>
-			<jstl:when test="${actor.id == 0 }">
-				<tib:inputField label="actor.userAccount.username"
-					name="userAccount.username" />
+			<jstl:when test="${actor.id == null }">
+				<petclinic:inputField label="Username*" name="user.username" />
 			</jstl:when>
 			<jstl:otherwise>
-				<form:hidden path="userAccount.id" />
-				<form:hidden path="userAccount.username" />
+				<form:hidden path="user.username" />
 			</jstl:otherwise>
 		</jstl:choose>
 
-		<tib:password label="actor.userAccount.password"
-			name="userAccount.password" />
+		<petclinic:password label="Password*" name="user.password" />
 
 
-		<input type="submit" name="save"
-			value="<spring:message code="actor.save" />" class="btn btn-default" />
-		<tib:button url="/" code="actor.cancel" />
-
+		<input type="submit" name="save" value="Save" class="btn btn-default" />
+		<a href="/">Cancel</a>
 	</form:form>
-</tib:layout>
+</petclinic:layout>

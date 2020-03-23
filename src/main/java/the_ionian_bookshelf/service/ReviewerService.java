@@ -6,14 +6,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import the_ionian_bookshelf.model.Authority;
 import the_ionian_bookshelf.model.Reviewer;
-import the_ionian_bookshelf.model.UserAccount;
+import the_ionian_bookshelf.model.User;
 import the_ionian_bookshelf.repository.ReviewerRepository;
 import the_ionian_bookshelf.security.LoginService;
 
@@ -25,25 +22,22 @@ public class ReviewerService {
 	private ReviewerRepository reviewerRepository;
 
 	@Autowired
-	private UserAccountService uaService;
+	private UserService userService;
 
 	@Autowired
-	private ActorService actorService;
+	private AuthoritiesService authService;
+
+	@Autowired
+	private LoginService loginService;
 
 	public Reviewer create() {
 
 		Reviewer res;
-		UserAccount ua;
-		Authority auth;
+		User user = new User();
 
 		res = new Reviewer();
-		ua = this.uaService.create();
 
-		auth = new Authority();
-		auth.setAuthority(Authority.REVIEWER);
-		ua.addAuthority(auth);
-
-		res.setUserAccount(ua);
+		res.setUser(user);
 
 		return res;
 	}
@@ -70,13 +64,11 @@ public class ReviewerService {
 
 		assertNotNull(rev);
 
-		this.findByPrincipal();
+		Reviewer saved = reviewerRepository.save(rev);
 
-		PasswordEncoder encoder = this.passwordEncoder();
+		userService.saveUser(rev.getUser());
 
-		rev.getUserAccount().setPassword(encoder.encode(rev.getUserAccount().getPassword()));
-
-		final Reviewer saved = this.reviewerRepository.save(rev);
+		authService.saveAuthorities(rev.getUser().getUsername(), "reviewer");
 
 		return saved;
 	}
@@ -90,30 +82,22 @@ public class ReviewerService {
 	public Reviewer findByPrincipal() {
 
 		Reviewer res;
-		final UserAccount ua = LoginService.getPrincipal();
+		final User ua = this.loginService.getPrincipal();
 		assertNotNull(ua);
 
-		res = this.findByUserAccountId(ua.getId());
-
-		final boolean hasAuthority = this.actorService.checkAuthority(res, Authority.REVIEWER);
-		assertTrue(hasAuthority);
+		res = this.findByUsername(ua.getUsername());
 
 		return res;
 	}
 
-	public Reviewer findByUserAccountId(final int id) {
+	public Reviewer findByUsername(final String username) {
 
-		assertTrue(id != 0);
+		assertNotNull(username);
 
-		final Reviewer res = this.reviewerRepository.findByUserAccountId(id);
+		final Reviewer res = this.reviewerRepository.findByUsername(username);
 		assertNotNull(res);
 
 		return res;
-	}
-
-	private PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder;
 	}
 
 }

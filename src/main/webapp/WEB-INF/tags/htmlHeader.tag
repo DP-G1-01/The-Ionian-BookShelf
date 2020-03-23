@@ -18,11 +18,11 @@ PetClinic :: a Spring Framework demonstration
 <link rel="shortcut icon" type="image/x-icon" href="${favicon}">
 
 
-<title><spring:message code="${htmlHeader}" /></title>
+<title><jstl:out value="${htmlHeader}" /></title>
 
 <%-- CSS generated from LESS --%>
-<spring:url value="/resources/css/tib.css" var="tibCss" />
-<link href="${tibCss}" rel="stylesheet" />
+<spring:url value="/resources/css/petclinic.css" var="petclinicCss" />
+<link href="${petclinicCss}" rel="stylesheet" />
 
 
 <%-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --%>

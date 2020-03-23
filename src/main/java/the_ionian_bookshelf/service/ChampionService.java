@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
-import the_ionian_bookshelf.model.Authority;
-import the_ionian_bookshelf.model.Build;
 import the_ionian_bookshelf.model.Champion;
 import the_ionian_bookshelf.model.Role;
 import the_ionian_bookshelf.model.Summoner;
@@ -38,7 +36,7 @@ public class ChampionService {
 	private SummonerService summonerService;
 
 	@Autowired
-	private BuildService buildService;
+	private AuthoritiesService authService;
 
 	public Champion create() {
 
@@ -83,10 +81,7 @@ public class ChampionService {
 
 		assertNotNull(champ);
 
-		Actor principal = this.actorService.findByPrincipal();
-
-		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR)
-				|| this.actorService.checkAuthority(principal, Authority.REVIEWER));
+		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
 
 		return this.champRepo.save(champ);
 	}

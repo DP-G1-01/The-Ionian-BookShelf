@@ -12,8 +12,7 @@
 	<c:set var="valid"
 		value="${not status.error and not empty status.actualValue}" />
 	<div class="${cssGroup}">
-		<label class="col-sm-2 control-label"><spring:message
-				code="${label}" /></label>
+		<label class="col-sm-2 control-label"><c:out value="${label}" /></label>
 
 		<div class="col-sm-10">
 			<form:password class="form-control" path="${name}" />

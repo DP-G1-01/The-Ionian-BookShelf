@@ -76,12 +76,12 @@ public class LeagueService {
 
 		this.leagueRepository.delete(league);
 	}
-	
-	public League findDefaultLeague() {
-		
-		League res = this.leagueRepository.findDefaultLeague();
+
+	public League findBasicLeague() {
+
+		League res = this.leagueRepository.findBasicLeague();
 		assertNotNull(res);
-		
+
 		return res;
 	}
 

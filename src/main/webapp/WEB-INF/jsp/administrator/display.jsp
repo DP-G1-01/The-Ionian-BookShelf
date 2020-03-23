@@ -6,19 +6,17 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="tib" tagdir="/WEB-INF/tags"%>
-<tib:layout pageName="administrator.display">
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<petclinic:layout pageName="Display admin details">
 
 
-	<spring:message code="actor.email" />: <jstl:out
-		value="${administrator.email}" />
+	Email: <jstl:out value="${administrator.email}" />
 	<br />
 
-	<spring:message code="actor.userAccount.username" />: <jstl:out
-		value="${administrator.userAccount.username}" />
+	Username: <jstl:out value="${administrator.user.username}" />
 	<br />
 
-	<tib:button url="administrator/edit.do" code="actor.edit" />
+	<petclinic:button url="administrator/edit.do" code="Edit" />
 
-	<tib:button url="/" code="actor.back.welcome" />
-</tib:layout>
+	<petclinic:button url="/" code="Welcome page" />
+</petclinic:layout>

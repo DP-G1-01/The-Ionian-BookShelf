@@ -6,20 +6,19 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="tib" tagdir="/WEB-INF/tags"%>
-<tib:layout pageName="reviewer.display">
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<petclinic:layout pageName="Display reviewer details">
 
-	<spring:message code="actor.email" />
-:
+	Email: 
 <jstl:out value="${reviewer.email}" />
 	<br />
 
-	<spring:message code="actor.userAccount.username" />
+	Username
 :
-<jstl:out value="${reviewer.userAccount.username}" />
+<jstl:out value="${reviewer.user.username}" />
 	<br />
 
-	<tib:button url="reviewer/edit.do" code="actor.edit" />
+	<petclinic:button url="reviewer/edit.do" code="Edit" />
 
-	<tib:button url="/" code="actor.back.welcome" />
-</tib:layout>
+	<petclinic:button url="/" code="Welcome page" />
+</petclinic:layout>
