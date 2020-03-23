@@ -3,7 +3,9 @@ package service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -20,7 +22,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import the_ionian_bookshelf.TheIonianBookshelfApplication;
 import the_ionian_bookshelf.model.ChangeRequest;
+import the_ionian_bookshelf.model.Item;
+import the_ionian_bookshelf.model.Role;
 import the_ionian_bookshelf.repository.ChangeRequestRepository;
+import the_ionian_bookshelf.repository.ItemRepository;
 import the_ionian_bookshelf.repository.RoleRepository;
 import the_ionian_bookshelf.service.ChangeRequestService;
 
@@ -38,6 +43,9 @@ public class ChangeRequestServiceTests {
 
 	@Autowired
 	private ChangeRequestService changeRequestService;
+
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	@Test
 	@BeforeAll
@@ -79,6 +87,28 @@ public class ChangeRequestServiceTests {
 		System.out.println(l + " y " + l2);
 		assertEquals((l-1), l2);
 	}
+	
+	@Test
+	@Transactional
+	void testSaveChangeRequest() {
+		List <String> attributes = new ArrayList<>();
+		attributes.add("4");
+		attributes.add("2");
+		attributes.add("1");
+		List <Role> roles = new ArrayList<>();
+		Role r = new Role("rolTest", "testeoooooooooo", "https://www.google.es");
+		roles.add(r);
+		List <String> changeItem = new ArrayList<>();
+		changeItem.add("1");
+		changeItem.add("1");
+		changeItem.add("3");
+		Item item = new Item("test", "testeandoooooooooooooooooo", attributes, roles);
+		itemRepository.save(item);
+		ChangeRequest request = new ChangeRequest(null, item, "Soy el titulo", "Soy la descripcion y debo tener al menos 20 años de edad.", null, changeItem, "PENDING", null, null);
+		changeRequestService.save(request);
+		ChangeRequest request2 = changeRequestService.findChangeRequestById(request.getId());
+		assertEquals(request, request2);
+	} 
 	
 //	@Test
 //	@Transactional

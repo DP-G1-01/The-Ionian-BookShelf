@@ -54,7 +54,7 @@ class ItemControllerTests {
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/items/new").param("title", "titulo test").param("description", "Testeando items en vez de jugar al Doom")
 				.param("atributes[0]", "43").param("atributes[1]", "10").param("atributes[2]", "").param("roles[0]", "0"))
-				.andExpect(status().is3xxRedirection());
+				.andExpect(status().is2xxSuccessful());
 	}
 	
 //	@Test

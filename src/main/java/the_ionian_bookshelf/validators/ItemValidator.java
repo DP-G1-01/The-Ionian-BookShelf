@@ -17,10 +17,10 @@ public class ItemValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		Item item = (Item) target;
 		String title = item.getTitle();
-		String description = item.getTitle();
+		String description = item.getDescription();
 		// name validation
 		if (!StringUtils.hasLength(title)) {
-			errors.rejectValue("name", "required", "required");
+			errors.rejectValue("title", "required", "required");
 		}
 		
 		if (!StringUtils.hasLength(description)) {
