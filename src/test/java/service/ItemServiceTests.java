@@ -27,7 +27,7 @@ import the_ionian_bookshelf.repository.ItemRepository;
 import the_ionian_bookshelf.repository.RoleRepository;
 import the_ionian_bookshelf.service.ItemService;
 
-@RunWith(SpringRunner.class)
+
 @ContextConfiguration(classes = {TheIonianBookshelfApplication.class})
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
