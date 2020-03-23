@@ -6,16 +6,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
+  
+
 <petclinic:layout pageName="messages">
     <h2>
         <c:if test="${message['new']}">New </c:if> Message
     </h2>
-    <form:form modelAttribute="message" class="form-horizontal" id="add-message-form" action="messages/save">
+    <form:form modelAttribute="message" class="form-horizontal" id="add-message-form" action="save">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Text" name="text"/>
-        </div>
+            <input type="datetime-local" name="moment" value="${message.moment}"/> </div>
         <div class="form-group">
-        	<input type="hidden" name="id" value="${message.id}"/> 
+        	
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
                     <c:when test="${message['new']}">
@@ -25,4 +27,5 @@
             </div>
         </div>
     </form:form>
+
 </petclinic:layout>

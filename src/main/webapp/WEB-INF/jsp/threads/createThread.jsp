@@ -16,7 +16,7 @@
             <petclinic:inputField label="Description" name="description"/>
         </div>
         <div class="form-group">
-        	<input type="hidden" name="id" value="${thread.id}"/> 
+        	<input type="hidden" name="id" value="${threadId}"/> 
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
                     <c:when test="${thread['new']}">

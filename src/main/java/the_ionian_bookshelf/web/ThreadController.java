@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import the_ionian_bookshelf.model.Message;
 import the_ionian_bookshelf.model.Thread;
 import the_ionian_bookshelf.service.MessageService;
 import the_ionian_bookshelf.service.ThreadService;
@@ -22,10 +23,13 @@ public class ThreadController {
 	
 	@Autowired
 	private final ThreadService threadService;
+	@Autowired
+	private final MessageService messageService;
 	
 	@Autowired
-	public ThreadController (final ThreadService threadService) {
+	public ThreadController (final ThreadService threadService, final MessageService messageService) {
 		this.threadService = threadService;
+		this.messageService = messageService;
 	}
 	
 //	@InitBinder
@@ -41,6 +45,17 @@ public class ThreadController {
 		modelMap.addAttribute("threads",threads);
 		return vista;
 	}
+	
+	//Listado de Mensajes
+		@GetMapping(value = "threads/{threadId}")
+		public String showMessageListFromThread(ModelMap map, @PathVariable("threadId") int threadId) {
+			String vista = "messages/listadoMessages";
+			Thread thread = this.threadService.findOne(threadId);
+			Iterable<Message> messages = this.messageService.findByThread(thread);
+			map.addAttribute("messages",messages);
+			map.addAttribute("threadId",threadId);
+			return vista;
+		}
 	
 	//Creacion de thread
 	@GetMapping(value = "/threads/new")

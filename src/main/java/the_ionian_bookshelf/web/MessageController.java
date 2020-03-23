@@ -40,33 +40,27 @@ public class MessageController {
 		this.summonerService = summonerService;
 	}
 	
-	//Listado de Mensajes
-	@GetMapping(value = "threads/{threadId}/messages")
-	public String showMessageListFromThread(ModelMap map, @PathVariable("threadId") int threadId) {
-		String vista = "messages/listadoMessages";
-		Thread thread = this.threadService.findOne(threadId);
-		Iterable<Message> messages = this.messageService.findByThread(thread);
-		map.addAttribute("messages",messages);
-		return vista;
-	}
+	
 	
 	//Creacion de mensajes
 	@GetMapping(value = "threads/{threadId}/messages/new")
 	public String createMessage(ModelMap modelMap,@PathVariable("threadId") int threadId) {
 		String vista = "messages/createMessage";
 		Message message = new Message();
-		modelMap.addAttribute("message", message);
-		return vista;
-	}
-	
-	@PostMapping(value = "threads/{threadId}/messages/save")
-	public String saveMessage(@Valid Message message,@PathParam(value="threadId") int threadId, BindingResult result, ModelMap modelMap) {
 		LocalDateTime moment = LocalDateTime.now();
 		message.setMoment(moment);
 		Thread thread = this.threadService.findOne(threadId);
 		message.setThread(thread);
 		Summoner summoner = this.summonerService.findOneSummonerById(1);
 		message.setSummoner(summoner);
+		modelMap.addAttribute("message", message);
+		modelMap.addAttribute("threadId",threadId);
+		return vista;
+	}
+	
+	@PostMapping(value = "threads/{threadId}/messages/save")
+	public String saveMessage(@Valid Message message,@PathParam(value="threadId") int threadId, BindingResult result, ModelMap modelMap) {
+		System.out.println(message.getMoment());
 		if(result.hasErrors()) {
 			modelMap.addAttribute("message", message);
 			return "messages/createMessage";

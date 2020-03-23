@@ -37,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/threads/**").permitAll()
 				.antMatchers("/messages/**").permitAll()
 				.antMatchers("/save/**").permitAll()
+				.antMatchers("/new/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR").antMatchers("/summoners/**")
 				.hasAnyAuthority("SUMMONER").antMatchers("/reviewer/**").hasAnyAuthority("REVIEWER").anyRequest()
 				.denyAll().and().formLogin()
