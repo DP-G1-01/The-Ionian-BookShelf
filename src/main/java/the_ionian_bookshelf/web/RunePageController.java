@@ -65,12 +65,18 @@ public class RunePageController {
 	
 	@PostMapping(value="runePages/save")
 	public String salvarRuna(@Valid RunePage runePage, BindingResult result, ModelMap model) {
-		if(runePage.getKeyRune()==null ||runePage.getMainRune1()==null ||runePage.getMainRune2()==null ||
-				runePage.getMainRune3()==null ||runePage.getSecRune1()==null ||runePage.getSecRune2()==null) {
-			model.addAttribute("runePage", runePage);
-			return "runePages/editRunePage";
-		}
-		else if(result.hasErrors()) {
+		System.out.println(runePage.getName());
+		System.out.println(runePage.getMainBranch());
+		System.out.println(runePage.getSecondaryBranch());
+		System.out.println(runePage.getKeyRune());
+		System.out.println(runePage.getMainRune1());
+		System.out.println(runePage.getMainRune2());
+		System.out.println(runePage.getMainRune3());
+		System.out.println(runePage.getSecRune1());
+		System.out.println(runePage.getSecRune2());
+		System.out.println(runePage.getSummoner());
+//		runePage.setSummoner(this.summonerService.findByPrincipal());
+		if(result.hasErrors()) {
 			model.addAttribute("runePage", runePage);
 			return "runePages/editRunePage";
 		}else {
