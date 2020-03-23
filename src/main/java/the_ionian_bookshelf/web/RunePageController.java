@@ -39,6 +39,11 @@ public class RunePageController {
 		return this.runePageService.findRunesByBranchNode();
 	}
 	
+	@ModelAttribute("secondaryRunes")
+	public List<List<Rune>> populateSecondaryRunesByBranchNode() {
+		return this.runePageService.findSecondaryRunesByBranchNode();
+	}
+	
 	//lista de páginas de runas
 	@GetMapping(value = "/runePages/mine")
 	public String listadoPaginasRunas(ModelMap modelMap) {

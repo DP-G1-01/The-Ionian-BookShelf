@@ -158,4 +158,51 @@ public class RunePageService {
 		}
 		return result;
 	}
+
+	public List<List<Rune>> findSecondaryRunesByBranchNode() {
+		List<Rune> runes = this.runeRepository.findAll();
+		List<List<Rune>> result = new ArrayList<>();
+		List<Branch> branchReconocidas = new ArrayList<>();
+		for(Rune rune: runes) {
+			if(!branchReconocidas.contains(rune.getBranch())) {
+				branchReconocidas.add(rune.getBranch());
+				List<Rune> newListSec = new ArrayList<>();
+				switch(rune.getNode()) {
+				case "Key":
+					break;
+				case "1":
+					newListSec.add(rune);
+					break;
+				case "2":
+					newListSec.add(rune);
+					break;
+				case "3":
+					newListSec.add(rune);
+					break;
+				default:
+					throw new IllegalArgumentException("Not a valid rune node");
+				}
+				result.add(newListSec);
+			}else {
+				//En branchReconocidas irán entrando las branch en el mismo orden que las listas de sus runas
+				int index = branchReconocidas.indexOf(rune.getBranch());
+				switch(rune.getNode()) {
+				case "Key":
+					break;
+				case "1":
+					result.get(index).add(rune);
+					break;
+				case "2":
+					result.get(index).add(rune);
+					break;
+				case "3":
+					result.get(index).add(rune);
+					break;
+				default:
+					throw new IllegalArgumentException("Not a valid rune node");
+				}
+			}
+		}
+		return result;
+	}
 }

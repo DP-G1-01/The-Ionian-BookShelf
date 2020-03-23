@@ -11,11 +11,15 @@
               description="Size of Select" %>
 <%@ attribute name="onchange" required="false" rtexprvalue="true"
               description="Script on change" %>
+<%@ attribute name="id" required="false" rtexprvalue="true"
+              description="Id of the form-group" %>
+<%@ attribute name="type" required="false" rtexprvalue="true"
+              description="Input type" %>
 
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
-    <div class="${cssGroup}">
+    <div id="${id}" class="${cssGroup}">
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">

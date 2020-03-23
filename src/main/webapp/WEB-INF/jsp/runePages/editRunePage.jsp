@@ -27,38 +27,29 @@
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Name" name="name" />
 			<div class="control-group">
-                   <petclinic:selectField name="mainBranch" label="Main Branch" names="${branches}" size="5"/>
+                   <petclinic:selectField name="mainBranch" label="Main Branch" names="${branches}" size="1"/>
             </div>
             <div class="control-group">
-                    <petclinic:selectField name="secondaryBranch" label="Secondary Branch" names="${branches}" size="5"/>
+                    <petclinic:selectField name="secondaryBranch" label="Secondary Branch" names="${branches}" size="1"/>
             </div>
             <c:forEach var="runeList" items="${runes}" varStatus="loop">
             	<c:if test="${(loop.index)%4==0}">
-        		<petclinic:selectField name="keyRune" label="keyRune branch ${loop.index/4}" names="${runeList}" size="5"/>
+        		<petclinic:selectField id="${loop.index/4}" name="keyRune" label="keyRune branch ${loop.index/4}" names="${runeList}" size="1"/>
         		</c:if>
         		<c:if test="${(loop.index)%4==1}">
-        		<petclinic:selectField name="mainRune1" label="mainRune1 branch ${loop.index/4}" names="${runeList}" size="5"/>
+        		<petclinic:selectField name="mainRune1" label="mainRune1 branch ${loop.index/4}" names="${runeList}" size="1"/>
         		</c:if>
         		<c:if test="${(loop.index)%4==2}">
-        		<petclinic:selectField name="mainRune2" label="mainRune2 branch ${loop.index/4}" names="${runeList}" size="5"/>
+        		<petclinic:selectField name="mainRune2" label="mainRune2 branch ${loop.index/4}" names="${runeList}" size="1"/>
         		</c:if>
         		<c:if test="${(loop.index)%4==3}">
-        		<petclinic:selectField name="mainRune3" label="mainRune3 branch ${loop.index/4}" names="${runeList}" size="5"/>
+        		<petclinic:selectField name="mainRune3" label="mainRune3 branch ${loop.index/4}" names="${runeList}" size="1"/>
         		</c:if>
    			</c:forEach>
-   			<c:forEach var="runeList" items="${runes}" varStatus="loop">
-        		<c:if test="${(loop.index)%4==1}">
-        		<petclinic:selectField name="secRune1" label="secRune1 branch ${loop.index/4}" names="${runeList}" size="5"/>
-        		</c:if>
-        		<c:if test="${(loop.index)%4==2}">
-        		<petclinic:selectField name="secRune2" label="secRune2 branch ${loop.index/4}" names="${runeList}" size="5"/>
-        		</c:if>
-        		<c:if test="${(loop.index)%4==3}">
-        		<petclinic:selectField name="secRune1" label="secRune1 branch ${loop.index/4}" names="${runeList}" size="5"/>
-        		</c:if>
-        		<c:if test="${(loop.index)%4==3}">
-        		<petclinic:selectField name="secRune2" label="secRune2 branch ${loop.index/4}" names="${runeList}" size="5"/>
-        		</c:if>
+   			<c:forEach var="runeList" items="${secondaryRunes}" varStatus="loop">
+        		<petclinic:selectField id="sec1 ${loop.index }" name="secRune1" label="secRune1 branch ${loop.index}" names="${runeList}" size="1"/>
+        		<petclinic:selectField id="sec2 ${loop.index }" name="secRune2" label="secRune2 branch ${loop.index}" names="${runeList}" size="1"/>
+        		
    			</c:forEach>
 		</div>
 		<div class="form-group">
