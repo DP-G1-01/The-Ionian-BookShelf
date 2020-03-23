@@ -27,30 +27,59 @@
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Name" name="name" />
 			<div class="control-group">
-                   <petclinic:selectField name="mainBranch" label="Main Branch" names="${branches}" size="3"/>
+                   <petclinic:selectField onchange="changeSecondarySelect(this)" name="mainBranch" label="Main Branch" names="${branches}" size="3"/>
             </div>
-            <div class="control-group">
-                    <petclinic:selectField name="secondaryBranch" label="Secondary Branch" names="${branches}" size="3"/>
+            <div id="secondaryBranchDiv" class="hidden control-group">
+                    <petclinic:selectField onchange="showSecondaryNodes(this)" id="secondaryBranch" name="secondaryBranch" label="Secondary Branch" names="${branches}" size="2"/>
             </div>
             <c:forEach var="runeList" items="${runes}" varStatus="loop">
+            <div id="${loop.index/4}" class="hidden control-group">
             	<c:if test="${(loop.index)%4==0}">
-        		<petclinic:selectField id="${loop.index/4}" name="keyRune" label="keyRune branch ${loop.index/4}" names="${runeList}" size="3"/>
+            	
+        		<petclinic:selectField name="keyRune" label="keyRune branch ${loop.index/4}" names="${runeList}" size="4"/>
+
         		</c:if>
         		<c:if test="${(loop.index)%4==1}">
+            	
         		<petclinic:selectField name="mainRune1" label="mainRune1 branch ${loop.index/4}" names="${runeList}" size="3"/>
+
         		</c:if>
         		<c:if test="${(loop.index)%4==2}">
+            	
         		<petclinic:selectField name="mainRune2" label="mainRune2 branch ${loop.index/4}" names="${runeList}" size="3"/>
+
         		</c:if>
         		<c:if test="${(loop.index)%4==3}">
+            	
         		<petclinic:selectField name="mainRune3" label="mainRune3 branch ${loop.index/4}" names="${runeList}" size="3"/>
+
         		</c:if>
+        		</div>
    			</c:forEach>
-   			<c:forEach var="runeList" items="${secondaryRunes}" varStatus="loop">
-        		<petclinic:selectField id="sec1 ${loop.index }" name="secRune1" label="secRune1 branch ${loop.index}" names="${runeList}" size="3"/>
-        		<petclinic:selectField id="sec2 ${loop.index }" name="secRune2" label="secRune2 branch ${loop.index}" names="${runeList}" size="3"/>
-        		
-   			</c:forEach>
+   			 			
+	<c:forEach var="runeList" items="${secondaryRunes}" varStatus="loop">
+	<div id="sec1_${loop.index}" class="hidden control-group">
+		<div class="form-group ">
+	   		<label class="col-sm-2 control-label">secRune1 branch ${loop.index}</label>
+	   		<div class="col-sm-10">
+	   		<select name="secRune1" class="form-control" onchange="updateSecRune2(this)" size="3">
+	        <c:forEach var="rune" items="${runeList}">
+	        <option id="${rune.node}" value="${rune.id}">${rune.id}</option>
+	        </c:forEach>
+	        </select>
+	        </div>
+		</div>
+	</div>
+	<div id="sec2_${loop.index}" class="hidden control-group">
+		<div class="form-group ">
+	   		<label class="col-sm-2 control-label">secRune2 branch ${loop.index}</label>
+	   		<div class="col-sm-10">
+	   		<select id="sec2_${loop.index}_sel" name="secRune2" class="form-control" size="3">
+	        </select>
+	        </div>
+		</div>
+	</div>
+</c:forEach>		
 		</div>
 		<div class="form-group">
 			<input type="hidden" name="id" value="${runePage.id}" />
@@ -66,3 +95,190 @@
 	</form:form>
 	</jsp:body>
 </petclinic:layout>
+<script>
+function updateSecRune2(runes) {
+	var select = runes[runes.selectedIndex];
+	var nodo = select.id;
+	var id = runes.parentNode.parentNode.parentNode.id;
+	console.log(id);
+	var i;
+	var l=runes.options.length;
+	 
+	if(id === "sec1_0") {
+		for(i=0; i<l; i++) {
+		document.getElementById("sec2_0_sel").options.remove(0);
+		}
+		
+		for(i=0; i<l; i++) {
+			if(runes.options[i].id != nodo) {
+				var aux = document.createElement("option");
+				aux.text = runes.options[i].text;
+				aux.value = runes.options[i].text;
+				document.getElementById("sec2_0_sel").options.add(aux, i);
+			}
+		}
+		
+		document.getElementById("sec2_0").classList.remove("hidden");
+		document.getElementById("sec2_1").classList.add("hidden");
+		document.getElementById("sec2_2").classList.add("hidden");
+	} else if(id === "sec1_1") {
+		for(i=0; i<l; i++) {
+			document.getElementById("sec2_1_sel").options.remove(0);
+			}
+			
+			for(i=0; i<l; i++) {
+				if(runes.options[i].id != nodo) {
+					var aux = document.createElement("option");
+					aux.text = runes.options[i].text;
+					aux.value = runes.options[i].text;
+					document.getElementById("sec2_1_sel").options.add(aux, i);
+				}
+			}
+			
+			document.getElementById("sec2_0").classList.add("hidden");
+			document.getElementById("sec2_1").classList.remove("hidden");
+			document.getElementById("sec2_2").classList.add("hidden");
+	} else if(id === "sec1_2") {
+		for(i=0; i<l; i++) {
+			document.getElementById("sec2_2_sel").options.remove(0);
+			}
+			
+			for(i=0; i<l; i++) {
+				if(runes.options[i].id != nodo) {
+					var aux = document.createElement("option");
+					aux.text = runes.options[i].text;
+					aux.value = runes.options[i].text;
+					document.getElementById("sec2_2_sel").options.add(aux, i);
+				}
+			}
+			
+			document.getElementById("sec2_0").classList.add("hidden");
+			document.getElementById("sec2_1").classList.add("hidden");
+			document.getElementById("sec2_2").classList.remove("hidden");
+	}
+} 
+
+function changeSecondarySelect(primary) {
+	var main = primary.value;
+	var secondary = document.getElementById("secondaryBranch");
+	var aux = document.createElement("option");
+	var aux2 = document.createElement("option");
+	/* 
+	var options = primary.options;
+	console.log(options); */
+
+	var i;
+	var l =secondary.options.length;
+	for(i=0; i<l; i++) {
+		secondary.options.remove(0);
+	}
+	
+	
+	if(main === primary.options[0].text) {
+
+		aux.text=primary.options[1].text;
+		aux.value=primary.options[1].text;
+		secondary.options.add(aux, 0);
+		
+		aux2.text=primary.options[2].text;
+		aux2.value=primary.options[2].text;
+		secondary.options.add(aux2, 1);
+
+	 	document.getElementById("0.0").classList.remove("hidden");
+		document.getElementById("0.25").classList.remove("hidden");
+		document.getElementById("0.5").classList.remove("hidden");
+		document.getElementById("0.75").classList.remove("hidden");
+		document.getElementById("1.0").classList.add("hidden");
+		document.getElementById("1.25").classList.add("hidden");
+		document.getElementById("1.5").classList.add("hidden");
+		document.getElementById("1.75").classList.add("hidden");
+		document.getElementById("2.0").classList.add("hidden");
+		document.getElementById("2.25").classList.add("hidden");
+		document.getElementById("2.5").classList.add("hidden");
+		document.getElementById("2.75").classList.add("hidden"); 
+		
+	} else if(main === primary.options[1].text) {
+
+		aux.text=primary.options[0].text;
+		aux.value=primary.options[0].text;
+		secondary.options.add(aux, 0);
+		
+		aux2.text=primary.options[2].text;
+		aux2.value=primary.options[2].text;
+		secondary.options.add(aux2, 1);
+		
+		document.getElementById("0.0").classList.add("hidden");
+		document.getElementById("0.25").classList.add("hidden");
+		document.getElementById("0.5").classList.add("hidden");
+		document.getElementById("0.75").classList.add("hidden");
+		document.getElementById("1.0").classList.remove("hidden");
+		document.getElementById("1.25").classList.remove("hidden");
+		document.getElementById("1.5").classList.remove("hidden");
+		document.getElementById("1.75").classList.remove("hidden");
+		document.getElementById("2.0").classList.add("hidden");
+		document.getElementById("2.25").classList.add("hidden");
+		document.getElementById("2.5").classList.add("hidden");
+		document.getElementById("2.75").classList.add("hidden");
+		
+	} else if(main === primary.options[2].text) {
+
+		aux.text=primary.options[0].text;
+		aux.value=primary.options[0].text;
+		secondary.options.add(aux, 0);
+	
+		aux2.text=primary.options[1].text;
+		aux2.value=primary.options[1].text;
+		secondary.options.add(aux2, 1);
+		
+		document.getElementById("0.0").classList.add("hidden");
+		document.getElementById("0.25").classList.add("hidden");
+		document.getElementById("0.5").classList.add("hidden");
+		document.getElementById("0.75").classList.add("hidden");
+		document.getElementById("1.0").classList.add("hidden");
+		document.getElementById("1.25").classList.add("hidden");
+		document.getElementById("1.5").classList.add("hidden");
+		document.getElementById("1.75").classList.add("hidden");
+		document.getElementById("2.0").classList.remove("hidden");
+		document.getElementById("2.25").classList.remove("hidden");
+		document.getElementById("2.5").classList.remove("hidden");
+		document.getElementById("2.75").classList.remove("hidden");
+		
+	}
+
+	document.getElementById("secondaryBranchDiv").classList.remove("hidden");
+	document.getElementById("sec1_0").classList.add("hidden");
+	document.getElementById("sec2_0").classList.add("hidden");
+	document.getElementById("sec1_1").classList.add("hidden");
+	document.getElementById("sec2_1").classList.add("hidden");
+	document.getElementById("sec1_2").classList.add("hidden");
+	document.getElementById("sec2_2").classList.add("hidden");
+}
+
+function showSecondaryNodes(secondary) {
+	var main = secondary.value;
+	
+	if(main === "Precision") {
+		
+		document.getElementById("sec1_0").classList.remove("hidden");
+		document.getElementById("sec1_1").classList.add("hidden");
+		document.getElementById("sec1_2").classList.add("hidden");
+		
+	} else if(main === "Domination") {
+
+		document.getElementById("sec1_0").classList.add("hidden");
+		document.getElementById("sec1_1").classList.remove("hidden");
+		document.getElementById("sec1_2").classList.add("hidden");
+		
+	} else if(main === "Resolve") {
+
+		document.getElementById("sec1_0").classList.add("hidden");
+		document.getElementById("sec1_1").classList.add("hidden");
+		document.getElementById("sec1_2").classList.remove("hidden");
+		
+	}
+
+	document.getElementById("sec2_0").classList.add("hidden");
+	document.getElementById("sec2_1").classList.add("hidden");
+	document.getElementById("sec2_2").classList.add("hidden");
+}
+</script>

@@ -17,6 +17,7 @@ import the_ionian_bookshelf.model.Authority;
 import the_ionian_bookshelf.model.Summoner;
 import the_ionian_bookshelf.model.UserAccount;
 import the_ionian_bookshelf.repository.ActorRepository;
+import the_ionian_bookshelf.repository.SummonerRepository;
 import the_ionian_bookshelf.security.LoginService;
 
 @Service
@@ -26,9 +27,12 @@ public class ActorService {
 	@Autowired
 	private ActorRepository actorRepository;
 	
+	@Autowired
+	private SummonerRepository summonerRepository;
+	
 	public Summoner findSummonerByUserAccountId(int UAId) {
 		
-		return this.actorRepository.findSummonerByUserAccountId(UAId);
+		return this.summonerRepository.findByUserAccountId(UAId);
 	}
 
 	public Actor create() {
