@@ -13,4 +13,8 @@ public interface RunePageRepository extends JpaRepository<RunePage, Integer>{
 	//en las tablas de la base de datos
 	@Query("SELECT u FROM RunePage u WHERE u.summoner.id = ?1")
 	Collection<RunePage> findAllByUserAccountId(int id);
+	
+	@Query("SELECT u FROM RunePage u WHERE u.keyRune.id = ?1 OR u.mainRune1.id = ?1 OR u.mainRune2.id = ?1 "
+			+ "OR u.mainRune3.id = ?1 OR u.secRune1.id = ?1 OR u.secRune2.id = ?1")
+	Collection<RunePage> findAllByRune(int id);
 }

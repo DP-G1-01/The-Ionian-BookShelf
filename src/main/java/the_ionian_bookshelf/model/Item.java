@@ -39,6 +39,7 @@ public class Item extends BaseEntity {
 	private String description;
 
 	@ElementCollection
+	@CollectionTable(name="item_attributes", joinColumns=@JoinColumn(name="item_id"))
 	@NotEmpty
 	@Size(min = 1, max = 3)
 	@Column(name="attributes")

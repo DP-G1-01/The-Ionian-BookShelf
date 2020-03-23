@@ -91,7 +91,7 @@ public class RuneController {
 	@GetMapping(value = "/runes")
 	public String listadoRunas(ModelMap modelMap) {
 		String vista = "runes/listadoRunas";
-		Iterable<Rune> runes = runeService.findAll();
+		Collection<Rune> runes = runeService.findAll();
 		modelMap.addAttribute("runes", runes );
 		return vista;
 	}
@@ -99,7 +99,7 @@ public class RuneController {
 	//Intento de hacer lo mismo que Pet con PetType
 		@ModelAttribute("branch")
 		public Collection<Branch> populateBranches() {
-			return this.runeService.findBranchess();
+			return this.runeService.findBranches();
 		}
 	
 	//Creacion de una runa
@@ -114,11 +114,7 @@ public class RuneController {
 	@PostMapping(value="runes/save")
 	public String salvarRuna(@Valid Rune rune, BindingResult result, ModelMap model) {
 		String view = "runes/listadoRunas";
-		if(rune.getBranch()==null) {
-			model.addAttribute("rune", rune);
-			return "runes/editRune";
-		}
-		else if(result.hasErrors()) {
+		if(result.hasErrors()) {
 			model.addAttribute("rune", rune);
 			return "runes/editRune";
 		}else {
@@ -144,24 +140,5 @@ public class RuneController {
 		return "redirect:/runes/";
 		
 	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

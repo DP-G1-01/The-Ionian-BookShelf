@@ -9,15 +9,21 @@
               description="Names in the list" %>
 <%@ attribute name="size" required="true" rtexprvalue="true"
               description="Size of Select" %>
+<%@ attribute name="onchange" required="false" rtexprvalue="true"
+              description="Script on change" %>
+<%@ attribute name="id" required="false" rtexprvalue="true"
+              description="Id of the form-group" %>
+<%@ attribute name="type" required="false" rtexprvalue="true"
+              description="Input type" %>
 
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>
     <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
-    <div class="${cssGroup}">
+    <div id="${id}" class="${cssGroup}">
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">
-            <form:select class="form-control" path="${name}" items="${names}" size="${size}"/>
+            <form:select onchange="${onchange}" class="form-control" path="${name}" items="${names}" size="${size}"/>
             <c:if test="${valid}">
                 <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             </c:if>

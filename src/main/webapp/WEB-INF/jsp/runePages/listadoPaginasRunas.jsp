@@ -5,8 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="runes">
-    <h2>Runes</h2>
+<petclinic:layout pageName="runePages">
+    <h2>RunePages</h2>
 
 	<spring:url value="/runePages/new" var="runePageNewUrl">
     </spring:url>
@@ -16,10 +16,12 @@
         <thead>
         <tr>
             <th style="width: 150px;">Name</th>
+            <th style="width: 120px">Main Branch</th>
             <th style="width: 400px;">Key Rune</th>
             <th>Main Rune 1</th>
             <th style="width: 100px">Main Rune 2</th>
             <th style="width: 120px">Main Rune 3</th>
+            <th style="width: 120px">Secondary Branch</th>
             <th style="width: 120px">Secondary Rune 1</th>
             <th style="width: 120px">Secondary Rune 3</th>
             <th style="width: 120px">Actions</th>
@@ -32,6 +34,9 @@
                    <c:out value="${runePage.name}"/>
                 </td>
                 <td>
+                   <c:out value="${runePage.mainBranch.name}"/>
+                </td>
+                <td>
                     <c:out value="${runePage.keyRune.name}"/>
                 </td>
                 <td>
@@ -42,6 +47,9 @@
                 </td>
                 <td>
                  <c:out value="${runePage.mainRune3.name}"/>
+                </td>
+                <td>
+                   <c:out value="${runePage.secondaryBranch.name}"/>
                 </td>
                 <td>
                  <c:out value="${runePage.secRune1.name}"/>

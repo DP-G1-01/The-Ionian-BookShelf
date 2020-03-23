@@ -1,6 +1,7 @@
 package the_ionian_bookshelf.web;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.model.RunePage;
 import the_ionian_bookshelf.service.RunePageService;
@@ -27,6 +29,21 @@ public class RunePageController {
 	public RunePageController(RunePageService runePageService) {
 		this.runePageService = runePageService;
 	}
+	
+	@ModelAttribute("branches")
+	public Collection<Branch> populateBranches() {
+		return this.runePageService.findBranches();
+	}
+	@ModelAttribute("runes")
+	public List<List<Rune>> populateRunesByBranchNode() {
+		return this.runePageService.findRunesByBranchNode();
+	}
+	
+	@ModelAttribute("secondaryRunes")
+	public List<List<Rune>> populateSecondaryRunesByBranchNode() {
+		return this.runePageService.findSecondaryRunesByBranchNode();
+	}
+	
 	//lista de páginas de runas
 	@GetMapping(value = "/runePages/mine")
 	public String listadoPaginasRunas(ModelMap modelMap) {
@@ -36,11 +53,6 @@ public class RunePageController {
 		return vista;
 	}
 	
-	//Intento de hacer lo mismo que Pet con PetType
-		@ModelAttribute("runes")
-		public Collection<Rune> populateRunes() {
-			return this.runePageService.findRunes();
-		}
 	
 	//Creacion de una pagina de runas
 	@GetMapping(value="/runePages/new")
