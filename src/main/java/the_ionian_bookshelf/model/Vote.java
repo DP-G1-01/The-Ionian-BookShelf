@@ -47,8 +47,7 @@ public class Vote extends BaseEntity {
 	private Message message;
 
 	/**
-	 * If 1 -> Positive <br>
-	 * If 0 -> Negative
+	 * If 1 -> Positive If 0 -> Negative
 	 */
 	@Column(name = "status")
 	private boolean status;

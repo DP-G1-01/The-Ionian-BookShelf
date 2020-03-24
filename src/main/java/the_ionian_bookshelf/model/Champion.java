@@ -59,5 +59,4 @@ public class Champion extends BaseEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "role_id")
 	private Role role;
-	
 }
