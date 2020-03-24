@@ -5,6 +5,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import the_ionian_bookshelf.model.Champion;
+import the_ionian_bookshelf.model.Role;
 
 public class ChampionValidator implements Validator{
 
@@ -21,30 +22,50 @@ public class ChampionValidator implements Validator{
 		Double mana = champion.getMana();
 		Double health = champion.getHealth();
 		Double energy = champion.getEnergy();
-		Double attack = champion.getAttack();
+		Double attack = champion.getAttack().doubleValue();
 		Double speed = champion.getSpeed();
+		Role role = champion.getRole();
 		// name validation
 		if (!StringUtils.hasLength(name)) {
 			errors.rejectValue("name", "required", "must not be empty");
+		}
+		if(name.length()>20) {
+			errors.rejectValue("name", "tooLongName", "The name is too long");
 		}
 		
 		if (!StringUtils.hasLength(description)) {
 			errors.rejectValue("description", "required", "must not be empty");
 		}
+		if(description.length()>250) {
+			errors.rejectValue("description", "tooLongDesc", "The description is too long");
+		}	
+		if(health==null || health<0.0) {
+			errors.rejectValue("health", "incorrectValue", "must not be null or less than 0");
+		}
+		if(attack==null || attack<0.0) { //Revisar, peta al hacer null attack
+			errors.rejectValue("attack", "incorrectValue", "must not be null or less than 0");
+		}
+		if(speed==null || speed<0.0) {
+			errors.rejectValue("speed", "incorrectValue", "must not be null or less than 0");
+		}
+		if(mana!=null && energy==null && mana<0.0) {
+			errors.rejectValue("mana", "incorrectValueMana", "Mana must not be less than 0");
+		}
+		if(energy!=null && mana==null && energy<0.0) {
+			errors.rejectValue("energy", "incorrectValueEnergy", "Energy must not be less than 0");
+		}
+		if(role==null) {
+			errors.rejectValue("role", "nullRole", "Role must not be null");
+		}
 		
-		if(health==null) {
-			errors.rejectValue("health", "isNullValue", "must no be null");
-		}
-		if(attack==null) {
-			errors.rejectValue("attack", "isNullValue", "must no be null");
-		}
-		if(speed==null) {
-			errors.rejectValue("speed", "isNullValue", "must no be null");
+		if(mana!=null && energy!=null) {
+			errors.rejectValue("energy", "isNullValue", "A Champion must have mana or energy");
 		}
 		if(mana==null && energy==null) {
-			errors.rejectValue("mana", "isNullValue", "mana and energy cant no be null simultaneously");
+			errors.rejectValue("energy", "isNullValue", "A Champion must have mana or energy");
 		}
-
+		
+		
 	}
 
 }

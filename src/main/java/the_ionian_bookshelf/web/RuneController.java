@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.service.AdministratorService;
 import the_ionian_bookshelf.service.RuneService;
+import the_ionian_bookshelf.validators.RuneValidator;
 
 @Controller
 public class RuneController {
@@ -27,6 +30,11 @@ public class RuneController {
 	
 	@Autowired
 	private final AdministratorService administratorService;
+	
+	@InitBinder("rune")
+	public void initRuneBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new RuneValidator());
+	}
 	
 	@Autowired
 	public RuneController(RuneService runeService, AdministratorService administratorService) {
