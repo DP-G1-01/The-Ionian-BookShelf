@@ -22,7 +22,7 @@ public class ChampionValidator implements Validator{
 		Double mana = champion.getMana();
 		Double health = champion.getHealth();
 		Double energy = champion.getEnergy();
-		Double attack = champion.getAttack().doubleValue();
+		Double attack = champion.getAttack();
 		Double speed = champion.getSpeed();
 		Role role = champion.getRole();
 		// name validation
@@ -38,22 +38,41 @@ public class ChampionValidator implements Validator{
 		}
 		if(description.length()>250) {
 			errors.rejectValue("description", "tooLongDesc", "The description is too long");
-		}	
-		if(health==null || health<0.0) {
-			errors.rejectValue("health", "incorrectValue", "must not be null or less than 0");
 		}
-		if(attack==null || attack<0.0) { //Revisar, peta al hacer null attack
-			errors.rejectValue("attack", "incorrectValue", "must not be null or less than 0");
+		
+		if(attack==null) { //Revisar, peta al hacer null attack
+			errors.rejectValue("attack", "incorrectValue", "must not be null");
+		}else if(attack< 0.0){
+			errors.rejectValue("attack", "negativeValue", "must be a positive value");
 		}
-		if(speed==null || speed<0.0) {
-			errors.rejectValue("speed", "incorrectValue", "must not be null or less than 0");
+		
+		if(health==null) {
+			errors.rejectValue("health", "incorrectValue", "must not be null");
+		}else if(health< 0.0){
+			errors.rejectValue("health", "negativeValue", "must be a positive value");
 		}
+		
+		
+		
+		
+		
+		if(speed==null) {
+			errors.rejectValue("speed", "incorrectValue", "must not be null");
+		}else if(speed< 0.0){
+			errors.rejectValue("speed", "negativeValue", "must be a positive value");
+		}
+		
+		
 		if(mana!=null && energy==null && mana<0.0) {
 			errors.rejectValue("mana", "incorrectValueMana", "Mana must not be less than 0");
 		}
+		
+		
 		if(energy!=null && mana==null && energy<0.0) {
 			errors.rejectValue("energy", "incorrectValueEnergy", "Energy must not be less than 0");
 		}
+		
+		
 		if(role==null) {
 			errors.rejectValue("role", "nullRole", "Role must not be null");
 		}
