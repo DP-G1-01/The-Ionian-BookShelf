@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import the_ionian_bookshelf.model.Champion;
 import the_ionian_bookshelf.model.Role;
 import the_ionian_bookshelf.service.ChampionService;
+import the_ionian_bookshelf.service.RoleService;
 
 @Controller
 public class ChampionController {
@@ -24,8 +25,12 @@ public class ChampionController {
 	private final ChampionService championService;
 	
 	@Autowired
-	public ChampionController(ChampionService championService) {
+	private final RoleService roleService;
+	
+	@Autowired
+	public ChampionController(ChampionService championService, RoleService roleService) {
 		this.championService = championService;
+		this.roleService = roleService;
 	}
 
 	
@@ -34,7 +39,7 @@ public class ChampionController {
 	@GetMapping(value = "/champions")
 	public String listadoCampeones(ModelMap modelMap) {
 		String vista = "/champions/listadoCampeones";
-		Iterable<Champion> champions = championService.findAll();
+		Collection<Champion> champions = championService.findAll();
 		modelMap.addAttribute("champions", champions );
 		return vista;
 	}
@@ -42,7 +47,7 @@ public class ChampionController {
 	//Intento de hacer lo mismo que Pet con PetType
 		@ModelAttribute("role")
 		public Collection<Role> populateRole() {
-			return this.championService.findRoless();
+			return this.roleService.findAll();
 		}
 	
 	//Creacion de una runa
@@ -55,7 +60,6 @@ public class ChampionController {
 	
 	@PostMapping(value="champions/save")
 	public String salvarCampeon(@Valid Champion champion, BindingResult result, ModelMap model) {
-		String view = "champions/listadoCampeones";
 		if(champion.getRole()==null) {
 			model.addAttribute("champion", champion);
 			return "champions/editCampeon";
@@ -64,7 +68,7 @@ public class ChampionController {
 			model.addAttribute("champion", champion);
 			return "champions/editCampeon";
 		}else {
-			championService.saveChampion(champion);
+			championService.save(champion);
 			model.addAttribute("message","Champion save successfully");
 		}
 		
@@ -74,7 +78,6 @@ public class ChampionController {
 	//Remove
 	@GetMapping(value="/champions/{championId}/remove")
 	public String borrarChampion(@PathVariable("championId") int championId, ModelMap modelMap) {
-		String view ="champions/listadoCampeones";
 		Champion champion = championService.findChampionById(championId);
 		if(champion!=null) {
 			championService.deleteChampion(champion);

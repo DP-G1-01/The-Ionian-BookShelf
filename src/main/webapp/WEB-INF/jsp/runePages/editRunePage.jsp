@@ -25,6 +25,7 @@
 	<form:form modelAttribute="runePage" class="form-horizontal"
 		id="add-rune-page-form" action="/runePages/save">
 		<div class="form-group has-feedback">
+		<form:input type="hidden" class="form-control" path="summoner" />
 			<petclinic:inputField label="Name" name="name" />
 			<div class="control-group">
                    <petclinic:selectField onchange="changeSecondarySelect(this)" name="mainBranch" label="Main Branch" names="${branches}" size="3"/>
@@ -36,22 +37,22 @@
             <div id="${loop.index/4}" class="hidden control-group">
             	<c:if test="${(loop.index)%4==0}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="keyRune" label="keyRune branch ${loop.index/4}" names="${runeList}" size="4"/>
+        		<petclinic:selectField id="select ${loop.index/4}" name="keyRune" label="Key Rune" names="${runeList}" size="4"/>
 
         		</c:if>
         		<c:if test="${(loop.index)%4==1}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune1" label="mainRune1 branch ${loop.index/4}" names="${runeList}" size="3"/>
+        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune1" label="First Main Rune" names="${runeList}" size="3"/>
 
         		</c:if>
         		<c:if test="${(loop.index)%4==2}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune2" label="mainRune2 branch ${loop.index/4}" names="${runeList}" size="3"/>
+        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune2" label="Second Main Rune" names="${runeList}" size="3"/>
 
         		</c:if>
         		<c:if test="${(loop.index)%4==3}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune3" label="mainRune3 branch ${loop.index/4}" names="${runeList}" size="3"/>
+        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune3" label="Third Main Rune" names="${runeList}" size="3"/>
 
         		</c:if>
         		</div>
@@ -60,7 +61,7 @@
 	<c:forEach var="runeList" items="${secondaryRunes}" varStatus="loop">
 	<div id="sec1_${loop.index}" class="hidden control-group">
 		<div class="form-group ">
-	   		<label class="col-sm-2 control-label">secRune1 branch ${loop.index}</label>
+	   		<label class="col-sm-2 control-label">First Secondary Rune</label>
 	   		<div class="col-sm-10">
 	   		<select id="sec1_${loop.index}_sel" name="secRune1" class="form-control" onchange="updateSecRune2(this)" size="3">
 	        <c:forEach var="rune" items="${runeList}">
@@ -72,7 +73,7 @@
 	</div>
 	<div id="sec2_${loop.index}" class="hidden control-group">
 		<div class="form-group ">
-	   		<label class="col-sm-2 control-label">secRune2 branch ${loop.index}</label>
+	   		<label class="col-sm-2 control-label">Second Secondary Rune</label>
 	   		<div class="col-sm-10">
 	   		<select id="sec2_${loop.index}_sel" name="secRune2" class="form-control" size="3">
 	        </select>

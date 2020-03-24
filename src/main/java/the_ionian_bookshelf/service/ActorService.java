@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
 import the_ionian_bookshelf.model.Authorities;
+import the_ionian_bookshelf.model.Summoner;
 import the_ionian_bookshelf.model.User;
 import the_ionian_bookshelf.repository.ActorRepository;
+import the_ionian_bookshelf.repository.SummonerRepository;
 
 @Service
 @Transactional
@@ -25,11 +27,11 @@ public class ActorService {
 
 	@Autowired
 	private SummonerRepository summonerRepository;
+	
 
-	public Summoner findSummonerByUserAccountId(int UAId) {
-
-		return this.summonerRepository.findByUserAccountId(UAId);
-	}
+//	public Summoner findSummonerByUserAccountId(int UAId) {
+//		return this.summonerRepository.findByUserAccountId(UAId);
+//	}
 
 	@Autowired
 	private AuthoritiesService authService;

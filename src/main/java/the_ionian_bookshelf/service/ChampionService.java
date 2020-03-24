@@ -1,10 +1,9 @@
 package the_ionian_bookshelf.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.transaction.Transactional;
 
@@ -12,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import the_ionian_bookshelf.model.Actor;
 import the_ionian_bookshelf.model.Champion;
-import the_ionian_bookshelf.model.Item;
 import the_ionian_bookshelf.model.Role;
 import the_ionian_bookshelf.repository.ChampionRepository;
-import the_ionian_bookshelf.repository.RoleRepository;
 
 @Service
 @Transactional
@@ -27,16 +23,10 @@ public class ChampionService {
 	private ChampionRepository championRepository;
 
 	@Autowired
-	private RoleRepository roleRepository;
-
-	@Autowired
 	private RoleService roleService;
 
 	@Autowired
-	private ActorService actorService;
-
-	@Autowired
-	private SummonerService summonerService;
+	private AdministratorService adminService;
 
 	@Autowired
 	private AuthoritiesService authService;
@@ -61,16 +51,6 @@ public class ChampionService {
 		return res;
 	}
 
-
-	//Método para listar runas
-	@Transactional
-	public Set<Champion> findChampions() throws DataAccessException {
-		Set<Champion> champions = new TreeSet<>();
-		this.championRepository.findAll().forEach(champions::add);
-		return champions;
-	}
-
-
 	@Transactional
 	public Collection<Champion> findAll() throws DataAccessException {
 		return championRepository.findAll();
@@ -82,34 +62,15 @@ public class ChampionService {
 
 		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
 
-		return this.champRepo.save(champ);
+		return this.championRepository.save(champ);
 	}
 
 
 	@Transactional
 	public void deleteChampion(Champion champion) throws DataAccessException {
+		assertNotNull(champion);
+		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
 		this.championRepository.delete(champion);
-	}
-
-
-
-	@Transactional
-	public Set<Role> findRoles() throws DataAccessException {
-		Set<Role> roles = new TreeSet<>();
-		this.roleRepository.findAll().forEach(roles::add);
-		return roles;
-	}
-
-	//Forma como está puesto el PetType
-
-	@Transactional()
-	public Collection<Role> findRoless() throws DataAccessException {
-		return this.roleRepository.findAll();
-	}
-
-	@Transactional
-	public Iterable<Role> findAllR(){
-		return roleRepository.findAll();
 	}
 
 	@Transactional
@@ -121,12 +82,6 @@ public class ChampionService {
 	@Transactional()
 	public Collection<Champion> findRuneByName(final String name) throws DataAccessException {
 		return this.championRepository.findByName(name);
-	}
-
-	public void removeChampionById(int champId) {
-		Champion champion = championRepository.findById(champId).get();
-		assertNotNull(champion);
-		championRepository.delete(champion);
 	}
 
 //	public void deleteFromBuilds(Champion champ) {

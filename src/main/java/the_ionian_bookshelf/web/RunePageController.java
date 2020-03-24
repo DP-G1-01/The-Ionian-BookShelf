@@ -2,6 +2,7 @@ package the_ionian_bookshelf.web;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -17,108 +18,120 @@ import org.springframework.web.bind.annotation.PostMapping;
 import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
 import the_ionian_bookshelf.model.RunePage;
+import the_ionian_bookshelf.model.Summoner;
 import the_ionian_bookshelf.service.RunePageService;
+import the_ionian_bookshelf.service.SummonerService;
 
 @Controller
 public class RunePageController {
-	
+
 	@Autowired
 	private final RunePageService runePageService;
-	
+
 	@Autowired
-	public RunePageController(RunePageService runePageService) {
+	private final SummonerService summonerService;
+
+	@Autowired
+	public RunePageController(RunePageService runePageService, SummonerService summonerService) {
 		this.runePageService = runePageService;
+		this.summonerService = summonerService;
 	}
-	
+
 	@ModelAttribute("branches")
 	public Collection<Branch> populateBranches() {
 		return this.runePageService.findBranches();
 	}
+
 	@ModelAttribute("runes")
 	public List<List<Rune>> populateRunesByBranchNode() {
 		return this.runePageService.findRunesByBranchNode();
 	}
-	
+
 	@ModelAttribute("secondaryRunes")
 	public List<List<Rune>> populateSecondaryRunesByBranchNode() {
 		return this.runePageService.findSecondaryRunesByBranchNode();
 	}
-	
-	//lista de páginas de runas
+
+	// lista de páginas de runas
 	@GetMapping(value = "/runePages/mine")
 	public String listadoPaginasRunas(ModelMap modelMap) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		}
 		String vista = "runePages/listadoPaginasRunas";
-		Iterable<RunePage> runePages = this.runePageService.findAllMine();
+		Collection<RunePage> runePages = this.runePageService.findAllMine();
 		modelMap.addAttribute("runePages", runePages);
 		return vista;
 	}
-	
-	
-	//Creacion de una pagina de runas
-	@GetMapping(value="/runePages/new")
+
+	// Creacion de una pagina de runas
+	@GetMapping(value = "/runePages/new")
 	public String crearPaginaRuna(ModelMap modelMap) {
-		String view="runePages/editRunePage";
-		modelMap.addAttribute("runePage", new RunePage());
-		
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		}
+		String view = "runePages/editRunePage";
+		modelMap.addAttribute("runePage", this.runePageService.create());
+
 		return view;
 	}
-	
-	@PostMapping(value="runePages/save")
+
+	@PostMapping(value = "runePages/save")
 	public String salvarRuna(@Valid RunePage runePage, BindingResult result, ModelMap model) {
-		System.out.println(runePage.getName());
-		System.out.println(runePage.getMainBranch());
-		System.out.println(runePage.getSecondaryBranch());
-		System.out.println(runePage.getKeyRune());
-		System.out.println(runePage.getMainRune1());
-		System.out.println(runePage.getMainRune2());
-		System.out.println(runePage.getMainRune3());
-		System.out.println(runePage.getSecRune1());
-		System.out.println(runePage.getSecRune2());
-		System.out.println(runePage.getSummoner());
-//		runePage.setSummoner(this.summonerService.findByPrincipal());
-		if(result.hasErrors()) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		}
+		if (result.hasErrors()) {
 			model.addAttribute("runePage", runePage);
 			return "runePages/editRunePage";
-		}else {
+		} else {
 			this.runePageService.save(runePage);
-			model.addAttribute("message","Rune Page save successfully");
+			model.addAttribute("message", "Rune Page save successfully");
 		}
-		
-		return "redirect:/runePages/";
-	}
-	
-	//Remove
-	@GetMapping(value="/runePages/{runePageId}/remove")
-	public String borrarPaginaRunas(@PathVariable("runePageId") int runePageId, ModelMap modelMap) {
-		RunePage runePage = runePageService.findOne(runePageId);
-		if(runePage!=null) {
-			this.runePageService.delete(runePage);
-			modelMap.addAttribute("message","Rune Page delete successfully");
-		}else {
-			modelMap.addAttribute("message","Rune Page not found");
-		}
-		
-		return "redirect:/runePages/mine";
-		
-	}
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		return "redirect:/runePages/mine";
+	}
+
+	// Remove
+	@GetMapping(value = "/runePages/{runePageId}/remove")
+	public String borrarPaginaRunas(@PathVariable("runePageId") int runePageId, ModelMap modelMap) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		}
+		Summoner principal = this.summonerService.findByPrincipal();
+		RunePage runePage = runePageService.findOne(runePageId);
+		if (runePage != null && runePage.getSummoner().equals(principal)) {
+			this.runePageService.delete(runePage);
+			modelMap.addAttribute("message", "Rune Page delete successfully");
+		} else if (runePage == null) {
+			modelMap.addAttribute("message", "Rune Page not found");
+		} else {
+			modelMap.addAttribute("message", "This Rune Page doesn't belong to you");
+		}
+		return "redirect:/runePages/mine";
+	}
 }

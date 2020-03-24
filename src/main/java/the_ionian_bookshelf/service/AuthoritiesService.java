@@ -55,7 +55,6 @@ public class AuthoritiesService {
 
 		final User loggedIn = this.loginService.getPrincipal();
 		Authorities auth = this.authoritiesRepository.findById(loggedIn.getUsername()).get();
-
-		return auth.getAuthority() == authority;
+		return auth.getAuthority().equals(authority);
 	}
 }

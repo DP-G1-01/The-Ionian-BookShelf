@@ -1,6 +1,6 @@
 package the_ionian_bookshelf.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
