@@ -7,6 +7,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.Data;
 
 @Data

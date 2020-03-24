@@ -1,4 +1,4 @@
-package org.springframework.samples.theionianbookshelf.web;
+package the_ionian_bookshelf.web;
 
 /**
  * Test class for {@link CrashController}

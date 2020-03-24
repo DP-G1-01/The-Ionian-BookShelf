@@ -1,4 +1,4 @@
-package org.springframework.samples.theionianbookshelf.model;
+package the_ionian_bookshelf.model;
 
 import javax.validation.Validator;
 
