@@ -26,14 +26,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="messages")
+@Table(name = "messages")
 public class Message extends BaseEntity {
 
 	@NotBlank
 	@Column(name = "text")
 	@Size(min = 10, max = 500)
 	private String text;
-	
+
 	@NotNull
 	@Column(name = "moment")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -45,10 +45,11 @@ public class Message extends BaseEntity {
 	@NotNull
 	@JoinColumn(name="summoner_id")
 	private Summoner summoner;
-	
+
 	@Valid
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name="thread_id")
 	private Thread thread;
+  
 }

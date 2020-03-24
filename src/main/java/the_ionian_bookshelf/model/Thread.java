@@ -19,14 +19,14 @@ import lombok.Setter;
 @Table(name="threads")
 public class Thread extends BaseEntity {
 
-	@NotBlank
+    @NotBlank
 	@Size(min = 5, max = 50)
 	@Column(name="title")
 	public String title;
-	
+
 	@NotBlank
 	@Size(min = 20, max = 500)
 	@Column(name="description")
 	public String description;
-	
+
 }

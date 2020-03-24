@@ -1,5 +1,6 @@
 package the_ionian_bookshelf.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -19,17 +20,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="leagues")
+@Table(name = "leagues")
 public class League extends BaseEntity {
 
 	@NotBlank
-	@Column(unique = true, name="name")
+	@Column(unique = true, name = "name")
 	@Size(min = 1, max = 10)
 	private String name;
 
 	@Valid
-	@OneToOne(optional = false)
-	@JoinColumn(name="thread_id")
+	@OneToOne(optional = false, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "thread_id")
 	private Thread thread;
 
 }

@@ -1,23 +1,126 @@
 package the_ionian_bookshelf.service;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
+import the_ionian_bookshelf.model.Summoner;
+import the_ionian_bookshelf.model.Administrator;
+import the_ionian_bookshelf.model.Authorities;
+import the_ionian_bookshelf.model.Champion;
+import the_ionian_bookshelf.model.User;
+import the_ionian_bookshelf.repository.SummonerRepository;
+import the_ionian_bookshelf.security.LoginService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import the_ionian_bookshelf.model.Summoner;
-import the_ionian_bookshelf.repository.SummonerRepository;
-
 @Service
+@Transactional
 public class SummonerService {
 
 	@Autowired
-	private SummonerRepository summonerRepo;
-	
-	@Transactional
-	public Summoner findOneSummonerById(int id) {
-		return this.summonerRepo.getOne(id);
+	private SummonerRepository summonerRepository;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private AuthoritiesService authService;
+
+	@Autowired
+	private LeagueService leagueService;
+
+	@Autowired
+	private LoginService loginService;
+
+	public Summoner create() {
+
+		Summoner res;
+		User user = new User();
+
+		res = new Summoner();
+
+		res.setUser(user);
+
+		res.setMains(new ArrayList<Champion>());
+		res.setLeague(this.leagueService.findBasicLeague());
+
+		return res;
 	}
 
-	
+	public Collection<Summoner> findAll() {
+
+		Collection<Summoner> res = this.summonerRepository.findAll();
+
+		assertNotNull(res);
+		return res;
+	}
+
+	public Summoner findOne(final int id) {
+
+		assertTrue(id != 0);
+
+		final Summoner res = this.summonerRepository.findById(id).get();
+		assertNotNull(res);
+
+		return res;
+	}
+
+	public Summoner save(final Summoner summ) {
+
+		assertNotNull(summ);
+
+		Summoner saved = summonerRepository.save(summ);
+
+		userService.saveUser(summ.getUser());
+
+		authService.saveAuthorities(summ.getUser().getUsername(), "summoner");
+
+		return saved;
+	}
+
+	/**
+	 * This method finds the logged user that is using the application. Apart from
+	 * this, it checks that the user is an Summoner
+	 * 
+	 * @return The logged user, an instance of Summoner
+	 */
+	public Summoner findByPrincipal() {
+
+		Summoner res;
+		final User ua = this.loginService.getPrincipal();
+		assertNotNull(ua);
+
+		res = this.findByUsername(ua.getUsername());
+
+		return res;
+	}
+
+	private Summoner findByUsername(String username) {
+		assertNotNull(username);
+
+		final Summoner res = this.summonerRepository.findByUsername(username);
+		assertNotNull(res);
+
+		return res;
+	}
+
+	public Collection<Summoner> findByChampion(Champion champ) {
+
+		assertNotNull(champ);
+		assertTrue(champ.getId() != 0);
+
+		Collection<Summoner> res = this.summonerRepository.findByChampion(champ);
+		assertNotNull(res);
+
+		return res;
+	}
+
 }

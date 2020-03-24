@@ -1,7 +1,6 @@
 
 package the_ionian_bookshelf.service;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -13,10 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Actor;
-import the_ionian_bookshelf.model.Authority;
-import the_ionian_bookshelf.model.UserAccount;
+import the_ionian_bookshelf.model.Authorities;
+import the_ionian_bookshelf.model.User;
 import the_ionian_bookshelf.repository.ActorRepository;
-import the_ionian_bookshelf.security.LoginService;
 
 @Service
 @Transactional
@@ -24,6 +22,9 @@ public class ActorService {
 
 	@Autowired
 	private ActorRepository actorRepository;
+
+	@Autowired
+	private AuthoritiesService authService;
 
 	public Actor create() {
 
@@ -35,15 +36,6 @@ public class ActorService {
 	public Collection<Actor> findAll() {
 
 		final Collection<Actor> res = this.actorRepository.findAll();
-
-		assertNotNull(res);
-
-		return res;
-	}
-
-	public Collection<Actor> findAllAuthors() {
-
-		final Collection<Actor> res = this.actorRepository.findAllAuthors();
 
 		assertNotNull(res);
 
@@ -63,7 +55,8 @@ public class ActorService {
 	/**
 	 *
 	 * @param actor     El actor cuya autoridad queremos comprobar
-	 * @param authority Autoridad que queremos comprobar que el actor posee
+	 * @param authority Autoridad que queremos comprobar que el actor posee:
+	 *                  administrator, summoner, reviewer
 	 * @return True si el actor posee la autoridad pasada como par�metro o false si
 	 *         no la posee
 	 */
@@ -72,62 +65,37 @@ public class ActorService {
 		assertNotNull(actor);
 		assertNotNull(authority);
 
-		final UserAccount ua = actor.getUserAccount();
-		final Collection<Authority> authorities = ua.getAuthorities();
+		final User ua = actor.getUser();
+		final Authorities authorities = authService.findOne(ua.getUsername());
 
-		assertFalse(authorities.isEmpty());
-
-		final Authority aux = new Authority();
-		aux.setAuthority(authority);
-
-		return authorities.contains(aux);
+		return authority.equals(authorities.getAuthority());
 	}
 
-	/**
-	 * Este m�todo sirve para sacar el actor logeado en el sistema Se usa como
-	 * m�todo auxiliar para sacar los distintos tipos de actores del sistema y hacer
-	 * comprobaciones respecto a sus authorities
-	 *
-	 * @return El actor logeado en el sistema
-	 */
-	public Actor findByPrincipal() {
-
-		Actor res;
-		final UserAccount ua = LoginService.getPrincipal();
-		assertNotNull(ua);
-		res = this.findByUserAccountId(ua.getId());
-		System.out.println(res);
-		return res;
-	}
-
-	public Actor findByUserAccountId(final int id) {
-
-		assertTrue(id != 0);
-
-		final Actor res = this.actorRepository.findByUserAccountId(id);
-		assertNotNull(res);
-
-		return res;
-	}
-
-	// ----------------------------------------------------------------------------
-
-	public Actor findActorLogged() {
-		Actor res;
-		UserAccount userAccount;
-		userAccount = LoginService.getPrincipal();
-		assertNotNull(userAccount);
-		res = this.actorRepository.findByUserAccountId(userAccount.getId());
-		assertNotNull(res);
-		// Assert.isTrue(res.getUserAccount().getStatusAccount());
-		return res;
-	}
-
-	public void checkUserLoginAdministrator(final Actor actor) {
-		final Authority auth = new Authority();
-		auth.setAuthority(Authority.ADMINISTRATOR);
-		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-		assertTrue(authorities.contains(auth));
-	}
+//	/**
+//	 * Este m�todo sirve para sacar el actor logeado en el sistema Se usa como
+//	 * m�todo auxiliar para sacar los distintos tipos de actores del sistema y hacer
+//	 * comprobaciones respecto a sus authorities
+//	 *
+//	 * @return El actor logeado en el sistema
+//	 */
+//	public Actor findByPrincipal() {
+//
+//		Actor res;
+//		final User ua = LoginService.getPrincipal();
+//		assertNotNull(ua);
+//		res = this.findByUsername(ua.getUsername());
+//		System.out.println(res);
+//		return res;
+//	}
+//
+//	public Actor findByUsername(final String username) {
+//
+//		assertNotNull(username);
+//
+//		final Actor res = this.actorRepository.findByUsername(username);
+//		assertNotNull(res);
+//
+//		return res;
+//	}
 
 }

@@ -14,9 +14,4 @@ import lombok.Setter;
 @Table(name = "reviewers")
 public class Reviewer extends Actor {
 
-//	@OneToMany()
-//	@ElementCollection
-//	@Valid
-//	private Collection<ChangeRequest> request;
-
 }
