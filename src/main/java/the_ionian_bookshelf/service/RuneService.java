@@ -47,6 +47,7 @@ public class RuneService {
 		this.runeRepository = runeRepository;
 		this.branchRepository = branchRepository;
 		this.runePageRepository = runePageRepository;
+		this.buildRepository = buildRepository;
 	}
 
 	//Método para listar runas
