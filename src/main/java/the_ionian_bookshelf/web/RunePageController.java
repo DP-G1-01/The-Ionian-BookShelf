@@ -40,7 +40,7 @@ public class RunePageController {
 		this.summonerService = summonerService;
 	}
 
-	@InitBinder("RunePage")
+	@InitBinder("runePage")
 	public void initRunePageBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new RunePageValidator());
 	}

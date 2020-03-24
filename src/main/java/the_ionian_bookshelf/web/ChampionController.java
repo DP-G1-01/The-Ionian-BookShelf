@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,7 @@ import the_ionian_bookshelf.service.AdministratorService;
 import the_ionian_bookshelf.service.ChampionService;
 import the_ionian_bookshelf.service.ReviewerService;
 import the_ionian_bookshelf.service.RoleService;
+import the_ionian_bookshelf.validators.ChampionValidator;
 
 @Controller
 public class ChampionController {
@@ -36,6 +39,11 @@ public class ChampionController {
 	@Autowired
 	private final ReviewerService reviewerService;
 
+	@InitBinder("champion")
+	public void initChampionBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new ChampionValidator());
+	}
+	
 	@Autowired
 	public ChampionController(ChampionService championService, RoleService roleService,
 			AdministratorService administratorService, ReviewerService reviewerService) {
