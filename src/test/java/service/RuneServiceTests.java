@@ -26,8 +26,7 @@ import the_ionian_bookshelf.repository.RuneRepository;
 import the_ionian_bookshelf.service.RuneService;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TheIonianBookshelfApplication.class})
-@SpringBootTest
+@SpringBootTest (classes = TheIonianBookshelfApplication.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class RuneServiceTests {
 

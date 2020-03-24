@@ -18,9 +18,8 @@ import the_ionian_bookshelf.TheIonianBookshelfApplication;
 import the_ionian_bookshelf.service.ChampionService;
 import the_ionian_bookshelf.service.ItemService;
 
-@ContextConfiguration(classes = {TheIonianBookshelfApplication.class})
 @AutoConfigureMockMvc
-@SpringBootTest 
+@SpringBootTest (classes = TheIonianBookshelfApplication.class)
 class ChampionControllerTests {
 	
 	@Autowired

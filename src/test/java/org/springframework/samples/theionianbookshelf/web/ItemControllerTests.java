@@ -24,9 +24,8 @@ import the_ionian_bookshelf.service.ItemService;
 import the_ionian_bookshelf.web.ItemController;
 
 
-@ContextConfiguration(classes = {TheIonianBookshelfApplication.class})
 @AutoConfigureMockMvc
-@SpringBootTest 
+@SpringBootTest (classes = TheIonianBookshelfApplication.class)
 class ItemControllerTests {
 	
 	@Autowired
