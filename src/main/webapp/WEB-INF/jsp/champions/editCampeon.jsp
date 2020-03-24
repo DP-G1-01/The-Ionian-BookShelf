@@ -32,6 +32,10 @@
 					<c:when test="${champion['new']}">
 						<button class="btn btn-default" type="submit">Add Champion</button>
 					</c:when>
+					<c:otherwise>
+						<button class="btn btn-default" type="submit">Update
+							Champion</button>
+					</c:otherwise>
 
 				</c:choose>
 			</div>

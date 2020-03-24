@@ -72,7 +72,7 @@ public class ChampionService {
 	public void deleteChampion(Champion champion) throws DataAccessException {
 		assertNotNull(champion);
 		assertTrue(this.authService.checkAuthorities("administrator"));
-		Collection<Build> builds = this.buildRepository.findAllByRunePage(champion.getId());
+		Collection<Build> builds = this.buildRepository.findAllByChampion(champion.getId());//Peta en Ashe porque tiene asociado un change_request
 		builds.forEach(x -> this.buildRepository.delete(x));
 		this.championRepository.delete(champion);
 	}

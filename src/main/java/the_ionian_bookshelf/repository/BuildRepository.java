@@ -15,4 +15,7 @@ public interface BuildRepository extends JpaRepository<Build, Integer> {
 
 	@Query("SELECT b FROM Build b WHERE b.runePage.id = ?1")
 	Collection<Build> findAllByRunePage(Integer id);
+	
+	@Query("SELECT b FROM Build b WHERE b.champion.id = ?1")
+	Collection<Build> findAllByChampion(Integer id);
 }

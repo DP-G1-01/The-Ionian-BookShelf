@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -123,6 +124,36 @@ public class RuneController {
 		
 		return "redirect:/runes/";
 		
+	}
+	
+	//Update
+	@GetMapping(value = "/runes/{runeId}/edit")
+	public String initUpdateOwnerForm(@PathVariable("runeId") int runeId, Model model) {
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
+		Rune rune = this.runeService.findRuneById(runeId);
+		model.addAttribute(rune);
+		return "runes/editRune";
+	}
+
+	@PostMapping(value = "/runes/{runeId}/edit")
+	public String processUpdateOwnerForm(@Valid Rune rune, BindingResult result, @PathVariable("runeId") int runeId) {
+		
+		if (result.hasErrors()) {
+			return "runes/editRune";
+		}
+		else {
+			rune.setId(runeId);
+			this.runeService.saveRune(rune);
+			return "redirect:/runes/";
+		}
 	}
 	
 }

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -133,5 +134,34 @@ public class ChampionController {
 		return "redirect:/champions/";
 
 	}
+	
+	//Update
+		@GetMapping(value = "/champions/{championId}/edit")
+		public String initUpdateOwnerForm(@PathVariable("championId") int championId, Model model) {
+			try {
+				this.administratorService.findByPrincipal();
+			} catch (AssertionError e) {
+				model.addAttribute("message", "You must be logged in as an admin");
+				return "redirect:/login";
+			} catch (NoSuchElementException u) {
+				model.addAttribute("message", "You must be logged in as an admin");
+				return "redirect:/login";
+			}
+			Champion champion = this.championService.findChampionById(championId);
+			model.addAttribute(champion);
+			return "champions/editCampeon";
+		}
+
+		@PostMapping(value = "/champions/{championId}/edit")
+		public String processUpdateOwnerForm(@Valid Champion champion, BindingResult result, @PathVariable("championId") int championId) {
+			if (result.hasErrors()) {
+				return "champions/editCampeon";
+			}
+			else {
+				champion.setId(championId);
+				this.championService.save(champion);
+				return "redirect:/champions/";
+			}
+		}
 
 }
