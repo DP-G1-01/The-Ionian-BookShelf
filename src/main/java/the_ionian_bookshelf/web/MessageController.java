@@ -1,20 +1,21 @@
 package the_ionian_bookshelf.web;
 
+import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import the_ionian_bookshelf.model.Message;
 import the_ionian_bookshelf.model.Summoner;
@@ -40,6 +41,17 @@ public class MessageController {
 		this.summonerService = summonerService;
 	}
 	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(LocalDateTime.class, new PropertyEditorSupport() {
+			public void setAsText(String text) throws IllegalArgumentException{
+				setValue(LocalDateTime.parse(text,DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm")));
+			}
+			public String getAsText() throws IllegalArgumentException{
+				return DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm").format((LocalDateTime) getValue());
+			}
+		});
+	}
 	
 	
 	//Creacion de mensajes
@@ -47,28 +59,29 @@ public class MessageController {
 	public String createMessage(ModelMap modelMap,@PathVariable("threadId") int threadId) {
 		String vista = "messages/createMessage";
 		Message message = new Message();
-		LocalDateTime moment = LocalDateTime.now();
-		message.setMoment(moment);
+		Date moment;
+		moment = new Date(System.currentTimeMillis() - 1);
+		message.setMoment(moment);	
 		Thread thread = this.threadService.findOne(threadId);
 		message.setThread(thread);
-		Summoner summoner = this.summonerService.findOneSummonerById(1);
+		int summonerId = 1;
+		Summoner summoner = this.summonerService.findOneSummonerById(summonerId);
 		message.setSummoner(summoner);
 		modelMap.addAttribute("message", message);
-		modelMap.addAttribute("threadId",threadId);
 		return vista;
 	}
 	
 	@PostMapping(value = "threads/{threadId}/messages/save")
-	public String saveMessage(@Valid Message message,@PathParam(value="threadId") int threadId, BindingResult result, ModelMap modelMap) {
-		System.out.println(message.getMoment());
+	public String saveMessage(@Valid Message message, BindingResult result, ModelMap modelMap) {
 		if(result.hasErrors()) {
+			System.out.println(result);
 			modelMap.addAttribute("message", message);
 			return "messages/createMessage";
 		}else {
 			this.messageService.saveMessage(message);
 			modelMap.addAttribute("msg", "Message saved successfully");
 		}
-		return "redirect://threads/{threadId}/messages";
+		return "redirect:/threads/{threadId}";
 	}
 	
 	//Delete de Mensajes

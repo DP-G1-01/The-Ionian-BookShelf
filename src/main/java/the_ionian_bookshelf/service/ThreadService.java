@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import the_ionian_bookshelf.model.Actor;
-import the_ionian_bookshelf.model.Authority;
 import the_ionian_bookshelf.model.Message;
 import the_ionian_bookshelf.model.Thread;
 import the_ionian_bookshelf.model.Vote;

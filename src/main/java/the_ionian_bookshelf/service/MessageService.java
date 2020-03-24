@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import the_ionian_bookshelf.model.Message;
 import the_ionian_bookshelf.model.Thread;
-import the_ionian_bookshelf.model.Vote;
 import the_ionian_bookshelf.repository.MessageRepository;
 
 @Service

@@ -14,8 +14,11 @@
     </h2>
     <form:form modelAttribute="message" class="form-horizontal" id="add-message-form" action="save">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Text" name="text"/>
-            <input type="datetime-local" name="moment" value="${message.moment}"/> </div>
+            <petclinic:inputField label="Text" name="text"/> 
+            <form:hidden path="moment"/>
+            <form:hidden path="thread"/>
+            <form:hidden path="summoner"/>
+            </div>
         <div class="form-group">
         	
             <div class="col-sm-offset-2 col-sm-10">
