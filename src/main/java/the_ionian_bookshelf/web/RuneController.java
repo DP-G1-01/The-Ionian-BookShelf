@@ -1,6 +1,7 @@
 package the_ionian_bookshelf.web;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import the_ionian_bookshelf.model.Branch;
 import the_ionian_bookshelf.model.Rune;
+import the_ionian_bookshelf.service.AdministratorService;
 import the_ionian_bookshelf.service.RuneService;
 
 @Controller
@@ -24,61 +26,14 @@ public class RuneController {
 	private final RuneService runeService;
 	
 	@Autowired
-	public RuneController(RuneService runeService) {
-		this.runeService = runeService;
-	}
-	/*
-	//Para poner las branches en un select o algo así en el jsp
-	@ModelAttribute("branches")
-	public Collection<Branch> populateBranches() {
-		return this.runeService.findBranches();
-	}
-	*/
-//	@GetMapping(value = "/runes/new")
-//	public String initCreationForm(UserAccount user, ModelMap model) throws AccessException {
-//		assert user != null;
-//		assert model != null;
-//		String result = "/panic";
-//		Authority auth = new Authority();
-//		auth.setAuthority(Authority.ADMINISTRATOR);
-//		if(!user.getAuthorities().contains(auth)) {
-//			throw new AccessException("You must have administrator privileges");
-//		}else {
-//			Rune rune = new Rune();
-//			model.put("rune", rune);
-//			result = "/runes/CreateOrUpdateRuneForm";
-//		}
-//		return result;
-//	}
-	//Esto inicializaría el validador, hay que crearlo
-//	@InitBinder("rune")
-//	public void initPetBinder(WebDataBinder dataBinder) {
-//		dataBinder.setValidator(new RuneValidator());
-//	}
+	private final AdministratorService administratorService;
 	
-//	@PostMapping(value = "/runes/new")
-//	public String proccessCreationForm(UserAccount user, @Valid Rune rune, BindingResult result,
-//			ModelMap model) throws AccessException {
-//		assert user != null;
-//		assert model != null;
-//		assert rune != null;
-//		assert result != null;
-//		
-//		Authority auth = new Authority();
-//		auth.setAuthority(Authority.ADMINISTRATOR);
-//		if(!user.getAuthorities().contains(auth)) {
-//			throw new AccessException("You must have administrator privileges");
-//		}else {
-//			if(result.hasErrors()) {
-//				model.put("rune", rune);
-//				return "/runes/CreateOrUpdateRuneForm";
-//			}else {
-//				this.runeService.saveRune(rune);
-//				return "redirect:/runes/list";
-//			}
-//		}
-//	}
-//	
+	@Autowired
+	public RuneController(RuneService runeService, AdministratorService administratorService) {
+		this.runeService = runeService;
+		this.administratorService = administratorService;
+	}
+
 	
 	
 	//lista de runas
@@ -97,8 +52,17 @@ public class RuneController {
 		}
 	
 	//Creacion de una runa
-	@GetMapping(value="/runes/new")
+	@GetMapping(value="/runes/new")	
 	public String crearRuna(ModelMap modelMap) {
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
 		String view="runes/editRune";
 		modelMap.addAttribute("rune", new Rune());
 		
@@ -107,6 +71,15 @@ public class RuneController {
 	
 	@PostMapping(value="runes/save")
 	public String salvarRuna(@Valid Rune rune, BindingResult result, ModelMap model) {
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
 		String view = "runes/listadoRunas";
 		if(result.hasErrors()) {
 			model.addAttribute("rune", rune);
@@ -122,6 +95,15 @@ public class RuneController {
 	//Remove
 	@GetMapping(value="/runes/{runeId}/remove")
 	public String borrarRuna(@PathVariable("runeId") int runeId, ModelMap modelMap) {
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
 		String view ="runes/listadoRunas";
 		Rune runa = runeService.findRuneById(runeId);
 		if(runa!=null) {

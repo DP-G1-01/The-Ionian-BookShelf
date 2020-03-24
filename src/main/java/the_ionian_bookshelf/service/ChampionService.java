@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import the_ionian_bookshelf.model.Build;
 import the_ionian_bookshelf.model.Champion;
 import the_ionian_bookshelf.model.Role;
+import the_ionian_bookshelf.repository.BuildRepository;
 import the_ionian_bookshelf.repository.ChampionRepository;
 
 @Service
@@ -30,6 +32,9 @@ public class ChampionService {
 
 	@Autowired
 	private AuthoritiesService authService;
+	
+	@Autowired
+	private BuildRepository buildRepository;
 
 	public Champion create() {
 
@@ -57,11 +62,8 @@ public class ChampionService {
 	}
 
 	public Champion save(Champion champ) {
-
 		assertNotNull(champ);
-
-		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
-
+		assertTrue(this.authService.checkAuthorities("administrator"));
 		return this.championRepository.save(champ);
 	}
 
@@ -69,7 +71,9 @@ public class ChampionService {
 	@Transactional
 	public void deleteChampion(Champion champion) throws DataAccessException {
 		assertNotNull(champion);
-		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
+		assertTrue(this.authService.checkAuthorities("administrator"));
+		Collection<Build> builds = this.buildRepository.findAllByRunePage(champion.getId());
+		builds.forEach(x -> this.buildRepository.delete(x));
 		this.championRepository.delete(champion);
 	}
 
