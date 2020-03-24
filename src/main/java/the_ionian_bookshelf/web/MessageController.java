@@ -65,7 +65,7 @@ public class MessageController {
 		Thread thread = this.threadService.findOne(threadId);
 		message.setThread(thread);
 		int summonerId = 1;
-		Summoner summoner = this.summonerService.findOneSummonerById(summonerId);
+		Summoner summoner = this.summonerService.findOne(summonerId);
 		message.setSummoner(summoner);
 		modelMap.addAttribute("message", message);
 		return vista;
