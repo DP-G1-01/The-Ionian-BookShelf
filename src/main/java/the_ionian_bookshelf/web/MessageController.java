@@ -94,6 +94,6 @@ public class MessageController {
 		}else {
 			modelMap.addAttribute("msg", "Thread not found");
 		}
-		return "redirect:/threads/{threadId}/messages";
+		return "redirect:/threads/{threadId}";
 	}
 }

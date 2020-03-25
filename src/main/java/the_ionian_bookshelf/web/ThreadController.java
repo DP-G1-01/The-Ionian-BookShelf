@@ -52,6 +52,7 @@ public class ThreadController {
 			Iterable<Message> messages = this.messageService.findByThread(thread);
 			map.addAttribute("messages",messages);
 			map.addAttribute("threadId",threadId);
+			map.addAttribute("title", thread.getTitle());
 			return vista;
 		}
 	
