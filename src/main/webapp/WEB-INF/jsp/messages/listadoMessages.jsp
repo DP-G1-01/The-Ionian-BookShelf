@@ -27,7 +27,7 @@
                     <c:out value="${message.moment}"/>
                 </td>
                 <td>
-                    <c:out value="${message.summoner.userAccount.username}"/>
+                    <c:out value="${message.summoner.user.username}"/>
                 </td>
                 <td>
                 <spring:url value="messages/{messageId}/remove" var="messageRemoveUrl">
@@ -40,6 +40,7 @@
         </c:forEach>
         </tbody>
     </table>
+    
            <spring:url value="{threadId}/messages/new" var="addMessageUrl">
            <spring:param name="threadId" value="${threadId}"/>
            </spring:url>
