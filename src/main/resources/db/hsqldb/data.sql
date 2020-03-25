@@ -4,7 +4,6 @@ INSERT INTO ROLES VALUES(3,'Especializado en habilidades y daño mágico. Popula
 INSERT INTO ROLES VALUES(4,'Especializado en emboscar al enemigo, atacando por sorpresa y retirándose rápidamente. Su misión es eliminar al jugador más importante del equipo enemigo (generalmente el tirador) aunque ello suponga morir él también.','http://googleimagenes.es','Asesino');
 INSERT INTO ROLES VALUES(5,'Especializado en resistencia. Su misión es absorber la mayor cantidad de daño posible e iniciar las peleas.','http://googleimagenes.es','Tanque');
 INSERT INTO ROLES VALUES(6,'Especializado en apoyar a su equipo y aportar visión en el mapa mediante guardianes de visión (wards).','http://googleimagenes.es','Apoyo ');
-
 INSERT INTO CHAMPIONS VALUES (1,'1.10','Ashe, comandante hija del hielo de la tribu de Avarosa, lidera las hordas más numerosas del norte. Impasible, inteligente e idealista, aunque incómoda en su papel de líder',null,'900','500','Ashe','1.0','2');
 INSERT INTO CHAMPIONS VALUES (2,'0.90','Blitzcrank es un autómata enorme, casi indestructible, creado originalmente para el tratamiento de residuos tóxicos.',null,'1500','500','Blitzcrank ','1.0','6');
 INSERT INTO CHAMPIONS VALUES (3,'1.30','Convertida en un arma viviente diseñada para operar fuera de la ley, Camille es la jefa de espías del clan Ferros, una elegante agente de élite que se asegura de que nada amenace el funcionamiento de Piltover ni de Zaun.',null,'1000','600','Camile','1.2','1');
@@ -74,12 +73,49 @@ INSERT INTO RUNES VALUES(34,'PASSIVE: Every 8 minions that die near you permanen
 INSERT INTO RUNES VALUES(35,'PASSIVE: Grants 5% heal and shield power, incoming healing and shielding is increased by 10%','Revitalize','3',3);
 
 
-INSERT INTO THREADS VALUES(1, 'Bronze League thread', 'Bronze League');
-INSERT INTO LEAGUES VALUES(1, 'Bronze', 1);
-INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');
-INSERT INTO SUMMONERS VALUES(1, 'pepe@gmail.com', 1, 1);
+INSERT INTO threads VALUES(1, 'The IonianBookshelf´s Basic Thread', 'Basic Thread');
+INSERT INTO threads VALUES(2, 'The IonianBookshelf´s Bronze Thread', 'Bronze thread');
 
-INSERT INTO RUNE_PAGES (id, name, summoner_id, main_branch_id, secondary_branch_id, keyrune_id, mainrune1_id, mainrune2_id, mainrune3_id, 
+INSERT INTO leagues VALUES(1, 'Basic', 1);
+INSERT INTO leagues VALUES(2, 'Bronze', 2);
+
+INSERT INTO authorities VALUES('admin', 'administrator');
+
+INSERT INTO authorities VALUES('summoner1', 'summoner');
+INSERT INTO authorities VALUES('summoner2', 'summoner');
+INSERT INTO authorities VALUES('summoner3', 'summoner');
+INSERT INTO authorities VALUES('summoner4', 'summoner');
+
+INSERT INTO authorities VALUES('reviewer1', 'reviewer');
+INSERT INTO authorities VALUES('reviewer2', 'reviewer');
+INSERT INTO authorities VALUES('reviewer3', 'reviewer');
+INSERT INTO authorities VALUES('reviewer4', 'reviewer');
+
+INSERT INTO users(username, password, enabled) VALUES('admin', 'admin', true);
+
+INSERT INTO users(username, password, enabled) VALUES('summoner1', 'summoner1', true);
+INSERT INTO users(username, password, enabled) VALUES('summoner2', 'summoner2', true);
+INSERT INTO users(username, password, enabled) VALUES('summoner3', 'summoner3', true);
+INSERT INTO users(username, password, enabled) VALUES('summoner4', 'summoner4', true);
+
+INSERT INTO users(username, password, enabled) VALUES('reviewer1', 'reviewer1', true);
+INSERT INTO users(username, password, enabled) VALUES('reviewer2', 'reviewer2', true);
+INSERT INTO users(username, password, enabled) VALUES('reviewer3', 'reviewer3', true);
+INSERT INTO users(username, password, enabled) VALUES('reviewer4', 'reviewer4', true);
+
+INSERT INTO administrators VALUES(1, 'admin@gmail.com', 'admin');
+
+INSERT INTO summoners VALUES(1, 'summoner1@gmail.com', 'summoner1', 1);
+INSERT INTO summoners VALUES(2, 'summoner2@gmail.com', 'summoner2', 1);
+INSERT INTO summoners VALUES(3, 'summoner3@gmail.com', 'summoner3', 1);
+INSERT INTO summoners VALUES(4, 'summoner4@gmail.com', 'summoner4', 1);
+
+INSERT INTO reviewers VALUES (1, 'reviewer1@gmail.com', 'reviewer1');
+INSERT INTO reviewers VALUES (2, 'reviewer2@gmail.com', 'reviewer2');
+INSERT INTO reviewers VALUES (3, 'reviewer3@gmail.com', 'reviewer3');
+INSERT INTO reviewers VALUES (4, 'reviewer4@gmail.com', 'reviewer4');
+
+INSERT INTO RUNE_PAGES (id, name, summoner_id, main_branch_id, secondary_branch_id, keyrune_id, mainrune1_id, mainrune2_id, mainrune3_id,
 secrune1_id, secrune2_id) VALUES(1, 'Precision rune page', 1, 1, 2, 1, 5, 8, 12, 18, 21);
 
 INSERT INTO ITEMS VALUES(1, 'descripcion1', 'titulo1');

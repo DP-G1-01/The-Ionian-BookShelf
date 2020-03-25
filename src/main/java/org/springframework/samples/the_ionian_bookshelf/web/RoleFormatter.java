@@ -7,17 +7,18 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
+import the_ionian_bookshelf.service.RoleService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RoleFormatter implements Formatter<Role> {
 
-	private final ChampionService championService;
+	private final RoleService roleService;
 
 	@Autowired
-	public RoleFormatter(ChampionService championService) {
-		this.championService = championService;
+	public RoleFormatter(RoleService roleService) {
+		this.roleService = roleService;
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class RoleFormatter implements Formatter<Role> {
 
 	@Override
 	public Role parse(String text, Locale locale) throws ParseException {
-		Collection<Role> findRoles = this.championService.findRoless();
+		Collection<Role> findRoles = this.roleService.findAll();
 		for (Role role : findRoles) {
 			if (role.getName().equals(text)) {
 				return role;

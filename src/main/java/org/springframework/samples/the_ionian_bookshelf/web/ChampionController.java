@@ -1,6 +1,7 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -9,81 +10,153 @@ import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ChampionController {
-	
+
 	@Autowired
 	private final ChampionService championService;
+
+	@Autowired
+	private final RoleService roleService;
+
+	@Autowired
+	private final AdministratorService administratorService;
+
+	@Autowired
+	private final ReviewerService reviewerService;
+
+	@InitBinder("champion")
+	public void initChampionBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new ChampionValidator());
+	}
 	
 	@Autowired
-	public ChampionController(ChampionService championService) {
+	public ChampionController(ChampionService championService, RoleService roleService,
+			AdministratorService administratorService, ReviewerService reviewerService) {
 		this.championService = championService;
+		this.roleService = roleService;
+		this.administratorService = administratorService;
+		this.reviewerService = reviewerService;
 	}
 
-	
-	
-	//lista de campeones
+	// lista de campeones
 	@GetMapping(value = "/champions")
 	public String listadoCampeones(ModelMap modelMap) {
 		String vista = "/champions/listadoCampeones";
-		Iterable<Champion> champions = championService.findAll();
-		modelMap.addAttribute("champions", champions );
+		Collection<Champion> champions = championService.findAll();
+		modelMap.addAttribute("champions", champions);
 		return vista;
 	}
-	
-	//Intento de hacer lo mismo que Pet con PetType
-		@ModelAttribute("role")
-		public Collection<Role> populateRole() {
-			return this.championService.findRoless();
-		}
-	
-	//Creacion de una runa
-	@GetMapping(value="/champions/new")
+
+	// Intento de hacer lo mismo que Pet con PetType
+	@ModelAttribute("role")
+	public Collection<Role> populateRole() {
+		return this.roleService.findAll();
+	}
+
+	// Creacion de una runa
+	@GetMapping(value = "/champions/new")
 	public String crearCampeon(ModelMap modelMap) {
-		String view="champions/editCampeon";
+		// TRY-CATCH PARA ADMINISTRADOR (En el doc no se habla nada de reviewer)
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+			return "redirect:/login";
+		}
+		String view = "champions/editCampeon";
 		modelMap.addAttribute("champion", new Champion());
 		return view;
 	}
-	
-	@PostMapping(value="champions/save")
+
+	@PostMapping(value = "champions/save")
 	public String salvarCampeon(@Valid Champion champion, BindingResult result, ModelMap model) {
-		String view = "champions/listadoCampeones";
-		if(champion.getRole()==null) {
+		// TRY-CATCH PARA ADMINISTRADOR (En el doc no se habla nada de reviewer)
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as an admin or reviewer");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as an admin or reviewer");
+			return "redirect:/login";
+		}
+		if (result.hasErrors()) {
 			model.addAttribute("champion", champion);
 			return "champions/editCampeon";
+		} else {
+			championService.save(champion);
+			model.addAttribute("message", "Champion save successfully");
 		}
-		else if(result.hasErrors()) {
-			model.addAttribute("champion", champion);
-			return "champions/editCampeon";
-		}else {
-			championService.saveChampion(champion);
-			model.addAttribute("message","Champion save successfully");
-		}
-		
+
 		return "redirect:/champions/";
+	}
+
+	// Remove
+	@GetMapping(value = "/champions/{championId}/remove")
+	public String borrarChampion(@PathVariable("championId") int championId, ModelMap modelMap) {
+		// TRY-CATCH PARA ADMINISTRADOR (En el doc no se habla nada de reviewer)
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+			return "redirect:/login";
+		}
+		Champion champion = championService.findChampionById(championId);
+		if (champion != null) {
+			championService.deleteChampion(champion);
+			modelMap.addAttribute("message", "Champion delete successfully");
+		} else {
+			modelMap.addAttribute("message", "Champion not found");
+		}
+
+		return "redirect:/champions/";
+
 	}
 	
-	//Remove
-	@GetMapping(value="/champions/{championId}/remove")
-	public String borrarChampion(@PathVariable("championId") int championId, ModelMap modelMap) {
-		String view ="champions/listadoCampeones";
-		Champion champion = championService.findChampionById(championId);
-		if(champion!=null) {
-			championService.deleteChampion(champion);
-			modelMap.addAttribute("message","Champion delete successfully");
-		}else {
-			modelMap.addAttribute("message","Champion not found");
+	//Update
+		@GetMapping(value = "/champions/{championId}/edit")
+		public String initUpdateOwnerForm(@PathVariable("championId") int championId, Model model) {
+			try {
+				this.administratorService.findByPrincipal();
+			} catch (AssertionError e) {
+				model.addAttribute("message", "You must be logged in as an admin");
+				return "redirect:/login";
+			} catch (NoSuchElementException u) {
+				model.addAttribute("message", "You must be logged in as an admin");
+				return "redirect:/login";
+			}
+			Champion champion = this.championService.findChampionById(championId);
+			model.addAttribute(champion);
+			return "champions/editCampeon";
 		}
-		
-		return "redirect:/champions/";
-		
-	}
+
+		@PostMapping(value = "/champions/{championId}/edit")
+		public String processUpdateOwnerForm(@Valid Champion champion, BindingResult result, @PathVariable("championId") int championId) {
+			if (result.hasErrors()) {
+				return "champions/editCampeon";
+			}
+			else {
+				champion.setId(championId);
+				this.championService.save(champion);
+				return "redirect:/champions/";
+			}
+		}
 
 }

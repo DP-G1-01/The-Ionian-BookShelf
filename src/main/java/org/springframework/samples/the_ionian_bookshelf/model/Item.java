@@ -1,11 +1,13 @@
 package org.springframework.samples.the_ionian_bookshelf.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -49,14 +51,8 @@ public class Item extends BaseEntity {
 	@NotEmpty
 	@Valid
 	@Size(min = 1, max = 3)
-	@ManyToMany
-	@JoinTable(name="item_roles", joinColumns = @JoinColumn(name="item_id"),
-			inverseJoinColumns = @JoinColumn(name="role_id"))
-	private List<Role> roles;
-
-	public String toString() {
-		return title;
-	}
-	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "item_roles", joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Collection<Role> roles;
 
 }

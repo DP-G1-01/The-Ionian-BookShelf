@@ -10,7 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
-	@Query(value = "select a from Actor a where a.userAccount.id = ?1", nativeQuery = true)
-	Actor findByUserAccountId(int id);
-
 }

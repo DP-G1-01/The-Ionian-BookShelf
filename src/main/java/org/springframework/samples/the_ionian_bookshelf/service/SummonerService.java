@@ -3,6 +3,7 @@ package org.springframework.samples.the_ionian_bookshelf.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -26,25 +27,28 @@ public class SummonerService {
 	private SummonerRepository summonerRepository;
 
 	@Autowired
-	private UserAccountService uaService;
+	private UserService userService;
 
 	@Autowired
-	private ActorService actorService;
+	private AuthoritiesService authService;
+
+	@Autowired
+	private LeagueService leagueService;
+
+	@Autowired
+	private LoginService loginService;
 
 	public Summoner create() {
 
 		Summoner res;
-		UserAccount ua;
-		Authority auth;
+		User user = new User();
 
 		res = new Summoner();
-		ua = this.uaService.create();
 
-		auth = new Authority();
-		auth.setAuthority(Authority.SUMMONER);
-		ua.addAuthority(auth);
+		res.setUser(user);
 
-		res.setUserAccount(ua);
+		res.setMains(new ArrayList<Champion>());
+		res.setLeague(this.leagueService.findBasicLeague());
 
 		return res;
 	}
@@ -71,13 +75,11 @@ public class SummonerService {
 
 		assertNotNull(summ);
 
-		this.findByPrincipal();
+		Summoner saved = summonerRepository.save(summ);
 
-		PasswordEncoder encoder = this.passwordEncoder();
+		userService.saveUser(summ.getUser());
 
-		summ.getUserAccount().setPassword(encoder.encode(summ.getUserAccount().getPassword()));
-
-		final Summoner saved = this.summonerRepository.save(summ);
+		authService.saveAuthorities(summ.getUser().getUsername(), "summoner");
 
 		return saved;
 	}
@@ -91,30 +93,21 @@ public class SummonerService {
 	public Summoner findByPrincipal() {
 
 		Summoner res;
-		final UserAccount ua = LoginService.getPrincipal();
+		final User ua = this.loginService.getPrincipal();
 		assertNotNull(ua);
 
-		res = this.findByUserAccountId(ua.getId());
-
-		final boolean hasAuthority = this.actorService.checkAuthority(res, Authority.SUMMONER);
-		assertTrue(hasAuthority);
+		res = this.findByUsername(ua.getUsername());
 
 		return res;
 	}
 
-	public Summoner findByUserAccountId(final int id) {
+	private Summoner findByUsername(String username) {
+		assertNotNull(username);
 
-		assertTrue(id != 0);
-
-		final Summoner res = this.summonerRepository.findByUserAccountId(id);
+		final Summoner res = this.summonerRepository.findByUsername(username);
 		assertNotNull(res);
 
 		return res;
-	}
-
-	private PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder;
 	}
 
 	public Collection<Summoner> findByChampion(Champion champ) {

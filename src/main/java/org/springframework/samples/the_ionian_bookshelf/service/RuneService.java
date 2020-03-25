@@ -1,10 +1,13 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -31,10 +34,17 @@ public class RuneService {
 	private RunePageRepository runePageRepository;
 	
 	@Autowired
-	public RuneService(RuneRepository runeRepository, BranchRepository branchRepository, RunePageRepository runePageRepository) {
+	private AuthoritiesService authService;
+	
+	@Autowired
+	private BuildRepository buildRepository;
+	
+	@Autowired
+	public RuneService(RuneRepository runeRepository, BranchRepository branchRepository, RunePageRepository runePageRepository, BuildRepository buildRepository) {
 		this.runeRepository = runeRepository;
 		this.branchRepository = branchRepository;
 		this.runePageRepository = runePageRepository;
+		this.buildRepository = buildRepository;
 	}
 
 	//Método para listar runas
@@ -53,15 +63,18 @@ public class RuneService {
 	@Transactional
 	public void saveRune(Rune rune) throws DataAccessException {
 		assertNotNull(rune);
+		assertTrue(this.authService.checkAuthorities("administrator"));
 		this.runeRepository.save(rune);
 	}
 	
 	@Transactional
 	public void deleteRune(Rune rune) throws DataAccessException {
 		assertNotNull(rune);
-		Collection<RunePage> runePages = this.runePageRepository.findAllByRune(rune.getId());
-		runePages.forEach(x->this.runePageRepository.delete(x));
-		this.runeRepository.delete(rune);
+        Collection<RunePage> runePages = this.runePageRepository.findAllByRune(rune.getId());
+        List<Build> builds = runePages.stream().map(x-> this.buildRepository.findAllByRunePage(x.getId())).flatMap(x->x.stream()).collect(Collectors.toList());
+        builds.forEach(x->this.buildRepository.delete(x));
+        runePages.forEach(x->this.runePageRepository.delete(x));
+        this.runeRepository.delete(rune);
 	}
 	
 	//Forma como está puesto el PetType

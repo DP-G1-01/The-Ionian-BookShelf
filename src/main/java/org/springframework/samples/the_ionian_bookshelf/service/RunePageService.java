@@ -25,94 +25,88 @@ public class RunePageService {
 
 	@Autowired
 	private RunePageRepository runePageRepository;
-	
+
 	@Autowired
-	private ActorService actorService;
-	
+	private SummonerService summonerService;
+
 	@Autowired
 	private RuneRepository runeRepository;
 
 	@Autowired
+	private BuildRepository buildRepository;
+
+	@Autowired
 	private BranchRepository branchRepository;
-	
+
 	@Transactional()
 	public Collection<Branch> findBranches() throws DataAccessException {
 		return this.branchRepository.findAll();
 	}
-	
-	//Método para listar runas
+
+	// Método para listar runas
 	@Transactional
-	public Iterable<RunePage> findAllMine() throws DataAccessException {
+	public Collection<RunePage> findAllMine() throws DataAccessException {
 		List<RunePage> runePages = new ArrayList<>();
-//		Actor principal = this.actorService.findByPrincipal();
-//		this.runePageRepository.findAllByUserAccountId(principal.getUserAccount().getId()).forEach(runePages::add);
-		this.runePageRepository.findAll().forEach(runePages::add);
+		Summoner principal = this.summonerService.findByPrincipal();
+		this.runePageRepository.findAllBySummonerId(principal.getId()).forEach(runePages::add);
 		return runePages;
 	}
-	
+
 	@Transactional
 	public void save(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
-		
-//		Actor principal = this.actorService.findByPrincipal();
-//		
-//		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR) ||
-//				this.actorService.checkAuthority(principal, Authority.SUMMONER) ||
-//				this.actorService.checkAuthority(principal, Authority.REVIEWER));
+		assertNotNull(this.summonerService.findByPrincipal());
 		this.runePageRepository.save(runePage);
 	}
-	
+
 	@Transactional
 	public void delete(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
-//		Actor principal = this.actorService.findByPrincipal();
-//		assertTrue(principal.getUserAccount().equals(runePage.getSummoner().getUserAccount()));
+		Summoner principal = this.summonerService.findByPrincipal();
+		assertTrue(principal.equals(runePage.getSummoner()));
+		Collection<Build> builds = this.buildRepository.findAllByRunePage(runePage.getId());
+		builds.forEach(x -> this.buildRepository.delete(x));
 		this.runePageRepository.delete(runePage);
 	}
-	
-	
+
 	@Transactional
 	public RunePage findOne(int id) {
 
 		assertTrue(id != 0);
 
-		final RunePage res = this.runePageRepository.findById(id).get();
+		RunePage res = this.runePageRepository.findById(id).get();
 		assertNotNull(res);
-
 		return res;
-
 	}
 
 	public List<Rune> findRunes() {
-		
+
 		return this.runeRepository.findAll();
 	}
-	
+
 	@Transactional
 	public RunePage create() {
-//		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR) ||
-//				this.actorService.checkAuthority(principal, Authority.SUMMONER) ||
-//				this.actorService.checkAuthority(principal, Authority.REVIEWER));    this.actorService.findByPrincipal().getUserAccount().getId()
-		Summoner summoner = this.actorService.findSummonerByUserAccountId(1);
+		assertNotNull(this.summonerService.findByPrincipal());
+		Summoner summoner = this.summonerService.findByPrincipal();
 		RunePage res = new RunePage();
 		res.setName("New Rune Page");
 		res.setSummoner(summoner);
 		return res;
 	}
 
-	//Para agrupar runas por rama y nodo
-	public List<List<Rune>> findRunesByBranchNode() throws DataAccessException{
+	// Para agrupar runas por rama y nodo
+	public List<List<Rune>> findRunesByBranchNode() throws DataAccessException {
 		List<Rune> runes = this.runeRepository.findAll();
 		List<List<Rune>> result = new ArrayList<>();
 		List<Branch> branchReconocidas = new ArrayList<>();
-		for(Rune rune: runes) {
-			if(!branchReconocidas.contains(rune.getBranch())) {
+		for (Rune rune : runes) {
+			if (!branchReconocidas.contains(rune.getBranch())) {
 				branchReconocidas.add(rune.getBranch());
 				List<Rune> newListKey = new ArrayList<>();
 				List<Rune> newList1 = new ArrayList<>();
 				List<Rune> newList2 = new ArrayList<>();
 				List<Rune> newList3 = new ArrayList<>();
-				switch(rune.getNode()) {
+				switch (rune.getNode()) {
 				case "Key":
 					newListKey.add(rune);
 					break;
@@ -132,22 +126,23 @@ public class RunePageService {
 				result.add(newList1);
 				result.add(newList2);
 				result.add(newList3);
-			}else {
-				//En branchReconocidas irán entrando las branch en el mismo orden que las listas de sus runas
+			} else {
+				// En branchReconocidas irán entrando las branch en el mismo orden que las
+				// listas de sus runas
 				int index = branchReconocidas.indexOf(rune.getBranch());
-				//Se crearán 4 listas por cada branch, 1 por cada nodo
-				switch(rune.getNode()) {
+				// Se crearán 4 listas por cada branch, 1 por cada nodo
+				switch (rune.getNode()) {
 				case "Key":
-					index = index*4;
+					index = index * 4;
 					break;
 				case "1":
-					index = index*4+1;
+					index = index * 4 + 1;
 					break;
 				case "2":
-					index = index*4+2;
+					index = index * 4 + 2;
 					break;
 				case "3":
-					index = index*4+3;
+					index = index * 4 + 3;
 					break;
 				default:
 					throw new IllegalArgumentException("Not a valid rune node");
@@ -162,11 +157,11 @@ public class RunePageService {
 		List<Rune> runes = this.runeRepository.findAll();
 		List<List<Rune>> result = new ArrayList<>();
 		List<Branch> branchReconocidas = new ArrayList<>();
-		for(Rune rune: runes) {
-			if(!branchReconocidas.contains(rune.getBranch())) {
+		for (Rune rune : runes) {
+			if (!branchReconocidas.contains(rune.getBranch())) {
 				branchReconocidas.add(rune.getBranch());
 				List<Rune> newListSec = new ArrayList<>();
-				switch(rune.getNode()) {
+				switch (rune.getNode()) {
 				case "Key":
 					break;
 				case "1":
@@ -182,10 +177,11 @@ public class RunePageService {
 					throw new IllegalArgumentException("Not a valid rune node");
 				}
 				result.add(newListSec);
-			}else {
-				//En branchReconocidas irán entrando las branch en el mismo orden que las listas de sus runas
+			} else {
+				// En branchReconocidas irán entrando las branch en el mismo orden que las
+				// listas de sus runas
 				int index = branchReconocidas.indexOf(rune.getBranch());
-				switch(rune.getNode()) {
+				switch (rune.getNode()) {
 				case "Key":
 					break;
 				case "1":
