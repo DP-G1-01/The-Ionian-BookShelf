@@ -77,7 +77,7 @@ public class RunePageService {
 
 		assertTrue(id != 0);
 
-		final RunePage res = this.runePageRepository.findById(id).get();
+		RunePage res = this.runePageRepository.findById(id).get();
 		assertNotNull(res);
 		return res;
 	}

@@ -131,6 +131,7 @@ public class RunePageController {
 			modelMap.addAttribute("message", "You must be logged in as a summoner");
 			return "redirect:/login";
 		}
+		
 		Summoner principal = this.summonerService.findByPrincipal();
 		RunePage runePage = runePageService.findOne(runePageId);
 		if (runePage != null && runePage.getSummoner().equals(principal)) {
