@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import the_ionian_bookshelf.security.LoginService;
+import the_ionian_bookshelf.service.ActorService;
+import the_ionian_bookshelf.service.AdministratorService;
 import utilities.AbstractTest;
 
 @SpringBootTest
@@ -33,6 +35,12 @@ public class SampleTest extends AbstractTest {
 	@Autowired
 	private LoginService loginService;
 
+	@Autowired
+	private ActorService actorService;
+
+	@Autowired
+	private AdministratorService adminService;
+
 	@Test
 	public void SamplePositiveTest() {
 		assertTrue(true);
@@ -48,6 +56,7 @@ public class SampleTest extends AbstractTest {
 
 		this.authenticate("admin");
 		assertTrue(this.loginService.getPrincipal().getUsername().equals("admin"));
+		assertTrue(this.actorService.checkAuthority(this.adminService.findByPrincipal(), "administrator"));
 	}
 
 }
