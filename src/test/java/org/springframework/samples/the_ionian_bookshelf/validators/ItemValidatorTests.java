@@ -36,6 +36,7 @@ public class ItemValidatorTests {
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
 		attributes.add("80");
+		attributes.add("80");
 		Role rol = new Role("rolTest", "testeoooooooooooooooo", "https://www.google.es");
 		List<Role> roles = new ArrayList<>();
 		roles.add(rol);
@@ -70,6 +71,8 @@ public class ItemValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
+		attributes.add("80");
+		attributes.add("80");
 		Role rol = new Role("rolTestttttt", "testeoooooooooooooooo", "https://www.google.es");
 		List<Role> roles = new ArrayList<>();
 		roles.add(rol);
@@ -114,7 +117,7 @@ public class ItemValidatorTests {
 						assertThat(violation.getMessage()).isEqualTo("must not be empty");
 					}else {
 						assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
-						assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 3");
+						assertThat(violation.getMessage()).isEqualTo("size must be between 3 and 3");
 				}
 			}else {
 				assertTrue(false);
@@ -126,8 +129,6 @@ public class ItemValidatorTests {
 	void shouldNotValidateWhenListsTooBig() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		List<String> attributes = new ArrayList<>();
-		attributes.add("34");
-		attributes.add("80");
 		attributes.add("34");
 		attributes.add("80");
 		Role rol = new Role("rolTest", "testeoooooooooooooooo", "https://www.google.es");
@@ -153,7 +154,7 @@ public class ItemValidatorTests {
 				}
 			else if(violation.getPropertyPath().toString() .contentEquals("attributes")){
 						assertThat(violation.getPropertyPath().toString()) .isEqualTo("attributes");
-						assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 3");
+						assertThat(violation.getMessage()).isEqualTo("size must be between 3 and 3");
 			}else {
 				assertTrue(false);
 			}

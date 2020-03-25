@@ -12,7 +12,7 @@
 		Change Request
 	</h2>
 	<form:form modelAttribute="request" class="form-horizontal"
-		id="add-item-change-request-form" action="/requests/saveChangeRequest">
+		id="add-change-request-form" action="/requests/saveChangeRequest">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Title" name="title" />
 			<petclinic:inputField label="Description" name="description" />

@@ -4,11 +4,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.the_ionian_bookshelf.model.Build;
+import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
+import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequestRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,12 @@ public class ItemService {
 	
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private BuildRepository buildRepository;
+
+	@Autowired
+	private ChangeRequestRepository changeRequestRepository;
 	
 	@Autowired
 	private RoleRepository roleRepository;
@@ -51,6 +61,21 @@ public class ItemService {
 	public void removeItemById(int itemId) {
 		Item item = itemRepository.findItemById(itemId);
 		assertNotNull(item);
+		List<Build> builds = buildRepository.findBuildsByItemId(itemId);
+		if(!builds.isEmpty()) {
+		for(Build b: builds) {
+			List<Item> aux = b.getItems();
+			aux.remove(item);
+			b.setItems(aux);
+			buildRepository.save(b);
+		}
+		}
+		ChangeRequest request = changeRequestRepository.findChangeRequestByItemId(itemId);
+		
+		if(request != null) {
+		changeRequestRepository.delete(request);
+		}
+		
 		itemRepository.delete(item);
 	}
 	

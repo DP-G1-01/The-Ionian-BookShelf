@@ -32,6 +32,7 @@ public class ChangeRequestValidatorTests {
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
 		attributes.add("80");
+		attributes.add("80");
 		Role rol = new Role("rolTest", "testeoooooooooooooooo", "https://www.google.es");
 		List<Role> roles = new ArrayList<>();
 		roles.add(rol);
@@ -76,6 +77,7 @@ public class ChangeRequestValidatorTests {
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
 		attributes.add("80");
+		attributes.add("80");
 		Role rol = new Role("rolTest", "testeoooooooooooooooo", "https://www.google.es");
 		List<Role> roles = new ArrayList<>();
 		roles.add(rol);
@@ -105,6 +107,7 @@ public class ChangeRequestValidatorTests {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		List<String> attributes = new ArrayList<>();
 		attributes.add("34");
+		attributes.add("80");
 		attributes.add("80");
 		Role rol = new Role("rolTest", "testeoooooooooooooooo", "https://www.google.es");
 		List<Role> roles = new ArrayList<>();

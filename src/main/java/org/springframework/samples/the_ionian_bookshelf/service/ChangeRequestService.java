@@ -98,7 +98,6 @@ public class ChangeRequestService {
 //		Actor principal = this.actorService.findByPrincipal();
 //
 //		assertTrue(this.actorService.checkAuthority(principal, Authority.REVIEWER));
-
 		this.changeRepository.save(change);
 	}
 

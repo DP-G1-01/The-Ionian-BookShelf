@@ -60,7 +60,7 @@ public class ChangeRequest extends BaseEntity {
 	private List<String> changeChamp;
 
 	@ElementCollection
-	@Size(min = 1, max = 3)
+	@Size(min = 3, max = 3)
 	@Column(name = "change_item")
 	private List<String> changeItem; // cambios en los items
 
