@@ -7,7 +7,6 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -25,7 +24,8 @@ import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
+@SpringBootTest (classes = TheIonianBookshelfApplication.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class RuneServiceTests {
 
@@ -76,15 +76,15 @@ public class RuneServiceTests {
 		assertEquals(this.branchRepository.count(), branches.size());
 	}
 	
-//	@Test
-//	@Transactional
-//	void testDeleteRune() {
-//		long initial = this.runeRepository.count();
-//		Rune rune = this.runeRepository.findAll().get(0);
-//		this.runeService.deleteRune(rune);
-//		long after = this.runeRepository.count();
-//		assertEquals((initial-1), after);
-//	}
+	@Test
+	@Transactional
+	void testDeleteRune() {
+		long initial = this.runeRepository.count();
+		Rune rune = this.runeRepository.findAll().get(0);
+		this.runeService.deleteRune(rune);
+		long after = this.runeRepository.count();
+		assertEquals((initial-1), after);
+	}
 	
 	@Test
 	@Transactional
