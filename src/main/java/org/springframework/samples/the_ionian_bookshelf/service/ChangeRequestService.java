@@ -9,10 +9,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.the_ionian_bookshelf.model.Actor;
-import org.springframework.samples.the_ionian_bookshelf.model.Authority;
 import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
-import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequestRepository;
 import org.springframework.stereotype.Service;
@@ -32,13 +29,12 @@ public class ChangeRequestService {
 	@Autowired
 	private SummonerService summonerService;
 
-
 	public ChangeRequest create() {
 
 		Summoner summoner = this.summonerService.findByPrincipal();
 
-		//Champion defaultChamp = this.changeionService.create();
-		
+		// Champion defaultChamp = this.changeionService.create();
+
 		ChangeRequest res = new ChangeRequest();
 		res.setTitle("New title");
 		res.setDescription("New description");
@@ -52,7 +48,7 @@ public class ChangeRequestService {
 
 		return res;
 	}
-	
+
 	@Transactional
 	public Collection<ChangeRequest> findAll() {
 		Collection<ChangeRequest> res = this.changeRepository.findAll();
@@ -77,7 +73,7 @@ public class ChangeRequestService {
 		assertNotNull(request);
 		return request;
 	}
-	
+
 	@Transactional
 	public void save(ChangeRequest change) throws DataAccessException {
 
@@ -105,7 +101,7 @@ public class ChangeRequestService {
 	public void delete(ChangeRequest change) throws DataAccessException {
 
 		assertNotNull(change);
-		//this.reviewerService.findByPrincipal();
+		// this.reviewerService.findByPrincipal();
 		this.changeRepository.delete(change);
 	}
 

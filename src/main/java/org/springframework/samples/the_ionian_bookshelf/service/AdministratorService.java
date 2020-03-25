@@ -25,7 +25,7 @@ public class AdministratorService {
 
 	@Autowired
 	private AuthoritiesService authService;
-	
+
 	@Autowired
 	private LoginService loginService;
 

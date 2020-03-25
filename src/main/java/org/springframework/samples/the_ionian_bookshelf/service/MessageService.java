@@ -10,13 +10,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.the_ionian_bookshelf.model.Actor;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
-import org.springframework.samples.the_ionian_bookshelf.model.Vote;
 import org.springframework.samples.the_ionian_bookshelf.repository.MessageRepository;
-import org.springframework.samples.the_ionian_bookshelf.security.LoginService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -67,23 +64,21 @@ public class MessageService {
 
 	public Message saveMessage(Message message) throws DataAccessException {
 		assertNotNull(message);
-		// Actor principal = this.actorService.findByPrincipal();
-		//
-		// assertTrue(this.actorService.checkAuthority(principal,
-		// Authority.ADMINISTRATOR)
-		// || this.actorService.checkAuthority(principal, Authority.REVIEWER)
-		// || this.actorService.checkAuthority(principal, Authority.SUMMONER));
+//		Actor principal = this.actorService.findByPrincipal();
+//
+//		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR)
+//				|| this.actorService.checkAuthority(principal, Authority.REVIEWER)
+//				|| this.actorService.checkAuthority(principal, Authority.SUMMONER));
 
 		return this.messRepo.save(message);
 	}
 
 	public void delete(Message message) throws DataAccessException {
 		assertNotNull(message);
-		// Actor principal = this.actorService.findByPrincipal();
-		//
-		// assertTrue(this.actorService.checkAuthority(principal,
-		// Authority.ADMINISTRATOR)
-		// || this.actorService.checkAuthority(principal, Authority.REVIEWER));
+//		Actor principal = this.actorService.findByPrincipal();
+//
+//		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR)
+//				|| this.actorService.checkAuthority(principal, Authority.REVIEWER));
 		this.messRepo.delete(message);
 	}
 

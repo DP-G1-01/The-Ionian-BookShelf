@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Integer>{
 
-	@Query("select vote from Vote vote where vote.thread = ?1")
-	Collection<Vote> findByThread(Thread thread);
+	@Query("select vote from Vote vote where vote.thread.id = ?1")
+	Collection<Vote> findByThread(int id);
 
 }

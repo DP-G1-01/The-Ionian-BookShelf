@@ -22,22 +22,21 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
+				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Home">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
+					<span><c:out value="${name}" /></span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'runes'}" url="/runes/"
-					title="Runes">
+				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
+					title="find owners">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Runes</span>
+					<span>Find owners</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'champions'}" url="/champions"
-					title="champions">
+				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
+					title="veterinarians">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Champions</span>
+					<span>Veterinarians</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
@@ -45,16 +44,20 @@
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
-
 			</ul>
 
 
 
 
 			<ul class="nav navbar-nav navbar-right">
+				<sec:authorize access="hasAnyAuthority('administrator')">
+					<li><a
+						href="<c:url value="/actor/administrator/createAdministrator" />">Register
+							an admin</a></li>
+				</sec:authorize>
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/users/new" />">Register</a></li>
+					<li><a href="<c:url value="/actor/signUp" />">Register</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -84,7 +87,7 @@
 								</div>
 							</li>
 							<li class="divider"></li>
-<!-- 							
+							<!-- 							
                             <li> 
 								<div class="navbar-login navbar-login-session">
 									<div class="row">

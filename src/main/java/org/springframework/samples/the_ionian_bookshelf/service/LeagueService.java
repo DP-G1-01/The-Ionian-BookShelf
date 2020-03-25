@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
-import org.springframework.samples.the_ionian_bookshelf.repositories.LeagueRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.LeagueRepository;
 import org.springframework.stereotype.Service;
 
 @Service

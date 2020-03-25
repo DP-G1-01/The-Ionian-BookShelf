@@ -45,8 +45,7 @@ public class ConfigurationParameters extends BaseEntity {
 	@ElementCollection
 	@NotEmpty
 	@OneToMany
-	//@JoinColumn(name = "role_id")
-	@Column(name = "role_id")
+	@JoinColumn(name = "role_id")
 	private Collection<Role> roles;
 
 	@ElementCollection

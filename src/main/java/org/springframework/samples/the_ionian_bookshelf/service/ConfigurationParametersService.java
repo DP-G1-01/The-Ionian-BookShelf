@@ -78,23 +78,21 @@ public class ConfigurationParametersService {
 
 		return res;
 	}
-	
-	public Collection<Role> getRoles(){
-		
+
+	public Collection<Role> getRoles() {
+
 		Collection<Role> res = this.configurationParametersRepository.getRoles();
 		assertNotNull(res);
-		
-		return res;
-	}
-	
-	public Collection<Branch> getBranches(){
-		
-		Collection<Branch> res = this.configurationParametersRepository.getBranches();
-		assertNotNull(res);
-		
+
 		return res;
 	}
 
-	
+	public Collection<Branch> getBranches() {
+
+		Collection<Branch> res = this.configurationParametersRepository.getBranches();
+		assertNotNull(res);
+
+		return res;
+	}
 
 }

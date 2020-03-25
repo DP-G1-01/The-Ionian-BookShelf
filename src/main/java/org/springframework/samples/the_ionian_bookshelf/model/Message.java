@@ -1,6 +1,5 @@
 package org.springframework.samples.the_ionian_bookshelf.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -38,16 +37,19 @@ public class Message extends BaseEntity {
 	@NotNull
 	@Column(name = "moment")
 	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy/MM/dd hh:mm")
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private Date moment;
 
 	@Valid
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "summoner_id")
 	private Summoner summoner;
 
 	@Valid
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "thread_id")
 	private Thread thread;
+
 }
