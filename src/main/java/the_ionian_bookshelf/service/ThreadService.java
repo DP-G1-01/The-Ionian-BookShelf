@@ -30,12 +30,11 @@ public class ThreadService {
 	@Autowired
 	private MessageService messageService;
 
-	
 	@Autowired
 	public ThreadService(ThreadRepository threadRepository) {
-		this.threadRepo=threadRepository;
+		this.threadRepo = threadRepository;
 	}
-	
+
 	@Autowired
 	private AuthoritiesService authService;
 
@@ -45,8 +44,8 @@ public class ThreadService {
 		res.setDescription("New description");
 		return res;
 	}
-  
-  @Transactional
+
+	@Transactional
 	public Iterable<Thread> findAll() {
 		Iterable<Thread> res = this.threadRepo.findAll();
 		assertNotNull(res);
@@ -62,15 +61,16 @@ public class ThreadService {
 
 	}
 
-	public Thread save(Thread thread) throws DataAccessException{
+	public Thread save(Thread thread) throws DataAccessException {
 		assertNotNull(thread);
 		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("summoner")
 				|| this.authService.checkAuthorities("reviewer"));
 		return this.threadRepo.save(thread);
 	}
 
-	public void delete(Thread thread)  throws DataAccessException{
+	public void delete(Thread thread) throws DataAccessException {
 		assertNotNull(thread);
+		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
 		this.threadRepo.delete(thread);
 	}
 
