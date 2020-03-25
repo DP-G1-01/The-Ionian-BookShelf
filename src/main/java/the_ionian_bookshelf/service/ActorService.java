@@ -15,6 +15,7 @@ import the_ionian_bookshelf.model.Actor;
 import the_ionian_bookshelf.model.Authorities;
 import the_ionian_bookshelf.model.User;
 import the_ionian_bookshelf.repository.ActorRepository;
+import the_ionian_bookshelf.security.LoginService;
 
 @Service
 @Transactional
@@ -25,6 +26,9 @@ public class ActorService {
 
 	@Autowired
 	private AuthoritiesService authService;
+
+	@Autowired
+	private LoginService logService;
 
 	public Actor create() {
 
@@ -81,13 +85,12 @@ public class ActorService {
 //	public Actor findByPrincipal() {
 //
 //		Actor res;
-//		final User ua = LoginService.getPrincipal();
+//		final User ua = logService.getPrincipal();
 //		assertNotNull(ua);
 //		res = this.findByUsername(ua.getUsername());
-//		System.out.println(res);
 //		return res;
 //	}
-//
+////
 //	public Actor findByUsername(final String username) {
 //
 //		assertNotNull(username);

@@ -17,74 +17,78 @@ import the_ionian_bookshelf.repository.ThreadRepository;
 @Service
 public class ThreadService {
 
-	@Autowired
-	private VoteService voteService;
-	@Autowired
-	private ThreadRepository threadRepo;
-	@Autowired
-	private ActorService actorService;
-	@Autowired
-	private MessageService messageService;
-	@Autowired
-	private AuthoritiesService authService;
+    @Autowired
+    private VoteService voteService;
+    @Autowired
+    private ThreadRepository threadRepo;
+    @Autowired
+    private ActorService actorService;
+    @Autowired
+    private MessageService messageService;
 
-	public Thread create() {
+    @Autowired
+    public ThreadService(ThreadRepository threadRepository) {
+        this.threadRepo = threadRepository;
+    }
 
-		Thread res = new Thread();
-		res.setTitle("New Thread");
-		res.setDescription("New description");
-		return res;
-	}
+    @Autowired
+    private AuthoritiesService authService;
 
-	public Collection<Thread> findAll() {
+    public Thread create() {
 
-		Collection<Thread> res = this.threadRepo.findAll();
-		assertNotNull(res);
+        Thread res = new Thread();
+        res.setTitle("New Thread");
+        res.setDescription("New description");
+        return res;
+    }
 
-		return res;
-	}
+    @Transactional
+    public Iterable<Thread> findAll() {
+        Iterable<Thread> res = this.threadRepo.findAll();
+        assertNotNull(res);
 
-	public Thread findOne(int id) {
+        return res;
+    }
 
-		assertTrue(id != 0);
+    public Thread findOne(int id) {
 
-		final Thread res = this.threadRepo.findById(id).get();
-		assertNotNull(res);
+        assertTrue(id != 0);
 
-		return res;
+        final Thread res = this.threadRepo.findById(id).get();
+        assertNotNull(res);
 
-	}
+        return res;
 
-	public Thread save(Thread thread) {
+    }
 
-		assertNotNull(thread);
+    public Thread save(Thread thread) throws DataAccessException {
+        assertNotNull(thread);
 
-		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("summoner")
-				|| this.authService.checkAuthorities("reviewer"));
+        assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("summoner")
+                || this.authService.checkAuthorities("reviewer"));
 
-		return this.threadRepo.save(thread);
-	}
+        return this.threadRepo.save(thread);
+    }
 
-	public void delete(Thread thread) {
+    public void delete(Thread thread) throws DataAccessException {
+        assertNotNull(thread);
+        assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
+        this.threadRepo.delete(thread);
+    }
 
-		assertNotNull(thread);
-		// this.adminService.findByPrincipal();
-		this.threadRepo.delete(thread);
-	}
+    public void deleteFromVote(Thread thread) {
 
-	public void deleteFromVote(Thread thread) {
+        Collection<Vote> votes = this.voteService.findByThread(thread);
+        for (Vote vote : votes) {
+            this.voteService.delete(vote);
+        }
+    }
 
-		Collection<Vote> votes = this.voteService.findByThread(thread);
-		for (Vote vote : votes) {
-			this.voteService.delete(vote);
-		}
-	}
+    public void deleteFromMessages(Thread thread) {
 
-	public void deleteFromMessages(Thread thread) {
-
-		Collection<Message> messages = this.messageService.findByThread(thread);
-		for (Message message : messages) {
-			this.messageService.delete(message);
-		}
-	}
+        Collection<Message> messages = this.messageService.findByThread(thread);
+        for (Message message : messages) {
+            this.messageService.delete(message);
+        }
+    }
 }
