@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /*
@@ -30,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -53,30 +52,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		// de la BD H2 (deshabilitar las cabeceras de protección contra
 		// ataques de tipo csrf y habilitar los framesets si su contenido
 		// se sirve desde esta misma página.
-		http.csrf().ignoringAntMatchers("/h2-console/**");
+		http.csrf().ignoringAntMatchers("/h2-console/**").disable();
 		http.headers().frameOptions().sameOrigin();
 	}
 
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		auth.jdbcAuthentication()
-	      .dataSource(dataSource)
-	      .usersByUsernameQuery(
-	       "select username,password,enabled "
-	        + "from users "
-	        + "where username = ?")
-	      .authoritiesByUsernameQuery(
-	       "select username, authority "
-	        + "from authorities "
-	        + "where username = ?")	      	      
-	      .passwordEncoder(passwordEncoder());	
+
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.usersByUsernameQuery("select username,password,enabled " + "from userAccounts " + "where username = ?")
+				.authoritiesByUsernameQuery(
+						"select username, authority.authority " + "from userAccounts " + "where username = ?")
+				.passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
-	    return encoder;
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder;
 	}
 
 }

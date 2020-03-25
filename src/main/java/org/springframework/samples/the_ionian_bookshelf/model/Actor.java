@@ -32,8 +32,8 @@ public class Actor extends BaseEntity {
 	private String email;
 
 	@Valid
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "username", referencedColumnName = "username")
-	private User user;
+	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@JoinColumn(name = "user_account_id")
+	private UserAccount userAccount;
 
 }

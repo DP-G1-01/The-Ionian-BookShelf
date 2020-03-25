@@ -2,6 +2,8 @@ package org.springframework.samples.the_ionian_bookshelf.service;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ public class RoleService {
 		assertNotNull(res);
 
 		return res;
+	}
+
+	public Collection<Role> findAll() {
+		return roleRepo.findAll();
 	}
 
 }

@@ -5,15 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Data
 @Entity
 @Table(name = "runes")
 @Getter
@@ -30,14 +32,16 @@ public class Rune extends BaseEntity {
 	@Column(name = "description")
 	private String description;
 
-	@Valid
-	@NotBlank
-	@ManyToOne(optional = false)
+//	@Valid
+	@NotNull
+//	@ManyToOne(optional = false)
+//	@JoinColumn(name = "branch_id")
+	@ManyToOne
 	@JoinColumn(name = "branch_id")
 	private Branch branch;
 
 	@NotBlank
-	@Pattern(regexp = "^(KEY|1|2|3)$")
+	@Pattern (regexp = "^(Key|1|2|3)$")
 	@Column(name = "node")
 	private String node;
 

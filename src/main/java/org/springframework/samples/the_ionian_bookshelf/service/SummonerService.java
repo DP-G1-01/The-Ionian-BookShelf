@@ -1,5 +1,4 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
-
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 

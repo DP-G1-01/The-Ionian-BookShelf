@@ -35,4 +35,5 @@ public class Role extends BaseEntity {
 	@URL
 	@Column(name = "image")
 	private String image;
+
 }

@@ -1,6 +1,5 @@
 package org.springframework.samples.the_ionian_bookshelf.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -29,7 +28,7 @@ public class League extends BaseEntity {
 	private String name;
 
 	@Valid
-	@OneToOne(optional = false, cascade = CascadeType.REMOVE)
+	@OneToOne(optional = false)
 	@JoinColumn(name = "thread_id")
 	private Thread thread;
 

@@ -1,6 +1,6 @@
 package org.springframework.samples.the_ionian_bookshelf.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Check;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "change_requests")
+@Check(constraints = "champion_id IS NOT NULL AND item_id IS NULL" + " OR " + "champion_id IS NULL AND item_id IS NOT NULL" + " OR "
+		+ "champion_id IS NULL AND item_id IS NULL")
 public class ChangeRequest extends BaseEntity {
 
 	@Valid
@@ -53,26 +57,27 @@ public class ChangeRequest extends BaseEntity {
 	@ElementCollection
 	@Size(min = 5, max = 5)
 	@Column(name = "change_champ")
-	private Collection<Double> changeChamp;
+	private List<String> changeChamp;
 
 	@ElementCollection
-	@Size(min = 1, max = 3)
+	@Size(min = 3, max = 3)
 	@Column(name = "change_item")
-	private Collection<String> changeItem; // cambios en los items
+	private List<String> changeItem; // cambios en los items
 
 	@NotBlank
-	@Pattern(regexp = "^(DENIED|PENDING|ACCEPTED)$")
+	@Pattern(regexp = "^(REJECTED|PENDING|ACCEPTED)$")
 	@Column(name = "status")
 	private String status;
 
 	@Valid
+	//@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "summoner_id")
+	private Summoner summoner;
+	
+	@Valid
 	@ManyToOne(optional = true)
 	@JoinColumn(name = "reviewer_id")
 	private Reviewer reviewer;
-
-	@Valid
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "summoner_id")
-	private Summoner summoner;
 
 }
