@@ -21,3 +21,4 @@
 	onclick="javascript: relativeRedir('localhost:8080${url}')">
 	<jstl:out value="${code}" />
 </button>
+
