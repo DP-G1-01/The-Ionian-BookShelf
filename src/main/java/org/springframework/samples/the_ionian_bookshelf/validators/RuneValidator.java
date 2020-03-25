@@ -42,7 +42,7 @@ public class RuneValidator implements Validator{
 		
 		if(!StringUtils.hasLength(node)) {
 			errors.rejectValue("node", "isNull", "The node must no be null");
-		}else if(!node.equals("Key") || !node.equals("1") || !node.equals("2") || !node.equals("3")) {
+		}else if(!(node.equals("Key") || node.equals("1") || node.equals("2") || node.equals("3"))) {
 			errors.rejectValue("node", "Not a valid node", "Node value must be Key, 1, 2 or 3");
 		}
 	
