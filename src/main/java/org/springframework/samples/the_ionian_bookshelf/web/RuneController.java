@@ -1,17 +1,12 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.AccessException;
-import org.springframework.samples.the_ionian_bookshelf.model.Authority;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
-import org.springframework.samples.the_ionian_bookshelf.model.UserAccount;
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class RuneController {

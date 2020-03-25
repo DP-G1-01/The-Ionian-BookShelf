@@ -131,6 +131,7 @@ VALUES
 INSERT INTO reviewers
 VALUES
     (4, 'reviewer4@gmail.com', 'reviewer4');
+    
 INSERT INTO ROLES VALUES(1,'Especializado en combate cercano. Combinan objetos de daño con objetos de aguante. También se los conoce como offtank','http://www.googleimagenes.es','Luchador');
 INSERT INTO ROLES VALUES(2,'Especializado en ataque a distancia. Popularmente conocido como AD Carry del inglés attack damage carry o carreador de daño de ataque','http://www.googleimagenes.es','Tirador');
 INSERT INTO ROLES VALUES(3,'Especializado en habilidades y daño mágico. Popularmente conocido como AP Carry del inglés ability power carry o carreador de poder de habilidad.','http://www.googleimagenes.es','Mago ');
@@ -205,12 +206,6 @@ INSERT INTO RUNES VALUES(32,'PASSIVE: After 10 minutes, you gain 10 Armor and Ma
 INSERT INTO RUNES VALUES(33,'PASSIVE: After taking damage from an enemy champion, gain health regeneration based on your missing health over 10 seconds','Second Wind','2',3);
 INSERT INTO RUNES VALUES(34,'PASSIVE: Every 8 minions that die near you permanently grants 3 bonus health','Overgrowth','3',3);
 INSERT INTO RUNES VALUES(35,'PASSIVE: Grants 5% heal and shield power, incoming healing and shielding is increased by 10%','Revitalize','3',3);
-
-
-INSERT INTO THREADS VALUES(1, 'Bronze League thread', 'Bronze League');
-INSERT INTO LEAGUES VALUES(1, 'Bronze', 1);
-INSERT INTO USER_ACCOUNTS VALUES(1, 1, 'summoner1', 'summoner1');
-INSERT INTO SUMMONERS VALUES(1, 'pepe@gmail.com', 1, 1);
 
 INSERT INTO RUNE_PAGES (id, name, summoner_id, main_branch_id, secondary_branch_id, keyrune_id, mainrune1_id, mainrune2_id, mainrune3_id, 
 secrune1_id, secrune2_id) VALUES(1, 'Precision rune page', 1, 1, 2, 1, 5, 8, 12, 18, 21);

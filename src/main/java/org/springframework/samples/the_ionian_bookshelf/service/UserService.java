@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package org.springframework.samples.the_ionian_bookshelf.service;
-<<<<<<< HEAD:src/main/java/org/springframework/samples/the_ionian_bookshelf/service/UserService.java
 
 import static org.junit.Assert.assertNotNull;
 
@@ -22,12 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.repository.UserRepository;
-=======
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.the_ionian_bookshelf.model.UserAccount;
-import org.springframework.samples.the_ionian_bookshelf.repository.UserAccountRepository;
->>>>>>> feature/Items-Builds-Requests:src/main/java/org/springframework/samples/the_ionian_bookshelf/service/UserAccountService.java
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,17 +31,28 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-@Transactional
-public class UserAccountService {
+public class UserService {
+
+	private UserRepository userRepository;
 
 	@Autowired
-	private UserAccountRepository uaRepository;
+	public UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
-	public UserAccount create() {
+	@Transactional
+	public void saveUser(User user) throws DataAccessException {
+		user.setEnabled(true);
+		userRepository.save(user);
+	}
 
-		final UserAccount res = new UserAccount();
+	@Transactional
+	public User findOne(String username) {
+
+		assertNotNull(username);
+		User res = this.userRepository.findById(username).get();
+		assertNotNull(res);
 
 		return res;
 	}
-
 }

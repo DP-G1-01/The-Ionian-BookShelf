@@ -14,7 +14,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
-import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.repository.BranchRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RunePageRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RuneRepository;
@@ -93,10 +92,10 @@ public class RunePageService {
 //		assertTrue(this.actorService.checkAuthority(principal, Authority.ADMINISTRATOR) ||
 //				this.actorService.checkAuthority(principal, Authority.SUMMONER) ||
 //				this.actorService.checkAuthority(principal, Authority.REVIEWER));    this.actorService.findByPrincipal().getUserAccount().getId()
-		Summoner summoner = this.actorService.findSummonerByUserAccountId(1);
+//		Summoner summoner = this.actorService.findSummonerByUserAccountId(1);
 		RunePage res = new RunePage();
-		res.setName("New Rune Page");
-		res.setSummoner(summoner);
+//		res.setName("New Rune Page");
+//		res.setSummoner(summoner);
 		return res;
 	}
 

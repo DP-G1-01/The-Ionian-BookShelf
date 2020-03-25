@@ -11,26 +11,23 @@
 package org.springframework.samples.the_ionian_bookshelf.security;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Authorities;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
-import org.springframework.samples.the_ionian_bookshelf.repository.AuthoritiesRepository;
-import org.springframework.samples.the_ionian_bookshelf.repository.UserRepository;
 import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
-import org.springframework.samples.the_ionian_bookshelf.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.samples.the_ionian_bookshelf.service.UserService;
 
 @Service
 @Transactional

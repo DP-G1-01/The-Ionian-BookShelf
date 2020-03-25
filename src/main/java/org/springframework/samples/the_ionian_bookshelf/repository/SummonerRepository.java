@@ -12,7 +12,7 @@ public interface SummonerRepository extends JpaRepository<Summoner, Integer> {
 	@Query("select summ from Summoner summ join summ.mains mains where ?1 in mains")
 	Collection<Summoner> findByChampion(Champion champ);
 
-	@Query("select summ from Summoner summ where summ.userAccount.id = ?1")
-	Summoner findByUserAccountId(int id);
+	@Query("select summ from Summoner summ where summ.user.username = ?1")
+	Summoner findByUsername(String username);
 
 }

@@ -1,18 +1,17 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.the_ionian_bookshelf.model.Actor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
-import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,85 +19,72 @@ import org.springframework.stereotype.Service;
 public class ChampionService {
 
 	@Autowired
-	private ChampionRepository champRepo;
-
+	private ChampionRepository championRepository;
+	
 	@Autowired
-	private AdministratorService adminService;
-
+	private RoleRepository roleRepository;
+	
 	@Autowired
-	private RoleService roleService;
-
-	@Autowired
-	private ActorService actorService;
-
-	@Autowired
-	private SummonerService summonerService;
-
-	@Autowired
-	private AuthoritiesService authService;
-
-	public Champion create() {
-
-		this.adminService.findByPrincipal();
-
-		Role defaultRole = this.roleService.findDefaultRole();
-
-		Champion res = new Champion();
-		res.setName("New champion");
-		res.setDescription("New description");
-		res.setHealth(0.);
-		res.setMana(null);
-		res.setEnergy(null);
-		res.setAttack(0.);
-		res.setSpeed(0.);
-
-		res.setRole(defaultRole);
-
-		return res;
+	public ChampionService(ChampionRepository championRepository, RoleRepository roleRepository) {
+		this.championRepository = championRepository;
+		this.roleRepository = roleRepository;
 	}
 
-	public Collection<Champion> findAll() {
 
-		Collection<Champion> res = this.champRepo.findAll();
-		assertNotNull(res);
+	//Método para listar runas
+	@Transactional
+	public Set<Champion> findChampions() throws DataAccessException {
+		Set<Champion> champions = new TreeSet<>();
+		this.championRepository.findAll().forEach(champions::add);
+		return champions;
+	}
+	
+	
+	@Transactional
+	public Iterable<Champion> findAll() throws DataAccessException {
+		return championRepository.findAll();
+	}
+	
+	@Transactional
+	public void saveChampion(Champion champion) throws DataAccessException {
+		this.championRepository.save(champion);
+	}
+	
+	@Transactional
+	public void deleteChampion(Champion champion) throws DataAccessException {
+		this.championRepository.delete(champion);
+	}
+	
 
-		return res;
+	
+	@Transactional
+	public Set<Role> findRoles() throws DataAccessException {
+		Set<Role> roles = new TreeSet<>();
+		this.roleRepository.findAll().forEach(roles::add);
+		return roles;
+	}
+	
+	//Forma como está puesto el PetType
+	
+	@Transactional()
+	public Collection<Role> findRoless() throws DataAccessException {
+		return this.roleRepository.findAll();
+	}
+	
+	@Transactional
+	public Iterable<Role> findAllR(){
+		return roleRepository.findAll();
 	}
 
-	public Champion findOne(int id) {
-
-		assertTrue(id != 0);
-
-		final Champion res = this.champRepo.findById(id).get();
-		assertNotNull(res);
-
-		return res;
-
+	@Transactional
+	public Champion findChampionById(final int id) throws DataAccessException {
+		return championRepository.findById(id).get();
 	}
-
-	public Champion save(Champion champ) {
-
-		assertNotNull(champ);
-
-		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
-
-		return this.champRepo.save(champ);
-	}
-
-	public void delete(Champion champ) {
-
-		assertNotNull(champ);
-		this.adminService.findByPrincipal();
-
-	}
-
-	public void deleteFromMains(Champion champ) {
-
-		Collection<Summoner> summoners = this.summonerService.findByChampion(champ);
-		for (Summoner summ : summoners) {
-			summ.getMains().remove(champ);
-			this.summonerService.save(summ);
-		}
+	
+	//Metodos para los tests
+	@Transactional()
+	public Collection<Champion> findRuneByName(final String name) throws DataAccessException {
+		return this.championRepository.findByName(name);
 	}
 
 //	public void deleteFromBuilds(Champion champ) {
