@@ -43,7 +43,7 @@ public class RuneService {
 	private BuildRepository buildRepository;
 	
 	@Autowired
-	public RuneService(RuneRepository runeRepository, BranchRepository branchRepository, RunePageRepository runePageRepository) {
+	public RuneService(RuneRepository runeRepository, BranchRepository branchRepository, RunePageRepository runePageRepository, BuildRepository buildRepository) {
 		this.runeRepository = runeRepository;
 		this.branchRepository = branchRepository;
 		this.runePageRepository = runePageRepository;

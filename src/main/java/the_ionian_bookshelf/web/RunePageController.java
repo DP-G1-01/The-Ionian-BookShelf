@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -141,5 +142,44 @@ public class RunePageController {
 			modelMap.addAttribute("message", "This Rune Page doesn't belong to you");
 		}
 		return "redirect:/runePages/mine";
+	}
+	
+	@GetMapping(value = "/runePages/{runePageId}/edit")
+	public String initUpdateRuneForm(@PathVariable("runePageId") int runePageId, Model model) {
+		String view = "redirect:/login";
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return view;
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return view;
+		}
+		RunePage runePage = this.runePageService.findOne(runePageId);
+		Summoner summoner = this.summonerService.findByPrincipal();
+		
+		if(runePage!=null && runePage.getSummoner().equals(summoner)) {
+			model.addAttribute(runePage);
+			view = "runePages/editRunePage";
+		}else if(runePage == null) {
+			model.addAttribute("message", "Rune Page not found");
+		}else {
+			model.addAttribute("message", "This Rune Page doesn't belong to you");
+			view = "redirect:/runePages/mine";
+		}
+		return view;
+	}
+	@PostMapping(value = "/runePages/{runePageId}/edit")
+	public String processUpdateRunePageForm(@Valid RunePage runePage, BindingResult result, @PathVariable("runePageId") int runePageId) {
+		
+		if (result.hasErrors()) {
+			return "runePages/editRunePage";
+		}
+		else {
+			runePage.setId(runePageId);
+			this.runePageService.save(runePage);
+			return "redirect:/runePages/mine";
+		}
 	}
 }

@@ -87,9 +87,11 @@
 			<div class="col-sm-offset-2 col-sm-10">
 				<c:choose>
 					<c:when test="${runePage['new']}">
-						<button class="btn btn-default" type="submit">Add RunePage</button>
+						<button class="btn btn-default" type="submit">Add Rune Page</button>
 					</c:when>
-
+					<c:otherwise>
+						<button class="btn btn-default" type="submit">Update Rune Page</button>
+					</c:otherwise>
 				</c:choose>
 			</div>
 		</div>

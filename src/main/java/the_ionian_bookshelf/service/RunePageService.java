@@ -79,9 +79,7 @@ public class RunePageService {
 
 		final RunePage res = this.runePageRepository.findById(id).get();
 		assertNotNull(res);
-
 		return res;
-
 	}
 
 	public List<Rune> findRunes() {

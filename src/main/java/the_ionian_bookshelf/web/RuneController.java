@@ -89,7 +89,6 @@ public class RuneController {
 			model.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
 		}
-		String view = "runes/listadoRunas";
 		if(result.hasErrors()) {
 			model.addAttribute("rune", rune);
 			return "runes/editRune";
@@ -113,7 +112,6 @@ public class RuneController {
 			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
 		}
-		String view ="runes/listadoRunas";
 		Rune runa = runeService.findRuneById(runeId);
 		if(runa!=null) {
 			runeService.deleteRune(runa);
@@ -128,7 +126,7 @@ public class RuneController {
 	
 	//Update
 	@GetMapping(value = "/runes/{runeId}/edit")
-	public String initUpdateOwnerForm(@PathVariable("runeId") int runeId, Model model) {
+	public String initUpdateRuneForm(@PathVariable("runeId") int runeId, Model model) {
 		try {
 			this.administratorService.findByPrincipal();
 		} catch (AssertionError e) {
@@ -144,7 +142,7 @@ public class RuneController {
 	}
 
 	@PostMapping(value = "/runes/{runeId}/edit")
-	public String processUpdateOwnerForm(@Valid Rune rune, BindingResult result, @PathVariable("runeId") int runeId) {
+	public String processUpdateRuneForm(@Valid Rune rune, BindingResult result, @PathVariable("runeId") int runeId) {
 		
 		if (result.hasErrors()) {
 			return "runes/editRune";
