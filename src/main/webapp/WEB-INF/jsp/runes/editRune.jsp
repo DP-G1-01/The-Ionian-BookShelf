@@ -17,9 +17,8 @@
 			<petclinic:inputField label="Name" name="name" />
 			<petclinic:inputField label="Description" name="description" />
 			<div class="control-group">
-				<petclinic:selectField name="branch" label="Branch "
-					names="${branch}" size="5" />
-			</div>
+                    <petclinic:selectField name="branch" label="Branch " names="${branch}" size="5"/>
+            </div>
 			<petclinic:inputField label="Node" name="node" />
 		</div>
 		<div class="form-group">
@@ -29,10 +28,7 @@
 					<c:when test="${rune['new']}">
 						<button class="btn btn-default" type="submit">Add Rune</button>
 					</c:when>
-					<c:otherwise>
-						<button class="btn btn-default" type="submit">Update
-							Rune</button>
-					</c:otherwise>
+
 				</c:choose>
 			</div>
 		</div>

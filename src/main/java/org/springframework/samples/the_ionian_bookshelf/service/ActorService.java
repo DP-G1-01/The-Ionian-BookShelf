@@ -1,6 +1,7 @@
 
 package org.springframework.samples.the_ionian_bookshelf.service;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -24,17 +25,14 @@ public class ActorService {
 
 	@Autowired
 	private ActorRepository actorRepository;
-
+	
 	@Autowired
 	private SummonerRepository summonerRepository;
 	
-
-//	public Summoner findSummonerByUserAccountId(int UAId) {
-//		return this.summonerRepository.findByUserAccountId(UAId);
-//	}
-
-	@Autowired
-	private AuthoritiesService authService;
+	public Summoner findSummonerByUserAccountId(int UAId) {
+		
+		return this.summonerRepository.findByUserAccountId(UAId);
+	}
 
 	public Actor create() {
 
@@ -65,8 +63,7 @@ public class ActorService {
 	/**
 	 *
 	 * @param actor     El actor cuya autoridad queremos comprobar
-	 * @param authority Autoridad que queremos comprobar que el actor posee:
-	 *                  administrator, summoner, reviewer
+	 * @param authority Autoridad que queremos comprobar que el actor posee
 	 * @return True si el actor posee la autoridad pasada como par�metro o false si
 	 *         no la posee
 	 */
@@ -75,37 +72,42 @@ public class ActorService {
 		assertNotNull(actor);
 		assertNotNull(authority);
 
-		final User ua = actor.getUser();
-		final Authorities authorities = authService.findOne(ua.getUsername());
+		final UserAccount ua = actor.getUserAccount();
+		final Collection<Authority> authorities = ua.getAuthorities();
 
-		return authority.equals(authorities.getAuthority());
+		assertFalse(authorities.isEmpty());
+
+		final Authority aux = new Authority();
+		aux.setAuthority(authority);
+
+		return authorities.contains(aux);
 	}
 
-//	/**
-//	 * Este m�todo sirve para sacar el actor logeado en el sistema Se usa como
-//	 * m�todo auxiliar para sacar los distintos tipos de actores del sistema y hacer
-//	 * comprobaciones respecto a sus authorities
-//	 *
-//	 * @return El actor logeado en el sistema
-//	 */
-//	public Actor findByPrincipal() {
-//
-//		Actor res;
-//		final User ua = LoginService.getPrincipal();
-//		assertNotNull(ua);
-//		res = this.findByUsername(ua.getUsername());
-//		System.out.println(res);
-//		return res;
-//	}
-//
-//	public Actor findByUsername(final String username) {
-//
-//		assertNotNull(username);
-//
-//		final Actor res = this.actorRepository.findByUsername(username);
-//		assertNotNull(res);
-//
-//		return res;
-//	}
+	/**
+	 * Este m�todo sirve para sacar el actor logeado en el sistema Se usa como
+	 * m�todo auxiliar para sacar los distintos tipos de actores del sistema y hacer
+	 * comprobaciones respecto a sus authorities
+	 *
+	 * @return El actor logeado en el sistema
+	 */
+	public Actor findByPrincipal() {
+
+		Actor res;
+		final UserAccount ua = LoginService.getPrincipal();
+		assertNotNull(ua);
+		res = this.findByUserAccountId(ua.getId());
+		System.out.println(res);
+		return res;
+	}
+
+	public Actor findByUserAccountId(final int id) {
+
+		assertTrue(id != 0);
+
+		final Actor res = this.actorRepository.findByUserAccountId(id);
+		assertNotNull(res);
+
+		return res;
+	}
 
 }

@@ -24,22 +24,25 @@ public class AdministratorService {
 	private AdministratorRepository adminRepo;
 
 	@Autowired
-	private UserService userService;
+	private UserAccountService uaService;
 
 	@Autowired
-	private AuthoritiesService authService;
-	
-	@Autowired
-	private LoginService loginService;
+	private ActorService actorService;
 
 	public Administrator create() {
 
 		Administrator res;
-		User user = new User();
+		UserAccount ua;
+		Authority auth;
 
 		res = new Administrator();
+		ua = this.uaService.create();
 
-		res.setUser(user);
+		auth = new Authority();
+		auth.setAuthority(Authority.ADMINISTRATOR);
+		ua.addAuthority(auth);
+
+		res.setUserAccount(ua);
 
 		return res;
 	}
@@ -66,11 +69,13 @@ public class AdministratorService {
 
 		assertNotNull(admin);
 
-		Administrator saved = adminRepo.save(admin);
+		this.findByPrincipal();
 
-		userService.saveUser(admin.getUser());
+		PasswordEncoder encoder = this.passwordEncoder();
 
-		authService.saveAuthorities(admin.getUser().getUsername(), "administrator");
+		admin.getUserAccount().setPassword(encoder.encode(admin.getUserAccount().getPassword()));
+
+		final Administrator saved = this.adminRepo.save(admin);
 
 		return saved;
 	}
@@ -84,21 +89,30 @@ public class AdministratorService {
 	public Administrator findByPrincipal() {
 
 		Administrator res;
-		final User ua = this.loginService.getPrincipal();
+		final UserAccount ua = LoginService.getPrincipal();
 		assertNotNull(ua);
 
-		res = this.findByUsername(ua.getUsername());
+		res = this.findByUserAccountId(ua.getId());
+
+		final boolean hasAuthority = this.actorService.checkAuthority(res, Authority.ADMINISTRATOR);
+		assertTrue(hasAuthority);
 
 		return res;
 	}
 
-	private Administrator findByUsername(String username) {
-		assertNotNull(username);
+	public Administrator findByUserAccountId(final int id) {
 
-		final Administrator res = this.adminRepo.findByUsername(username);
+		assertTrue(id != 0);
+
+		final Administrator res = this.adminRepo.findByUserAccountId(id);
 		assertNotNull(res);
 
 		return res;
+	}
+
+	private PasswordEncoder passwordEncoder() {
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder;
 	}
 
 }

@@ -15,24 +15,12 @@
  */
 package org.springframework.samples.the_ionian_bookshelf.service;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD:src/main/java/org/springframework/samples/the_ionian_bookshelf/service/UserAccountService.java
 import org.springframework.samples.the_ionian_bookshelf.model.UserAccount;
 import org.springframework.samples.the_ionian_bookshelf.repository.UserAccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-=======
-import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import the_ionian_bookshelf.model.User;
-import the_ionian_bookshelf.repository.UserRepository;
-
->>>>>>> feature/RuneManagement:src/main/java/the_ionian_bookshelf/service/UserService.java
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
  * for @Transactional and @Cacheable annotations
@@ -40,28 +28,17 @@ import the_ionian_bookshelf.repository.UserRepository;
  * @author Michael Isvy
  */
 @Service
-public class UserService {
-
-	private UserRepository userRepository;
+@Transactional
+public class UserAccountService {
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+	private UserAccountRepository uaRepository;
 
-	@Transactional
-	public void saveUser(User user) throws DataAccessException {
-		user.setEnabled(true);
-		userRepository.save(user);
-	}
+	public UserAccount create() {
 
-	@Transactional
-	public User findOne(String username) {
-
-		assertNotNull(username);
-		User res = this.userRepository.findById(username).get();
-		assertNotNull(res);
+		final UserAccount res = new UserAccount();
 
 		return res;
 	}
+
 }

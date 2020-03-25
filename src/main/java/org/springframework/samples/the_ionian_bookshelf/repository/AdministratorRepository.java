@@ -6,7 +6,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
 
 public interface AdministratorRepository extends JpaRepository<Administrator, Integer> {
 
-	@Query("select admin from Administrator admin where admin.user.username = ?1")
-	Administrator findByUsername(String username);
+	@Query("select admin from Administrator admin where admin.userAccount.id = ?1")
+	Administrator findByUserAccountId(int id);
 
 }

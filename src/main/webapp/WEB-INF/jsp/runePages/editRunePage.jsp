@@ -25,7 +25,6 @@
 	<form:form modelAttribute="runePage" class="form-horizontal"
 		id="add-rune-page-form" action="/runePages/save">
 		<div class="form-group has-feedback">
-		<form:input type="hidden" class="form-control" path="summoner" />
 			<petclinic:inputField label="Name" name="name" />
 			<div class="control-group">
                    <petclinic:selectField onchange="changeSecondarySelect(this)" name="mainBranch" label="Main Branch" names="${branches}" size="3"/>
@@ -37,22 +36,22 @@
             <div id="${loop.index/4}" class="hidden control-group">
             	<c:if test="${(loop.index)%4==0}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="keyRune" label="Key Rune" names="${runeList}" size="4"/>
+        		<petclinic:selectField name="keyRune" label="keyRune branch ${loop.index/4}" names="${runeList}" size="4"/>
 
         		</c:if>
         		<c:if test="${(loop.index)%4==1}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune1" label="First Main Rune" names="${runeList}" size="3"/>
+        		<petclinic:selectField name="mainRune1" label="mainRune1 branch ${loop.index/4}" names="${runeList}" size="3"/>
 
         		</c:if>
         		<c:if test="${(loop.index)%4==2}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune2" label="Second Main Rune" names="${runeList}" size="3"/>
+        		<petclinic:selectField name="mainRune2" label="mainRune2 branch ${loop.index/4}" names="${runeList}" size="3"/>
 
         		</c:if>
         		<c:if test="${(loop.index)%4==3}">
             	
-        		<petclinic:selectField id="select ${loop.index/4}" name="mainRune3" label="Third Main Rune" names="${runeList}" size="3"/>
+        		<petclinic:selectField name="mainRune3" label="mainRune3 branch ${loop.index/4}" names="${runeList}" size="3"/>
 
         		</c:if>
         		</div>
@@ -61,11 +60,11 @@
 	<c:forEach var="runeList" items="${secondaryRunes}" varStatus="loop">
 	<div id="sec1_${loop.index}" class="hidden control-group">
 		<div class="form-group ">
-	   		<label class="col-sm-2 control-label">First Secondary Rune</label>
+	   		<label class="col-sm-2 control-label">secRune1 branch ${loop.index}</label>
 	   		<div class="col-sm-10">
-	   		<select id="sec1_${loop.index}_sel" name="secRune1" class="form-control" onchange="updateSecRune2(this)" size="3">
+	   		<select name="secRune1" class="form-control" onchange="updateSecRune2(this)" size="3">
 	        <c:forEach var="rune" items="${runeList}">
-	        <option id="${rune.node}" value="${rune.name}">${rune.name}</option>
+	        <option id="${rune.node}" value="${rune.id}">${rune.id}</option>
 	        </c:forEach>
 	        </select>
 	        </div>
@@ -73,7 +72,7 @@
 	</div>
 	<div id="sec2_${loop.index}" class="hidden control-group">
 		<div class="form-group ">
-	   		<label class="col-sm-2 control-label">Second Secondary Rune</label>
+	   		<label class="col-sm-2 control-label">secRune2 branch ${loop.index}</label>
 	   		<div class="col-sm-10">
 	   		<select id="sec2_${loop.index}_sel" name="secRune2" class="form-control" size="3">
 	        </select>
@@ -87,11 +86,9 @@
 			<div class="col-sm-offset-2 col-sm-10">
 				<c:choose>
 					<c:when test="${runePage['new']}">
-						<button class="btn btn-default" type="submit">Add Rune Page</button>
+						<button class="btn btn-default" type="submit">Add RunePage</button>
 					</c:when>
-					<c:otherwise>
-						<button class="btn btn-default" type="submit">Update Rune Page</button>
-					</c:otherwise>
+
 				</c:choose>
 			</div>
 		</div>
@@ -124,10 +121,6 @@ function updateSecRune2(runes) {
 		document.getElementById("sec2_0").classList.remove("hidden");
 		document.getElementById("sec2_1").classList.add("hidden");
 		document.getElementById("sec2_2").classList.add("hidden");
-		
-		document.getElementById("sec2_0_sel").disabled = false;
-		document.getElementById("sec2_1_sel").disabled = true;
-		document.getElementById("sec2_2_sel").disabled = true;
 	} else if(id === "sec1_1") {
 		for(i=0; i<l; i++) {
 			document.getElementById("sec2_1_sel").options.remove(0);
@@ -145,10 +138,6 @@ function updateSecRune2(runes) {
 			document.getElementById("sec2_0").classList.add("hidden");
 			document.getElementById("sec2_1").classList.remove("hidden");
 			document.getElementById("sec2_2").classList.add("hidden");
-			
-			document.getElementById("sec2_0_sel").disabled = true;
-			document.getElementById("sec2_1_sel").disabled = false;
-			document.getElementById("sec2_2_sel").disabled = true;
 	} else if(id === "sec1_2") {
 		for(i=0; i<l; i++) {
 			document.getElementById("sec2_2_sel").options.remove(0);
@@ -166,10 +155,6 @@ function updateSecRune2(runes) {
 			document.getElementById("sec2_0").classList.add("hidden");
 			document.getElementById("sec2_1").classList.add("hidden");
 			document.getElementById("sec2_2").classList.remove("hidden");
-			
-			document.getElementById("sec2_0_sel").disabled = true;
-			document.getElementById("sec2_1_sel").disabled = true;
-			document.getElementById("sec2_2_sel").disabled = false;
 	}
 } 
 
@@ -212,20 +197,6 @@ function changeSecondarySelect(primary) {
 		document.getElementById("2.5").classList.add("hidden");
 		document.getElementById("2.75").classList.add("hidden"); 
 		
-		document.getElementById("select 0.0").disabled = false;
-		document.getElementById("select 0.25").disabled = false;
-		document.getElementById("select 0.5").disabled = false;
-		document.getElementById("select 0.75").disabled = false;
-		document.getElementById("select 1.0").disabled = true;
-		document.getElementById("select 1.25").disabled = true;
-		document.getElementById("select 1.5").disabled = true;
-		document.getElementById("select 1.75").disabled = true;
-		document.getElementById("select 2.0").disabled = true;
-		document.getElementById("select 2.25").disabled = true;
-		document.getElementById("select 2.5").disabled = true;
-		document.getElementById("select 2.75").disabled = true;
-
-		
 	} else if(main === primary.options[1].text) {
 
 		aux.text=primary.options[0].text;
@@ -248,19 +219,6 @@ function changeSecondarySelect(primary) {
 		document.getElementById("2.25").classList.add("hidden");
 		document.getElementById("2.5").classList.add("hidden");
 		document.getElementById("2.75").classList.add("hidden");
-		
-		document.getElementById("select 0.0").disabled = true;
-		document.getElementById("select 0.25").disabled = true;
-		document.getElementById("select 0.5").disabled = true;
-		document.getElementById("select 0.75").disabled = true;
-		document.getElementById("select 1.0").disabled = false;
-		document.getElementById("select 1.25").disabled = false;
-		document.getElementById("select 1.5").disabled = false;
-		document.getElementById("select 1.75").disabled = false;
-		document.getElementById("select 2.0").disabled = true;
-		document.getElementById("select 2.25").disabled = true;
-		document.getElementById("select 2.5").disabled = true;
-		document.getElementById("select 2.75").disabled = true;
 		
 	} else if(main === primary.options[2].text) {
 
@@ -285,19 +243,6 @@ function changeSecondarySelect(primary) {
 		document.getElementById("2.5").classList.remove("hidden");
 		document.getElementById("2.75").classList.remove("hidden");
 		
-		document.getElementById("select 0.0").disabled = true;
-		document.getElementById("select 0.25").disabled = true;
-		document.getElementById("select 0.5").disabled = true;
-		document.getElementById("select 0.75").disabled = true;
-		document.getElementById("select 1.0").disabled = true;
-		document.getElementById("select 1.25").disabled = true;
-		document.getElementById("select 1.5").disabled = true;
-		document.getElementById("select 1.75").disabled = true;
-		document.getElementById("select 2.0").disabled = false;
-		document.getElementById("select 2.25").disabled = false;
-		document.getElementById("select 2.5").disabled = false;
-		document.getElementById("select 2.75").disabled = false;
-		
 	}
 
 	document.getElementById("secondaryBranchDiv").classList.remove("hidden");
@@ -307,12 +252,6 @@ function changeSecondarySelect(primary) {
 	document.getElementById("sec2_1").classList.add("hidden");
 	document.getElementById("sec1_2").classList.add("hidden");
 	document.getElementById("sec2_2").classList.add("hidden");
-	document.getElementById("sec1_0_sel").disabled = true;
-	document.getElementById("sec2_0_sel").disabled = true;
-	document.getElementById("sec1_1_sel").disabled = true;
-	document.getElementById("sec2_1_sel").disabled = true;
-	document.getElementById("sec1_2_sel").disabled = true;
-	document.getElementById("sec2_2_sel").disabled = true;
 }
 
 function showSecondaryNodes(secondary) {
@@ -324,19 +263,11 @@ function showSecondaryNodes(secondary) {
 		document.getElementById("sec1_1").classList.add("hidden");
 		document.getElementById("sec1_2").classList.add("hidden");
 		
-		document.getElementById("sec1_0_sel").disabled = false;
-		document.getElementById("sec1_1_sel").disabled = true;
-		document.getElementById("sec1_2_sel").disabled = true;
-		
 	} else if(main === "Domination") {
 
 		document.getElementById("sec1_0").classList.add("hidden");
 		document.getElementById("sec1_1").classList.remove("hidden");
 		document.getElementById("sec1_2").classList.add("hidden");
-		
-		document.getElementById("sec1_0_sel").disabled = true;
-		document.getElementById("sec1_1_sel").disabled = false;
-		document.getElementById("sec1_2_sel").disabled = true;
 		
 	} else if(main === "Resolve") {
 
@@ -344,18 +275,10 @@ function showSecondaryNodes(secondary) {
 		document.getElementById("sec1_1").classList.add("hidden");
 		document.getElementById("sec1_2").classList.remove("hidden");
 		
-		document.getElementById("sec1_0_sel").disabled = true;
-		document.getElementById("sec1_1_sel").disabled = true;
-		document.getElementById("sec1_2_sel").disabled = false;
-		
 	}
 
 	document.getElementById("sec2_0").classList.add("hidden");
 	document.getElementById("sec2_1").classList.add("hidden");
 	document.getElementById("sec2_2").classList.add("hidden");
-	
-	document.getElementById("sec2_0_sel").disabled = true;
-	document.getElementById("sec2_1_sel").disabled = true;
-	document.getElementById("sec2_2_sel").disabled = true;
 }
 </script>

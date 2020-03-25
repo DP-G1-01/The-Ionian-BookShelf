@@ -19,49 +19,63 @@ import org.springframework.samples.the_ionian_bookshelf.repository.UserAccountRe
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import the_ionian_bookshelf.model.User;
-import the_ionian_bookshelf.repository.AuthoritiesRepository;
-import the_ionian_bookshelf.repository.UserRepository;
-import the_ionian_bookshelf.service.UserService;
-
 @Service
 @Transactional
-public class LoginService {
+public class LoginService implements UserDetailsService {
 
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
-	private UserService userService;
+	UserAccountRepository userAccountRepository;
 
 	// Business methods -------------------------------------------------------
 
-//	@Override
-//	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-//
-//		assertNotNull(username);
-//
-//		UserDetails res;
-//
-//		res = this.userRepository.findById(username).get();
-//
-//		assertNotNull(res);
-//
-//		// WARNING: The following sentences prevent lazy initialisation problems!
-//		assertNotNull(res.getAuthorities());
-//		// res.getAuthorities().size();
-//
-//		return res;
-//	}
+	@Override
+	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
-	public User getPrincipal() {
+		assertNotNull(username);
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		assertNotNull(auth);
-		String username = auth.getName();
-		User res = this.userService.findOne(username);
+		UserDetails res;
+
+		res = this.userAccountRepository.findByUsername(username);
+
+		assertNotNull(res);
+
+		// WARNING: The following sentences prevent lazy initialisation problems!
+		assertNotNull(res.getAuthorities());
+		// res.getAuthorities().size();
+
+		return res;
+	}
+
+	public static UserAccount getPrincipal() {
+		UserAccount res;
+		SecurityContext context;
+		Authentication authentication;
+		Object principal;
+
+		// If the asserts in this method fail, then you're
+		// likely to have your Tomcat's working directory
+		// corrupt. Please, clear your browser's cache, stop
+		// Tomcat, update your Maven's project configuration,
+		// clean your project, clean Tomcat's working directory,
+		// republish your project, and start it over.
+
+		context = SecurityContextHolder.getContext();
+		assertNotNull(context);
+		authentication = context.getAuthentication();
+		assertNotNull(authentication);
+		principal = authentication.getPrincipal();
+		assertTrue(principal instanceof UserAccount);
+		res = (UserAccount) principal;
+		assertNotNull(res);
+		assertTrue(res.getId() != 0);
 
 		return res;
 	}

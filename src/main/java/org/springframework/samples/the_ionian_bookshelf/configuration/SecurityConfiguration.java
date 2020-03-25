@@ -11,10 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import the_ionian_bookshelf.security.LoginService;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -35,21 +32,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http
-			.authorizeRequests()
-				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll()
-				.antMatchers("/admin/**").permitAll()
-				.antMatchers("/summoner/**").permitAll()
-				.antMatchers("/reviewe/**").permitAll()
-				.anyRequest().permitAll()
-				.and()
-			.formLogin()
-		        .loginProcessingUrl("/login")
-		        .defaultSuccessUrl("/", true)
-				.failureUrl("/login-error")
-				.and()
-			.logout().logoutSuccessUrl("/");
+		http.authorizeRequests().antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/", "/oups").permitAll().antMatchers("/users/new").permitAll()
+				.antMatchers("/runes/**","/runePages/**","/champions/**","/items/**","/requests/**","/builds/**").permitAll().antMatchers("/admin/**").hasAnyAuthority("ADMINISTRATOR").antMatchers("/summoners/**")
+				.hasAnyAuthority("SUMMONER").antMatchers("/reviewer/**").hasAnyAuthority("REVIEWER").anyRequest()
+				.denyAll().and().formLogin()
+				/* .loginPage("/login") */
+				.failureUrl("/login-error").and().logout().logoutSuccessUrl("/");
 		// Configuración para que funcione la consola de administración
 		// de la BD H2 (deshabilitar las cabeceras de protección contra
 		// ataques de tipo csrf y habilitar los framesets si su contenido
@@ -61,23 +50,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		auth.jdbcAuthentication()
-	      .dataSource(dataSource)
-	      .usersByUsernameQuery(
-	       "select username,password,enabled "
-	        + "from users "
-	        + "where username = ?")
-	      .authoritiesByUsernameQuery(
-	       "select username, authority "
-	        + "from authorities "
-	        + "where username = ?")
-	      .passwordEncoder(passwordEncoder());
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.usersByUsernameQuery("select username,password,enabled " + "from userAccounts " + "where username = ?")
+				.authoritiesByUsernameQuery(
+						"select username, authority.authority " + "from userAccounts " + "where username = ?")
+				.passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder =  NoOpPasswordEncoder.getInstance();
-	    return encoder;
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder;
 	}
 
 }

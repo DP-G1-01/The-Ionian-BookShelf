@@ -30,7 +30,6 @@ public class Champion extends BaseEntity {
 	@Column(name = "name", unique = true)
 	private String name;
 
-	@NotBlank
 	@Column(name = "description")
 	private String description;
 
@@ -38,11 +37,11 @@ public class Champion extends BaseEntity {
 	@Column(name = "health")
 	private Double health;
 
-	
+
 	@Column(name = "mana")
 	private Double mana;
 
-	
+
 	@Column(name = "energy")
 	private Double energy;
 
@@ -55,8 +54,8 @@ public class Champion extends BaseEntity {
 	private Double speed;
 
 	@Valid
-	@NotNull
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "role_id")
 	private Role role;
+	
 }
