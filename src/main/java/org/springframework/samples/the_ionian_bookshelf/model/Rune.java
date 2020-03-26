@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,10 +25,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Rune extends BaseEntity {
 
+	@Size(max = 30)
 	@NotBlank
 	@Column(name = "name")
 	private String name;
 
+	@Size(max = 250)
 	@NotBlank
 	@Column(name = "description")
 	private String description;
