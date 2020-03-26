@@ -44,11 +44,11 @@ public class Champion extends BaseEntity {
 	@Column(name = "health")
 	private Double health;
 
-
+	@Min(0)
 	@Column(name = "mana")
 	private Double mana;
 
-
+	@Min(0)
 	@Column(name = "energy")
 	private Double energy;
 

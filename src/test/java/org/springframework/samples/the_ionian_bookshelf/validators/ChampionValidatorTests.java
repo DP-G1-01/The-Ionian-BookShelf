@@ -63,7 +63,7 @@ public class ChampionValidatorTests{
 	
 	
 	@Test
-	void shouldNotValidateWhenTitleIsSoBig() {
+	void shouldNotValidateWhenTitleIsSoLong() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
 		String desc = "q";
@@ -86,7 +86,7 @@ public class ChampionValidatorTests{
 	}
 	
 	@Test
-	void shouldNotValidateWhenDescIsSoBig() {
+	void shouldNotValidateWhenDescIsSoLong() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
 		String desc = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -242,6 +242,111 @@ public class ChampionValidatorTests{
 			}
 		}
 	}
+	
+	@Test
+	void shouldNotValidateWhenHealthIsNegative() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
+		String name = "Ashe";
+		String desc = "descripcion";
+		Double health = -1.0;
+		Double mana = 500.0;
+		Double energy = null;
+		Double attack = 1.2;
+		Double speed = 1.0;
+		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
+		Validator validator= createValidator();
+		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
+		assertThat(constraintViolations).hasSize(1);
+		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath().toString()) .isEqualTo("health");
+		assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 0");
+		}
+	
+
+	@Test
+	void shouldNotValidateWhenAttackIsNegative() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
+		String name = "Ashe";
+		String desc = "descripcion";
+		Double health = 1000.0;
+		Double mana = 500.0;
+		Double energy = null;
+		Double attack = -1.2;
+		Double speed = 1.0;
+		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
+		Validator validator= createValidator();
+		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
+		assertThat(constraintViolations).hasSize(1);
+		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath().toString()) .isEqualTo("attack");
+		assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 0");
+		}
+	
+	@Test
+	void shouldNotValidateWhenSpeedIsNegative() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
+		String name = "Ashe";
+		String desc = "descripcion";
+		Double health = 1000.0;
+		Double mana = 500.0;
+		Double energy = null;
+		Double attack = 1.2;
+		Double speed = -1.0;
+		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
+		Validator validator= createValidator();
+		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
+		assertThat(constraintViolations).hasSize(1);
+		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath().toString()) .isEqualTo("speed");
+		assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 0");
+		}
+	
+	@Test
+	void shouldNotValidateWhenManaIsNegative() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
+		String name = "Ashe";
+		String desc = "descripcion";
+		Double health = 1000.0;
+		Double mana = -500.0;
+		Double energy = null;
+		Double attack = 1.2;
+		Double speed = 1.0;
+		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
+		Validator validator= createValidator();
+		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
+		assertThat(constraintViolations).hasSize(1);
+		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath().toString()) .isEqualTo("mana");
+		assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 0");
+		}
+	
+	@Test
+	void shouldNotValidateWhenEnergyIsNegative() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
+		String name = "Ashe";
+		String desc = "descripcion";
+		Double health = 1000.0;
+		Double mana = null;
+		Double energy = -500.0;
+		Double attack = 1.2;
+		Double speed = 1.0;
+		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
+		Validator validator= createValidator();
+		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
+		assertThat(constraintViolations).hasSize(1);
+		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath().toString()) .isEqualTo("energy");
+		assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 0");
+		}
+	
+	
+	
+
 	
 	
 }
