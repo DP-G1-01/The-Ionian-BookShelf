@@ -14,19 +14,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.samples.the_ionian_bookshelf.TheIonianBookshelfApplication;
 import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequestRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
-import org.springframework.samples.the_ionian_bookshelf.service.ChangeRequestService;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
@@ -42,7 +37,7 @@ public class ChangeRequestServiceTests {
 	private ChangeRequestService changeRequestService;
 
 	@Autowired
-	private ItemRepository itemRepository;
+	protected ItemRepository itemRepository;
 	
 	@Test
 	@BeforeAll
@@ -81,7 +76,6 @@ public class ChangeRequestServiceTests {
 		ChangeRequest request = changeRequestService.findChangeRequestById(1);
 		changeRequestService.delete(request);
 		long l2 = changeRequestRepository.count();
-		System.out.println(l + " y " + l2);
 		assertEquals((l-1), l2);
 	}
 	
