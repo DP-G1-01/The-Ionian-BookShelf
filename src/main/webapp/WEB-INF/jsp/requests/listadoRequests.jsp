@@ -35,18 +35,22 @@
                  <c:out value="${request.item.title}"/>
                 </td>
                 <td>
+                <spring:url value="/requests/{requestId}" var="requestShowUrl">
+                        <spring:param name="requestId" value="${request.id}"/>
+                </spring:url><spring:url value="/requests/{requestId}/remove" var="requestRemoveUrl">
+                        <spring:param name="requestId" value="${request.id}"/>
+                    </spring:url>
+                <a href="${fn:escapeXml(requestShowUrl)}">Show</a> / 
+                <a href="${fn:escapeXml(requestRemoveUrl)}">Remove</a><br>
                 <c:if test = "${request.status == 'PENDING'}">
                	<spring:url value="/requests/{requestId}/accept" var="requestAcceptUrl">
                         <spring:param name="requestId" value="${request.id}"/>
                 </spring:url>
                 <spring:url value="/requests/{requestId}/reject" var="requestRejectUrl">
                         <spring:param name="requestId" value="${request.id}"/>
-                </spring:url><spring:url value="/requests/{requestId}/remove" var="requestRemoveUrl">
-                        <spring:param name="requestId" value="${request.id}"/>
-                    </spring:url>
+                </spring:url>
                 <a href="${fn:escapeXml(requestAcceptUrl)}">Accept</a> / 
-                <a href="${fn:escapeXml(requestRejectUrl)}">Reject</a> / 
-                <a href="${fn:escapeXml(requestRemoveUrl)}">Remove</a>
+                <a href="${fn:escapeXml(requestRejectUrl)}">Reject</a>
     			</c:if>
     			</td>
             </tr>

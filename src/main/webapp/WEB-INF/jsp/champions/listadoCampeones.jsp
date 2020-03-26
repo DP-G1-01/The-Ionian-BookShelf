@@ -59,11 +59,16 @@
                	<spring:url value="/champions/{championId}/remove"
 							var="championRemoveUrl">
 							<spring:param name="championId" value="${champion.id}" />
-						</spring:url> <a href="${fn:escapeXml(championRemoveUrl)}">Remove Champion</a> <br>
-						<spring:url
-							value="/champions/{championId}/edit" var="editUrl">
+						</spring:url>
+						<spring:url value="/champions/{championId}/edit" var="editUrl">
 						<spring:param name="championId" value="${champion.id}" />
-						</spring:url> <a href="${fn:escapeXml(editUrl)}" >Edit Champion</a>
+						</spring:url>
+						<spring:url value="/champions/{championId}/newChangeRequest" var="championRequestUrl">
+                        <spring:param name="championId" value="${champion.id}"/>
+                    </spring:url>
+					<a href="${fn:escapeXml(editUrl)}" >Edit</a> / 
+                    <a href="${fn:escapeXml(championRemoveUrl)}">Remove</a><br>
+                      <a href="${fn:escapeXml(championRequestUrl)}">New Change Request</a>
                 </td>
     
             </tr>

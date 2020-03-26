@@ -24,7 +24,7 @@ public class ChangeRequestService {
 	private ReviewerService reviewerService;
 
 	@Autowired
-	private ActorService actorService;
+	private AuthoritiesService authService;
 
 	@Autowired
 	private SummonerService summonerService;
