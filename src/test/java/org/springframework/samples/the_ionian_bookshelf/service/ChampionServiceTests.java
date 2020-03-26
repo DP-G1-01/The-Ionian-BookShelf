@@ -23,7 +23,7 @@ import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
 import org.springframework.test.context.ContextConfiguration;
 
-@SpringBootTest (classes = TheIonianBookshelfApplication.class)
+@SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 public class ChampionServiceTests {
 

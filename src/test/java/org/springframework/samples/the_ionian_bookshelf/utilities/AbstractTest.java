@@ -8,7 +8,7 @@
  * http://www.tdg-seville.info/License.html
  */
 
-package utilities;
+package org.springframework.samples.the_ionian_bookshelf.utilities;
 
 import org.junit.After;
 import org.junit.Before;

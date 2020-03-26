@@ -18,8 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.the_ionian_bookshelf.security.LoginService;
 import org.springframework.samples.the_ionian_bookshelf.service.ActorService;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
-
-import utilities.AbstractTest;
+import org.springframework.samples.the_ionian_bookshelf.utilities.AbstractTest;
 
 @SpringBootTest
 public class SampleTest extends AbstractTest {

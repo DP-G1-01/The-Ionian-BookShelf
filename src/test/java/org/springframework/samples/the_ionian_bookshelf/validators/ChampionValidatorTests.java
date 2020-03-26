@@ -46,25 +46,25 @@ public class ChampionValidatorTests{
 		assertThat(violation.getMessage()).isEqualTo("must not be blank");
 		}
 	
-	@Test
-	void shouldNotValidateWhenDescriptionEmpty() {
-		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
-		String name = "Ashe";
-		String desc = "";
-		Double health = 900.0;
-		Double mana = 500.0;
-		Double energy = 0.0;
-		Double attack = 1.2;
-		Double speed = 1.0;
-		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
-		Validator validator= createValidator();
-		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
-		assertThat(constraintViolations).hasSize(1);
-		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
-		assertThat(violation.getPropertyPath().toString()) .isEqualTo("description");
-		assertThat(violation.getMessage()).isEqualTo("must not be blank");
-		}
+//	@Test
+//	void shouldNotValidateWhenDescriptionEmpty() {
+//		LocaleContextHolder.setLocale(Locale.ENGLISH);
+//		Role tirador = new Role("Tirador","Descripcion del rol","http://www.miimagendetirador.coms");
+//		String name = "Ashe";
+//		String desc = "";
+//		Double health = 900.0;
+//		Double mana = 500.0;
+//		Double energy = 0.0;
+//		Double attack = 1.2;
+//		Double speed = 1.0;
+//		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
+//		Validator validator= createValidator();
+//		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
+//		assertThat(constraintViolations).hasSize(1);
+//		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
+//		assertThat(violation.getPropertyPath().toString()) .isEqualTo("description");
+//		assertThat(violation.getMessage()).isEqualTo("must not be blank");
+//		}
 	
 	@Test
 	void shouldNotValidateWhenHealthIsNull() {
@@ -128,24 +128,24 @@ public class ChampionValidatorTests{
 	
 
 	
-	@Test
-	void shouldNotValidateWhenRoleIsNull() {
-		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		String name = "Ashe";
-		String desc = "descripcion";
-		Double health = 900.0;
-		Double mana = 500.0;
-		Double energy = 0.0;
-		Double attack = 1.2;
-		Double speed = 1.2;
-		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, null);
-		Validator validator= createValidator();
-		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
-		assertThat(constraintViolations).hasSize(1);
-		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
-		assertThat(violation.getPropertyPath().toString()) .isEqualTo("role");
-		assertThat(violation.getMessage()).isEqualTo("must not be null");
-		}
-	
+//	@Test
+//	void shouldNotValidateWhenRoleIsNull() {
+//		LocaleContextHolder.setLocale(Locale.ENGLISH);
+//		String name = "Ashe";
+//		String desc = "descripcion";
+//		Double health = 900.0;
+//		Double mana = 500.0;
+//		Double energy = 0.0;
+//		Double attack = 1.2;
+//		Double speed = 1.2;
+//		Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, null);
+//		Validator validator= createValidator();
+//		Set<ConstraintViolation<Champion>> constraintViolations = validator.validate(champion);
+//		assertThat(constraintViolations).hasSize(1);
+//		ConstraintViolation<Champion> violation=   constraintViolations.iterator().next();
+//		assertThat(violation.getPropertyPath().toString()) .isEqualTo("role");
+//		assertThat(violation.getMessage()).isEqualTo("must not be null");
+//		}
+//	
 	
 }
