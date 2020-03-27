@@ -56,6 +56,14 @@ public class ChangeRequestService {
 
 		return res;
 	}
+	
+	@Transactional
+	public Collection<ChangeRequest> findMine(int summonerId) {
+		Collection<ChangeRequest> res = this.changeRepository.findChangeRequestsBySummonerId(summonerId);
+		assertNotNull(res);
+
+		return res;
+	}
 
 	public ChangeRequest findOne(int id) {
 

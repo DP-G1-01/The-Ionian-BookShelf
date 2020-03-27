@@ -64,4 +64,9 @@ public class Build extends BaseEntity {
 	@JoinColumn(name = "thread_id")
 	private Thread thread;
 
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "summoner_id")
+	private Summoner summoner;
 }

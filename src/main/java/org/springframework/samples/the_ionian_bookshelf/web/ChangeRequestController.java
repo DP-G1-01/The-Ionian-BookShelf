@@ -58,7 +58,7 @@ public class ChangeRequestController {
 	}
 	
 	@GetMapping(value = "/requests")
-	public String listadoRunas(ModelMap modelMap) {
+	public String listadoAllRequests(ModelMap modelMap) {
 		//Está comentado por la pereza que me da logearme, pero funciona
 //		try {
 //			this.reviewerService.findByPrincipal();
@@ -72,6 +72,25 @@ public class ChangeRequestController {
 		
 		String vista = "requests/listadoRequests";
 		Iterable<ChangeRequest> requests = changeRequestService.findAll();
+		modelMap.addAttribute("requests", requests);
+		return vista;
+	}
+	
+	@GetMapping(value = "/mine/requests")
+	public String listadoMineRequests(ModelMap modelMap) {
+		//Está comentado por la pereza que me da logearme, pero funciona
+//		try {
+//			this.summonerService.findByPrincipal();
+//		} catch (NoSuchElementException u) {
+//			modelMap.addAttribute("message", "You must be logged in as a summoner");
+//			return "redirect:/login";
+//		} catch (AssertionError e) {
+//			modelMap.addAttribute("message", "You must be logged in as a summoner");
+//			return "redirect:/";
+//		}
+		
+		String vista = "requests/listadoRequests";
+		Iterable<ChangeRequest> requests = changeRequestService.findMine(this.summonerService.findByPrincipal().getId());
 		modelMap.addAttribute("requests", requests);
 		return vista;
 	}
@@ -90,6 +109,30 @@ public class ChangeRequestController {
 //		}
 		modelmap.addAttribute("request", this.changeRequestService.findOne(requestId));
 		return "requests/createRequest";
+	}
+	
+	@GetMapping("/mine/requests/{requestId}")
+	public String showMineRequest(@PathVariable("requestId") int requestId, ModelMap modelmap) {
+		//Está comentado por la pereza que me da logearme, pero funciona
+//		try {
+//			this.summonerService.findByPrincipal();
+//		} catch (NoSuchElementException u) {
+//			modelMap.addAttribute("message", "You must be logged in as a summoner");
+//			return "redirect:/login";
+//		} catch (AssertionError e) {
+//			modelMap.addAttribute("message", "You must be logged in as a summoner");
+//			return "redirect:/";
+//		}
+		ChangeRequest request = this.changeRequestService.findOne(requestId);
+		String view = "";
+		if(summonerService.findByPrincipal().getId() == request.getSummoner().getId()) {
+			view = "requests/createRequest";
+			modelmap.addAttribute("request", request);
+		} else {
+			view = "redirect:/";
+			modelmap.addAttribute("message", "You must be logged in as the summoner who create the request");
+		}
+		return view;
 	}
 	
 	@GetMapping(value="/champions/{championId}/newChangeRequest")

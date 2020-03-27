@@ -40,9 +40,18 @@ public class BuildService {
 		return res;
 	}
 
-	public Collection<Build> findAll() {
+	public Collection<Build> findAllPublics() {
 
-		final Collection<Build> res = this.buildRepository.findAll();
+		final Collection<Build> res = this.buildRepository.findAllPublics();
+
+		assertNotNull(res);
+
+		return res;
+	}
+	
+	public Collection<Build> findMineBuilds(int summonerId) {
+
+		final Collection<Build> res = this.buildRepository.findBuildsBySummonerId(summonerId);
 
 		assertNotNull(res);
 
