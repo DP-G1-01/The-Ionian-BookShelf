@@ -57,7 +57,7 @@ public class RunePageController {
 
 	@ModelAttribute("secondaryRunes")
 	public List<List<Rune>> populateSecondaryRunesByBranchNode() {
-		return this.runePageService.findSecondaryRunesByBranchNode();
+		return this.runePageService.findSecondaryRunesByBranch();
 	}
 
 	// lista de páginas de runas

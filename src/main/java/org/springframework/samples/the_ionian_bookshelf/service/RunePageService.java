@@ -1,5 +1,6 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -49,6 +50,7 @@ public class RunePageService {
 	@Transactional
 	public Collection<RunePage> findAllMine() throws DataAccessException {
 		List<RunePage> runePages = new ArrayList<>();
+		//findByPrincipal ya tiene un assertNotNull si no se está loggeado, por eso creo que no es necesario realizar la comprobación aquí
 		Summoner principal = this.summonerService.findByPrincipal();
 		this.runePageRepository.findAllBySummonerId(principal.getId()).forEach(runePages::add);
 		return runePages;
@@ -57,13 +59,16 @@ public class RunePageService {
 	@Transactional
 	public void save(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
-		assertNotNull(this.summonerService.findByPrincipal());
+		assertNotNull(runePage.getSummoner());
+		//Comprobamos que la página de runas sea del summoner que está loggeado
+		assertEquals(runePage.getSummoner(), this.summonerService.findByPrincipal());
 		this.runePageRepository.save(runePage);
 	}
 
 	@Transactional
 	public void delete(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
+		assertNotNull(runePage.getId());
 		Summoner principal = this.summonerService.findByPrincipal();
 		assertTrue(principal.equals(runePage.getSummoner()));
 		Collection<Build> builds = this.buildRepository.findAllByRunePage(runePage.getId());
@@ -74,10 +79,10 @@ public class RunePageService {
 	@Transactional
 	public RunePage findOne(int id) {
 
+		assertNotNull(id);
 		assertTrue(id != 0);
-
 		RunePage res = this.runePageRepository.findById(id).get();
-		assertNotNull(res);
+
 		return res;
 	}
 
@@ -155,7 +160,7 @@ public class RunePageService {
 		return result;
 	}
 
-	public List<List<Rune>> findSecondaryRunesByBranchNode() {
+	public List<List<Rune>> findSecondaryRunesByBranch() {
 		List<Rune> runes = this.runeRepository.findAll();
 		List<List<Rune>> result = new ArrayList<>();
 		List<Branch> branchReconocidas = new ArrayList<>();

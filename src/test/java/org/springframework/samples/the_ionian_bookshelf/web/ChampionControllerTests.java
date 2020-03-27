@@ -23,10 +23,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-//@WebMvcTest(controllers = ChampionController.class
-//,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
-//, classes = WebSecurityConfigurer.class)
-//, excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = ChampionController.class
+,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
+, classes = WebSecurityConfigurer.class)
+, excludeAutoConfiguration = SecurityConfiguration.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 class ChampionControllerTests {
