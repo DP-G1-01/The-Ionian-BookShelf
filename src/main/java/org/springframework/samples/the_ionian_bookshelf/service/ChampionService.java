@@ -81,18 +81,6 @@ public class ChampionService {
 		return championRepository.findById(id).get();
 	}
 
-	//Metodos para los tests
-	@Transactional()
-	public Collection<Champion> findRuneByName(final String name) throws DataAccessException {
-		return this.championRepository.findByName(name);
-	}
 
-//	public void deleteFromBuilds(Champion champ) {
-//
-//		Collection<Build> builds = this.buildService.findByChamp(champ);
-//		for (Build build : builds) {
-//			this.buildService.delete(build);
-//		}
-//	}
 
 }
