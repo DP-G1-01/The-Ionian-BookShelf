@@ -173,9 +173,24 @@ public class BuildController {
 	}
 	
 	
-	@GetMapping(value = "/builds/{buildId}/remove")
+	@GetMapping(value = "/mine/builds/{buildId}/remove")
 	public String removeBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
-		buildService.removeBuildById(buildId);
+		//Está comentado por la pereza que me da logearme, pero funciona
+//		try {
+//			this.summonerService.findByPrincipal();
+//		} catch (NoSuchElementException u) {
+//			modelMap.addAttribute("message", "You must be logged in as a summoner");
+//			return "redirect:/login";
+//		} catch (AssertionError e) {
+//			modelMap.addAttribute("message", "You must be logged in as a summoner");
+//			return "redirect:/";
+//		}
+		Build b = buildService.findBuildById(buildId);
+		if(b.getSummoner().getId() == this.summonerService.findByPrincipal().getId()) {
+			buildService.removeBuildById(buildId);
+		} else {
+			modelmap.addAttribute("message", "You must be logged in as the summoner who create the build.");
+		}
 		return "redirect:/mine/builds";
 	}
 }

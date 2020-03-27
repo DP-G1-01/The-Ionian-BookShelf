@@ -50,7 +50,7 @@
                 <a href="${fn:escapeXml(buildShowUrl)}">Show</a>
                 
                 <c:if test = "${requestScope['javax.servlet.forward.request_uri'] == '/mine/builds'}">
-                <spring:url value="/builds/{buildId}/remove" var="buildRemoveUrl">
+                <spring:url value="/mine/builds/{buildId}/remove" var="buildRemoveUrl">
                         <spring:param name="buildId" value="${build.id}"/>
                 </spring:url>
                 
