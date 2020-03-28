@@ -1,5 +1,7 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class BranchService {
 	}
 	
 	@Transactional
-	public Iterable<Branch> findAll(){
+	public Collection<Branch> findAll(){
 		return branchRepository.findAll();
 	}
 	
