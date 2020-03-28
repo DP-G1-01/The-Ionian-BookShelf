@@ -16,18 +16,20 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
+import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
+import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
+import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-//@WebMvcTest(controllers = ChampionController.class
-//,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
-//, classes = WebSecurityConfigurer.class)
-//, excludeAutoConfiguration = SecurityConfiguration.class)
-@SpringBootTest
+@WebMvcTest(controllers = ChampionController.class
+,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
+, classes = WebSecurityConfigurer.class)
+, excludeAutoConfiguration = SecurityConfiguration.class)
 @AutoConfigureMockMvc
 class ChampionControllerTests {
 	
@@ -36,6 +38,15 @@ class ChampionControllerTests {
 	
 	@MockBean
 	private ChampionService championService;
+	
+	@MockBean
+	private RoleService roleService;
+	
+	@MockBean
+	private AdministratorService administratorService;
+	
+	@MockBean
+	private ReviewerService reviewerService;
 	
 	@WithMockUser(value = "spring")
 	@Test
