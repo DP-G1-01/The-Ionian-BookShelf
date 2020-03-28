@@ -17,19 +17,17 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
-import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-@WebMvcTest(controllers = ChampionController.class
-,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
-, classes = WebSecurityConfigurer.class)
-, excludeAutoConfiguration = SecurityConfiguration.class)
+//Con estas anotaciones he corregido el error failed to load ApplicationContext
 @SpringBootTest
 @AutoConfigureMockMvc
 class ChampionControllerTests {
+	
+	private static final int TEST_CHAMPION_ID = 2;
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -37,37 +35,45 @@ class ChampionControllerTests {
 	@MockBean
 	private ChampionService championService;
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testShowChampionListHtml() throws Exception {
-		mockMvc.perform(get("/champions")).andExpect(status().isOk()).andExpect(model().attributeExists("champions"))
-		.andExpect(model().attributeExists("role"))
-				.andExpect(view().name("/champions/listadoCampeones"));
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testInitCreationFormAnon() throws Exception {
-		mockMvc.perform(get("/champions/new")).andExpect(status().is3xxRedirection());
-	}
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testProcessCreationFormSuccess() throws Exception {
-//		mockMvc.perform(post("/champions/new").param("name", "Lulu").param("description", "Campeona de League of Legends")
-//				.param("health", "900").param("mana", "500").param("energy", "0").param("attack", "1.20").param("speed", "0.90").param("role_id", "1"))
-//				.andExpect(status().is2xxSuccessful());
-//	}
-	
-	
-//	@Test
-//    void testProcessCreationFormHasErrors() throws Exception {
-//        mockMvc.perform(post("/champions/new")
-//            .param("name", "Lulu").param("description", "Campeona de League of Legends")
-//			.param("health", "900").param("mana", "500").param("energy", "0").param("attack", "1.0").param("speed", "0.90").param("role_id", "numero"))
-//            .andExpect(model().attributeHasErrors("champion"))
-//            .andExpect(model().attributeHasFieldErrors("champion", "role"))
-//            .andExpect(status().isOk())
-//            .andExpect(view().name("champion/editCampeon"));
-//    }
+	//Mostara el listado
+		@WithMockUser(value = "spring")
+		@Test
+		void testShowChampionsList() throws Exception {
+			mockMvc.perform(get("/champions")).andExpect(status().isOk()).andExpect(model().attributeExists("champions"))
+					.andExpect(model().attributeExists("role")).andExpect(view().name("/champions/listadoCampeones"));
+		}
+
+		//Acceder al form de creación
+		@WithMockUser(value = "admin")
+		@Test
+		void testInitCreationChampionForm() throws Exception {
+			mockMvc.perform(get("/champions/new")).andExpect(status().isOk()).andExpect(model().attributeExists("champion"))
+					.andExpect(view().name("champions/editCampeon"));
+		}
+		
+		//Intento de acceder al form de creación sin ser admin
+		@WithMockUser(value = "pepe")
+		@Test
+		void testInitCreationChampionFormWithoutLoginAsAdmin() throws Exception {
+			mockMvc.perform(get("/champions/new")).andExpect(status().is3xxRedirection())
+					.andExpect(view().name("redirect:/login"));
+		}
+
+		
+		//Delete de una runa siendo admin
+		@WithMockUser(value = "admin")
+		@Test
+		void testDeleteSuccess() throws Exception {
+			mockMvc.perform(get("/champions/{championId}/remove", TEST_CHAMPION_ID)).andExpect(status().is3xxRedirection())
+					.andExpect(view().name("redirect:/champions/"));
+		}
+		
+		//Intento de delete de una runa sin ser admin
+		@WithMockUser(value = "spring")
+		@Test
+		void testDeleteWithoutLoginAsAdmin() throws Exception {
+			mockMvc.perform(get("/champions/{championId}/remove", TEST_CHAMPION_ID)).andExpect(status().is3xxRedirection())
+					.andExpect(view().name("redirect:/login"));
+		}
 
 }
