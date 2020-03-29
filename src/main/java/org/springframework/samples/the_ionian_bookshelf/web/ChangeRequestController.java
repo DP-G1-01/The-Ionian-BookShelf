@@ -28,26 +28,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ChangeRequestController {
 	
-	@Autowired
+
 	private final ChangeRequestService changeRequestService;
 	
-	@Autowired
-	private final ChampionService championService;
 	
-	@Autowired
-	private final ItemService itemService;
-	
-	@Autowired
 	private final SummonerService summonerService;
 	
-	@Autowired
+	
 	private final ReviewerService reviewerService;
 
 	@Autowired
-	public ChangeRequestController(ChangeRequestService changeRequestService, ChampionService championService, ItemService itemService, SummonerService summonerService, ReviewerService reviewerService) {
+	public ChangeRequestController(ChangeRequestService changeRequestService, SummonerService summonerService, ReviewerService reviewerService) {
 		this.changeRequestService = changeRequestService;
-		this.championService = championService;
-		this.itemService = itemService;
 		this.summonerService = summonerService;
 		this.reviewerService = reviewerService;
 	}
@@ -59,16 +51,15 @@ public class ChangeRequestController {
 	
 	@GetMapping(value = "/requests")
 	public String listadoAllRequests(ModelMap modelMap) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.reviewerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a reviewer");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a reviewer");
-//			return "redirect:/";
-//		}
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
 		
 		String vista = "requests/listadoRequests";
 		Iterable<ChangeRequest> requests = changeRequestService.findAll();
@@ -78,16 +69,15 @@ public class ChangeRequestController {
 	
 	@GetMapping(value = "/mine/requests")
 	public String listadoMineRequests(ModelMap modelMap) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.summonerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/";
-//		}
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
 		
 		String vista = "requests/listadoRequests";
 		Iterable<ChangeRequest> requests = changeRequestService.findMine(this.summonerService.findByPrincipal().getId());
@@ -96,41 +86,40 @@ public class ChangeRequestController {
 	}
 	
 	@GetMapping("/requests/{requestId}")
-	public String showRequest(@PathVariable("requestId") int requestId, ModelMap modelmap) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.reviewerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a reviewer");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a reviewer");
-//			return "redirect:/";
-//		}
-		modelmap.addAttribute("request", this.changeRequestService.findOne(requestId));
+	public String showRequest(@PathVariable("requestId") int requestId, ModelMap modelMap) {
+	
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
+		modelMap.addAttribute("request", this.changeRequestService.findOne(requestId));
 		return "requests/createRequest";
 	}
 	
 	@GetMapping("/mine/requests/{requestId}")
-	public String showMineRequest(@PathVariable("requestId") int requestId, ModelMap modelmap) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.summonerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/";
-//		}
+	public String showMineRequest(@PathVariable("requestId") int requestId, ModelMap modelMap) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
 		ChangeRequest request = this.changeRequestService.findOne(requestId);
 		String view = "";
 		if(summonerService.findByPrincipal().getId() == request.getSummoner().getId()) {
 			view = "requests/createRequest";
-			modelmap.addAttribute("request", request);
+			modelMap.addAttribute("request", request);
 		} else {
 			view = "redirect:/";
-			modelmap.addAttribute("message", "You must be logged in as the summoner who create the request");
+			modelMap.addAttribute("message", "You must be logged in as the summoner who create the request");
 		}
 		return view;
 	}
@@ -258,17 +247,17 @@ public class ChangeRequestController {
 	}
 	
 	@GetMapping(value = "/requests/{requestId}/remove")
-	public String removeChangeRequest(@PathVariable("requestId") int requestId, ModelMap modelmap) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.reviewerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a reviewer");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a reviewer");
-//			return "redirect:/";
-//		}
+	public String removeChangeRequest(@PathVariable("requestId") int requestId, ModelMap modelMap) {
+		
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
 		ChangeRequest request = changeRequestService.findOne(requestId);
 		changeRequestService.delete(request);
 		

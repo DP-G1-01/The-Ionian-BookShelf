@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class BuildController {
 
-	@Autowired
+	
 	private final BuildService buildService;
 
-	@Autowired
+	
 	private final SummonerService summonerService;
 	
 	@Autowired

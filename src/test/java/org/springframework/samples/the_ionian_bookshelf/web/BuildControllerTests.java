@@ -90,8 +90,6 @@ public class BuildControllerTests {
 		when(this.summonerService.findByPrincipal().getId()).thenReturn(TEST_ID);
 		given(this.buildService.findBuildById(TEST_ID)).willReturn(buildMock);
 		when(this.buildService.findMineBuilds(this.summonerService.findByPrincipal().getId())).thenReturn(list);
-		when(this.summonerService.findByPrincipal()).thenReturn(sumMock);
-		when(this.summonerService.findByPrincipal().getId()).thenReturn(TEST_ID);
 		when(sumMock.getId()).thenReturn(TEST_ID);
 		when(buildMock.getSummoner()).thenReturn(sumMock);
 	}
