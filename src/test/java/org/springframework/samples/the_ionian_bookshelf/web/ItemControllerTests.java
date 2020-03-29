@@ -53,16 +53,11 @@ class ItemControllerTests {
 	@MockBean
 	private AdministratorService administratorService;
 	
-	@BeforeAll
-	void setupInitCreationFormSumm() {
-		
-	}
-	
 	
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testShowItemListHtml() throws Exception {
-		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
+		
 		mockMvc.perform(get("/items")).andExpect(status().isOk()).andExpect(model().attributeExists("items"))
 		.andExpect(model().attributeExists("role"))
 				.andExpect(view().name("items/itemsList"));
@@ -89,7 +84,6 @@ class ItemControllerTests {
 	@WithMockUser(value = "summoner1")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
 		mockMvc.perform(post("/items/new").with(csrf()).param("title", "titulo test").param("description", "Testeando items en vez de jugar al Doom")
 				.param("atributes[0]", "43").param("atributes[1]", "10").param("atributes[2]", "").param("roles[0]", "0"))
 				.andExpect(status().is2xxSuccessful());

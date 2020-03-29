@@ -3,6 +3,7 @@ package org.springframework.samples.the_ionian_bookshelf.web;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -54,16 +55,16 @@ public class BuildController {
 	
 	@GetMapping(value = "/mine/builds")
 	public String listMineBuilds(Item Build, BindingResult result, Model model) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.summonerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/";
-//		}
+		
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
 		
 		Collection<Build> builds = this.buildService.findMineBuilds(this.summonerService.findByPrincipal().getId());
 			model.addAttribute("builds",builds);
@@ -96,17 +97,16 @@ public class BuildController {
 	}
 	
 	@GetMapping("/mine/builds/{buildId}")
-	public String showMineBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.summonerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/";
-//		}
+	public String showMineBuild(@PathVariable("buildId") int buildId, ModelMap modelMap) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
 		
 		String view = "";
 		Build build = this.buildService.findBuildById(buildId);
@@ -122,11 +122,11 @@ public class BuildController {
 				}
 			}
 			items.replace("[", "").replace("]", "");
-			modelmap.addAttribute("build", build);
-			modelmap.addAttribute("sitems", items);
+			modelMap.addAttribute("build", build);
+			modelMap.addAttribute("sitems", items);
 		} else {
-			view = "redirect:redirect:/mine/builds";
-			modelmap.addAttribute("message", "You must be logged in as the summoner who create the build.");
+			view = "redirect:/mine/builds";
+			modelMap.addAttribute("message", "You must be logged in as the summoner who create the build.");
 		}
 		return view;
 	}
@@ -145,9 +145,18 @@ public class BuildController {
 	public Collection<RunePage> populateRunePages() {
 		return this.buildService.findRunePages();
 	}
-	//Creacion de una runa
+
 	@GetMapping(value="/builds/new")
 	public String crearBuild(ModelMap modelMap) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
 		String view="builds/editBuild";
 		Build build = new Build();
 		List<Item> var = new ArrayList<>();
@@ -174,22 +183,22 @@ public class BuildController {
 	
 	
 	@GetMapping(value = "/mine/builds/{buildId}/remove")
-	public String removeBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
-		//Está comentado por la pereza que me da logearme, pero funciona
-//		try {
-//			this.summonerService.findByPrincipal();
-//		} catch (NoSuchElementException u) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/login";
-//		} catch (AssertionError e) {
-//			modelMap.addAttribute("message", "You must be logged in as a summoner");
-//			return "redirect:/";
-//		}
+	public String removeBuild(@PathVariable("buildId") int buildId, ModelMap modelMap) {
+
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
 		Build b = buildService.findBuildById(buildId);
 		if(b.getSummoner().getId() == this.summonerService.findByPrincipal().getId()) {
 			buildService.removeBuildById(buildId);
 		} else {
-			modelmap.addAttribute("message", "You must be logged in as the summoner who create the build.");
+			modelMap.addAttribute("message", "You must be logged in as the summoner who create the build.");
 		}
 		return "redirect:/mine/builds";
 	}
