@@ -8,7 +8,13 @@
 <%@ attribute name="names" required="true" rtexprvalue="true"
 	type="java.util.List" description="Names in the list"%>
 <%@ attribute name="size" required="true" rtexprvalue="true"
-	description="Size of Select"%>
+              description="Size of Select" %>
+<%@ attribute name="onchange" required="false" rtexprvalue="true"
+              description="Script on change" %>
+<%@ attribute name="id" required="false" rtexprvalue="true"
+              description="Id of the form-group" %>
+<%@ attribute name="type" required="false" rtexprvalue="true"
+              description="Input type" %>
 
 <spring:bind path="${name}">
 	<c:set var="cssGroup"
@@ -18,18 +24,15 @@
 	<div class="${cssGroup}">
 		<label class="col-sm-2 control-label">${label}</label>
 
-		<div class="col-sm-10">
-			<form:select class="form-control" path="${name}" items="${names}"
-				size="${size}" />
-			<c:if test="${valid}">
-				<span class="glyphicon glyphicon-ok form-control-feedback"
-					aria-hidden="true"></span>
-			</c:if>
-			<c:if test="${status.error}">
-				<span class="glyphicon glyphicon-remove form-control-feedback"
-					aria-hidden="true"></span>
-				<span class="help-inline">${status.errorMessage}</span>
-			</c:if>
-		</div>
-	</div>
+        <div class="col-sm-10">
+            <form:select id="${id}" onchange="${onchange}" class="form-control" path="${name}" items="${names}" size="${size}"/>
+            <c:if test="${valid}">
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+            </c:if>
+            <c:if test="${status.error}">
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span class="help-inline">${status.errorMessage}</span>
+            </c:if>
+        </div>
+    </div>
 </spring:bind>

@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.service.BranchService;
-import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BranchFormatter implements Formatter<Branch> {
 
+	@Autowired
 	private final BranchService branchService;
 
 	@Autowired

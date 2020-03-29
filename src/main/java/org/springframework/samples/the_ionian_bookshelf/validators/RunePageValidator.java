@@ -28,12 +28,6 @@ public class RunePageValidator implements Validator{
 		Rune mainRune3 = runePage.getMainRune3();
 		Rune secRune1 = runePage.getSecRune1();
 		Rune secRune2 = runePage.getSecRune2();
-		System.out.println(runePage.getName());
-		System.out.println(runePage.getSummoner());
-		System.out.println(runePage.getMainBranch());
-		System.out.println(runePage.getSecondaryBranch());
-		System.out.println(keyRune);
-		System.out.println(runePage.getMainRune1());
 		
 		// name validation
 		if (!StringUtils.hasLength(name)) {

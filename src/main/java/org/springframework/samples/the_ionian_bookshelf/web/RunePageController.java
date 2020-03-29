@@ -91,13 +91,14 @@ public class RunePageController {
 			return "redirect:/login";
 		}
 		String view = "runePages/editRunePage";
-		modelMap.addAttribute("runePage", this.runePageService.create());
+		RunePage newRunePage = this.runePageService.create();
+		modelMap.addAttribute("runePage", newRunePage);
 
 		return view;
 	}
 
 	@PostMapping(value = "runePages/save")
-	public String salvarRuna(@Valid RunePage runePage, BindingResult result, ModelMap model) {
+	public String salvarPaginaRuna(@Valid RunePage runePage, BindingResult result, ModelMap model) {
 		try {
 			this.summonerService.findByPrincipal();
 		} catch (AssertionError e) {

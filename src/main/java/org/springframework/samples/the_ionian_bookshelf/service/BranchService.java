@@ -7,10 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
-import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.repository.BranchRepository;
-import org.springframework.samples.the_ionian_bookshelf.repository.RuneRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BranchService {
 	
 	@Autowired
