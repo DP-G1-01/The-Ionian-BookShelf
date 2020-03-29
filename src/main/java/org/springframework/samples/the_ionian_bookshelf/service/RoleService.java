@@ -20,7 +20,8 @@ public class RoleService {
 
 	@Autowired
 	private AdministratorService adminService;
-
+	
+	@Transactional
 	public Role findDefaultRole() {
 
 		this.adminService.findByPrincipal();

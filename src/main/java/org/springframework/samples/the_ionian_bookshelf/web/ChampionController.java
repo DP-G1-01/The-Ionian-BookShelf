@@ -7,10 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
-import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
-import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
 import org.springframework.samples.the_ionian_bookshelf.validators.ChampionValidator;
 import org.springframework.stereotype.Controller;
@@ -27,17 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ChampionController {
 
+
 	@Autowired
 	private final ChampionService championService;
 
-	@Autowired
-	private final RoleService roleService;
 
 	@Autowired
 	private final AdministratorService administratorService;
-
-	@Autowired
-	private final ReviewerService reviewerService;
+	
 
 	@InitBinder("champion")
 	public void initChampionBinder(WebDataBinder dataBinder) {
@@ -45,12 +40,10 @@ public class ChampionController {
 	}
 	
 	@Autowired
-	public ChampionController(ChampionService championService, RoleService roleService,
-			AdministratorService administratorService, ReviewerService reviewerService) {
+	public ChampionController(ChampionService championService, 
+			AdministratorService administratorService) {
 		this.championService = championService;
-		this.roleService = roleService;
 		this.administratorService = administratorService;
-		this.reviewerService = reviewerService;
 	}
 
 	// lista de campeones
@@ -62,11 +55,11 @@ public class ChampionController {
 		return vista;
 	}
 
-	// Intento de hacer lo mismo que Pet con PetType
-	@ModelAttribute("role")
-	public Collection<Role> populateRole() {
-		return this.roleService.findAll();
-	}
+//	// Intento de hacer lo mismo que Pet con PetType
+//	@ModelAttribute("role")
+//	public Collection<Role> populateRole() {
+//		return this.roleService.findAll();
+//	}
 
 	// Creacion de una runa
 	@GetMapping(value = "/champions/new")
@@ -75,10 +68,11 @@ public class ChampionController {
 		try {
 			this.administratorService.findByPrincipal();
 		} catch (AssertionError e) {
-			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
-		} catch (NoSuchElementException u) {
-			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+		}
+		catch (NoSuchElementException e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
 		}
 		String view = "champions/editCampeon";
@@ -92,10 +86,11 @@ public class ChampionController {
 		try {
 			this.administratorService.findByPrincipal();
 		} catch (AssertionError e) {
-			model.addAttribute("message", "You must be logged in as an admin or reviewer");
+			model.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
-		} catch (NoSuchElementException u) {
-			model.addAttribute("message", "You must be logged in as an admin or reviewer");
+		}
+		catch (NoSuchElementException e) {
+			model.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
 		}
 		if (result.hasErrors()) {
@@ -116,10 +111,11 @@ public class ChampionController {
 		try {
 			this.administratorService.findByPrincipal();
 		} catch (AssertionError e) {
-			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
-		} catch (NoSuchElementException u) {
-			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
+		}
+		catch (NoSuchElementException e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
 		}
 		Champion champion = championService.findChampionById(championId);
@@ -142,7 +138,7 @@ public class ChampionController {
 			} catch (AssertionError e) {
 				model.addAttribute("message", "You must be logged in as an admin");
 				return "redirect:/login";
-			} catch (NoSuchElementException u) {
+			}catch (NoSuchElementException e) {
 				model.addAttribute("message", "You must be logged in as an admin");
 				return "redirect:/login";
 			}

@@ -67,6 +67,9 @@ public class RuneController {
 		} catch (AssertionError e) {
 			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
+		}catch (NoSuchElementException e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
 		}
 		String view="runes/editRune";
 		modelMap.addAttribute("rune", new Rune());
@@ -81,7 +84,10 @@ public class RuneController {
 		} catch (AssertionError e) {
 			model.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
-		} 
+		} catch (NoSuchElementException e) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
 		if(result.hasErrors()) {
 			model.addAttribute("rune", rune);
 			return "runes/editRune";
@@ -101,7 +107,10 @@ public class RuneController {
 		} catch (AssertionError e) {
 			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
-		} 
+		} catch (NoSuchElementException e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
 		Rune runa = runeService.findRuneById(runeId);
 		if(runa!=null) {
 			runeService.deleteRune(runa);
@@ -122,7 +131,10 @@ public class RuneController {
 		} catch (AssertionError e) {
 			model.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
-		} 
+		} catch (NoSuchElementException e) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
 		Rune rune = this.runeService.findRuneById(runeId);
 		model.addAttribute(rune);
 		return "runes/editRune";
