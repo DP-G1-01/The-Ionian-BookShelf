@@ -35,25 +35,7 @@ public class ChampionService {
 	@Autowired
 	private BuildRepository buildRepository;
 
-	public Champion create() {
 
-		this.adminService.findByPrincipal();
-
-		Role defaultRole = this.roleService.findDefaultRole();
-
-		Champion res = new Champion();
-		res.setName("New champion");
-		res.setDescription("New description");
-		res.setHealth(0.);
-		res.setMana(null);
-		res.setEnergy(null);
-		res.setAttack(0.);
-		res.setSpeed(0.);
-
-		res.setRole(defaultRole);
-
-		return res;
-	}
 
 	@Transactional
 	public Collection<Champion> findAll() throws DataAccessException {

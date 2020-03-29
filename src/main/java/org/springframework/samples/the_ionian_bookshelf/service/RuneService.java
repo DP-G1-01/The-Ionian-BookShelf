@@ -49,14 +49,7 @@ public class RuneService {
 		this.buildRepository = buildRepository;
 	}
 
-	//Método para listar runas
-	@Transactional
-	public Set<Rune> findRunes() throws DataAccessException {
-		Set<Rune> runes = new TreeSet<>();
-		this.runeRepository.findAll().forEach(runes::add);
-		return runes;
-	}
-	
+
 	@Transactional
 	public Collection<Rune> findAll(){
 		return runeRepository.findAll();
