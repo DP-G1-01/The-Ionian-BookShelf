@@ -69,6 +69,9 @@ public class RunePageValidator implements Validator{
 		else if(summoner==null) {
 			errors.rejectValue("summoner", "Summoner should not be null, are you logged in?", "Summoner should not be null, are you logged in?");
 		}
+		else if(mainBranch.equals(secondaryBranch)) {
+			errors.rejectValue("mainBranch", "Main Branch should not be the same as Secondary Branch", "Main Branch should not be the same as Secondary Branch");
+		}
 		
 		else if(keyRune.equals(mainRune1) || keyRune.equals(mainRune2) || keyRune.equals(mainRune3) || keyRune.equals(secRune1) || keyRune.equals(secRune2)
 				 || mainRune1.equals(mainRune2) || mainRune1.equals(mainRune3) || mainRune1.equals(secRune1) || mainRune1.equals(secRune2)
