@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.repository.BranchRepository;
-import org.springframework.samples.the_ionian_bookshelf.repository.RunePageRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RuneRepository;
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -36,8 +35,6 @@ public class RuneServiceTests {
 	@Autowired
 	protected RuneRepository runeRepository;
 
-	@Autowired
-	protected RunePageRepository runePageRepository;
 
 	
 	@Test
@@ -66,18 +63,27 @@ public class RuneServiceTests {
 	}
 
 	
-	//Guardar una nueva runa
-	@WithMockUser(value = "admin")
-	@Test
-	@Transactional
-	void testSaveRune() {
-		Branch branch = new Branch("Name", "Description", "http://www.image.com");
-		this.branchRepository.save(branch);
-		Rune rune = new Rune("Name", "Description", branch, "Key");
-		this.runeService.saveRune(rune);
-		Rune search = this.runeRepository.findById(rune.getId()).get();
-		assertEquals(rune, search);
-	}
+
+	//Guarda una nueva runa
+		@WithMockUser(value = "admin")
+		@Test
+		@Transactional
+		void testSaveRune() {
+			
+			int l1 = this.runeRepository.findAll().size();
+			Branch branch = new Branch("Name", "Description", "http://www.image.com");
+			this.branchRepository.save(branch);
+		
+			String name = "nombre";
+			String desc = "descripcion";
+			String node = "1";
+			
+			Rune rune = new Rune(name,desc,branch,node);
+			this.runeRepository.save(rune);
+			int l2 = this.runeRepository.findAll().size();
+			
+			assertEquals((l1+1), l2);
+		} 
 
 	//Eliminar una runa existente
 	@WithMockUser(value = "admin")
@@ -105,10 +111,9 @@ public class RuneServiceTests {
 	public void shouldUpdateRuneDescription() throws Exception {
 		Rune rune= this.runeService.findRuneById(1);
 		String oldDesc = rune.getDescription();
-
 		String newDesc = "Im a description!!";
 		rune.setDescription(newDesc);
-		this.runeService.saveRune(rune);
+		this.runeRepository.save(rune);
 		rune = this.runeService.findRuneById(rune.getId());
 		assertThat(rune.getDescription()).isEqualTo(newDesc);
 	}
