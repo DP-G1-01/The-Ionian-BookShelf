@@ -41,8 +41,10 @@
 		</tbody>
 	</table>
 
+<security:authorize access="isAuthenticated()">
 	<spring:url value="/threads/new" var="addThreadUrl" />
 	<a href="${fn:escapeXml(addThreadUrl)}" class="btn btn-default">Add
 		New Thread</a>
+</security:authorize>
 
 </petclinic:layout>

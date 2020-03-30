@@ -1,5 +1,6 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -34,7 +35,7 @@ public class MessageService {
 	}
 
 	public Message create(int threadId) {
-
+		assertNotEquals(threadId, 0);
 		Message res = new Message();
 		Date moment;
 		moment = new Date(System.currentTimeMillis() - 1);
@@ -43,7 +44,7 @@ public class MessageService {
 		res.setThread(thread);
 		Summoner principal = this.summonerService.findByPrincipal();
 		res.setSummoner(principal);
-
+		assertNotNull(res);
 		return res;
 	}
 
