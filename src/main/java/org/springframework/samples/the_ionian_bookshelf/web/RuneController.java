@@ -79,6 +79,7 @@ public class RuneController {
 	
 	@PostMapping(value="runes/save")
 	public String salvarRuna(@Valid Rune rune, BindingResult result, ModelMap model) {
+		System.out.println(rune);
 		try {
 			this.administratorService.findByPrincipal();
 		} catch (AssertionError e) {
