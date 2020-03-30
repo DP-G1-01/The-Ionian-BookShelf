@@ -150,7 +150,7 @@ public class ChampionController {
 		@PostMapping(value = "/champions/{championId}/edit")
 		public String processUpdateOwnerForm(@Valid Champion champion, BindingResult result, @PathVariable("championId") int championId) {
 			if (result.hasErrors()) {
-				return "champions/editCampeon";
+				return "redirect:/champions/editCampeon";
 			}
 			else {
 				champion.setId(championId);
