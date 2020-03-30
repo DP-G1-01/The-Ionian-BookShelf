@@ -47,9 +47,11 @@
         </tbody>
     </table>
     
+    <security:authorize access="isAuthenticated()">
            <spring:url value="{threadId}/messages/new" var="addMessageUrl">
            <spring:param name="threadId" value="${threadId}"/>
            </spring:url>
     	<a href="${fn:escapeXml(addMessageUrl)}" class="btn btn-default">Add New Message on this Thread</a>
+    </security:authorize>
     
 </petclinic:layout>

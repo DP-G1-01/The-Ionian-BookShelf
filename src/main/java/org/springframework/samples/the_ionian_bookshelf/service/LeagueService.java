@@ -84,4 +84,11 @@ public class LeagueService {
 		return res;
 	}
 
+	public League findByThread(Thread thread){
+		assertNotNull(thread);
+		League res = this.leagueRepository.findByThread(thread);
+		//no controlamos si res es null porque en el caso de que thread no tenga league asociada, res es null
+		return res;
+	}
+
 }
