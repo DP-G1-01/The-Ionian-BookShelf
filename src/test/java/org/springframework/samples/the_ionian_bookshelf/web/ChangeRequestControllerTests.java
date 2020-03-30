@@ -192,4 +192,32 @@ public class ChangeRequestControllerTests {
 		.andExpect(view().name("requests/createRequest"));
 	}
 
+	@WithMockUser(value = "rev")
+	@Test
+	void testDeleteRequestSuccessRev() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/requests"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteRequestWithoutLoginAsRev() throws Exception {
+		when(this.reviewerService.findByPrincipal()).thenThrow(AssertionError.class);
+		mockMvc.perform(get("/requests/{requestId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/"));
+	}
+	
+	@WithMockUser(value = "rev")
+	@Test
+	void testAcceptRequestRev() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}/accept", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/requests"));
+	}
+	
+	@WithMockUser(value = "rev")
+	@Test
+	void testRejectRequestRev() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}/reject", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/requests"));
+	}
 }
