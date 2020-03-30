@@ -105,7 +105,7 @@ public class ThreadServiceTests {
 	@Test
 	@Transactional
 	@WithMockUser(value = "admin")
-	void testRemoveThread() {
+	void testDeleteThread() {
 		Thread nuevo = new Thread();
 		nuevo.setTitle("Titulo Thread Testing");
 		nuevo.setDescription("Description Thread Testing");
@@ -121,7 +121,7 @@ public class ThreadServiceTests {
 	@Test
 	@Transactional
 	@WithMockUser(value = "admin")
-	void testRemoveThreadWithLeagueError() {
+	void testDeleteThreadWithLeagueError() {
 	Thread thread = new Thread();
 	thread.setTitle("Titulo Thread Testing");
 	thread.setDescription("Description Thread Testing");
