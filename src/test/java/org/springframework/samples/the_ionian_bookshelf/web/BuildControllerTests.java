@@ -1,8 +1,8 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,8 +15,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -32,11 +30,11 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
+import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
-import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
-import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
+import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -66,6 +64,9 @@ public class BuildControllerTests {
 	@MockBean
 	private BuildService buildService;
 	
+	@MockBean
+	private ThreadService threadService;
+	
 	@BeforeEach
 	void setup() {
 		Role r = new Role("Rol1", "Soy un rol de prueba ten paciencia", "https://www.youtube.com/");
@@ -81,7 +82,8 @@ public class BuildControllerTests {
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
 		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
-		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true, new ArrayList<>(), c, null, null, summoner);
+		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala");
+		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true, new ArrayList<>(), c, null, thr, summoner);
 		List<Build> list = new ArrayList<>();
 		list.add(build);
 		list.add(buildVisible);
@@ -167,7 +169,7 @@ public class BuildControllerTests {
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testInitCreationFormSumm() throws Exception {
-		mockMvc.perform(get("/builds/new")).andExpect(status().isOk())
+		mockMvc.perform(get("/mine/builds/new")).andExpect(status().isOk())
 		.andExpect(view().name("builds/editBuild"));
 	}
 	
@@ -175,14 +177,14 @@ public class BuildControllerTests {
 	@Test
 	void testInitCreationFormAnon() throws Exception {
 		when(this.summonerService.findByPrincipal()).thenThrow(NoSuchElementException.class);
-		mockMvc.perform(get("/builds/new")).andExpect(status().is3xxRedirection())
+		mockMvc.perform(get("/mine/builds/new")).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/login"));
 	}
 	
 	@WithMockUser(value = "summoner1")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/builds/new").with(csrf()).param("title", "titulo test").param("description", "Testeando builds en vez de jugar al Doom")
+		mockMvc.perform(post("/mine/builds/new").with(csrf()).param("title", "titulo test").param("description", "Testeando builds en vez de jugar al Doom")
 				.param("champion", "1").param("runePage", "1").param("items[0]", "1").param("items[1]", "2").param("items[2]", "3"))
 				.andExpect(status().is2xxSuccessful());
 	}
@@ -190,7 +192,51 @@ public class BuildControllerTests {
 	@WithMockUser(value="summoner1")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/builds/save").with(csrf()).param("title", "").param("description", "")
+		mockMvc.perform(post("/mine/builds/save").with(csrf()).param("title", "").param("description", "")
+				.param("champion", "1").param("runePage", "1").param("items[0]", "1").param("items[1]", "2")
+				.param("items[2]", "3"))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("build"))
+				.andExpect(model().attributeHasFieldErrors("build", "description"))
+				.andExpect(model().attributeHasFieldErrors("build", "title"))
+				.andExpect(view().name("builds/editBuild"));
+	}
+	
+	@WithMockUser(value = "summoner1")
+	@Test
+	void testInitUpdateFormSumm() throws Exception {
+		mockMvc.perform(get("/mine/builds/1/edit")).andExpect(status().isOk())
+		.andExpect(view().name("builds/editBuild"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitUpdateFormAnon() throws Exception {
+		when(this.summonerService.findByPrincipal()).thenThrow(NoSuchElementException.class);
+		mockMvc.perform(get("/mine/builds/{buildId}/edit", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/login"));
+	}
+	
+	@WithMockUser(value = "RAIMUNDOKARATE98")
+	@Test
+	void testInitUpdateFormNotMine() throws Exception {
+		when(this.summonerService.findByPrincipal()).thenReturn(sumMock);
+		when(this.summonerService.findByPrincipal().getId()).thenReturn(TEST_ID2);
+		mockMvc.perform(get("/mine/builds/{buildId}/edit", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/mine/builds"));
+	}
+	
+	@WithMockUser(value = "summoner1")
+	@Test
+	void testProcessUpdateFormSuccess() throws Exception {
+		mockMvc.perform(post("/mine/builds/{buildId}/edit", TEST_ID).with(csrf()).param("title", "titulo test").param("description", "Testeando builds en vez de jugar al Doom")
+				.param("champion", "1").param("runePage", "1").param("items[0]", "1").param("items[1]", "2").param("items[2]", "3"))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value="summoner1")
+	@Test
+	void testProcessUpdateFormHasErrors() throws Exception {
+		mockMvc.perform(post("/mine/builds/{buildId}/edit", TEST_ID).with(csrf()).param("title", "").param("description", "")
 				.param("champion", "1").param("runePage", "1").param("items[0]", "1").param("items[1]", "2")
 				.param("items[2]", "3"))
 				.andExpect(status().isOk()).andExpect(model().attributeExists("build"))
