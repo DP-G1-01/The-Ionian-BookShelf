@@ -145,7 +145,7 @@ public class RuneController {
 	public String processUpdateRuneForm(@Valid Rune rune, BindingResult result, @PathVariable("runeId") int runeId) {
 		
 		if (result.hasErrors()) {
-			return "runes/editRune";
+			return "redirect:/runes/editRune";
 		}
 		else {
 			rune.setId(runeId);
