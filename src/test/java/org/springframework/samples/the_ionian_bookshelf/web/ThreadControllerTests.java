@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.jasper.tagplugins.jstl.core.When;
 import org.junit.jupiter.api.AfterAll;
@@ -71,9 +72,6 @@ public class ThreadControllerTests {
 	private MessageService messageService;
 	
 	@MockBean
-	private SummonerService summonerService;
-	
-	@MockBean
 	private AdministratorService administratorService;
 	
 	@BeforeEach
@@ -101,7 +99,7 @@ public class ThreadControllerTests {
 	
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testShowThreadListHtml() throws Exception{
+	void testShowThreadListSuccess() throws Exception{
 		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
 		mockMvc.perform(get("/threads")).andExpect(status().isOk()).andExpect(model().attributeExists("threads"))
 		.andExpect(view().name("threads/listadoThreads"));
@@ -109,7 +107,7 @@ public class ThreadControllerTests {
 	
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testShowThreadListMessagesHtml() throws Exception{
+	void testShowThreadMessagesListSuccess() throws Exception{
 		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
 		mockMvc.perform(get("/threads/{threadId}",THREAD_ID)
 				.param("title", "Titulo del hilo"))
@@ -121,7 +119,6 @@ public class ThreadControllerTests {
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testCreateThreadSuccess() throws Exception{
-		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
 		mockMvc.perform(get("/threads/new"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("threads/createThread"));
@@ -130,15 +127,32 @@ public class ThreadControllerTests {
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testSaveThreadSuccess() throws Exception{
-		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
 		mockMvc.perform(post("/threads/save").with(csrf()).param("title", "HiloTest").param("description", "HiloDescriptionTestSuccess"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/threads"));
+	}
+	
+	@WithMockUser(value = "RAIMUNDOKARATE98")
+	@Test
+	void testSaveThreadError() throws Exception{
+		mockMvc.perform(post("/threads/save").with(csrf()).param("title", "").param("description", ""))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("thread"))
+		.andExpect(view().name("threads/createThread"));
+	}
+	
+	@WithMockUser(value = "admin")
+	@Test
+	void testDeleteThreadSuccess() throws Exception{
+		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/threads"));
 	}
 	
 	@WithMockUser(value = "admin")
 	@Test
-	void testDeleteThreadSuccess() throws Exception{
+	void testDeleteThreadThatDoesntExistError() throws Exception{
+		when(this.threadService.findOne(THREAD_ID)).thenReturn(null);
 		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/threads"));
@@ -151,6 +165,14 @@ public class ThreadControllerTests {
 		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/login"));
-		
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteThreadWithNotLoggedUser() throws Exception{
+		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
+		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/login"));
 	}
 }

@@ -55,7 +55,7 @@ public class ThreadServiceTests {
 		Collection<Thread> threads = threadService.findAll();
 		assertEquals(threadRepository.count(), threads.size());
 	}
-
+	
 	@Test
 	@Transactional
 	@AfterAll
@@ -132,6 +132,18 @@ public class ThreadServiceTests {
 	leagueRepository.save(league);
 	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
 	assertEquals(AssertionError.class, error.getClass());
+	}
+	
+	@Test
+	@Transactional
+	@WithMockUser(value = "RAIMUNDOKARATE98")
+	void testDeleteThreadLoggedAsSummonerError() {
+		Thread thread = new Thread();
+		thread.setTitle("Titulo Thread Testing");
+		thread.setDescription("Description Thread Testing");
+		threadService.save(thread);
+		AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
+		assertEquals(AssertionError.class, error.getClass());
 	}
 	
 	@Test
