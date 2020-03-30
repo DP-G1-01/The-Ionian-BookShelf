@@ -3,11 +3,12 @@
 
 <%@ attribute name="pageName" required="true"%>
 <%@ attribute name="customScript" required="false" fragment="true"%>
+<%@ attribute name="onload" required="false" rtexprvalue="true"%>
 
 <!doctype html>
 <html>
 <petclinic:htmlHeader htmlHeader="${pageName}" />
-<body>
+<body onload='${onload}'>
 	<petclinic:bodyHeader menuName="${pageName}" />
 
 	<div class="container-fluid">
