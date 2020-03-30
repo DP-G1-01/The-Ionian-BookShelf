@@ -218,10 +218,10 @@ public class BuildController {
 			this.summonerService.findByPrincipal();
 		} catch (NoSuchElementException u) {
 			model.addAttribute("message", "You must be logged in as a summoner");
-			view = "redirect:/login";
+			return "redirect:/login";
 		} catch (AssertionError e) {
 			model.addAttribute("message", "You must be logged in as a summoner");
-			view = "redirect:/";
+			return "redirect:/";
 		}
 		
 		Build build = buildService.findBuildById(buildId);
@@ -243,9 +243,9 @@ public class BuildController {
 		try {
 			this.summonerService.findByPrincipal();
 		} catch (NoSuchElementException u) {
-			view = "redirect:/login";
+			return "redirect:/login";
 		} catch (AssertionError e) {
-			view = "redirect:/";
+			return "redirect:/";
 		}
 		
 		if (result.hasErrors()) {
@@ -262,7 +262,7 @@ public class BuildController {
 			}
 			
 			this.buildService.saveBuild(build);
-			return "redirect:/mine/builds";
+			view = "redirect:/mine/builds";
 		}
 		
 		return view;
