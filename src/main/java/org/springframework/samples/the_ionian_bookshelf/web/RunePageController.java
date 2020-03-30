@@ -173,13 +173,26 @@ public class RunePageController {
 	}
 	@PostMapping(value = "/runePages/{runePageId}/edit")
 	public String processUpdateRunePageForm(@Valid RunePage runePage, BindingResult result, @PathVariable("runePageId") int runePageId) {
-		
-		if (result.hasErrors()) {
-			return "runePages/editRunePage";
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (AssertionError e) {
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			return "redirect:/login";
 		}
-		else {
+		if(runePage!=null && runePage.getSummoner().equals(this.summonerService.findByPrincipal()) && !result.hasErrors()) {
 			runePage.setId(runePageId);
 			this.runePageService.save(runePage);
+			return "runePages/mine";
+
+		}else if (result.hasErrors()) {
+			return "redirect:/runePages/editRunePage";
+		}
+		else if(runePage==null){
+			return "redirect:/runePages/mine";
+		}
+		else {
+			//No es tu página de runas
 			return "redirect:/runePages/mine";
 		}
 	}

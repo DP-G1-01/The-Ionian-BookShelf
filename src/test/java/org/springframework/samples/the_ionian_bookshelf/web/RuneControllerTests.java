@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,13 +30,11 @@ import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
-import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
 import org.springframework.samples.the_ionian_bookshelf.service.BranchService;
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.validation.BindingResult;
 
 @WebMvcTest(controllers = RuneController.class,
 includeFilters = @ComponentScan.Filter(value = BranchFormatter.class, type = FilterType.ASSIGNABLE_TYPE)
@@ -184,6 +181,18 @@ class RuneControllerTests {
 							.param("branch", "Precision")
 							.param("node", "2"))
 				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/runes/"));
+	}
+    @WithMockUser(value = "admin")
+	@Test
+	void testProcessUpdateRuneFormError() throws Exception {
+    	when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
+		mockMvc.perform(post("/runes/{runeId}/edit", 11)
+							.with(csrf())
+							.param("name", "")
+							.param("description", "New description")
+							.param("branch", "Precision")
+							.param("node", "2"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/runes/editRune"));
 	}
 
 	//Delete de una runa siendo admin
