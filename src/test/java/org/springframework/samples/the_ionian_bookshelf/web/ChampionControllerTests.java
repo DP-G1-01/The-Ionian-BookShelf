@@ -52,6 +52,12 @@ class ChampionControllerTests {
 
 	@MockBean
 	private AdministratorService administratorService;
+
+	@MockBean
+	private RoleService roleService;
+	
+	@MockBean
+	private ReviewerService reviewerService;
 	
 	private Champion champion;
 

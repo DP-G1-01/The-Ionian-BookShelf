@@ -10,17 +10,17 @@
 
 	<spring:url value="/builds/new" var="buildNewUrl">
     </spring:url>
-    <a style="background-color: #000000 ; padding: 10px; border-radius:20px; float:right;" href="${fn:escapeXml(buildNewUrl)}">Add New Item</a><br><br>
+    <a style="background-color: #000000 ; padding: 10px; border-radius:20px; float:right;" href="${fn:escapeXml(buildNewUrl)}">Add New Build</a><br><br>
     <br>
     <table id="buildTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 200px;">Title</th>
+            <th style="width: 150px;">Title</th>
             <th style="width: 400px;">Description</th>
             <th style="width: 150px">Champion</th>
             <th style="width: 120px">Rune Page</th>
             <th style="width: 300px">Items</th>
-            <th></th>
+            <th style="width: 130px"></th>
         </tr>
         </thead>
         <tbody>
@@ -44,15 +44,19 @@
                   </c:forEach>
                 </td> 
                <td>
-               	<spring:url value="/builds/{buildId}/remove" var="buildRemoveUrl">
+                <spring:url value="${requestScope['javax.servlet.forward.request_uri']}/{buildId}" var="buildShowUrl">
                         <spring:param name="buildId" value="${build.id}"/>
-                    </spring:url>
-                <spring:url value="/builds/{buildId}/newChangeRequest" var="buildRequestUrl">
+                </spring:url>
+                <a href="${fn:escapeXml(buildShowUrl)}">Show</a>
+                
+                <c:if test = "${requestScope['javax.servlet.forward.request_uri'] == '/mine/builds'}">
+                <spring:url value="/mine/builds/{buildId}/remove" var="buildRemoveUrl">
                         <spring:param name="buildId" value="${build.id}"/>
-                    </spring:url>
-                    <a href="${fn:escapeXml(buildRemoveUrl)}">Remove build</a>
+                </spring:url>
+                
+                 / <a href="${fn:escapeXml(buildRemoveUrl)}">Remove</a><br>
+                </c:if>
                 </td>
-    
             </tr>
         </c:forEach>
         </tbody>

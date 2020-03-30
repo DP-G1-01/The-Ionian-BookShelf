@@ -42,6 +42,7 @@
 		</div>
 		<div class="form-group">
 			<input type="hidden" name="id" value="${build.id}" />
+			<input type="hidden" name="summoner" value="${summonerId}" />
 			<div class="col-sm-offset-2 col-sm-10">
 				<c:choose>
 					<c:when test="${build['new']}">

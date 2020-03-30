@@ -14,19 +14,22 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.samples.the_ionian_bookshelf.TheIonianBookshelfApplication;
+import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
+import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
+import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
+import org.springframework.samples.the_ionian_bookshelf.model.Thread;
+import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequestRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.LeagueRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
-import org.springframework.samples.the_ionian_bookshelf.service.ChangeRequestService;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
@@ -42,7 +45,16 @@ public class ChangeRequestServiceTests {
 	private ChangeRequestService changeRequestService;
 
 	@Autowired
-	private ItemRepository itemRepository;
+	protected ItemRepository itemRepository;
+
+	@Autowired
+	protected ThreadRepository threadRepository;
+
+	@Autowired
+	protected LeagueRepository leagueRepository;
+	
+	@Autowired
+	protected SummonerRepository summonerRepository;
 	
 	@Test
 	@BeforeAll
@@ -81,7 +93,6 @@ public class ChangeRequestServiceTests {
 		ChangeRequest request = changeRequestService.findChangeRequestById(1);
 		changeRequestService.delete(request);
 		long l2 = changeRequestRepository.count();
-		System.out.println(l + " y " + l2);
 		assertEquals((l-1), l2);
 	}
 	
@@ -101,7 +112,24 @@ public class ChangeRequestServiceTests {
 		changeItem.add("3");
 		Item item = new Item("test", "testeandoooooooooooooooooo", attributes, roles);
 		itemRepository.save(item);
-		ChangeRequest request = new ChangeRequest(null, item, "Soy el titulo", "Soy la descripcion y debo tener al menos 20 años de edad.", null, changeItem, "PENDING", null, null);
+		Collection<Champion> mains = new ArrayList<Champion>();
+		Champion c = new Champion("Cham1", "La descripción es algo superfluo sin cabida en una mente abierta",
+				10., 5., null, 20., 50., r);
+		mains.add(c);
+		User user = new User();
+		user.setUsername("Pepin");
+		user.setPassword("papin");
+		Summoner summoner = new Summoner();
+		summoner.setUser(user);
+		summoner.setEmail("pru@gmail.com");
+		summoner.setMains(mains);
+		Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan");
+		threadRepository.save(t1);
+		League leg = new League("L1", t1);
+		leagueRepository.save(leg);
+		summoner.setLeague(leg);
+		summonerRepository.save(summoner);
+		ChangeRequest request = new ChangeRequest(null, item, "Soy el titulo", "Soy la descripcion y debo tener al menos 20 años de edad.", null, changeItem, "PENDING", summoner, null);
 		changeRequestService.save(request);
 		ChangeRequest request2 = changeRequestService.findChangeRequestById(request.getId());
 		assertEquals(request, request2);

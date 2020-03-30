@@ -24,7 +24,7 @@ public class ChangeRequestService {
 	private ReviewerService reviewerService;
 
 	@Autowired
-	private ActorService actorService;
+	private AuthoritiesService authService;
 
 	@Autowired
 	private SummonerService summonerService;
@@ -52,6 +52,14 @@ public class ChangeRequestService {
 	@Transactional
 	public Collection<ChangeRequest> findAll() {
 		Collection<ChangeRequest> res = this.changeRepository.findAll();
+		assertNotNull(res);
+
+		return res;
+	}
+	
+	@Transactional
+	public Collection<ChangeRequest> findMine(int summonerId) {
+		Collection<ChangeRequest> res = this.changeRepository.findChangeRequestsBySummonerId(summonerId);
 		assertNotNull(res);
 
 		return res;

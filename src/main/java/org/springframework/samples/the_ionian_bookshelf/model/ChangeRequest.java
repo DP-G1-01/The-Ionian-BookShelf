@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -69,9 +70,9 @@ public class ChangeRequest extends BaseEntity {
 	@Column(name = "status")
 	private String status;
 
+	@NotNull
 	@Valid
-	//@ManyToOne(optional = false)
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "summoner_id")
 	private Summoner summoner;
 	

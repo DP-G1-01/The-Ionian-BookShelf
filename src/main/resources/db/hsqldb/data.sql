@@ -161,7 +161,7 @@ INSERT INTO ITEM_ATTRIBUTES VALUES(10, '1');
 INSERT INTO ITEM_ATTRIBUTES VALUES(10, '6');
 INSERT INTO ITEM_ATTRIBUTES VALUES(10, '0');
 
-INSERT INTO CHANGE_REQUESTS VALUES(1, 'Soy una prueba que debe de tener 20 caracteres porquesi', 'PENDING', 'Gran titulo', 1, null, null, null);
+INSERT INTO CHANGE_REQUESTS VALUES(1, 'Soy una prueba que debe de tener 20 caracteres porquesi', 'PENDING', 'Gran titulo', 1, null, null, 1);
 INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'1');
 INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'5');
 INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'4');
@@ -244,5 +244,11 @@ INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(5,1);
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(5,2);
 INSERT INTO ITEM_ROLES(item_id,role_id) VALUES(5,3);
 
-INSERT INTO BUILDS VALUES(1,'Soy la primera build de tus sueños y tengo 20 caracteres, lo juro.', 'Build1', false, 1, 1, null);
+INSERT INTO BUILDS VALUES(1,'Soy la primera build de tus sueños y soy publica, lo juro un rato.', 'Build publica', true, 1, 1, 1, 5);
+INSERT INTO BUILDS VALUES(2,'Soy la segunda build de tus sueños y soy publica, lo juro un rato.', 'Build publica2', true, 1, 1, 2, 6);
+INSERT INTO BUILDS VALUES(3,'Soy la tercera build de tus sueños y soy privada, respeta, porfavor.', 'Build privada', false, 2, 1, 1, null);
 INSERT INTO BUILD_ITEMS VALUES(1, 1);
+INSERT INTO BUILD_ITEMS VALUES(1, 2);
+INSERT INTO BUILD_ITEMS VALUES(2, 5);
+INSERT INTO BUILD_ITEMS VALUES(2, 3);
+INSERT INTO BUILD_ITEMS VALUES(3, 3);

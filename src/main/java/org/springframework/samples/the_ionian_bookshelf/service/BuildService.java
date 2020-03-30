@@ -40,9 +40,18 @@ public class BuildService {
 		return res;
 	}
 
-	public Collection<Build> findAll() {
+	public Collection<Build> findAllPublics() {
 
-		final Collection<Build> res = this.buildRepository.findAll();
+		final Collection<Build> res = this.buildRepository.findAllPublics();
+
+		assertNotNull(res);
+
+		return res;
+	}
+	
+	public Collection<Build> findMineBuilds(int summonerId) {
+
+		final Collection<Build> res = this.buildRepository.findBuildsBySummonerId(summonerId);
 
 		assertNotNull(res);
 
@@ -60,12 +69,15 @@ public class BuildService {
 	}
 
 	public Build findBuildById(int buildId) {
-		return buildRepository.findBuildById(buildId);
+		Build build = buildRepository.findBuildById(buildId);
+		assertNotNull(build);
+		return build;
 	}
 	
 	public void removeBuildById(int buildId) {
-		Build item = buildRepository.findBuildById(buildId);
-		buildRepository.delete(item);
+		Build build = buildRepository.findBuildById(buildId);
+		assertNotNull(build);
+		buildRepository.delete(build);
 	}
 	
 	public void saveBuild(Build i) {

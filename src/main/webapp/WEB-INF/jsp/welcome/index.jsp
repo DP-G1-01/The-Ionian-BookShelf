@@ -21,6 +21,7 @@
 	<h2>Home</h2>
 	<div class="row">
 		<div class="col-md-12">
+			<p>${message} </p>
 			<spring:url value="/resources/images/champs.jpg" htmlEscape="true"
 				var="champsImage" />
 			<img class="img-responsive" src="${champsImage}" />

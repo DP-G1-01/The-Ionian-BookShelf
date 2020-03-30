@@ -2,13 +2,14 @@ package org.springframework.samples.the_ionian_bookshelf.web;
 
 
 import java.util.Collection;
-
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
+import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.samples.the_ionian_bookshelf.validators.ItemValidator;
 import org.springframework.stereotype.Controller;
@@ -24,12 +25,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ItemController {
-
-	ItemService itemService;
+	
+	
+	private final ItemService itemService;
+	
+	private final AdministratorService administratorService;
 	
 	@Autowired
-	public ItemController(ItemService itemService) {
+	public ItemController(ItemService itemService, AdministratorService administratorService) {
 		this.itemService = itemService;
+		this.administratorService = administratorService;
 	}
 	
 	@InitBinder
@@ -63,14 +68,33 @@ public class ItemController {
 	
 	@GetMapping(value="/items/new")
 	public String crearItem(ModelMap modelMap) {
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/";
+		}
 		String view="items/editItem";
 		modelMap.addAttribute("item", new Item());
 		return view;
 	}
 	
 	@PostMapping(value="items/save")
-	public String salvarRuna(@Valid Item item, BindingResult result, ModelMap model) {
-	
+	public String salvarItem(@Valid Item item, BindingResult result, ModelMap model) {
+		
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/";
+		}
+		
 		if(result.hasErrors()) {
 			model.addAttribute("item", item);
 			return "items/editItem";
@@ -85,6 +109,17 @@ public class ItemController {
 	
 	@GetMapping(value = "/items/{itemId}/remove")
 	public String removeItem(@PathVariable("itemId") int itemId, ModelMap modelmap) {
+		//Está comentado por la pereza que me da logearme, pero funciona
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelmap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelmap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/";
+		}
+		
 		itemService.removeItemById(itemId);
 		return "redirect:/items";
 	}

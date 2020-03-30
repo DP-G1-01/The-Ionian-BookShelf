@@ -32,6 +32,9 @@ public class ItemService {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	public ItemService(ItemRepository itemRepository) {
+		this.itemRepository= itemRepository;
+	}
 	public Collection<Item> findAll() {
 
 		final Collection<Item> res = this.itemRepository.findAll();

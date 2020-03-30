@@ -3,16 +3,17 @@ package org.springframework.samples.the_ionian_bookshelf.web;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
-import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
+import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -27,11 +28,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class BuildController {
 
-	BuildService buildService;
+	
+	private final BuildService buildService;
+
+	
+	private final SummonerService summonerService;
 	
 	@Autowired
-	public BuildController(BuildService buildService) {
+	public BuildController(BuildService buildService, SummonerService summonerService) {
 		this.buildService = buildService;
+		this.summonerService = summonerService;
 	}
 	
 	@InitBinder
@@ -40,21 +46,89 @@ public class BuildController {
 	}
 	
 	@GetMapping(value = "/builds")
-	public String processFindForm(Item Build, BindingResult result, Model model) {
+	public String listPublicBuilds(Item Build, BindingResult result, Model model) {
 		
-		Collection<Build> results = this.buildService.findAll();
-			model.addAttribute("builds",results);
+		Collection<Build> builds = this.buildService.findAllPublics();
+			model.addAttribute("builds",builds);
+			return "builds/buildsList";
+		}
+	
+	@GetMapping(value = "/mine/builds")
+	public String listMineBuilds(Item Build, BindingResult result, Model model) {
+		
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
+		
+		Collection<Build> builds = this.buildService.findMineBuilds(this.summonerService.findByPrincipal().getId());
+			model.addAttribute("builds",builds);
 			return "builds/buildsList";
 		}
 	
 	@GetMapping("/builds/{buildId}")
-	public String showBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
+	public String showPublicBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
+		String view = "";
 		Build build = this.buildService.findBuildById(buildId);
-		String items = build.getItems().toString().replace("[", "").replace("]", "");
-		System.out.println(items);
-		modelmap.addAttribute("build", build);
-		modelmap.addAttribute("sitems", items);
-		return "builds/editBuild";
+		if(build.isVisibility()) {
+			view = "builds/editBuild";
+
+			String items = "";
+			for(Item i : build.getItems()) {
+				if(build.getItems().get(0) == i) {
+					items += i.getTitle();
+				} else {
+					items += ", " + i.getTitle();
+				}
+			}
+			items.replace("[", "").replace("]", "");
+			modelmap.addAttribute("build", build);
+			modelmap.addAttribute("sitems", items);
+		} else {
+			view = "redirect:/builds";
+			modelmap.addAttribute("message", "This build is not public.");
+		}
+		return view;
+	}
+	
+	@GetMapping("/mine/builds/{buildId}")
+	public String showMineBuild(@PathVariable("buildId") int buildId, ModelMap modelMap) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
+		
+		String view = "";
+		Build build = this.buildService.findBuildById(buildId);
+		if(summonerService.findByPrincipal().getId() == build.getSummoner().getId()) {
+			view = "builds/editBuild";
+
+			String items = "";
+			for(Item i : build.getItems()) {
+				if(build.getItems().get(0) == i) {
+					items += i.getTitle();
+				} else {
+					items += ", " + i.getTitle();
+				}
+			}
+			items.replace("[", "").replace("]", "");
+			modelMap.addAttribute("build", build);
+			modelMap.addAttribute("sitems", items);
+		} else {
+			view = "redirect:/mine/builds";
+			modelMap.addAttribute("message", "You must be logged in as the summoner who create the build.");
+		}
+		return view;
 	}
 	
 	@ModelAttribute("items")
@@ -71,14 +145,25 @@ public class BuildController {
 	public Collection<RunePage> populateRunePages() {
 		return this.buildService.findRunePages();
 	}
-	//Creacion de una runa
+
 	@GetMapping(value="/builds/new")
 	public String crearBuild(ModelMap modelMap) {
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
 		String view="builds/editBuild";
 		Build build = new Build();
 		List<Item> var = new ArrayList<>();
+		Integer summonerId = this.summonerService.findByPrincipal().getId();
 		build.setItems(var);
 		modelMap.addAttribute("build", build);
+		modelMap.addAttribute("summonerId", summonerId);
 		return view;
 	}
 	
@@ -93,13 +178,28 @@ public class BuildController {
 			model.addAttribute("message","Build save successfully");
 		}
 		
-		return "redirect:/builds";
+		return "redirect:/mine/builds";
 	}
 	
 	
-	@GetMapping(value = "/builds/{buildId}/remove")
-	public String removeBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
-		buildService.removeBuildById(buildId);
-		return "redirect:/builds";
+	@GetMapping(value = "/mine/builds/{buildId}/remove")
+	public String removeBuild(@PathVariable("buildId") int buildId, ModelMap modelMap) {
+
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a summoner");
+			return "redirect:/";
+		}
+		Build b = buildService.findBuildById(buildId);
+		if(b.getSummoner().getId() == this.summonerService.findByPrincipal().getId()) {
+			buildService.removeBuildById(buildId);
+		} else {
+			modelMap.addAttribute("message", "You must be logged in as the summoner who create the build.");
+		}
+		return "redirect:/mine/builds";
 	}
 }

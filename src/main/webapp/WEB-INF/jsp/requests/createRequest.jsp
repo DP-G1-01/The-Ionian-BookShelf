@@ -40,6 +40,7 @@
 			<input type="hidden" name="status" value="${request.status}" />
 			<input type="hidden" name="item" value="${itemId}" />
 			<input type="hidden" name="champion" value="${championId}" />
+			<input type="hidden" name="summoner" value="${summonerId}" />
 			<div class="col-sm-offset-2 col-sm-10">
 				<c:choose>
 					<c:when test="${request['new']}">
