@@ -1,10 +1,13 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import java.util.NoSuchElementException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
+import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.stereotype.Controller;
@@ -16,22 +19,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ThreadController {
-
-	@Autowired
+	
 	private final ThreadService threadService;
-	@Autowired
+	
 	private final MessageService messageService;
+	
+	private final AdministratorService administratorService;
 
 	@Autowired
-	public ThreadController(final ThreadService threadService, final MessageService messageService) {
+	public ThreadController(final ThreadService threadService, final MessageService messageService, final AdministratorService administratorService) {
 		this.threadService = threadService;
 		this.messageService = messageService;
+		this.administratorService = administratorService;
 	}
-
-	// @InitBinder
-	// public void setAllowedFields(WebDataBinder dataBinder) {
-	// dataBinder.setDisallowedFields("id");
-	// }
 
 	// Listado de threads
 	@GetMapping(value = "/threads")
@@ -78,11 +78,19 @@ public class ThreadController {
 	// Delete de Thread
 	@GetMapping(value = "/threads/{threadId}/remove")
 	public String deleteThread(@PathVariable("threadId") int threadId, ModelMap modelMap) {
+		try {
+			this.administratorService.findByPrincipal();	
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (NoSuchElementException e) {
+			modelMap.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		}
 		Thread thread = threadService.findOne(threadId);
 		if (thread != null) {
 			this.threadService.deleteFromMessages(thread);
 			this.threadService.delete(thread);
-
 			modelMap.addAttribute("message", "Thread deleted successfully");
 		} else {
 			modelMap.addAttribute("message", "Thread not found");
