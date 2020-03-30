@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -13,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -25,15 +26,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
+import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
+import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
+import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
+import org.springframework.samples.the_ionian_bookshelf.service.BranchService;
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.validation.BindingResult;
 
-@WebMvcTest(controllers = RuneController.class
+@WebMvcTest(controllers = RuneController.class,
+includeFilters = @ComponentScan.Filter(value = BranchFormatter.class, type = FilterType.ASSIGNABLE_TYPE)
 ,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
 , classes = WebSecurityConfigurer.class)
 , excludeAutoConfiguration = SecurityConfiguration.class)
@@ -46,27 +53,38 @@ class RuneControllerTests {
 
 	@MockBean
 	private RuneService runeService;
+	
+	@MockBean
+	private BranchService branchService;
 
 	@MockBean
 	private AdministratorService administratorService;
-	
-	private Rune rune;
-
+		
 	@BeforeEach
 	void setup() {
 		Branch branch = new Branch();
 		branch.setId(3);
-		branch.setName("NombreBranch");
+		branch.setName("Precision");
 		branch.setDescription("DescBranch");
 		branch.setImage("http://www.branch.com");	
-		rune = new Rune();
+		Rune rune = new Rune();
 		rune.setId(11);
 		rune.setName("Nombre");
 		rune.setDescription("Descripcion");
 		rune.setBranch(branch);
 		rune.setNode("1");
+		
+		User user = new User();
+		user.setUsername("admin");
+		user.setPassword("admin");
+		Administrator admin = new Administrator();
+		admin.setUser(user);
+		admin.setId(1);
+		admin.setEmail("admin@gmail.com");
+		
 		given(this.runeService.findRuneById(11)).willReturn(rune);
-
+		given(this.branchService.findAll()).willReturn(Lists.newArrayList(branch));
+		given(this.administratorService.findByPrincipal()).willReturn(admin);
 	}
 
 
@@ -79,7 +97,7 @@ class RuneControllerTests {
 				.andExpect(view().name("runes/listadoRunas"));
 	}
 
-	@WithMockUser(value = "admin")
+	@WithMockUser(value = "admin", roles="administrator")
 	@Test
 	void testInitCreationFormAdmin() throws Exception {
 		mockMvc.perform(get("/runes/new")).andExpect(status().is2xxSuccessful()).andExpect(model()
@@ -99,14 +117,12 @@ class RuneControllerTests {
 	}
 
 
-
-	@WithMockUser(value = "admin")
+    @WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
-		mockMvc.perform(post("/runes/new").with(csrf()).param("name", "name test").param("description", "descripcion")
+		mockMvc.perform(post("/runes/save").with(csrf()).param("name", "name test").param("description", "descripcion")
 				.param("branch", "Precision").param("node", "1"))
-				.andExpect(status().is2xxSuccessful());
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/runes/"));
 	}
 
 	@WithMockUser(value="admin")
@@ -165,15 +181,16 @@ class RuneControllerTests {
 							.with(csrf())
 							.param("name", "My personal rune")
 							.param("description", "New description")
+							.param("branch", "Precision")
 							.param("node", "2"))
-				.andExpect(status().is2xxSuccessful());
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/runes/"));
 	}
 
 	//Delete de una runa siendo admin
 	@WithMockUser(value = "admin")
 	@Test
 	void testDeleteRuneSuccess() throws Exception {
-		mockMvc.perform(get("/runes/{runeId}/remove", 1)).andExpect(status().is3xxRedirection())
+		mockMvc.perform(get("/runes/{runeId}/remove", 11)).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/runes/"));
 	}
 
@@ -182,7 +199,7 @@ class RuneControllerTests {
 	@Test
 	void testDeleteRuneWithoutLoginAsAdmin() throws Exception {
 		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
-		mockMvc.perform(get("/runes/{runeId}/remove", 1)).andExpect(status().is3xxRedirection())
+		mockMvc.perform(get("/runes/{runeId}/remove", 11)).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/login"));
 	}
 	

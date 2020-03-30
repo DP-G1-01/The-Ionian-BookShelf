@@ -244,4 +244,19 @@ public class BuildControllerTests {
 				.andExpect(model().attributeHasFieldErrors("build", "title"))
 				.andExpect(view().name("builds/editBuild"));
 	}
+	
+	@WithMockUser(value = "summ")
+	@Test
+	void testDeleteItemSuccessSumm() throws Exception {
+		mockMvc.perform(get("/mine/builds/{buildId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/mine/builds"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteRuneWithoutLoginAsSumm() throws Exception {
+		when(this.summonerService.findByPrincipal()).thenThrow(AssertionError.class);
+		mockMvc.perform(get("/mine/builds/{buildId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/"));
+	}
 }

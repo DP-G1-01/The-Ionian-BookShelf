@@ -99,4 +99,19 @@ class ItemControllerTests {
 				.andExpect(model().attributeHasFieldErrors("item", "title"))
 				.andExpect(view().name("items/editItem"));
 	}
+	
+	@WithMockUser(value = "admin")
+	@Test
+	void testDeleteItemSuccess() throws Exception {
+		mockMvc.perform(get("/items/{itemId}/remove", 1)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/items"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteRuneWithoutLoginAsAdmin() throws Exception {
+		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
+		mockMvc.perform(get("/items/{itemId}/remove", 1)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/"));
+	}
 }
