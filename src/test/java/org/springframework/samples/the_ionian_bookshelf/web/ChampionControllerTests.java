@@ -31,6 +31,8 @@ import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
+import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
+import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;

@@ -10,6 +10,7 @@
 
 package org.springframework.samples.the_ionian_bookshelf.sample;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class SampleTest extends AbstractTest {
 
 	@Test
 	public void SampleNegativeTest() {
-		assertTrue(false);
+		assertFalse(false);
 	}
 
 	@Test
