@@ -8,7 +8,7 @@
 <petclinic:layout pageName="builds">
     <h2>Builds</h2>
 
-	<spring:url value="/builds/new" var="buildNewUrl">
+	<spring:url value="/mine/builds/new" var="buildNewUrl">
     </spring:url>
     <a style="background-color: #000000 ; padding: 10px; border-radius:20px; float:right;" href="${fn:escapeXml(buildNewUrl)}">Add New Build</a><br><br>
     <br>
@@ -17,10 +17,10 @@
         <tr>
             <th style="width: 150px;">Title</th>
             <th style="width: 400px;">Description</th>
-            <th style="width: 150px">Champion</th>
+            <th style="width: 130px">Champion</th>
             <th style="width: 120px">Rune Page</th>
             <th style="width: 300px">Items</th>
-            <th style="width: 130px"></th>
+            <th style="width: 180px"></th>
         </tr>
         </thead>
         <tbody>
@@ -50,11 +50,14 @@
                 <a href="${fn:escapeXml(buildShowUrl)}">Show</a>
                 
                 <c:if test = "${requestScope['javax.servlet.forward.request_uri'] == '/mine/builds'}">
+                <spring:url value="/mine/builds/{buildId}/edit" var="buildEditUrl">
+                        <spring:param name="buildId" value="${build.id}"/>
+                </spring:url>
                 <spring:url value="/mine/builds/{buildId}/remove" var="buildRemoveUrl">
                         <spring:param name="buildId" value="${build.id}"/>
                 </spring:url>
-                
-                 / <a href="${fn:escapeXml(buildRemoveUrl)}">Remove</a><br>
+                 / <a href="${fn:escapeXml(buildEditUrl)}">Edit</a>
+                 / <a href="${fn:escapeXml(buildRemoveUrl)}">Remove</a>
                 </c:if>
                 </td>
             </tr>

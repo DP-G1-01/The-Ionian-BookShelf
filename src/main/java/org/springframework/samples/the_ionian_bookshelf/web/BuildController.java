@@ -12,8 +12,10 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
+import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
+import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -34,10 +36,13 @@ public class BuildController {
 	
 	private final SummonerService summonerService;
 	
+	private final ThreadService threadService;
+	
 	@Autowired
-	public BuildController(BuildService buildService, SummonerService summonerService) {
+	public BuildController(BuildService buildService, SummonerService summonerService, ThreadService threadService) {
 		this.buildService = buildService;
 		this.summonerService = summonerService;
+		this.threadService = threadService;
 	}
 	
 	@InitBinder
@@ -89,6 +94,7 @@ public class BuildController {
 			items.replace("[", "").replace("]", "");
 			modelmap.addAttribute("build", build);
 			modelmap.addAttribute("sitems", items);
+			modelmap.addAttribute("show", true);
 		} else {
 			view = "redirect:/builds";
 			modelmap.addAttribute("message", "This build is not public.");
@@ -124,6 +130,7 @@ public class BuildController {
 			items.replace("[", "").replace("]", "");
 			modelMap.addAttribute("build", build);
 			modelMap.addAttribute("sitems", items);
+			modelMap.addAttribute("show", true);
 		} else {
 			view = "redirect:/mine/builds";
 			modelMap.addAttribute("message", "You must be logged in as the summoner who create the build.");
@@ -146,7 +153,7 @@ public class BuildController {
 		return this.buildService.findRunePages();
 	}
 
-	@GetMapping(value="/builds/new")
+	@GetMapping(value="mine/builds/new")
 	public String crearBuild(ModelMap modelMap) {
 		try {
 			this.summonerService.findByPrincipal();
@@ -167,7 +174,7 @@ public class BuildController {
 		return view;
 	}
 	
-	@PostMapping(value="builds/save")
+	@PostMapping(value="mine/builds/save")
 	public String salvarBuild(@Valid Build build, BindingResult result, ModelMap model) {
 	
 		if(result.hasErrors()) {
@@ -201,5 +208,63 @@ public class BuildController {
 			modelMap.addAttribute("message", "You must be logged in as the summoner who create the build.");
 		}
 		return "redirect:/mine/builds";
+	}
+	
+	@GetMapping(value = "/mine/builds/{buildId}/edit")
+	public String initUpdateBuildForm(@PathVariable("buildId") int buildId, Model model) {
+		String view="";
+		
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			view = "redirect:/login";
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as a summoner");
+			view = "redirect:/";
+		}
+		
+		Build build = buildService.findBuildById(buildId);
+		if(summonerService.findByPrincipal().getId() == build.getSummoner().getId()) {
+			view = "builds/editBuild";
+			model.addAttribute(build);
+		} else {
+			view = "redirect:/mine/builds";
+			model.addAttribute("message", "You must be logged in as the summoner who create the build.");
+		}
+		
+		return view;
+	}
+
+	@PostMapping(value = "/mine//builds/{buildId}/edit")
+	public String processUpdateBuildForm(@Valid Build build, BindingResult result, @PathVariable("buildId") int buildId) {
+		String view="builds/editBuild";
+		
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			view = "redirect:/login";
+		} catch (AssertionError e) {
+			view = "redirect:/";
+		}
+		
+		if (result.hasErrors()) {
+			view = "builds/editBuild";
+		}
+		else {
+			build.setId(buildId);
+			
+			if(build.isVisibility() == true && build.getThread() == null) {
+				Thread th = new Thread("Thread of " + build.getTitle(), "Este es el thread publico de la build "
+			+ build.getTitle() + ", cuyo autor es " + build.getSummoner().getUser().getUsername());
+				threadService.save(th);
+				build.setThread(th);
+			}
+			
+			this.buildService.saveBuild(build);
+			return "redirect:/mine/builds";
+		}
+		
+		return view;
 	}
 }

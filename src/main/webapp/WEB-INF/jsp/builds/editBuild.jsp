@@ -6,18 +6,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="builds">
+<petclinic:layout pageName="builds" onload="updateForm()">
 	<h2>
 		<c:if test="${build['new']}">New </c:if>
 		Build
 	</h2>
+	
 	<form:form modelAttribute="build" class="form-horizontal"
-		id="add-build-form" action="/builds/save">
+		id="build-form" action="/mine/builds/save">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Title" name="title" />
 			<petclinic:inputField label="Description" name="description" />
 			<c:choose>
-            <c:when test="${build['new']}">
+            <c:when test="${build['new'] || show != true}">
 			<div class="control-group">
                     <petclinic:selectField name="champion" label="Champion" names="${champions}" size="1" />
             </div>
@@ -34,23 +35,55 @@
 			<div class="form-group ">
         	<label class="col-sm-2 control-label">Items</label>
         	<div class="col-sm-10">
-            <input id="items" name="items" class="form-control" type="text" value="${sitems}" readonly>
+            <input id="items" name="items" class="form-control" type="text" value="${sitems}">
         	</div>
    			</div>
             </c:otherwise>
             </c:choose>
+            <c:choose>
+            <c:when test="${!(build['new']) && build.visibility == true}">
+            <div style="float:right">
+            <input type="checkbox" id="visibility" name="visibility" value="true" checked disabled>
+			<label for="visibility">Visibilidad</label>
+			<input type="hidden" name="visibility" value="${build.visibility}" />
+			<input type="hidden" name="thread" value="${build.thread.id}" />
+			</div>
+            </c:when>
+            <c:when test="${!(build['new'])}">
+            <div style="float:right">
+            <input type="checkbox" id="visibility" name="visibility" value="true">
+			<label for="visibility">Visibilidad</label>
+			</div>
+            </c:when>
+            </c:choose>
 		</div>
 		<div class="form-group">
 			<input type="hidden" name="id" value="${build.id}" />
-			<input type="hidden" name="summoner" value="${summonerId}" />
 			<div class="col-sm-offset-2 col-sm-10">
 				<c:choose>
 					<c:when test="${build['new']}">
+						<input type="hidden" name="summoner" value="${summonerId}" />
 						<button class="btn btn-default" type="submit">Add build</button>
 					</c:when>
-
+					<c:when test="${show == true}">
+					<a href="/threads/${build.thread.id}">URL del Thread</a>
+					</c:when>
+					<c:otherwise>
+						<input type="hidden" name="summoner" value="${build.summoner.id}" />
+						<button class="btn btn-default" type="submit">Update build</button>
+					</c:otherwise>
 				</c:choose>
 			</div>
 		</div>
 	</form:form>
 </petclinic:layout>
+
+<script>
+function updateForm() {
+	var url = window.location.href;
+	console.log(url);
+	if(url.includes('edit')) {
+		document.getElementById("build-form").action = url;
+	}
+}
+</script>
