@@ -29,42 +29,39 @@ public class ChampionServiceTests {
 
 	@Autowired
 	protected RoleRepository roleRepository;
-	
+
 	@Autowired
 	protected ChampionRepository championRepository;
 
 	@Autowired
 	protected ChampionService championService;
-	
+
 	@Autowired
 	protected RoleService roleService;
-	
+
 	@Test
 	@BeforeAll
 	void testFindAll() {
 		Collection<Champion> champions = championService.findAll();
 		assertEquals(championRepository.count(), champions.size());
 	}
-	
- 
-	
+
 	@Test
 	@Transactional
 	void testFindOne() {
-		Champion i = championService.findChampionById(1);
+		Champion i = championService.findOne(1);
 		Champion ii = championRepository.findById(1).get();
 		assertEquals(i, ii);
-	} 
-	
-	
+	}
+
 	@Test
 	@Transactional
 	void testFindOneError() {
-		NoSuchElementException exception = assertThrows(NoSuchElementException.class,()->championService.findChampionById(3472));
+		NoSuchElementException exception = assertThrows(NoSuchElementException.class,
+				() -> championService.findOne(3472));
 		assertEquals(NoSuchElementException.class, exception.getClass());
 	}
-	
-	
+
 //	@Test
 //	@Transactional
 //	void testRemoveChampionById() {
@@ -80,19 +77,19 @@ public class ChampionServiceTests {
 //		NoSuchElementException exception = assertThrows(NoSuchElementException.class,()->championService.removeChampionById(4637));
 //		assertEquals(NoSuchElementException.class, exception.getClass());
 //	}
-	
+
 	@Test
 	@Transactional
 	void testSaveChampion() {
-		
+
 		Role r = new Role("rolTest", "testeoooooooooo", "https://www.google.es");
 		this.roleRepository.save(r);
-		Champion c = new Champion("Manolito Pies de Plata","desc",900.0,100.0,null,1.2,1.2,r);
+		Champion c = new Champion("Manolito Pies de Plata", "desc", 900.0, 100.0, null, 1.2, 1.2, r);
 		championService.save(c);
 		Champion ii = championRepository.findById(c.getId()).get();
 		assertEquals(c, ii);
-	} 
-	
+	}
+
 	@Test
 	@Transactional
 	void testFindRoles() {

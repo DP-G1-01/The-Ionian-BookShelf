@@ -31,7 +31,7 @@ public class ChampionService {
 
 	@Autowired
 	private AuthoritiesService authService;
-	
+
 	@Autowired
 	private BuildRepository buildRepository;
 
@@ -60,28 +60,34 @@ public class ChampionService {
 		return championRepository.findAll();
 	}
 
+	@Transactional
+	public Champion findOne(final int id) throws DataAccessException {
+
+		assertTrue(id != 0);
+		Champion res = this.championRepository.findById(id).get();
+		assertNotNull(res);
+
+		return res;
+	}
+
 	public Champion save(Champion champ) {
 		assertNotNull(champ);
 		assertTrue(this.authService.checkAuthorities("administrator"));
 		return this.championRepository.save(champ);
 	}
 
-
 	@Transactional
 	public void deleteChampion(Champion champion) throws DataAccessException {
 		assertNotNull(champion);
 		assertTrue(this.authService.checkAuthorities("administrator"));
-		Collection<Build> builds = this.buildRepository.findAllByChampion(champion.getId());//Peta en Ashe porque tiene asociado un change_request
+		Collection<Build> builds = this.buildRepository.findAllByChampion(champion.getId());// Peta en Ashe porque tiene
+																							// asociado un
+																							// change_request
 		builds.forEach(x -> this.buildRepository.delete(x));
 		this.championRepository.delete(champion);
 	}
 
-	@Transactional
-	public Champion findChampionById(final int id) throws DataAccessException {
-		return championRepository.findById(id).get();
-	}
-
-	//Metodos para los tests
+	// Metodos para los tests
 	@Transactional()
 	public Collection<Champion> findRuneByName(final String name) throws DataAccessException {
 		return this.championRepository.findByName(name);

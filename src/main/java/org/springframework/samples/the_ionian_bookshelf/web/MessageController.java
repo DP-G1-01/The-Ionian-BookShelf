@@ -1,9 +1,5 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
-import java.beans.PropertyEditorSupport;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +10,13 @@ import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MessageController {
 
-	@Autowired
 	private final MessageService messageService;
 
 	@Autowired
@@ -32,37 +25,35 @@ public class MessageController {
 		this.messageService = messageService;
 	}
 
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(LocalDateTime.class, new PropertyEditorSupport() {
-			public void setAsText(String text) throws IllegalArgumentException {
-				setValue(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm")));
-			}
-
-			public String getAsText() throws IllegalArgumentException {
-				return DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm").format((LocalDateTime) getValue());
-			}
-		});
-	}
-
 	// Creacion de mensajes
 	@GetMapping(value = "threads/{threadId}/messages/new")
 	public String createMessage(ModelMap modelMap, @PathVariable("threadId") int threadId) {
 		String vista = "messages/createMessage";
-		Message message = this.messageService.create(threadId);
-		modelMap.addAttribute("message", message);
+		try {
+			Message message = this.messageService.create(threadId);
+			modelMap.addAttribute("message", message);
+		} catch (Exception oups) {
+			return "redirect:/";
+		} catch (AssertionError oups) {
+			return "redirect:/";
+		}
 		return vista;
 	}
 
 	@PostMapping(value = "threads/{threadId}/messages/save")
 	public String saveMessage(@Valid Message message, BindingResult result, ModelMap modelMap) {
 		if (result.hasErrors()) {
-			System.out.println(result);
 			modelMap.addAttribute("message", message);
 			return "messages/createMessage";
 		} else {
-			this.messageService.saveMessage(message);
-			modelMap.addAttribute("msg", "Message saved successfully");
+			try {
+				this.messageService.saveMessage(message);
+				modelMap.addAttribute("msg", "Message saved successfully");
+			}catch (Exception oups) {
+				return "redirect:/";
+			}catch (AssertionError oups) {
+				return "redirect:/";
+			}
 		}
 		return "redirect:/threads/{threadId}";
 	}

@@ -1,10 +1,16 @@
 
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,6 +28,9 @@ public class SummonerController extends AbstractController {
 	@Autowired
 	private SummonerService summonerService;
 
+	@Autowired
+	private ChampionService champService;
+
 	// Edition --------------------------------------------------------
 
 	@GetMapping(value = "/edit")
@@ -38,7 +47,8 @@ public class SummonerController extends AbstractController {
 	// Save -----------------------------------------------------------
 
 	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView save(@ModelAttribute("actor") @Valid final Summoner summoner, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("actor") @Valid final Summoner summoner, final BindingResult binding,
+			List<Integer> champsId) {
 
 		ModelAndView res;
 
@@ -46,6 +56,11 @@ public class SummonerController extends AbstractController {
 			res = this.createEditModelAndView(summoner);
 		else
 			try {
+				Collection<Champion> champs = new ArrayList<Champion>();
+				for (Integer id : champsId) {
+					champs.add(this.champService.findOne(id));
+				}
+				summoner.setMains(champs);
 				this.summonerService.save(summoner);
 
 				res = new ModelAndView("redirect:/");

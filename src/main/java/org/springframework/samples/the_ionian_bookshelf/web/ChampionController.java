@@ -36,21 +36,17 @@ public class ChampionController {
 	@Autowired
 	private final AdministratorService administratorService;
 
-	@Autowired
-	private final ReviewerService reviewerService;
-
 	@InitBinder("champion")
 	public void initChampionBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new ChampionValidator());
 	}
-	
+
 	@Autowired
 	public ChampionController(ChampionService championService, RoleService roleService,
 			AdministratorService administratorService, ReviewerService reviewerService) {
 		this.championService = championService;
 		this.roleService = roleService;
 		this.administratorService = administratorService;
-		this.reviewerService = reviewerService;
 	}
 
 	// lista de campeones
@@ -122,7 +118,7 @@ public class ChampionController {
 			modelMap.addAttribute("message", "You must be logged in as an admin or reviewer");
 			return "redirect:/login";
 		}
-		Champion champion = championService.findChampionById(championId);
+		Champion champion = championService.findOne(championId);
 		if (champion != null) {
 			championService.deleteChampion(champion);
 			modelMap.addAttribute("message", "Champion delete successfully");
@@ -133,34 +129,34 @@ public class ChampionController {
 		return "redirect:/champions/";
 
 	}
-	
-	//Update
-		@GetMapping(value = "/champions/{championId}/edit")
-		public String initUpdateOwnerForm(@PathVariable("championId") int championId, Model model) {
-			try {
-				this.administratorService.findByPrincipal();
-			} catch (AssertionError e) {
-				model.addAttribute("message", "You must be logged in as an admin");
-				return "redirect:/login";
-			} catch (NoSuchElementException u) {
-				model.addAttribute("message", "You must be logged in as an admin");
-				return "redirect:/login";
-			}
-			Champion champion = this.championService.findChampionById(championId);
-			model.addAttribute(champion);
-			return "champions/editCampeon";
-		}
 
-		@PostMapping(value = "/champions/{championId}/edit")
-		public String processUpdateOwnerForm(@Valid Champion champion, BindingResult result, @PathVariable("championId") int championId) {
-			if (result.hasErrors()) {
-				return "champions/editCampeon";
-			}
-			else {
-				champion.setId(championId);
-				this.championService.save(champion);
-				return "redirect:/champions/";
-			}
+	// Update
+	@GetMapping(value = "/champions/{championId}/edit")
+	public String initUpdateOwnerForm(@PathVariable("championId") int championId, Model model) {
+		try {
+			this.administratorService.findByPrincipal();
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as an admin");
+			return "redirect:/login";
 		}
+		Champion champion = this.championService.findOne(championId);
+		model.addAttribute(champion);
+		return "champions/editCampeon";
+	}
+
+	@PostMapping(value = "/champions/{championId}/edit")
+	public String processUpdateOwnerForm(@Valid Champion champion, BindingResult result,
+			@PathVariable("championId") int championId) {
+		if (result.hasErrors()) {
+			return "champions/editCampeon";
+		} else {
+			champion.setId(championId);
+			this.championService.save(champion);
+			return "redirect:/champions/";
+		}
+	}
 
 }

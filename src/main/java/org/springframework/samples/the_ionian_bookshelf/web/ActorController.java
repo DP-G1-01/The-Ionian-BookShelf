@@ -1,12 +1,16 @@
 
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Actor;
 import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
+import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Reviewer;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,9 @@ public class ActorController extends AbstractController {
 	@Autowired
 	private AdministratorService administratorService;
 
+	@Autowired
+	private ChampionService champService;
+
 	// Sign up --------------------------------------------------------
 
 	@GetMapping(value = "/signUp")
@@ -44,9 +51,11 @@ public class ActorController extends AbstractController {
 		final Summoner summoner = this.summonerService.create();
 
 		final String role = "summoner";
+		Collection<Champion> champs = this.champService.findAll();
 
 		result = this.createEditModelAndView(summoner);
 		result.addObject("role", role);
+		result.addObject("champs", champs);
 
 		return result;
 	}

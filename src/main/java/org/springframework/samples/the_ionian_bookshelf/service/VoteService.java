@@ -3,6 +3,7 @@ package org.springframework.samples.the_ionian_bookshelf.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,22 @@ public class VoteService {
 		assertNotNull(res);
 
 		return res;
+	}
+
+	public Collection<Vote> findByMessageId(int id) {
+
+		assertTrue(id != 0);
+		Collection<Vote> res = this.voteRepo.findByMessageId(id);
+		assertNotNull(res);
+		return res;
+	}
+
+	public void deleteByMessageId(int id) {
+
+		Collection<Vote> votes = this.findByMessageId(id);
+		for (Vote vote : votes) {
+			this.delete(vote);
+		}
 	}
 
 	public void delete(Vote vote) {
