@@ -9,11 +9,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +27,9 @@ public class ChampionService {
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private AdministratorService adminService;
@@ -63,6 +68,10 @@ public class ChampionService {
 		return championRepository.findById(id).get();
 	}
 
+	@Transactional()
+	public Collection<Role> findRoles() throws DataAccessException {
+		return this.roleRepository.findAll();
+	}
 
 
 }

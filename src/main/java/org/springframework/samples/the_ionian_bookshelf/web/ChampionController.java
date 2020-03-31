@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
+import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
@@ -55,11 +56,11 @@ public class ChampionController {
 		return vista;
 	}
 
-//	// Intento de hacer lo mismo que Pet con PetType
-//	@ModelAttribute("role")
-//	public Collection<Role> populateRole() {
-//		return this.roleService.findAll();
-//	}
+	// Intento de hacer lo mismo que Pet con PetType
+	@ModelAttribute("role")
+	public Collection<Role> populateRole() {
+		return this.championService.findRoles();
+	}
 
 	// Creacion de una runa
 	@GetMapping(value = "/champions/new")

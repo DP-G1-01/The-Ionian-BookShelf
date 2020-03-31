@@ -27,16 +27,34 @@
 					<span><c:out value="${name}" /></span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+				<petclinic:menuItem active="${name eq 'champions'}" url="/champions/"
+					title="champions">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Champions</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
+				<petclinic:menuItem active="${name eq 'runes'}" url="/runes"
+					title="runes">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
+					<span>Runes</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'runePage'}" url="/runePages/mine"
+					title="runes page">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Rune Page</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'items'}" url="/items"
+					title="items">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Items</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'builds'}" url="/builds"
+					title="builds">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Builds</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
