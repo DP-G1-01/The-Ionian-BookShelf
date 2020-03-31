@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
+import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
@@ -30,6 +31,8 @@ public class ThreadService {
 	private AuthoritiesService authService;
 	@Autowired
 	private LeagueService leagueService;
+	@Autowired
+	private BuildService buildService;
 
 	
 	
@@ -73,6 +76,7 @@ public class ThreadService {
 		assertNotNull(thread);
 		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
 		assertFalse("NO SE PUEDE ELIMINAR UN THREAD VINCULADO A UNA LIGA",isAThreadFromLeague(thread));
+		assertFalse("NO SE PUEDE ELIMINAR UN THREAD VINCULADO A UNA BUILD",isAThreadFromBuild(thread));
 		this.threadRepo.delete(thread);	
 	}
 
@@ -103,4 +107,16 @@ public class ThreadService {
 		}
 		return res;
 	}
+	
+	public boolean isAThreadFromBuild(Thread thread) throws DataAccessException{
+		assertNotNull(thread);
+		assertTrue(thread.getId() != 0);
+		boolean res = true;
+		Build build = this.buildService.findByThread(thread);
+			if(build == null) {
+				res = false;
+			}
+		return res;
+		}
+
 }
