@@ -9,12 +9,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
+import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequestRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +25,18 @@ public class ChampionService {
 
 	@Autowired
 	private ChampionRepository championRepository;
-
-	@Autowired
-	private RoleService roleService;
 	
 	@Autowired
 	private RoleRepository roleRepository;
-
-	@Autowired
-	private AdministratorService adminService;
 
 	@Autowired
 	private AuthoritiesService authService;
 	
 	@Autowired
 	private BuildRepository buildRepository;
+	
+	@Autowired
+	private ChangeRequestRepository changeRequestRepository;
 
 
 
@@ -60,6 +58,8 @@ public class ChampionService {
 		assertTrue(this.authService.checkAuthorities("administrator"));
 		Collection<Build> builds = this.buildRepository.findAllByChampion(champion.getId());//Peta en Ashe porque tiene asociado un change_request
 		builds.forEach(x -> this.buildRepository.delete(x));
+		Collection<ChangeRequest> changeRequests = this.changeRequestRepository.findAllByChampionId(champion.getId());
+		changeRequests.forEach(x -> this.changeRequestRepository.delete(x));
 		this.championRepository.delete(champion);
 	}
 
