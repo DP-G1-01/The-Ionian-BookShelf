@@ -37,7 +37,7 @@
 							var="runeRemoveUrl">
 							<spring:param name="runeId" value="${rune.id}" />
 						</spring:url> <a href="${fn:escapeXml(runeRemoveUrl)}">Remove rune</a> <spring:url
-							value="{runeId}/edit" var="editUrl">
+							value="/runes/{runeId}/edit" var="editUrl">
 						<spring:param name="runeId" value="${rune.id}" />
 						</spring:url> <a href="${fn:escapeXml(editUrl)}" >Edit Rune</a></td>
 
