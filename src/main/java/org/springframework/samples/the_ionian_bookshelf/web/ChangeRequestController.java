@@ -3,19 +3,15 @@ package org.springframework.samples.the_ionian_bookshelf.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
-import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
-import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChangeRequestService;
-import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
+import org.springframework.samples.the_ionian_bookshelf.validators.ChangeRequestValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -28,25 +24,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ChangeRequestController {
 	
-
 	private final ChangeRequestService changeRequestService;
-	
 	
 	private final SummonerService summonerService;
 	
-	
 	private final ReviewerService reviewerService;
 
+	@InitBinder("request")
+	public void initChangeRequestBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new ChangeRequestValidator());
+	}
+	
 	@Autowired
 	public ChangeRequestController(ChangeRequestService changeRequestService, SummonerService summonerService, ReviewerService reviewerService) {
 		this.changeRequestService = changeRequestService;
 		this.summonerService = summonerService;
 		this.reviewerService = reviewerService;
-	}
-
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
 	}
 	
 	@GetMapping(value = "/requests")
@@ -192,32 +185,35 @@ public class ChangeRequestController {
 			model.addAttribute("request", request);
 			return "requests/createRequest";
 		}else {
-			
-			if(request.getItem() != null) {
-				for(int i = 0; i<request.getChangeItem().size(); i++) {
-					Integer valorNuevo = Integer.parseInt(request.getChangeItem().get(i));
-					Integer valorViejo = Integer.parseInt(request.getItem().getAttributes().get(i));
-					
-					if(valorNuevo.compareTo(valorViejo) >= 10) {
-						
-					}
-				}
-			} else {
-				Champion campeon = request.getChampion();
-				List<Double> nuevosValores = request.getChangeChamp().stream().map(x-> Double.parseDouble(x)).collect(Collectors.toList());
-				
-				if(campeon.getHealth().compareTo(nuevosValores.get(0)) >= 10) {
-					
-				} else if(campeon.getMana() != null && campeon.getMana().compareTo(nuevosValores.get(1)) >= 10) {
-					
-				} else if(campeon.getEnergy() != null && campeon.getEnergy().compareTo(nuevosValores.get(2)) >= 10) {
-					
-				} else if(campeon.getAttack().compareTo(nuevosValores.get(3)) >= 10) {
-					
-				} else if(campeon.getSpeed().compareTo(nuevosValores.get(4)) >= 10) {
-					
-				}
-			}
+
+//			if (request.getItem() != null) {
+//				for (int i = 0; i < request.getChangeItem().size(); i++) {
+//					Integer valorNuevo = Integer.parseInt(request.getChangeItem().get(i));
+//					Integer valorViejo = Integer.parseInt(request.getItem().getAttributes().get(i));
+//
+//					if (valorNuevo.compareTo(valorViejo) >= 10) {
+//
+//					}
+//				}
+//			} else {
+//				Champion campeon = request.getChampion();
+//				List<Double> nuevosValores = request.getChangeChamp().stream().map(x -> Double.parseDouble(x))
+//						.collect(Collectors.toList());
+//
+//				if (campeon.getHealth().compareTo(nuevosValores.get(0)) >= 10) {
+//
+//				} else if (campeon.getMana() != null && campeon.getMana().compareTo(nuevosValores.get(1)) >= 10) {
+//
+//				} else if (campeon.getEnergy() != null && campeon.getEnergy().compareTo(nuevosValores.get(2)) >= 10) {
+//
+//				} else if (campeon.getAttack().compareTo(nuevosValores.get(3)) >= 10) {
+//
+//				} else if (campeon.getSpeed().compareTo(nuevosValores.get(4)) >= 10) {
+//
+//				} else if (request.getChangeChamp().get(1) != null && request.getChangeChamp().get(2) != null) {
+//					
+//				}
+//			}
 			
 			changeRequestService.save(request);
 			model.addAttribute("message","Change Request save successfully");
