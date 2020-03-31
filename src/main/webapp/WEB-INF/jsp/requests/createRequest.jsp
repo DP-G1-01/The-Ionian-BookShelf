@@ -16,7 +16,7 @@
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Title" name="title" />
 			<petclinic:inputField label="Description" name="description" />
-			<c:if test="${request.item!=null}">
+			<c:if test="${request.item!=null && requestScope['javax.servlet.forward.request_uri'] != '/requests/saveChangeRequest'}">
 			<petclinic:inputField label="Item" name="item.title"/>
 			</c:if>	
 			<c:if test="${itemId != null || request.item!=null}">
@@ -24,7 +24,7 @@
 			<petclinic:inputField label="Attribute2" name="changeItem[1]"  />
 			<petclinic:inputField label="Attribute3" name="changeItem[2]" />
 			</c:if>
-			<c:if test="${request.champion!=null}">
+			<c:if test="${request.champion!=null && requestScope['javax.servlet.forward.request_uri'] != '/requests/saveChangeRequest'}">
 			<petclinic:inputField label="Champion" name="champion.name"/>
 			</c:if>	
 			<c:if test="${championId != null || request.champion!=null}">

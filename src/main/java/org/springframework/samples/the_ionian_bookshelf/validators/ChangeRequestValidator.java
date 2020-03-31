@@ -58,7 +58,7 @@ public class ChangeRequestValidator implements Validator{
 			} else if (campeon.getSpeed().compareTo(nuevosValores.get(4)) >= 10) {
 				errors.rejectValue("changeChamp", "exagerateValue", "the difference is superior to 10");
 			} else if (request.getChangeChamp().get(1) != null && request.getChangeChamp().get(2) != null) {
-				
+				errors.rejectValue("changeChamp", "ManaAndEnergy", "only mana or energy, not both");
 			}
 		} else if(item != null) {
 			for (int i = 0; i < request.getChangeItem().size(); i++) {
