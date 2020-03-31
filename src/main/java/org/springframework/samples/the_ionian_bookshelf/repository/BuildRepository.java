@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
+import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 
 public interface BuildRepository extends JpaRepository<Build, Integer> {
 	
@@ -28,4 +29,7 @@ public interface BuildRepository extends JpaRepository<Build, Integer> {
 	
 	@Query("SELECT b FROM Build b WHERE b.champion.id = ?1")
 	Collection<Build> findAllByChampion(Integer id);
+
+	@Query("SELECT b FROM Build b WHERE b.thread = ?1")
+	Build findByThread(Thread thread);
 }

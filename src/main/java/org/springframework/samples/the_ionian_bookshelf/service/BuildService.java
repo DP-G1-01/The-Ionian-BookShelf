@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
+import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
+import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
@@ -95,4 +97,11 @@ public class BuildService {
 	public Collection<RunePage> findRunePages() {
 		return runePageRepository.findAll();
 	}
+
+	public Build findByThread(Thread thread) {
+		assertNotNull(thread);
+		Build res = this.buildRepository.findByThread(thread);
+		//no controlamos si res es null porque en el caso de que thread no tenga league asociada, res es null
+		return res;
+		}
 }
