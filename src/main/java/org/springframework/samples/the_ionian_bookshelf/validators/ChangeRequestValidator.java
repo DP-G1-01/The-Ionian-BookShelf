@@ -19,6 +19,7 @@ public class ChangeRequestValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		System.out.println("validate");
 		ChangeRequest request = (ChangeRequest) target;
 		String title = request.getTitle();
 		String description = request.getDescription();

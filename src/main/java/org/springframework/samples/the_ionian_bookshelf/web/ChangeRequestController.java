@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -34,6 +35,9 @@ public class ChangeRequestController {
 	public void initChangeRequestBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new ChangeRequestValidator());
 	}
+	
+//	@Autowired
+//    ChangeRequestValidator validator;
 	
 	@Autowired
 	public ChangeRequestController(ChangeRequestService changeRequestService, SummonerService summonerService, ReviewerService reviewerService) {
@@ -164,7 +168,7 @@ public class ChangeRequestController {
 	}
 	
 	@PostMapping(value="requests/saveChangeRequest")
-	public String guardarChangeRequest(@Valid ChangeRequest request, BindingResult result, ModelMap model) {
+	public String guardarChangeRequest(@ModelAttribute("request") @Valid ChangeRequest request, BindingResult result, ModelMap model) {
 		
 		try {
 			this.summonerService.findByPrincipal();
@@ -177,12 +181,16 @@ public class ChangeRequestController {
 		}
 		
 		if(result.hasErrors()) {
+			result.getAllErrors().stream().forEach(x->System.out.println(x.toString()));
 			if(request.getChampion() != null) {
 				model.addAttribute("championId", request.getChampion().getId());
 			} else {
 				model.addAttribute("itemId", request.getItem().getId());
 			}
 			model.addAttribute("request", request);
+			Integer summonerId = this.summonerService.findByPrincipal().getId();
+//			model.addAttribute("itemId", itemId);
+			model.addAttribute("summonerId", summonerId);
 			return "requests/createRequest";
 		}else {
 

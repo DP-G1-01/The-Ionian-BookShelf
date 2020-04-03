@@ -12,10 +12,13 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
+import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
+import org.springframework.samples.the_ionian_bookshelf.validators.BuildValidator;
+import org.springframework.samples.the_ionian_bookshelf.validators.ItemValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -49,6 +52,12 @@ public class BuildController {
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
+	
+	@InitBinder("Build")
+	public void initItemBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new BuildValidator());
+	}
+	
 	
 	@GetMapping(value = "/builds")
 	public String listPublicBuilds(Item Build, BindingResult result, Model model) {
@@ -169,6 +178,8 @@ public class BuildController {
 		List<Item> var = new ArrayList<>();
 		Integer summonerId = this.summonerService.findByPrincipal().getId();
 		build.setItems(var);
+		Summoner summoner = summonerService.findOne(summonerId);
+		build.setSummoner(summoner);
 		modelMap.addAttribute("build", build);
 		modelMap.addAttribute("summonerId", summonerId);
 		return view;
@@ -177,10 +188,24 @@ public class BuildController {
 	@PostMapping(value="mine/builds/save")
 	public String salvarBuild(@Valid Build build, BindingResult result, ModelMap model) {
 	
+		try {
+			this.summonerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as an summoner");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as an summoner");
+			return "redirect:/";
+		}
+		
 		if(result.hasErrors()) {
+			result.getAllErrors().stream().forEach(x->System.out.println(x.toString()));
 			model.addAttribute("build", build);
+			Integer summonerId = this.summonerService.findByPrincipal().getId();
+			model.addAttribute("summonerId", summonerId);
 			return "builds/editBuild";
 		}else {
+			System.out.println("else");
 			buildService.saveBuild(build);
 			model.addAttribute("message","Build save successfully");
 		}
@@ -236,7 +261,7 @@ public class BuildController {
 		return view;
 	}
 
-	@PostMapping(value = "/mine//builds/{buildId}/edit")
+	@PostMapping(value = "/mine/builds/{buildId}/edit")
 	public String processUpdateBuildForm(@Valid Build build, BindingResult result, @PathVariable("buildId") int buildId) {
 		String view="builds/editBuild";
 		
