@@ -61,7 +61,7 @@ public class SummonerController extends AbstractController {
 			try {
 				Collection<Champion> champs = new ArrayList<Champion>();
 				for (Integer id : champsId) {
-					champs.add(this.champService.findOne(id));
+					champs.add(this.champService.findChampionById(id));
 				}
 				summoner.setMains(champs);
 				this.summonerService.save(summoner);
