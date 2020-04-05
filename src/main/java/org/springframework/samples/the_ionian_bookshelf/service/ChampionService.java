@@ -23,55 +23,53 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class ChampionService {
 
-	@Autowired
-	private ChampionRepository championRepository;
-	
-	@Autowired
-	private RoleRepository roleRepository;
+    @Autowired
+    private ChampionRepository championRepository;
 
-	@Autowired
-	private AuthoritiesService authService;
-	
-	@Autowired
-	private BuildRepository buildRepository;
-	
-	@Autowired
-	private ChangeRequestRepository changeRequestRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
+    @Autowired
+    private AuthoritiesService authService;
 
+    @Autowired
+    private BuildRepository buildRepository;
 
-	@Transactional
-	public Collection<Champion> findAll() throws DataAccessException {
-		return championRepository.findAll();
-	}
+    @Autowired
+    private ChangeRequestRepository changeRequestRepository;
 
-	public Champion save(Champion champ) {
-		assertNotNull(champ);
-		assertTrue(this.authService.checkAuthorities("administrator"));
-		return this.championRepository.save(champ);
-	}
+    @Transactional
+    public Collection<Champion> findAll() throws DataAccessException {
+        return championRepository.findAll();
+    }
 
+    public Champion save(Champion champ) {
+        assertNotNull(champ);
+        assertTrue(this.authService.checkAuthorities("administrator"));
+        return this.championRepository.save(champ);
+    }
 
-	@Transactional
-	public void deleteChampion(Champion champion) throws DataAccessException {
-		assertNotNull(champion);
-		assertTrue(this.authService.checkAuthorities("administrator"));
-		Collection<Build> builds = this.buildRepository.findAllByChampion(champion.getId());//Peta en Ashe porque tiene asociado un change_request
-		builds.forEach(x -> this.buildRepository.delete(x));
-		Collection<ChangeRequest> changeRequests = this.changeRequestRepository.findAllByChampionId(champion.getId());
-		changeRequests.forEach(x -> this.changeRequestRepository.delete(x));
-		this.championRepository.delete(champion);
-	}
+    @Transactional
+    public void deleteChampion(Champion champion) throws DataAccessException {
+        assertNotNull(champion);
+        assertTrue(this.authService.checkAuthorities("administrator"));
+        Collection<Build> builds = this.buildRepository.findAllByChampion(champion.getId());// Peta en Ashe porque tiene
+                                                                                            // asociado un
+                                                                                            // change_request
+        builds.forEach(x -> this.buildRepository.delete(x));
+        Collection<ChangeRequest> changeRequests = this.changeRequestRepository.findAllByChampionId(champion.getId());
+        changeRequests.forEach(x -> this.changeRequestRepository.delete(x));
+        this.championRepository.delete(champion);
+    }
 
-	@Transactional
-	public Champion findChampionById(final int id) throws DataAccessException {
-		return championRepository.findById(id).get();
-	}
+    @Transactional
+    public Champion findChampionById(final int id) throws DataAccessException {
+        return championRepository.findById(id).get();
+    }
 
-	@Transactional()
-	public Collection<Role> findRoles() throws DataAccessException {
-		return this.roleRepository.findAll();
-	}
-
+    @Transactional()
+    public Collection<Role> findRoles() throws DataAccessException {
+        return this.roleRepository.findAll();
+    }
 
 }

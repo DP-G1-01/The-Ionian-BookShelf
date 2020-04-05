@@ -1,12 +1,17 @@
 
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Actor;
 import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
+import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Reviewer;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
+import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
@@ -27,6 +32,12 @@ public class ActorController extends AbstractController {
 	@Autowired
 	private AdministratorService administratorService;
 
+	@Autowired
+	private ChampionService champService;
+
+	@Autowired
+	private AuthoritiesService authService;
+
 	// Sign up --------------------------------------------------------
 
 	@GetMapping(value = "/signUp")
@@ -41,37 +52,57 @@ public class ActorController extends AbstractController {
 	@GetMapping(value = "/createSummoner")
 	public ModelAndView createSummoner() {
 		ModelAndView result;
-		final Summoner summoner = this.summonerService.create();
 
-		final String role = "summoner";
+		try {
+			final Summoner summoner = this.summonerService.create();
 
-		result = this.createEditModelAndView(summoner);
-		result.addObject("role", role);
+			final String role = "summoner";
+			Collection<Champion> champs = this.champService.findAll();
 
+			result = this.createEditModelAndView(summoner);
+			result.addObject("role", role);
+			result.addObject("champs", champs);
+		} catch (Exception oups) {
+			return new ModelAndView("redirect:/");
+		} catch (AssertionError oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return result;
 	}
 
-	@GetMapping(value = "/createReviewer")
+	@GetMapping(value = "administrator/createReviewer")
 	public ModelAndView createReviewer() {
 		ModelAndView result;
-		final Reviewer reviewer = this.reviewerService.create();
+		try {
+			this.authService.checkAuthorities("administrator");
+			final Reviewer reviewer = this.reviewerService.create();
 
-		final String role = "reviewer";
+			final String role = "reviewer";
 
-		result = this.createEditModelAndView(reviewer);
-		result.addObject("role", role);
-
+			result = this.createEditModelAndView(reviewer);
+			result.addObject("role", role);
+		} catch (Exception oups) {
+			return new ModelAndView("redirect:/");
+		} catch (AssertionError oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return result;
 	}
 
 	@GetMapping(value = "/administrator/createAdministrator")
 	public ModelAndView createAdmin() {
 		ModelAndView result;
-		this.administratorService.findByPrincipal();
-		final Administrator admin = this.administratorService.create();
-		final String role = "administrator";
-		result = this.createEditModelAndView(admin);
-		result.addObject("role", role);
+		try {
+			this.authService.checkAuthorities("administrator");
+			final Administrator admin = this.administratorService.create();
+			final String role = "administrator";
+			result = this.createEditModelAndView(admin);
+			result.addObject("role", role);
+		} catch (Exception oups) {
+			return new ModelAndView("redirect:/");
+		} catch (AssertionError oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return result;
 	}
 

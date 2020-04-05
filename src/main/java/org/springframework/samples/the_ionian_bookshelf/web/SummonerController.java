@@ -1,10 +1,16 @@
 
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,23 +28,30 @@ public class SummonerController extends AbstractController {
 	@Autowired
 	private SummonerService summonerService;
 
+	@Autowired
+	private ChampionService champService;
+
 	// Edition --------------------------------------------------------
 
 	@GetMapping(value = "/edit")
 	public ModelAndView edit() {
 
 		ModelAndView res;
-		final Summoner principal = this.summonerService.findByPrincipal();
+		try {
+			final Summoner principal = this.summonerService.findByPrincipal();
 
-		res = this.createEditModelAndView(principal);
-
+			res = this.createEditModelAndView(principal);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 
 	// Save -----------------------------------------------------------
 
 	@PostMapping(value = "/edit", params = "save")
-	public ModelAndView save(@ModelAttribute("actor") @Valid final Summoner summoner, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("actor") @Valid final Summoner summoner, final BindingResult binding,
+			List<Integer> champsId) {
 
 		ModelAndView res;
 
@@ -46,6 +59,11 @@ public class SummonerController extends AbstractController {
 			res = this.createEditModelAndView(summoner);
 		else
 			try {
+				Collection<Champion> champs = new ArrayList<Champion>();
+				for (Integer id : champsId) {
+					champs.add(this.champService.findOne(id));
+				}
+				summoner.setMains(champs);
 				this.summonerService.save(summoner);
 
 				res = new ModelAndView("redirect:/");
@@ -62,11 +80,15 @@ public class SummonerController extends AbstractController {
 	public ModelAndView display(@RequestParam final int summonerId) {
 
 		ModelAndView res;
-		Summoner summoner;
+		try {
+			Summoner summoner;
 
-		summoner = this.summonerService.findOne(summonerId);
-		res = new ModelAndView("summoner/display");
-		res.addObject("summoner", summoner);
+			summoner = this.summonerService.findOne(summonerId);
+			res = new ModelAndView("summoner/display");
+			res.addObject("summoner", summoner);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 
@@ -74,11 +96,15 @@ public class SummonerController extends AbstractController {
 	public ModelAndView display() {
 
 		ModelAndView res;
-		Summoner summoner;
+		try {
+			Summoner summoner;
 
-		summoner = this.summonerService.findByPrincipal();
-		res = new ModelAndView("summoner/show");
-		res.addObject("summoner", summoner);
+			summoner = this.summonerService.findByPrincipal();
+			res = new ModelAndView("summoner/show");
+			res.addObject("summoner", summoner);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 

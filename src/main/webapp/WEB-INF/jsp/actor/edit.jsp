@@ -17,7 +17,19 @@
 		<form:hidden path="id" />
 
 		<jstl:if test="${role eq 'summoner'}">
-			<form:hidden path="mains" />
+			<jstl:choose>
+				<jstl:when test="${actor.id eq null }">
+					Main champs:
+					<select id="champsId" name="champsId" multiple>
+						<jstl:forEach var="champ" items="${champs}">
+							<option value="${champ.id}">${champ.name}</option>
+						</jstl:forEach>
+					</select>
+				</jstl:when>
+				<jstl:otherwise>
+					<form:hidden path="mains" />
+				</jstl:otherwise>
+			</jstl:choose>
 			<form:hidden path="league" />
 		</jstl:if>
 
@@ -33,9 +45,7 @@
 		</jstl:choose>
 
 		<petclinic:password label="Password*" name="user.password" />
-
-
 		<input type="submit" name="save" value="Save" class="btn btn-default" />
-		<a href="/">Cancel</a>
+		<a href="/" class="btn btn-default">Cancel</a>
 	</form:form>
 </petclinic:layout>

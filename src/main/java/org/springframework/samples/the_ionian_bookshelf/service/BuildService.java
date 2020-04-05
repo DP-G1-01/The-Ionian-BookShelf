@@ -20,88 +20,87 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BuildService {
-	
-	@Autowired
-	private BuildRepository buildRepository;
-	
-	@Autowired
-	private ItemRepository itemRepository;
-	
-	@Autowired
-	private ChampionRepository championRepository;
-	
 
-	@Autowired
-	private RunePageRepository runePageRepository;
-	
-	
-	public Build create() {
+    @Autowired
+    private BuildRepository buildRepository;
 
-		final Build res = new Build();
+    @Autowired
+    private ItemRepository itemRepository;
 
-		return res;
-	}
+    @Autowired
+    private ChampionRepository championRepository;
 
-	public Collection<Build> findAllPublics() {
+    @Autowired
+    private RunePageRepository runePageRepository;
 
-		final Collection<Build> res = this.buildRepository.findAllPublics();
+    public Build create() {
 
-		assertNotNull(res);
+        final Build res = new Build();
 
-		return res;
-	}
-	
-	public Collection<Build> findMineBuilds(int summonerId) {
+        return res;
+    }
 
-		final Collection<Build> res = this.buildRepository.findBuildsBySummonerId(summonerId);
+    public Collection<Build> findAllPublics() {
 
-		assertNotNull(res);
+        final Collection<Build> res = this.buildRepository.findAllPublics();
 
-		return res;
-	}
+        assertNotNull(res);
 
-	public Build findOne(final int id) {
+        return res;
+    }
 
-		assertTrue(id != 0);
+    public Collection<Build> findMineBuilds(int summonerId) {
 
-		final Build res = this.buildRepository.findById(id).get();
-		assertNotNull(res);
+        final Collection<Build> res = this.buildRepository.findBuildsBySummonerId(summonerId);
 
-		return res;
-	}
+        assertNotNull(res);
 
-	public Build findBuildById(int buildId) {
-		Build build = buildRepository.findBuildById(buildId);
-		assertNotNull(build);
-		return build;
-	}
-	
-	public void removeBuildById(int buildId) {
-		Build build = buildRepository.findBuildById(buildId);
-		assertNotNull(build);
-		buildRepository.delete(build);
-	}
-	
-	public void saveBuild(Build i) {
-		buildRepository.save(i);
-	}
+        return res;
+    }
 
-	public Collection<Item> findItems() {
-		return itemRepository.findAll();
-	}
-	
-	public Collection<Champion> findChampions() {
-		return championRepository.findAll();
-	}
-	
-	public Collection<RunePage> findRunePages() {
-		return runePageRepository.findAll();
-	}
+    public Build findOne(final int id) {
 
-	public Build findByThread(Thread thread) {
-		assertNotNull(thread);
-		Build res = this.buildRepository.findByThread(thread);
-		//no controlamos si res es null porque en el caso de que thread no tenga league asociada, res es null
-		return res;
-		}
+        assertTrue(id != 0);
+
+        final Build res = this.buildRepository.findById(id).get();
+        assertNotNull(res);
+
+        return res;
+    }
+
+    public Build findBuildById(int buildId) {
+        Build build = buildRepository.findBuildById(buildId);
+        assertNotNull(build);
+        return build;
+    }
+
+    public void removeBuildById(int buildId) {
+        Build build = buildRepository.findBuildById(buildId);
+        assertNotNull(build);
+        buildRepository.delete(build);
+    }
+
+    public void saveBuild(Build i) {
+        buildRepository.save(i);
+    }
+
+    public Collection<Item> findItems() {
+        return itemRepository.findAll();
+    }
+
+    public Collection<Champion> findChampions() {
+        return championRepository.findAll();
+    }
+
+    public Collection<RunePage> findRunePages() {
+        return runePageRepository.findAll();
+    }
+
+    public Build findByThread(Thread thread) {
+        assertNotNull(thread);
+        Build res = this.buildRepository.findByThread(thread);
+        // no controlamos si res es null porque en el caso de que thread no tenga league
+        // asociada, res es null
+        return res;
+    }
 }

@@ -17,78 +17,79 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class LeagueService {
 
-	@Autowired
-	private LeagueRepository leagueRepository;
+    @Autowired
+    private LeagueRepository leagueRepository;
 
-	@Autowired
-	private AdministratorService adminService;
+    @Autowired
+    private AdministratorService adminService;
 
-	@Autowired
-	private ThreadService threadService;
+    @Autowired
+    private ThreadService threadService;
 
-	public League create() {
+    public League create() {
 
-		League res = new League();
-		this.adminService.findByPrincipal();
+        League res = new League();
+        this.adminService.findByPrincipal();
 
-		Thread thread = this.threadService.create();
+        Thread thread = this.threadService.create();
 
-		res.setName("New League");
-		res.setThread(thread);
+        res.setName("New League");
+        res.setThread(thread);
 
-		return res;
-	}
+        return res;
+    }
 
-	public League findOne(int id) {
+    public League findOne(int id) {
 
-		assertTrue(id != 0);
-		League res = this.leagueRepository.findById(id).get();
+        assertTrue(id != 0);
+        League res = this.leagueRepository.findById(id).get();
 
-		assertNotNull(res);
-		return res;
-	}
+        assertNotNull(res);
+        return res;
+    }
 
-	public Collection<League> findAll() {
+    public Collection<League> findAll() {
 
-		Collection<League> res = this.leagueRepository.findAll();
-		assertTrue(!res.isEmpty());
+        Collection<League> res = this.leagueRepository.findAll();
+        assertTrue(!res.isEmpty());
 
-		return res;
-	}
+        return res;
+    }
 
-	public League save(League league) {
+    public League save(League league) {
 
-		assertNotNull(league);
+        assertNotNull(league);
 
-		this.adminService.findByPrincipal();
+        this.adminService.findByPrincipal();
 
-		League saved = this.leagueRepository.save(league);
+        League saved = this.leagueRepository.save(league);
 
-		return saved;
-	}
+        return saved;
+    }
 
-	public void delete(League league) {
+    public void delete(League league) {
 
-		assertNotNull(league);
+        assertNotNull(league);
 
-		this.adminService.findByPrincipal();
+        this.adminService.findByPrincipal();
 
-		this.leagueRepository.delete(league);
-	}
+        this.leagueRepository.delete(league);
+    }
 
-	public League findBasicLeague() {
+    public League findBasicLeague() {
 
-		League res = this.leagueRepository.findBasicLeague();
-		assertNotNull(res);
+        League res = this.leagueRepository.findBasicLeague();
+        assertNotNull(res);
 
-		return res;
-	}
+        return res;
+    }
 
-	public League findByThread(Thread thread){
-		assertNotNull(thread);
-		League res = this.leagueRepository.findByThread(thread);
-		//no controlamos si res es null porque en el caso de que thread no tenga league asociada, res es null
-		return res;
-	}
+    public League findByThread(Thread thread) {
+        assertNotNull(thread);
+        League res = this.leagueRepository.findByThread(thread);
+        // no controlamos si res es null porque en el caso de que thread no tenga league
+        // asociada, res es null
+        return res;
+    }
 
 }
