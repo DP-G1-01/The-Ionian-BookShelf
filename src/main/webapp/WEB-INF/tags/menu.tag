@@ -54,6 +54,10 @@
 					<li><a
 						href="<c:url value="/actor/administrator/createAdministrator" />">Register
 							an admin</a></li>
+					<li><a
+						href="<c:url value="/actor/administrator/createReviewer" />">Register
+							a Reviewer</a></li>
+
 				</sec:authorize>
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>

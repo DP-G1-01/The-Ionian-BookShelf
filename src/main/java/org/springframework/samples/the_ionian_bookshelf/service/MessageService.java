@@ -33,6 +33,9 @@ public class MessageService {
 	private VoteService voteService;
 
 	@Autowired
+	private AuthoritiesService authService;
+
+	@Autowired
 	public MessageService(MessageRepository messRepo) {
 		this.messRepo = messRepo;
 	}
@@ -98,8 +101,7 @@ public class MessageService {
 		assertNotNull(message);
 		assertTrue(message.getId() != 0);
 
-		Summoner principal = this.summonerService.findByPrincipal();
-		assertTrue(message.getSummoner().getUser().getUsername().equals(principal.getUser().getUsername()));
+		assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
 
 		this.voteService.deleteByMessageId(message.getId());
 

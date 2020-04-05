@@ -13,25 +13,15 @@
 	<br />
 	<h2>Roles are above each image</h2>
 	<div>
-		<div>
-			<b>Summoner</b>
-		</div>
-		<span> <a href="createSummoner"> <img alt="Summoner"
-				src="<spring:url value="/resources/images/summoner-signup-icon.png" htmlEscape="true" />"
-				width="30%" height="30%">
-		</a>
-		</span> <br /> <br />
-		<div>
-			<b>Reviewer</b>
-		</div>
-		<span> <a href="createReviewer"> <img alt="Reviewer"
-				src="<spring:url value="/resources/images/reviewer-signup-icon.png" htmlEscape="true" />"
-				width="20%" height="20%">
-		</a>
-		</span> <br />
+		<b>Summoner</b>
 	</div>
-
+	<span> <a href="createSummoner"> <img alt="Summoner"
+			src="<spring:url value="/resources/images/summoner-signup-icon.png" htmlEscape="true" />"
+			width="30%" height="30%">
+	</a>
+	</span>
 	<br />
-
+	<br />
+	<br />
 	<a href="/login" class="btn btn-default">Cancel</a>
 </petclinic:layout>

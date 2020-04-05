@@ -10,6 +10,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
+import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
@@ -18,21 +19,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BuildService {
-	
+
 	@Autowired
 	private BuildRepository buildRepository;
-	
+
 	@Autowired
 	private ItemRepository itemRepository;
-	
+
 	@Autowired
 	private ChampionRepository championRepository;
-	
 
 	@Autowired
 	private RunePageRepository runePageRepository;
-	
-	
+
 	public Build create() {
 
 		final Build res = new Build();
@@ -40,9 +39,18 @@ public class BuildService {
 		return res;
 	}
 
-	public Collection<Build> findAll() {
+	public Collection<Build> findAllPublics() {
 
-		final Collection<Build> res = this.buildRepository.findAll();
+		final Collection<Build> res = this.buildRepository.findAllPublics();
+
+		assertNotNull(res);
+
+		return res;
+	}
+
+	public Collection<Build> findMineBuilds(int summonerId) {
+
+		final Collection<Build> res = this.buildRepository.findBuildsBySummonerId(summonerId);
 
 		assertNotNull(res);
 
@@ -60,14 +68,17 @@ public class BuildService {
 	}
 
 	public Build findBuildById(int buildId) {
-		return buildRepository.findBuildById(buildId);
+		Build build = buildRepository.findBuildById(buildId);
+		assertNotNull(build);
+		return build;
 	}
-	
+
 	public void removeBuildById(int buildId) {
-		Build item = buildRepository.findBuildById(buildId);
-		buildRepository.delete(item);
+		Build build = buildRepository.findBuildById(buildId);
+		assertNotNull(build);
+		buildRepository.delete(build);
 	}
-	
+
 	public void saveBuild(Build i) {
 		buildRepository.save(i);
 	}
@@ -75,12 +86,20 @@ public class BuildService {
 	public Collection<Item> findItems() {
 		return itemRepository.findAll();
 	}
-	
+
 	public Collection<Champion> findChampions() {
 		return championRepository.findAll();
 	}
-	
+
 	public Collection<RunePage> findRunePages() {
 		return runePageRepository.findAll();
+	}
+
+	public Build findByThread(Thread thread) {
+		assertNotNull(thread);
+		Build res = this.buildRepository.findByThread(thread);
+		// no controlamos si res es null porque en el caso de que thread no tenga league
+		// asociada, res es null
+		return res;
 	}
 }

@@ -37,10 +37,13 @@ public class SummonerController extends AbstractController {
 	public ModelAndView edit() {
 
 		ModelAndView res;
-		final Summoner principal = this.summonerService.findByPrincipal();
+		try {
+			final Summoner principal = this.summonerService.findByPrincipal();
 
-		res = this.createEditModelAndView(principal);
-
+			res = this.createEditModelAndView(principal);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 
@@ -77,11 +80,15 @@ public class SummonerController extends AbstractController {
 	public ModelAndView display(@RequestParam final int summonerId) {
 
 		ModelAndView res;
-		Summoner summoner;
+		try {
+			Summoner summoner;
 
-		summoner = this.summonerService.findOne(summonerId);
-		res = new ModelAndView("summoner/display");
-		res.addObject("summoner", summoner);
+			summoner = this.summonerService.findOne(summonerId);
+			res = new ModelAndView("summoner/display");
+			res.addObject("summoner", summoner);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 
@@ -89,11 +96,15 @@ public class SummonerController extends AbstractController {
 	public ModelAndView display() {
 
 		ModelAndView res;
-		Summoner summoner;
+		try {
+			Summoner summoner;
 
-		summoner = this.summonerService.findByPrincipal();
-		res = new ModelAndView("summoner/show");
-		res.addObject("summoner", summoner);
+			summoner = this.summonerService.findByPrincipal();
+			res = new ModelAndView("summoner/show");
+			res.addObject("summoner", summoner);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 

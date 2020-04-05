@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -47,6 +48,7 @@ public class Build extends BaseEntity {
 	@JoinTable(name = "build_items", joinColumns = @JoinColumn(name = "build_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private List<Item> items;
 
+	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "champion_id")
@@ -62,4 +64,9 @@ public class Build extends BaseEntity {
 	@JoinColumn(name = "thread_id")
 	private Thread thread;
 
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "summoner_id")
+	private Summoner summoner;
 }

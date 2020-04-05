@@ -49,9 +49,9 @@ public class MessageController {
 			try {
 				this.messageService.saveMessage(message);
 				modelMap.addAttribute("msg", "Message saved successfully");
-			}catch (Exception oups) {
+			} catch (Exception oups) {
 				return "redirect:/";
-			}catch (AssertionError oups) {
+			} catch (AssertionError oups) {
 				return "redirect:/";
 			}
 		}
@@ -61,12 +61,17 @@ public class MessageController {
 	// Delete de Mensajes
 	@GetMapping(value = "threads/{threadId}/messages/{messageId}/remove")
 	public String deleteThread(@PathVariable("messageId") int messageId, ModelMap modelMap) {
-		Message mess = messageService.findOneMesageById(messageId);
-		if (mess != null) {
-			this.messageService.delete(mess);
-			modelMap.addAttribute("msg", "Thread deleted successfully");
-		} else {
-			modelMap.addAttribute("msg", "Thread not found");
+
+		try {
+			Message mess = messageService.findOneMesageById(messageId);
+			if (mess != null) {
+				this.messageService.delete(mess);
+				modelMap.addAttribute("msg", "Thread deleted successfully");
+			} else {
+				modelMap.addAttribute("msg", "Thread not found");
+			}
+		} catch (Throwable oups) {
+			return "redirect:/";
 		}
 		return "redirect:/threads/{threadId}";
 	}
