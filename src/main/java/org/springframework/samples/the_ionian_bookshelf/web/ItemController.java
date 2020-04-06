@@ -37,12 +37,7 @@ public class ItemController {
 		this.administratorService = administratorService;
 	}
 	
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
-	}
-	
-	@InitBinder("Item")
+	@InitBinder("item")
 	public void initItemBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new ItemValidator());
 	}
@@ -117,7 +112,7 @@ public class ItemController {
 			return "redirect:/login";
 		} catch (AssertionError e) {
 			modelmap.addAttribute("message", "You must be logged in as an admin");
-			return "redirect:/";
+			return "redirect:/items";
 		}
 		
 		itemService.removeItemById(itemId);

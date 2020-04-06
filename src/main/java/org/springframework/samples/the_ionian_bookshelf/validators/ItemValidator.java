@@ -19,26 +19,36 @@ public class ItemValidator implements Validator{
 		String description = item.getDescription();
 		// name validation
 		if (!StringUtils.hasLength(title)) {
-			errors.rejectValue("title", "required", "required");
+			errors.rejectValue("title", "required", "The title can't be empty.");
 		}
 		
 		if (!StringUtils.hasLength(description)) {
-			errors.rejectValue("description", "required", "required");
+			errors.rejectValue("description", "required", "The description can't be empty.");
+		}
+		
+		if (title.length() > 40) {
+			errors.rejectValue("title", "tooLong", "The title must have less than 40 characters.");
 		}
 		
 		if (description.length() < 10) {
-			errors.rejectValue("description", "tooShort", "It is too short");
+			errors.rejectValue("description", "tooShort", "The length must be superior to 10 characters.");
 		}
-//		// type validation
-//		if (item.isNew() && item.getType() == null) {
-//			errors.rejectValue("type", REQUIRED, REQUIRED);
-//		}
 
-//		// birth date validation
-//		if (pet.getBirthDate() == null) {
-//			errors.rejectValue("birthDate", REQUIRED, REQUIRED);
-//		}
-//		
+		if (item.getAttributes().get(0).isEmpty()) {
+			errors.rejectValue("attributes[0]", "emptyValue", "An attribute can't be empty.");
+		}
+		
+		if (item.getAttributes().get(1).isEmpty()) {
+			errors.rejectValue("attributes[1]", "emptyValue", "An attribute can't be empty.");
+		}
+		
+		if (item.getAttributes().get(2).isEmpty()) {
+			errors.rejectValue("attributes[2]", "emptyValue", "An attribute can't be empty.");
+		}
+		
+		if(item.getRoles() == null) {
+			errors.rejectValue("roles[0]", "nullRol", "A rol must be selected.");
+		}
 	}
 
 }

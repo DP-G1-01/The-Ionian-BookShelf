@@ -43,7 +43,7 @@ public class ChangeRequest extends BaseEntity {
 
 	@NotBlank
 	@Column(name = "title")
-	@Size(min = 10, max = 40)
+	@Size(max = 40)
 	private String title;
 
 	@NotBlank
@@ -56,12 +56,12 @@ public class ChangeRequest extends BaseEntity {
 	// ej: [0,-2,+50,0,0] -> -2 en Mana y +50 en Energy
 
 	@ElementCollection
-	@Size(min = 5, max = 5)
+//	@Size(min = 4, max = 4)
 	@Column(name = "change_champ")
 	private List<String> changeChamp;
 
 	@ElementCollection
-	@Size(min = 3, max = 3)
+//	@Size(min = 3, max = 3)
 	@Column(name = "change_item")
 	private List<String> changeItem; // cambios en los items
 

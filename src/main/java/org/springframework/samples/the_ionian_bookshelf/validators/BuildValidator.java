@@ -19,16 +19,24 @@ public class BuildValidator implements Validator {
         String description = build.getDescription();
         // name validation
         if (!StringUtils.hasLength(title)) {
-            errors.rejectValue("title", "required", "required");
+			errors.rejectValue("title", "required", "The title can't be empty.");
         }
 
         if (!StringUtils.hasLength(description)) {
-            errors.rejectValue("description", "required", "required");
+			errors.rejectValue("description", "required", "The description can't be empty.");
         }
+        
+        if (title.length() > 40) {
+			errors.rejectValue("title", "tooLong", "The title must have less than 40 characters.");
+		}
 
         if (description.length() < 20) {
-            errors.rejectValue("description", "tooShort", "It is too short");
+			errors.rejectValue("description", "tooShort", "The length must be superior to 20 characters.");
         }
+        
+        if(build.getItems() == null || build.getItems().contains(null)) {
+			errors.rejectValue("items[0]", "nullItem", "An item must be selected.");
+		}
     }
 
 }

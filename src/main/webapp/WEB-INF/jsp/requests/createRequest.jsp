@@ -29,10 +29,14 @@
 			</c:if>	
 			<c:if test="${championId != null || request.champion!=null}">
 			<petclinic:inputField label="Health" name="changeChamp[0]"  />
-			<petclinic:inputField label="Mana" name="changeChamp[1]"  />
-			<petclinic:inputField label="Energy" name="changeChamp[2]" />
-			<petclinic:inputField label="Attack" name="changeChamp[3]"  />
-			<petclinic:inputField label="Speed" name="changeChamp[4]" />
+				<c:if test="${champion.mana != null || request.champion.mana != null}">
+				<petclinic:inputField label="Mana" name="changeChamp[1]"  />
+				</c:if>
+				<c:if test="${champion.energy != null || request.champion.energy != null}">
+				<petclinic:inputField label="Energy" name="changeChamp[1]" />
+				</c:if>
+			<petclinic:inputField label="Attack" name="changeChamp[2]"  />
+			<petclinic:inputField label="Speed" name="changeChamp[3]" />
 			</c:if>
 		</div>
 		<div class="form-group">

@@ -18,7 +18,6 @@ import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.validators.BuildValidator;
-import org.springframework.samples.the_ionian_bookshelf.validators.ItemValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -46,12 +45,7 @@ public class BuildController {
         this.threadService = threadService;
     }
 
-    @InitBinder
-    public void setAllowedFields(WebDataBinder dataBinder) {
-        dataBinder.setDisallowedFields("id");
-    }
-
-    @InitBinder("Build")
+    @InitBinder("build")
     public void initItemBinder(WebDataBinder dataBinder) {
         dataBinder.setValidator(new BuildValidator());
     }

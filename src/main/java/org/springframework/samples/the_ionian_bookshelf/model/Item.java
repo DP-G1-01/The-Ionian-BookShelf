@@ -30,7 +30,7 @@ public class Item extends BaseEntity {
 
 	@Column(unique = true, name = "title")
 	@NotBlank
-	@Size(max = 60)
+	@Size(max = 40)
 	private String title;
 
 	@NotBlank
