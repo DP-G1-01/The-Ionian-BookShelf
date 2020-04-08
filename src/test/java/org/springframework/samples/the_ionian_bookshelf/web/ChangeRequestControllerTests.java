@@ -33,6 +33,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChangeRequestService;
 import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
@@ -56,7 +57,6 @@ public class ChangeRequestControllerTests {
 	
 	private Summoner sumMock = mock(Summoner.class);
 	
-	private Reviewer reviewerMock = mock(Reviewer.class);
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -66,6 +66,9 @@ public class ChangeRequestControllerTests {
 	
 	@MockBean
 	private ReviewerService reviewerService;
+	
+	@MockBean
+	private ChampionService championService;
 	
 	@MockBean
 	private ChangeRequestService changeRequestService;

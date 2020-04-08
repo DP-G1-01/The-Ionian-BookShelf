@@ -77,7 +77,7 @@ public class ItemController {
 		return view;
 	}
 	
-	@PostMapping(value="items/save")
+	@PostMapping(value="/items/save")
 	public String salvarItem(@Valid Item item, BindingResult result, ModelMap model) {
 		
 		try {

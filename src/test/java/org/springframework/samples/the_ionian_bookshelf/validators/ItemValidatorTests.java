@@ -81,7 +81,7 @@ public class ItemValidatorTests {
 
 		for(ConstraintViolation<Item> violation : list) {
 					assertThat(violation.getPropertyPath().toString()) .isEqualTo("title");
-					assertThat(violation.getMessage()).isEqualTo("size must be between 0 and 60");
+					assertThat(violation.getMessage()).isEqualTo("size must be between 0 and 40");
 		}
 	}
 	

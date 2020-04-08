@@ -276,7 +276,7 @@ INSERT INTO ROLES(id,description,image,name) VALUES(2,'Especializado en ataque a
 INSERT INTO ROLES(id,description,image,name) VALUES(3,'Especializado en habilidades y daño mágico. Popularmente conocido como AP Carry del inglés ability power carry o carreador de poder de habilidad.','http://www.googleimagenes.es','Mago');
 INSERT INTO ROLES(id,description,image,name) VALUES(4,'Especializado en emboscar al enemigo, atacando por sorpresa y retirándose rápidamente. Su misión es eliminar al jugador más importante del equipo enemigo (generalmente el tirador) aunque ello suponga morir él también.','http://googleimagenes.es','Asesino');
 INSERT INTO ROLES(id,description,image,name) VALUES(5,'Especializado en resistencia. Su misión es absorber la mayor cantidad de daño posible e iniciar las peleas.','http://googleimagenes.es','Tanque');
-INSERT INTO ROLES(id,description,image,name) VALUES(6,'Especializado en apoyar a su equipo y aportar visión en el mapa mediante guardianes de visión (wards).','http://googleimagenes.es','Apoyo ');
+INSERT INTO ROLES(id,description,image,name) VALUES(6,'Especializado en apoyar a su equipo y aportar visión en el mapa mediante guardianes de visión (wards).','http://googleimagenes.es','Apoyo');
 
 INSERT INTO CHAMPIONS VALUES (1,'1.10','Ashe, comandante hija del hielo de la tribu de Avarosa, lidera las hordas más numerosas del norte. Impasible, inteligente e idealista, aunque incómoda en su papel de líder',null,'900','500','Ashe','1.0','2');
 INSERT INTO CHAMPIONS VALUES (2,'0.90','Blitzcrank es un autómata enorme, casi indestructible, creado originalmente para el tratamiento de residuos tóxicos.',null,'1500','500','Blitzcrank ','1.0','6');

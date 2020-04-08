@@ -51,7 +51,7 @@ public class BuildValidatorTests {
 		Set<ConstraintViolation<Build>> constraintViolations = validator.validate(build);
 		List<ConstraintViolation<Build>> list = new ArrayList<>();
 		constraintViolations.stream().forEach(x -> list.add(x));
-		assertThat(list).hasSize(4);
+		assertThat(list).hasSize(3);
 
 		for (ConstraintViolation<Build> violation : list) {
 			if (violation.getPropertyPath().toString().contentEquals("description")) {
@@ -102,7 +102,7 @@ public class BuildValidatorTests {
 
 		for (ConstraintViolation<Build> violation : list) {
 			assertThat(violation.getPropertyPath().toString()).isEqualTo("title");
-			assertThat(violation.getMessage()).isEqualTo("size must be between 10 and 40");
+			assertThat(violation.getMessage()).isEqualTo("size must be between 0 and 40");
 		}
 	}
 	

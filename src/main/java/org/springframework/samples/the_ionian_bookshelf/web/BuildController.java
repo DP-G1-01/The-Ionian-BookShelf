@@ -190,7 +190,6 @@ public class BuildController {
         }
 
         if (result.hasErrors()) {
-            result.getAllErrors().stream().forEach(x -> System.out.println(x.toString()));
             model.addAttribute("build", build);
             Integer summonerId = this.summonerService.findByPrincipal().getId();
             model.addAttribute("summonerId", summonerId);
