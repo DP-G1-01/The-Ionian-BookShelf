@@ -14,8 +14,6 @@ import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepository;
 import org.springframework.samples.the_ionian_bookshelf.security.LoginService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

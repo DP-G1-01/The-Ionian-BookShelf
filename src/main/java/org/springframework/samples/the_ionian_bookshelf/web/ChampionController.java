@@ -10,7 +10,6 @@ import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
-import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
 import org.springframework.samples.the_ionian_bookshelf.validators.ChampionValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

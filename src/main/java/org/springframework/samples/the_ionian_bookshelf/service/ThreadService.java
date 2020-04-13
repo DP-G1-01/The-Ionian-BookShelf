@@ -15,7 +15,6 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
-import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
 import org.springframework.stereotype.Service;
 
 @Service

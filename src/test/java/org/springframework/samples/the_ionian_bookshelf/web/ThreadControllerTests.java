@@ -2,29 +2,20 @@ package org.springframework.samples.the_ionian_bookshelf.web;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mockitoSession;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
-
-import org.apache.jasper.tagplugins.jstl.core.When;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,25 +23,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
-import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
-import org.springframework.samples.the_ionian_bookshelf.repository.MessageRepository;
-import org.springframework.samples.the_ionian_bookshelf.security.LoginService;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
-import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
-import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.web.csrf.CsrfAuthenticationStrategy;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-
-import javassist.expr.NewArray;
 
 @WebMvcTest(controllers = ThreadController.class, excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE,
 classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)

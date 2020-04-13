@@ -1,11 +1,8 @@
 package org.springframework.samples.the_ionian_bookshelf.model;
 
 import java.io.Serializable;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +29,7 @@ public class ItemRolesKey implements Serializable {
     @Column(name = "role_id")
     Long roleId;
 
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -40,6 +38,7 @@ public class ItemRolesKey implements Serializable {
 		return result;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
