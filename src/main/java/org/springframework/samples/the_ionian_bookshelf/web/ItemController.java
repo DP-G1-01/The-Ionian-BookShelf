@@ -43,7 +43,7 @@ public class ItemController {
 	}
 	
 	@GetMapping(value = "/items")
-	public String processFindForm(Item item, BindingResult result, Model model) {
+	public String processFindForm(ModelMap model) {
 		
 		Collection<Item> results = this.itemService.findAll();
 			model.addAttribute("items",results);
