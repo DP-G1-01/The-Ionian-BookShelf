@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 /*@TestPropertySource(
   locations = "classpath:application-mysql.properties")*/
-public class ChampionControllerE2ETest2 {
+public class ChampionControllerE2ETest {
 	@Autowired
 	private MockMvc mockMvc;
 	

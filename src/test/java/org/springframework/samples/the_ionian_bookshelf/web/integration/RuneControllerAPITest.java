@@ -2,21 +2,24 @@ package org.springframework.samples.the_ionian_bookshelf.web.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
-import org.springframework.samples.the_ionian_bookshelf.model.Champion;
+import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.BranchService;
-import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
+import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
-import org.springframework.samples.the_ionian_bookshelf.web.ChampionController;
+import org.springframework.samples.the_ionian_bookshelf.web.ItemController;
 import org.springframework.samples.the_ionian_bookshelf.web.RuneController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,57 +29,52 @@ import org.springframework.validation.MapBindingResult;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ChampionControllerIntegrationTests {
+public class RuneControllerAPITest {
 
 	@Autowired
-	private ChampionController championController;
+	private RuneController runeController;
 	
 	@Autowired
-	private RoleService roleService;
+	private BranchService branchService;
 	
 	@Autowired
-	private ChampionService championService;
+	private RuneService runeService;
 	
 	@Autowired
 	private AdministratorService administratorService;
 	
 
 	@Test
-	void testShowChampionListHtml() throws Exception {
+	void testShowRuneListHtml() throws Exception {
 		ModelMap model = new ModelMap();
-		String view=championController.listadoCampeones(model);
-		assertEquals(view,"/champions/listadoCampeones");
-		assertNotNull(model.get("champions"));	
+		String view=runeController.listadoRunas(model);
+		assertEquals(view,"runes/listadoRunas");
+		assertNotNull(model.get("runes"));	
 	}
 	
 	@WithMockUser(username = "admin", authorities = "admin")
 	@Test
-	void testNewChampionForm() throws Exception {
+	void testNewRuneForm() throws Exception {
 		ModelMap model = new ModelMap();
-		String view=championController.crearCampeon(model);
-		assertEquals(view,"champions/editCampeon");
-		assertNotNull(model.get("champion"));	
+		String view=runeController.crearRuna(model);
+		assertEquals(view,"runes/editRune");
+		assertNotNull(model.get("rune"));	
 	}
 	
 	@WithMockUser(username = "admin", authorities = "admin")
 	@Test
-	void testCreationChampionForm() throws Exception {
+	void testCreationRuneForm() throws Exception {
 		ModelMap model = new ModelMap();
-		Champion champion= new Champion();
-		Role role = roleService.findOneById(1);
+		Rune rune= new Rune();
+		Branch branch = branchService.findBranchById(1);
 		
-		champion.setName("Champion name");
-		champion.setDescription("desc");
-		champion.setHealth(1000.0);
-		champion.setMana(500.0);
-		champion.setEnergy(null);
-		champion.setAttack(1.0);
-		champion.setSpeed(1.2);
-		champion.setRole(role);
-		
+		rune.setName("Rune name");
+		rune.setDescription("desc");
+		rune.setBranch(branch);
+		rune.setNode("1");
 		BindingResult bindingResult=new MapBindingResult(Collections.emptyMap(),"");
-		String view=championController.salvarCampeon(champion, bindingResult, model);
-		assertEquals(view,"redirect:/champions/");
+		String view=runeController.salvarRuna(rune, bindingResult, model);
+		assertEquals(view,"redirect:/runes/");
 		assertNotNull(model.getAttribute("message"));
 	}
 	
@@ -84,34 +82,29 @@ public class ChampionControllerIntegrationTests {
 	
 	@WithMockUser(username = "summoner1", authorities = "summoner")
 	@Test
-	void testRemoveChampionNotAdmin() throws Exception {
+	void testRemoveRuneNotAdmin() throws Exception {
 		ModelMap model = new ModelMap();
-		String view=championController.borrarChampion(1, model);
+		String view=runeController.borrarRuna(1, model);
 		assertEquals(view,"redirect:/login");
 		assertNotNull(model.get("message"));	
 	}
 	
 	@WithMockUser(username = "admin", authorities = "admin")
 	@Test
-	void testCreationChampionFormErrors() throws Exception {
+	void testCreationRuneFormErrors() throws Exception {
 		ModelMap model = new ModelMap();
-		Champion champion= new Champion();
-		Role role = roleService.findOneById(1);
+		Rune rune= new Rune();
+		Branch branch = branchService.findBranchById(1);
 		
-		champion.setName("");
-		champion.setDescription("desc");
-		champion.setHealth(1000.0);
-		champion.setMana(500.0);
-		champion.setEnergy(null);
-		champion.setAttack(1.0);
-		champion.setSpeed(1.2);
-		champion.setRole(role);
-		
+		rune.setName("Rune name");
+		rune.setDescription("desc");
+		rune.setBranch(branch);
+		rune.setNode("1");
 		BindingResult bindingResult=new MapBindingResult(Collections.emptyMap(),"");
 		bindingResult.reject("name", "no puede estar vacío");
 		bindingResult.reject("name", "el tamaño tiene que estar entre 10 y 500");
-		String view=championController.salvarCampeon(champion, bindingResult, model);
-		assertEquals(view,"champions/editCampeon");
+		String view=runeController.salvarRuna(rune, bindingResult, model);
+		assertEquals(view,"runes/editRune");
 	}
 	
 }

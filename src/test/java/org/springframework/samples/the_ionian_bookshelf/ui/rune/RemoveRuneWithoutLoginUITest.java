@@ -1,5 +1,4 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
-
+package org.springframework.samples.the_ionian_bookshelf.ui.rune;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.*;
@@ -13,7 +12,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class RemoveChampionPositive {
+public class RemoveRuneWithoutLoginUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -29,17 +28,11 @@ public class RemoveChampionPositive {
   }
 
   @Test
-  public void testRemoveChampionPositive() throws Exception {
+  public void testRemoveRuneWithoutLogin() throws Exception {
     driver.get("http://localhost:8080/");
-    driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
-    driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("admin");
-    driver.findElement(By.id("password")).click();
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("admin");
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
-    driver.findElement(By.xpath("(//a[contains(text(),'Remove')])[3]")).click();
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
+    driver.findElement(By.xpath("(//a[contains(text(),'Remove rune')])[6]")).click();
+    driver.findElement(By.xpath("//html")).click();
   }
 
   @AfterEach

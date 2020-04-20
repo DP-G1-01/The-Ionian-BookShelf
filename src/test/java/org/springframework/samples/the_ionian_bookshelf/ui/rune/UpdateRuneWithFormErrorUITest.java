@@ -1,4 +1,7 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
+package org.springframework.samples.the_ionian_bookshelf.ui.rune;
+
+import static org.junit.Assert.fail;
+
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.*;
@@ -11,7 +14,8 @@ import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-public class UpdateChampionWithoutLogin {
+
+public class UpdateRuneWithFormErrorUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -27,11 +31,30 @@ public class UpdateChampionWithoutLogin {
   }
 
   @Test
-  public void testUpdateChampionWithoutLogin() throws Exception {
+  public void testUpdateRuneWithFormError() throws Exception {
     driver.get("http://localhost:8080/");
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
-    driver.findElement(By.linkText("Edit")).click();
-    driver.findElement(By.xpath("//html")).click();
+    driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
+    driver.findElement(By.id("username")).clear();
+    driver.findElement(By.id("username")).sendKeys("admin");
+    driver.findElement(By.id("password")).click();
+    driver.findElement(By.id("password")).clear();
+    driver.findElement(By.id("password")).sendKeys("admin");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span")).click();
+    driver.findElement(By.xpath("(//a[contains(text(),'Edit Rune')])[3]")).click();
+    driver.findElement(By.xpath("//body/div")).click();
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.findElement(By.xpath("//form[@id='add-rune-form']/div/div/div")).click();
+    assertEquals("must not be empty", driver.findElement(By.xpath("//form[@id='add-rune-form']/div/div/div/span[2]")).getText());
+    driver.findElement(By.id("name")).click();
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("Deeeeeeeee");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.findElement(By.xpath("//table[@id='runeTable']/tbody/tr[3]/td")).click();
+    driver.findElement(By.xpath("//table[@id='runeTable']/tbody/tr[3]/td")).click();
+    assertEquals("Deeeeeeeee", driver.findElement(By.xpath("//table[@id='runeTable']/tbody/tr[3]/td")).getText());
   }
 
   @AfterEach

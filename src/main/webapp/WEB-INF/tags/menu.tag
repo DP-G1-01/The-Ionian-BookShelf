@@ -24,7 +24,7 @@
 
 				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Home">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span><c:out value="${name}" /></span>
+					<span>Home</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'champions'}" url="/champions/"
@@ -61,6 +61,12 @@
 					title="threads">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Threads</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'requests'}" url="/requests"
+					title="requests">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Requests</span>
 				</petclinic:menuItem>
 				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"

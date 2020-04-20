@@ -1,4 +1,6 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
+package org.springframework.samples.the_ionian_bookshelf.ui.rune;
+
+import static org.junit.Assert.fail;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -13,8 +15,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-
-public class UpdateChampionPositive {
+public class UpdateRuneWithoutLoginUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -30,30 +31,11 @@ public class UpdateChampionPositive {
   }
 
   @Test
-  public void testUpdateChampionPositive() throws Exception {
+  public void testUpdateRuneNegative() throws Exception {
     driver.get("http://localhost:8080/");
-    driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
-    driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("admin");
-    driver.findElement(By.id("password")).click();
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("admin");
-    driver.findElement(By.xpath("//form[@action='/login']")).click();
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
-    driver.findElement(By.linkText("Edit")).click();
-    driver.findElement(By.id("name")).click();
-    driver.findElement(By.id("name")).clear();
-    driver.findElement(By.id("name")).sendKeys("Ashe la arquera");
-    driver.findElement(By.id("health")).click();
-    driver.findElement(By.id("health")).clear();
-    driver.findElement(By.id("health")).sendKeys("950.0");
-    driver.findElement(By.id("mana")).click();
-    driver.findElement(By.id("mana")).clear();
-    driver.findElement(By.id("mana")).sendKeys("450.0");
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//table[@id='championTable']/tbody/tr/td")).click();
-    assertEquals("Ashe la arquera", driver.findElement(By.xpath("//table[@id='championTable']/tbody/tr/td")).getText());
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span")).click();
+    driver.findElement(By.linkText("Edit Rune")).click();
+    driver.findElement(By.xpath("//html")).click();
   }
 
   @AfterEach

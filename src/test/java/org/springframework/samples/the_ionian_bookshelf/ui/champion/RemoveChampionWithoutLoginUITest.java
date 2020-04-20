@@ -1,6 +1,4 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
-
-import static org.junit.Assert.fail;
+package org.springframework.samples.the_ionian_bookshelf.ui.champion;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +13,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class UpdateRunePositive {
+
+public class RemoveChampionWithoutLoginUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -31,24 +30,11 @@ public class UpdateRunePositive {
   }
 
   @Test
-  public void testUpdateRunePositive() throws Exception {
+  public void testRemoveChampionWithoutLogin() throws Exception {
     driver.get("http://localhost:8080/");
-    driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
-    driver.findElement(By.id("username")).clear();
-    driver.findElement(By.id("username")).sendKeys("admin");
-    driver.findElement(By.id("password")).click();
-    driver.findElement(By.id("password")).clear();
-    driver.findElement(By.id("password")).sendKeys("admin");
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
-    driver.findElement(By.linkText("Edit Rune")).click();
-    driver.findElement(By.id("name")).click();
-    driver.findElement(By.id("name")).clear();
-    driver.findElement(By.id("name")).sendKeys("Conquerores");
-    driver.findElement(By.id("description")).click();
-    driver.findElement(By.id("description")).clear();
-    driver.findElement(By.id("description")).sendKeys("PASSIVE: You get AP and AD for every second you are in combates");
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
+    driver.findElement(By.linkText("Remove")).click();
+    driver.findElement(By.xpath("//html")).click();
   }
 
   @AfterEach

@@ -1,4 +1,6 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
+package org.springframework.samples.the_ionian_bookshelf.ui.rune;
+
+
 import static org.junit.Assert.fail;
 
 import java.util.regex.Pattern;
@@ -13,7 +15,8 @@ import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-public class CreateNewRuneWithoutLogin {
+
+public class CreateNewRunePositiveUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -29,11 +32,29 @@ public class CreateNewRuneWithoutLogin {
   }
 
   @Test
-  public void testCreateNewRuneNegative() throws Exception {
+  public void testCreateNewRunePositive() throws Exception {
     driver.get("http://localhost:8080/");
+    driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
+    driver.findElement(By.id("username")).clear();
+    driver.findElement(By.id("username")).sendKeys("admin");
+    driver.findElement(By.id("password")).click();
+    driver.findElement(By.id("password")).clear();
+    driver.findElement(By.id("password")).sendKeys("admin");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
     driver.findElement(By.linkText("Add New Rune")).click();
-    driver.findElement(By.xpath("//html")).click();
+    driver.findElement(By.id("name")).click();
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("Nombre");
+    driver.findElement(By.id("description")).click();
+    driver.findElement(By.id("description")).clear();
+    driver.findElement(By.id("description")).sendKeys("Desc");
+    new Select(driver.findElement(By.name("branch"))).selectByVisibleText("Domination");
+    driver.findElement(By.xpath("//option[@value='Domination']")).click();
+    driver.findElement(By.id("node")).click();
+    driver.findElement(By.id("node")).clear();
+    driver.findElement(By.id("node")).sendKeys("1");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
   }
 
   @AfterEach
@@ -78,4 +99,3 @@ public class CreateNewRuneWithoutLogin {
     }
   }
 }
-

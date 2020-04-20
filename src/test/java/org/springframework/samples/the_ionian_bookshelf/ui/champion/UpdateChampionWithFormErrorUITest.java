@@ -1,4 +1,4 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
+package org.springframework.samples.the_ionian_bookshelf.ui.champion;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +13,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class UpdateChampionWithFormError {
+public class UpdateChampionWithFormErrorUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;

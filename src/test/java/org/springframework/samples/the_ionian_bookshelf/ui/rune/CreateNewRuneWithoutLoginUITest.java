@@ -1,4 +1,6 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
+package org.springframework.samples.the_ionian_bookshelf.ui.rune;
+import static org.junit.Assert.fail;
+
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.*;
@@ -11,8 +13,7 @@ import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-
-public class RemoveRuneWithoutLogin {
+public class CreateNewRuneWithoutLoginUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -28,10 +29,10 @@ public class RemoveRuneWithoutLogin {
   }
 
   @Test
-  public void testRemoveRuneWithoutLogin() throws Exception {
+  public void testCreateNewRuneNegative() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
-    driver.findElement(By.xpath("(//a[contains(text(),'Remove rune')])[6]")).click();
+    driver.findElement(By.linkText("Add New Rune")).click();
     driver.findElement(By.xpath("//html")).click();
   }
 
@@ -77,3 +78,4 @@ public class RemoveRuneWithoutLogin {
     }
   }
 }
+

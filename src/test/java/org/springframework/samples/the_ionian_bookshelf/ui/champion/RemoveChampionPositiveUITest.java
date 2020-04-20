@@ -1,7 +1,4 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
-
-
-import static org.junit.Assert.fail;
+package org.springframework.samples.the_ionian_bookshelf.ui.champion;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +13,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateNewRunePositive {
+public class RemoveChampionPositiveUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -32,7 +29,7 @@ public class CreateNewRunePositive {
   }
 
   @Test
-  public void testCreateNewRunePositive() throws Exception {
+  public void testRemoveChampionPositive() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
     driver.findElement(By.id("username")).clear();
@@ -41,20 +38,8 @@ public class CreateNewRunePositive {
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("admin");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
-    driver.findElement(By.linkText("Add New Rune")).click();
-    driver.findElement(By.id("name")).click();
-    driver.findElement(By.id("name")).clear();
-    driver.findElement(By.id("name")).sendKeys("Nombre");
-    driver.findElement(By.id("description")).click();
-    driver.findElement(By.id("description")).clear();
-    driver.findElement(By.id("description")).sendKeys("Desc");
-    new Select(driver.findElement(By.name("branch"))).selectByVisibleText("Domination");
-    driver.findElement(By.xpath("//option[@value='Domination']")).click();
-    driver.findElement(By.id("node")).click();
-    driver.findElement(By.id("node")).clear();
-    driver.findElement(By.id("node")).sendKeys("1");
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
+    driver.findElement(By.xpath("(//a[contains(text(),'Remove')])[3]")).click();
   }
 
   @AfterEach

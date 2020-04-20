@@ -1,6 +1,4 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
-
-import static org.junit.Assert.fail;
+package org.springframework.samples.the_ionian_bookshelf.ui.champion;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +13,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class UpdateRuneWithFormError {
+
+public class CreateNewChampionWithFormErrorUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -31,7 +30,7 @@ public class UpdateRuneWithFormError {
   }
 
   @Test
-  public void testUpdateRuneWithFormError() throws Exception {
+  public void testCreateNewChampionWithFormError() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
     driver.findElement(By.id("username")).clear();
@@ -40,21 +39,43 @@ public class UpdateRuneWithFormError {
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("admin");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span")).click();
-    driver.findElement(By.xpath("(//a[contains(text(),'Edit Rune')])[3]")).click();
-    driver.findElement(By.xpath("//body/div")).click();
-    driver.findElement(By.id("name")).clear();
-    driver.findElement(By.id("name")).sendKeys("");
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
+    driver.findElement(By.linkText("Add New Champion")).click();
+    driver.findElement(By.id("description")).click();
+    driver.findElement(By.id("description")).clear();
+    driver.findElement(By.id("description")).sendKeys("asdasdad");
+    driver.findElement(By.id("health")).click();
+    driver.findElement(By.id("health")).clear();
+    driver.findElement(By.id("health")).sendKeys("1200");
+    driver.findElement(By.id("mana")).click();
+    driver.findElement(By.id("mana")).clear();
+    driver.findElement(By.id("mana")).sendKeys("1000");
+    driver.findElement(By.id("attack")).click();
+    driver.findElement(By.id("attack")).clear();
+    driver.findElement(By.id("attack")).sendKeys("1");
+    driver.findElement(By.id("speed")).click();
+    driver.findElement(By.id("speed")).clear();
+    driver.findElement(By.id("speed")).sendKeys("1.2");
+    new Select(driver.findElement(By.name("role"))).selectByVisibleText("Asesino");
+    driver.findElement(By.xpath("//option[@value='Asesino']")).click();
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//form[@id='add-rune-form']/div/div/div")).click();
-    assertEquals("must not be empty", driver.findElement(By.xpath("//form[@id='add-rune-form']/div/div/div/span[2]")).getText());
+    driver.findElement(By.xpath("//form[@id='add-champion-form']/div/div/div")).click();
+    assertEquals("must not be empty", driver.findElement(By.xpath("//form[@id='add-champion-form']/div/div/div/span[2]")).getText());
     driver.findElement(By.id("name")).click();
     driver.findElement(By.id("name")).clear();
-    driver.findElement(By.id("name")).sendKeys("Deeeeeeeee");
+    driver.findElement(By.id("name")).sendKeys("Nombre champion");
+    driver.findElement(By.xpath("//form[@id='add-champion-form']/div/div[4]")).click();
+    driver.findElement(By.id("mana")).clear();
+    driver.findElement(By.id("mana")).sendKeys("");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//table[@id='runeTable']/tbody/tr[3]/td")).click();
-    driver.findElement(By.xpath("//table[@id='runeTable']/tbody/tr[3]/td")).click();
-    assertEquals("Deeeeeeeee", driver.findElement(By.xpath("//table[@id='runeTable']/tbody/tr[3]/td")).getText());
+    driver.findElement(By.xpath("//form[@id='add-champion-form']/div/div[5]/div")).click();
+    assertEquals("A Champion must have mana or energy", driver.findElement(By.xpath("//form[@id='add-champion-form']/div/div[5]/div/span[2]")).getText());
+    driver.findElement(By.id("energy")).click();
+    driver.findElement(By.id("energy")).clear();
+    driver.findElement(By.id("energy")).sendKeys("500");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.findElement(By.xpath("//table[@id='championTable']/tbody/tr[13]/td")).click();
+    assertEquals("Nombre champion", driver.findElement(By.xpath("//table[@id='championTable']/tbody/tr[13]/td")).getText());
   }
 
   @AfterEach

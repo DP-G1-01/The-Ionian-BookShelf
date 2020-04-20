@@ -1,4 +1,4 @@
-package org.springframework.samples.the_ionian_bookshelf.ui;
+package org.springframework.samples.the_ionian_bookshelf.ui.rune;
 
 import static org.junit.Assert.fail;
 
@@ -15,7 +15,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class RemoveRunePositive {
+public class UpdateRunePositiveUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -31,7 +31,7 @@ public class RemoveRunePositive {
   }
 
   @Test
-  public void testUntitledTestCase() throws Exception {
+  public void testUpdateRunePositive() throws Exception {
     driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
     driver.findElement(By.id("username")).clear();
@@ -40,8 +40,15 @@ public class RemoveRunePositive {
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("admin");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span")).click();
-    driver.findElement(By.xpath("(//a[contains(text(),'Remove rune')])[20]")).click();
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span[2]")).click();
+    driver.findElement(By.linkText("Edit Rune")).click();
+    driver.findElement(By.id("name")).click();
+    driver.findElement(By.id("name")).clear();
+    driver.findElement(By.id("name")).sendKeys("Conquerores");
+    driver.findElement(By.id("description")).click();
+    driver.findElement(By.id("description")).clear();
+    driver.findElement(By.id("description")).sendKeys("PASSIVE: You get AP and AD for every second you are in combates");
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
   }
 
   @AfterEach
