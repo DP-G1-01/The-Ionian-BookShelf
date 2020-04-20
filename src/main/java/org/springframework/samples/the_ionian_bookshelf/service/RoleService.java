@@ -36,4 +36,7 @@ public class RoleService {
 		return roleRepo.findAll();
 	}
 
+	public Role findOneById(int id) {
+		return roleRepo.getOne(id);
+	}
 }
