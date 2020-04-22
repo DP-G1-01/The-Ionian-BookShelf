@@ -50,7 +50,7 @@ public class ConfigurationParameters extends BaseEntity {
 
 	@ElementCollection
 	@NotEmpty
-	@Column(unique = true, name = "branches")
+	@Column(unique = true, name = "branches", length=40)
 	private Collection<String> branches;
 
 }

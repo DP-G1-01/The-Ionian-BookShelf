@@ -15,7 +15,7 @@ import lombok.Data;
 public class User {
 
 	@Id
-	@Column(unique = true, name = "username")
+	@Column(unique = true, name = "username", length=40)
 	@NotBlank
 	@Size(min = 5, max = 32)
 	String username;
