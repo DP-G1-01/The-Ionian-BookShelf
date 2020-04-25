@@ -89,12 +89,18 @@ public class ThreadController {
 		}
 		Thread thread = threadService.findOne(threadId);
 		if (thread != null) {
-			this.threadService.deleteFromMessages(thread);
-			this.threadService.delete(thread);
+			try {
+				this.threadService.deleteFromMessages(thread);
+				this.threadService.delete(thread);	
+			} catch (AssertionError e) {
+				modelMap.addAttribute("message",e.getMessage());
+				return "/threads/error";
+			}
 			modelMap.addAttribute("message", "Thread deleted successfully");
 		} else {
 			modelMap.addAttribute("message", "Thread not found");
 		}
 		return "redirect:/threads";
 	}
+	
 }
