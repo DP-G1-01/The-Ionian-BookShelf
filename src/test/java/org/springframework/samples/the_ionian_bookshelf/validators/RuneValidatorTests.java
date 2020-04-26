@@ -14,7 +14,6 @@ import javax.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
-import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 

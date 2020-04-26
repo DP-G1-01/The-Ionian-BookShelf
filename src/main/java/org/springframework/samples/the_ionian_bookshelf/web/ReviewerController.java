@@ -27,10 +27,13 @@ public class ReviewerController extends AbstractController {
 	public ModelAndView edit() {
 
 		ModelAndView res;
-		final Reviewer principal = this.reviewerService.findByPrincipal();
+		try {
+			final Reviewer principal = this.reviewerService.findByPrincipal();
 
-		res = this.createEditModelAndView(principal);
-
+			res = this.createEditModelAndView(principal);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 
@@ -59,11 +62,15 @@ public class ReviewerController extends AbstractController {
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int reviewerId) {
 		ModelAndView result;
-		Reviewer reviewer;
+		try {
+			Reviewer reviewer;
 
-		reviewer = this.reviewerService.findOne(reviewerId);
-		result = new ModelAndView("reviewer/display");
-		result.addObject("reviewer", reviewer);
+			reviewer = this.reviewerService.findOne(reviewerId);
+			result = new ModelAndView("reviewer/display");
+			result.addObject("reviewer", reviewer);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return result;
 	}
 

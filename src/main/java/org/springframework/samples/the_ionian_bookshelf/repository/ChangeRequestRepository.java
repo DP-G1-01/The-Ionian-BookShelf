@@ -9,7 +9,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 public interface ChangeRequestRepository extends JpaRepository<ChangeRequest, Integer> {
 	
 	@Query("SELECT r FROM ChangeRequest r where r.champion.id= ?1")
-	ChangeRequest findChangeRequestByChampionId(int championId);
+	Collection<ChangeRequest> findAllByChampionId(int championId);
 	
 	@Query("SELECT r FROM ChangeRequest r where r.item.id= ?1")
 	ChangeRequest findChangeRequestByItemId(int itemId);

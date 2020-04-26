@@ -1,126 +1,262 @@
-INSERT INTO threads (id,description,title)
-VALUES(1, 'The IonianBookshelf´s Basic Thread', 'Basic Thread');
-INSERT INTO threads (id,description,title)
-VALUES(2, 'The IonianBookshelf´s Bronze Thread', 'Bronze thread');
-INSERT INTO threads (id,description,title)
-VALUES
-    (3, 'Thread de la League de Silver', 'SILVER');
-INSERT INTO threads (id,description,title)
-VALUES
-    (4, 'Creo que Maestro Yi está over powereado. Estoy en una liga baja y no sé jugar contra alguien que elija este champion', 'Yi OP');
-INSERT INTO threads (id,description,title)
-VALUES
-    (5, 'Os dejo esta build que recomiendo para jugar Shaco con el rol de Support', 'Build para jugar con Shaco support');
-INSERT INTO threads (id,description,title)
-VALUES
-    (6, 'Description de ejemplo', 'Thread de ejemplo');
+INSERT INTO threads 
+            (id, 
+             description, 
+             title) 
+VALUES     (1, 
+            'The IonianBookshelf´s Basic Thread', 
+            'Basic Thread'); 
 
-INSERT INTO leagues (id,name,thread_id)
-VALUES
-    (1, 'Basic', 1);
-INSERT INTO leagues (id,name,thread_id)
-VALUES
-    (2, 'Bronze', 2);
-INSERT INTO leagues
-    (id,name,thread_id)
-VALUES
-    (3, 'Silver', 3);
+INSERT INTO threads 
+            (id, 
+             description, 
+             title) 
+VALUES     (2, 
+            'The IonianBookshelf´s Bronze Thread', 
+            'Bronze thread'); 
 
-INSERT INTO authorities
-VALUES
-    ('admin', 'administrator');
+INSERT INTO threads 
+            (id, 
+             description, 
+             title) 
+VALUES      (3, 
+             'Thread de la League de Silver', 
+             'SILVER'); 
 
-INSERT INTO authorities
-VALUES
-    ('summoner1', 'summoner');
-INSERT INTO authorities
-VALUES
-    ('summoner2', 'summoner');
-INSERT INTO authorities
-VALUES
-    ('summoner3', 'summoner');
-INSERT INTO authorities
-VALUES
-    ('summoner4', 'summoner');
-INSERT INTO authorities
-VALUES
-    ('RAIMUNDOKARATE98', 'summoner');
+INSERT INTO threads 
+            (id, 
+             description, 
+             title) 
+VALUES      (4, 
+			'Creo que Maestro Yi está over powereado. Estoy en una liga baja y no sé jugar contra alguien que elija este champion', 
+			'Yi OP'); 
 
-INSERT INTO authorities
-VALUES
-    ('reviewer1', 'reviewer');
-INSERT INTO authorities
-VALUES
-    ('reviewer2', 'reviewer');
-INSERT INTO authorities
-VALUES
-    ('reviewer3', 'reviewer');
-INSERT INTO authorities
-VALUES
-    ('reviewer4', 'reviewer');
+INSERT INTO threads 
+            (id, 
+             description, 
+             title) 
+VALUES      (5, 
+'Os dejo esta build que recomiendo para jugar Shaco con el rol de Support', 
+'Build para jugar con Shaco support'); 
 
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('admin', 'admin', true);
+INSERT INTO threads 
+            (id, 
+             description, 
+             title) 
+VALUES      (6, 
+             'Description de ejemplo', 
+             'Thread de ejemplo'); 
+             
+INSERT INTO threads
+			(id,
+			 description,
+			 title)
+VALUES		(100,
+			 'Test Thread for MessageServiceTest',
+			 'Test Thread');
 
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('summoner1', 'summoner1', true);
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('summoner2', 'summoner2', true);
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('summoner3', 'summoner3', true);
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('summoner4', 'summoner4', true);
+INSERT INTO leagues 
+            (id, 
+             NAME, 
+             thread_id) 
+VALUES      (1, 
+             'Basic', 
+             1); 
 
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('reviewer1', 'reviewer1', true);
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('reviewer2', 'reviewer2', true);
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('reviewer3', 'reviewer3', true);
-INSERT INTO users
-    (username, password, enabled)
-VALUES
-    ('reviewer4', 'reviewer4', true);
-INSERT INTO users
-    (username,password,enabled)
-VALUES
-    ('RAIMUNDOKARATE98', 'passwordderaimundokarate98', true);
+INSERT INTO leagues 
+            (id, 
+             NAME, 
+             thread_id) 
+VALUES      (2, 
+             'Bronze', 
+             2); 
 
-INSERT INTO administrators
-VALUES(1, 'admin@gmail.com', 'admin');
+INSERT INTO leagues 
+            (id, 
+             NAME, 
+             thread_id) 
+VALUES      (3, 
+             'Silver', 
+             3); 
 
-INSERT INTO summoners
-VALUES(1, 'summoner1@gmail.com', 'summoner1', 1);
-INSERT INTO summoners
-VALUES(2, 'summoner2@gmail.com', 'summoner2', 1);
-INSERT INTO summoners
-VALUES(3, 'summoner3@gmail.com', 'summoner3', 1);
-INSERT INTO summoners
-VALUES(4, 'summoner4@gmail.com', 'summoner4', 1);
-INSERT INTO summoners
-VALUES
-    (5, 'raimundokarate@gmail.com', 'RAIMUNDOKARATE98', 3);
+INSERT INTO authorities 
+VALUES      ('admin', 
+             'administrator'); 
 
-INSERT INTO messages
-    (id,moment,text,summoner_id,thread_id)
-VALUES
-    (1, '2020-03-07', 'No pienso que Yi esté tan OP simplemente necesitais stunnearlo 8 segundos', 5, 4);
+INSERT INTO authorities 
+VALUES      ('summoner1', 
+             'summoner'); 
+
+INSERT INTO authorities 
+VALUES      ('summoner2', 
+             'summoner'); 
+
+INSERT INTO authorities 
+VALUES      ('summoner3', 
+             'summoner'); 
+
+INSERT INTO authorities 
+VALUES      ('summoner4', 
+             'summoner'); 
+
+INSERT INTO authorities 
+VALUES      ('RAIMUNDOKARATE98', 
+             'summoner'); 
+
+INSERT INTO authorities 
+VALUES      ('reviewer1', 
+             'reviewer'); 
+
+INSERT INTO authorities 
+VALUES      ('reviewer2', 
+             'reviewer'); 
+
+INSERT INTO authorities 
+VALUES      ('reviewer3', 
+             'reviewer'); 
+
+INSERT INTO authorities 
+VALUES      ('reviewer4', 
+             'reviewer'); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('admin', 
+             'admin', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('summoner1', 
+             'summoner1', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('summoner2', 
+             'summoner2', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('summoner3', 
+             'summoner3', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('summoner4', 
+             'summoner4', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('reviewer1', 
+             'reviewer1', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('reviewer2', 
+             'reviewer2', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('reviewer3', 
+             'reviewer3', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('reviewer4', 
+             'reviewer4', 
+             true); 
+
+INSERT INTO users 
+            (username, 
+             password, 
+             enabled) 
+VALUES      ('RAIMUNDOKARATE98', 
+             'raikonen', 
+             true); 
+
+INSERT INTO administrators 
+VALUES     (1, 
+            'admin@gmail.com', 
+            'admin'); 
+
+INSERT INTO summoners 
+VALUES     (1, 
+            'summoner1@gmail.com', 
+            'summoner1', 
+            1); 
+
+INSERT INTO summoners 
+VALUES     (2, 
+            'summoner2@gmail.com', 
+            'summoner2', 
+            1); 
+
+INSERT INTO summoners 
+VALUES     (3, 
+            'summoner3@gmail.com', 
+            'summoner3', 
+            1); 
+
+INSERT INTO summoners 
+VALUES     (4, 
+            'summoner4@gmail.com', 
+            'summoner4', 
+            1); 
+
+INSERT INTO summoners 
+VALUES      (5, 
+             'raimundokarate@gmail.com', 
+             'RAIMUNDOKARATE98', 
+             3); 
+
+INSERT INTO messages 
+            (id, 
+             moment, 
+             text, 
+             summoner_id, 
+             thread_id) 
+VALUES      (1, 
+             '2010-10-10', 
+'No pienso que Yi esté tan OP simplemente necesitais stunnearlo 8 segundos', 
+5, 
+4); 
+
+INSERT INTO messages 
+            (id, 
+             moment, 
+             text, 
+             summoner_id, 
+             thread_id) 
+VALUES      (100, 
+             '2010-10-10', 
+'Positive Tet Text', 
+5, 
+100); 
+
 
 INSERT INTO reviewers
 VALUES
@@ -140,7 +276,7 @@ INSERT INTO ROLES(id,description,image,name) VALUES(2,'Especializado en ataque a
 INSERT INTO ROLES(id,description,image,name) VALUES(3,'Especializado en habilidades y daño mágico. Popularmente conocido como AP Carry del inglés ability power carry o carreador de poder de habilidad.','http://www.googleimagenes.es','Mago');
 INSERT INTO ROLES(id,description,image,name) VALUES(4,'Especializado en emboscar al enemigo, atacando por sorpresa y retirándose rápidamente. Su misión es eliminar al jugador más importante del equipo enemigo (generalmente el tirador) aunque ello suponga morir él también.','http://googleimagenes.es','Asesino');
 INSERT INTO ROLES(id,description,image,name) VALUES(5,'Especializado en resistencia. Su misión es absorber la mayor cantidad de daño posible e iniciar las peleas.','http://googleimagenes.es','Tanque');
-INSERT INTO ROLES(id,description,image,name) VALUES(6,'Especializado en apoyar a su equipo y aportar visión en el mapa mediante guardianes de visión (wards).','http://googleimagenes.es','Apoyo ');
+INSERT INTO ROLES(id,description,image,name) VALUES(6,'Especializado en apoyar a su equipo y aportar visión en el mapa mediante guardianes de visión (wards).','http://googleimagenes.es','Apoyo');
 
 INSERT INTO CHAMPIONS VALUES (1,'1.10','Ashe, comandante hija del hielo de la tribu de Avarosa, lidera las hordas más numerosas del norte. Impasible, inteligente e idealista, aunque incómoda en su papel de líder',null,'900','500','Ashe','1.0','2');
 INSERT INTO CHAMPIONS VALUES (2,'0.90','Blitzcrank es un autómata enorme, casi indestructible, creado originalmente para el tratamiento de residuos tóxicos.',null,'1500','500','Blitzcrank ','1.0','6');
@@ -167,6 +303,13 @@ INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'5');
 INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'4');
 INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'2');
 INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(1,'1');
+
+INSERT INTO CHANGE_REQUESTS VALUES(2, 'Soy una prueba que debe de tener 20 caracteres porquesi', 'PENDING', 'Gran titulo clonado', 1, null, null, 1);
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(2,'1');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(2,'5');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(2,'4');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(2,'2');
+INSERT INTO CHANGE_REQUEST_CHANGE_CHAMP VALUES(2,'1');
 
 INSERT INTO BRANCHES VALUES(1,'Slay your enemies in long term combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8000-8008.jpg','Precision');
 INSERT INTO BRANCHES VALUES(2,'Slay your enemies in short combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8100-8128.jpg','Domination');

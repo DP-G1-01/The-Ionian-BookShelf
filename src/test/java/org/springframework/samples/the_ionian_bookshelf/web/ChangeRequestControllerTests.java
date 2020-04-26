@@ -19,7 +19,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -27,12 +26,9 @@ import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityCo
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
-import org.springframework.samples.the_ionian_bookshelf.model.League;
-import org.springframework.samples.the_ionian_bookshelf.model.Reviewer;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
-import org.springframework.samples.the_ionian_bookshelf.model.Thread;
-import org.springframework.samples.the_ionian_bookshelf.model.User;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChangeRequestService;
 import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
@@ -56,7 +52,6 @@ public class ChangeRequestControllerTests {
 	
 	private Summoner sumMock = mock(Summoner.class);
 	
-	private Reviewer reviewerMock = mock(Reviewer.class);
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -66,6 +61,9 @@ public class ChangeRequestControllerTests {
 	
 	@MockBean
 	private ReviewerService reviewerService;
+	
+	@MockBean
+	private ChampionService championService;
 	
 	@MockBean
 	private ChangeRequestService changeRequestService;

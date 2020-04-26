@@ -1,34 +1,26 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mockitoSession;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.runner.RunWith;
-import org.mockito.internal.util.MockUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.mock.web.MockCookie;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
+import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -39,7 +31,6 @@ import org.springframework.test.web.servlet.MockMvc;
 ,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
 , classes = WebSecurityConfigurer.class)
 , excludeAutoConfiguration = SecurityConfiguration.class)
-//@SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
 class ItemControllerTests {
@@ -53,6 +44,14 @@ class ItemControllerTests {
 	@MockBean
 	private AdministratorService administratorService;
 	
+	private Administrator adminMock = mock(Administrator.class);
+	
+	
+	@BeforeEach
+	void setup() {
+		Administrator adminMock = mock(Administrator.class);
+		when(this.administratorService.findByPrincipal()).thenReturn(adminMock);
+	}
 	
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
@@ -81,23 +80,26 @@ class ItemControllerTests {
 	
 	
 	
-	@WithMockUser(value = "summoner1")
-	@Test
-	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/items/new").with(csrf()).param("title", "titulo test").param("description", "Testeando items en vez de jugar al Doom")
-				.param("atributes[0]", "43").param("atributes[1]", "10").param("atributes[2]", "").param("roles[0]", "0"))
-				.andExpect(status().is2xxSuccessful());
-	}
+
+//	@WithMockUser(value = "admin")
+//	@Test
+//	void testProcessCreationFormSuccess() throws Exception {
+//		mockMvc.perform(post("/items/save").with(csrf()).param("title", "titulo test").param("description", "Testeando items en vez de jugar al Doom")
+//				.param("attributes[0]", "43").param("attributes[1]", "10").param("attributes[2]", "23").param("roles[0]", "Tirador")
+//				.param("roles[1]", "Apoyo").param("roles[2]", "Tanque"))
+//				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/items/"));
+//	}
 	
-	@WithMockUser(value="admin")
+	@WithMockUser(value = "admin", authorities = {"admin"})
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/items/save").with(csrf()).param("title", "").param("description", "")
-				.param("atributes[0]", "43").param("atributes[1]", "10").param("atributes[2]", "").param("roles[0]", "0"))
-				.andExpect(status().isOk()).andExpect(model().attributeExists("item"))
+				.param("attributes[0]", "43").param("attributes[1]", "10").param("attributes[2]", "67").param("roles[0]", "Apoyo")
+				.param("roles[1]", "Tirador").param("roles[2]", "Asesino"))
+				.andExpect(status().isOk()).andExpect(view().name("items/editItem"))
 				.andExpect(model().attributeHasFieldErrors("item", "description"))
-				.andExpect(model().attributeHasFieldErrors("item", "title"))
-				.andExpect(view().name("items/editItem"));
+				.andExpect(model().attributeHasFieldErrors("item", "title"));
+			
 	}
 	
 	@WithMockUser(value = "admin")
@@ -109,9 +111,9 @@ class ItemControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testDeleteRuneWithoutLoginAsAdmin() throws Exception {
+	void testDeleteItemWithoutLoginAsAdmin() throws Exception {
 		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
 		mockMvc.perform(get("/items/{itemId}/remove", 1)).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/"));
+		.andExpect(view().name("redirect:/items"));
 	}
 }

@@ -30,7 +30,7 @@ import lombok.Setter;
 public class Build extends BaseEntity {
 
 	@NotBlank
-	@Size(min = 10, max = 40)
+	@Size(max = 40)
 	@Column(name = "title")
 	private String title;
 

@@ -24,21 +24,51 @@
 
 				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Home">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span><c:out value="${name}" /></span>
+					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
+				<petclinic:menuItem active="${name eq 'champions'}" url="/champions/"
+					title="champions">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
+					<span>Champions</span>
 				</petclinic:menuItem>
 
+				<petclinic:menuItem active="${name eq 'runes'}" url="/runes"
+					title="runes">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Runes</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'runePage'}" url="/runePages/mine"
+					title="runes page">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Rune Page</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'items'}" url="/items"
+					title="items">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Items</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'builds'}" url="/builds"
+					title="builds">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Builds</span>
+				</petclinic:menuItem>
+
+				<petclinic:menuItem active="${name eq 'threads'}" url="/threads"
+					title="threads">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Threads</span>
+				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'requests'}" url="/requests"
+					title="requests">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Requests</span>
+				</petclinic:menuItem>
+				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
@@ -54,6 +84,10 @@
 					<li><a
 						href="<c:url value="/actor/administrator/createAdministrator" />">Register
 							an admin</a></li>
+					<li><a
+						href="<c:url value="/actor/administrator/createReviewer" />">Register
+							a Reviewer</a></li>
+
 				</sec:authorize>
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
@@ -61,7 +95,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>Â 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>

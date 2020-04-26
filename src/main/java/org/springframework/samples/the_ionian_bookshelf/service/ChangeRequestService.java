@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class ChangeRequestService {
 
 		return res;
 	}
-	
+
 	@Transactional
 	public Collection<ChangeRequest> findMine(int summonerId) {
 		Collection<ChangeRequest> res = this.changeRepository.findChangeRequestsBySummonerId(summonerId);
@@ -83,15 +82,15 @@ public class ChangeRequestService {
 	}
 
 	@Transactional
-	public void save(ChangeRequest change) throws DataAccessException {
+	public void save(ChangeRequest request) throws DataAccessException {
 
-		assertNotNull(change);
+		assertNotNull(request);
 
 //		Actor principal = this.actorService.findByPrincipal();
 //
 //		assertTrue(this.actorService.checkAuthority(principal, Authority.SUMMONER));
 
-		this.changeRepository.save(change);
+		this.changeRepository.save(request);
 	}
 
 	@Transactional()

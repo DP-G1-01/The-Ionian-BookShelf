@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="builds" onload="updateForm()">
+<petclinic:layout pageName="Build" onload="updateForm()">
 	<h2>
 		<c:if test="${build['new']}">New </c:if>
 		Build
@@ -27,6 +27,12 @@
             </div>
 			<div class="control-group">
                     <petclinic:selectField name="items[0]" label="Items" names="${items}" size="6" />
+                    <petclinic:selectField name="items[1]" label="Items" names="${items}" size="6" />
+                    <petclinic:selectField name="items[2]" label="Items" names="${items}" size="6" />
+                    <petclinic:selectField name="items[3]" label="Items" names="${items}" size="6" />
+                    <petclinic:selectField name="items[4]" label="Items" names="${items}" size="6" />
+                    <petclinic:selectField name="items[5]" label="Items" names="${items}" size="6" />
+                        
             </div>
             </c:when>
             <c:otherwise>

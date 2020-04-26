@@ -3,32 +3,20 @@ package org.springframework.samples.the_ionian_bookshelf.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.security.Provider.Service;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import javax.transaction.Transactional;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.the_ionian_bookshelf.TheIonianBookshelfApplication;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
 @SpringBootTest
 @TestInstance (Lifecycle.PER_CLASS)
 public class ItemServiceTests {

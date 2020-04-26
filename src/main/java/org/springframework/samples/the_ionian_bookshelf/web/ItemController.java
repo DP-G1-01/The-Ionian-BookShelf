@@ -37,18 +37,13 @@ public class ItemController {
 		this.administratorService = administratorService;
 	}
 	
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
-	}
-	
-	@InitBinder("Item")
+	@InitBinder("item")
 	public void initItemBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new ItemValidator());
 	}
 	
 	@GetMapping(value = "/items")
-	public String processFindForm(Item item, BindingResult result, Model model) {
+	public String processFindForm(ModelMap model) {
 		
 		Collection<Item> results = this.itemService.findAll();
 			model.addAttribute("items",results);
@@ -82,7 +77,7 @@ public class ItemController {
 		return view;
 	}
 	
-	@PostMapping(value="items/save")
+	@PostMapping(value="/items/save")
 	public String salvarItem(@Valid Item item, BindingResult result, ModelMap model) {
 		
 		try {
@@ -117,7 +112,7 @@ public class ItemController {
 			return "redirect:/login";
 		} catch (AssertionError e) {
 			modelmap.addAttribute("message", "You must be logged in as an admin");
-			return "redirect:/";
+			return "redirect:/items";
 		}
 		
 		itemService.removeItemById(itemId);

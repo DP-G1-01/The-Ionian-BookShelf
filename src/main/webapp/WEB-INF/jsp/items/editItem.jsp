@@ -20,13 +20,10 @@
 			<petclinic:inputField label="Attribute2" name="attributes[1]"  />
 			<petclinic:inputField label="Attribute3" name="attributes[2]" />
 			<div class="control-group">
-                    <petclinic:selectField name="roles[0]" label="Role1" names="${role}" size="5" />
-            </div>
-	<%-- 		<div class="control-group">
-                    <petclinic:selectField name="branch" label="Branch " names="${branch}" size="5"/>
-            </div> 
-			<petclinic:inputField label="Node" name="node" />
-			--%>
+                    <petclinic:selectField name="roles[0]" label="Role1" names= "${role}" size ="7" /> 
+                    <petclinic:selectField name="roles[1]" label="Role2" names="${role}" size ="7" />
+                    <petclinic:selectField name="roles[2]" label="Role3" names="${role}"  size ="7"/>
+			</div>
 		</div>
 		<div class="form-group">
 			<input type="hidden" name="id" value="${item.id}" />

@@ -30,7 +30,7 @@ public class Item extends BaseEntity {
 
 	@Column(unique = true, name = "title")
 	@NotBlank
-	@Size(max = 60)
+	@Size(max = 40)
 	private String title;
 
 	@NotBlank
@@ -54,6 +54,7 @@ public class Item extends BaseEntity {
 			inverseJoinColumns = @JoinColumn(name="role_id"))
 	private List<Role> roles;
 
+	@Override
 	public String toString() {
 		return title;
 	}

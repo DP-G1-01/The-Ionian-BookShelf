@@ -26,7 +26,7 @@ import lombok.Setter;
 @Setter
 public class Actor extends BaseEntity {
 
-	@Column(name = "email", unique = true)
+	@Column(name = "email", unique = true, length=40)
 	@Email(regexp = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
 	@NotBlank
 	private String email;

@@ -28,6 +28,22 @@ public class VoteService {
 		return res;
 	}
 
+	public Collection<Vote> findByMessageId(int id) {
+
+		assertTrue(id != 0);
+		Collection<Vote> res = this.voteRepo.findByMessageId(id);
+		assertNotNull(res);
+		return res;
+	}
+
+	public void deleteByMessageId(int id) {
+
+		Collection<Vote> votes = this.findByMessageId(id);
+		for (Vote vote : votes) {
+			this.delete(vote);
+		}
+	}
+
 	public void delete(Vote vote) {
 		this.voteRepo.delete(vote);
 

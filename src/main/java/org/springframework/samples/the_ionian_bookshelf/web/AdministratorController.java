@@ -26,10 +26,15 @@ public class AdministratorController extends AbstractController {
 	public ModelAndView edit() {
 
 		ModelAndView res;
-		final Administrator principal = this.administratorService.findByPrincipal();
+		try {
+			final Administrator principal = this.administratorService.findByPrincipal();
 
-		res = this.createEditModelAndView(principal);
-
+			res = this.createEditModelAndView(principal);
+		} catch (Exception oups) {
+			return new ModelAndView("redirect:/");
+		} catch (AssertionError oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return res;
 	}
 
@@ -59,10 +64,14 @@ public class AdministratorController extends AbstractController {
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display() {
 		ModelAndView result;
-		final Administrator principal = this.administratorService.findByPrincipal();
+		try {
+			final Administrator principal = this.administratorService.findByPrincipal();
 
-		result = new ModelAndView("administrator/display");
-		result.addObject("administrator", principal);
+			result = new ModelAndView("administrator/display");
+			result.addObject("administrator", principal);
+		} catch (Throwable oups) {
+			return new ModelAndView("redirect:/");
+		}
 		return result;
 	}
 
