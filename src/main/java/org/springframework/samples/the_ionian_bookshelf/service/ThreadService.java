@@ -15,6 +15,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
+import org.springframework.samples.the_ionian_bookshelf.model.Vote;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,8 @@ public class ThreadService {
     private ThreadRepository threadRepo;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private VoteService voteService;
     @Autowired
     private AuthoritiesService authService;
     @Autowired
@@ -71,16 +74,17 @@ public class ThreadService {
         assertTrue(this.authService.checkAuthorities("administrator") || this.authService.checkAuthorities("reviewer"));
         assertFalse("NO SE PUEDE ELIMINAR UN THREAD VINCULADO A UNA LIGA", isAThreadFromLeague(thread));
         assertFalse("NO SE PUEDE ELIMINAR UN THREAD VINCULADO A UNA BUILD", isAThreadFromBuild(thread));
+        deleteFromVote(thread);
         this.threadRepo.delete(thread);
     }
 
-    // public void deleteFromVote(Thread thread) throws DataAccessException {
-    // assertNotNull(thread);
-    // Collection<Vote> votes = this.voteService.findByThread(thread);
-    // for (Vote vote : votes) {
-    // this.voteService.delete(vote);
-    // }
-    // }
+     public void deleteFromVote(Thread thread) throws DataAccessException {
+     assertNotNull(thread);
+     Collection<Vote> votes = this.voteService.findByThread(thread);
+     for (Vote vote : votes) {
+     this.voteService.delete(vote);
+     	}
+     }
 
     public void deleteFromMessages(Thread thread) throws DataAccessException {
         assertNotNull(thread);

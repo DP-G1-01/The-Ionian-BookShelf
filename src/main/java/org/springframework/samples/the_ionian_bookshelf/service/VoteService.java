@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Vote;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
+import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.repository.VoteRepository;
+import org.springframework.samples.the_ionian_bookshelf.security.LoginService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +19,11 @@ public class VoteService {
 
 	@Autowired
 	private VoteRepository voteRepo;
-
+	@Autowired
+	private ThreadService threadService;
+	@Autowired
+	private LoginService loginService;
+	
 	public Collection<Vote> findByThread(Thread thread) {
 
 		assertNotNull(thread);
@@ -27,6 +33,15 @@ public class VoteService {
 		assertNotNull(res);
 
 		return res;
+	}
+	
+	public void createUpVoteByThreadId(int id) {
+		assertTrue(id != 0);
+		Thread thread = threadService.findOne(id);
+		assertNotNull(thread);
+		User user = loginService.getPrincipal();
+		Vote vote = new Vote(user, null, thread, null, true);
+		voteRepo.save(vote);
 	}
 	
 	public void deleteByThreadId(int id) {
