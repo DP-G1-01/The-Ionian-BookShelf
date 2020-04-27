@@ -33,7 +33,7 @@ import org.springframework.samples.the_ionian_bookshelf.repository.ThreadReposit
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 public class BuildServiceTests {
-	
+
 	@Autowired
 	private BuildService buildService;
 
@@ -42,10 +42,10 @@ public class BuildServiceTests {
 
 	@Autowired
 	protected ChampionRepository championRepository;
-	
+
 	@Autowired
 	protected ItemRepository itemRepository;
-	
+
 	@Autowired
 	protected RoleRepository roleRepository;
 
@@ -54,17 +54,17 @@ public class BuildServiceTests {
 
 	@Autowired
 	protected LeagueRepository leagueRepository;
-	
+
 	@Autowired
 	protected SummonerRepository summonerRepository;
-	
+
 	@Test
 	@BeforeAll
 	void testFindAllPublics() {
 		Collection<Build> builds = buildService.findAllPublics();
 		assertEquals(buildRepository.findAllPublics().size(), builds.size());
 	}
-	
+
 	@Test
 	@Transactional
 	@AfterAll
@@ -72,7 +72,7 @@ public class BuildServiceTests {
 		buildRepository.deleteAll();
 		assertEquals(0, buildRepository.count());
 	}
-	
+
 	@Test
 	@Transactional
 	void testFindOne() {
@@ -80,56 +80,57 @@ public class BuildServiceTests {
 		Build build2 = buildRepository.findBuildById(1);
 		assertEquals(build, build2);
 	}
-	
+
 	@Test
 	@Transactional
 	void testFindOneError() {
-		AssertionError exception = assertThrows(AssertionError.class,()->buildService.findBuildById(3472));
+		AssertionError exception = assertThrows(AssertionError.class, () -> buildService.findBuildById(3472));
 		assertEquals(AssertionError.class, exception.getClass());
 	}
-	
+
 	@Test
 	@Transactional
 	void testRemoveBuildById() {
 		long l = buildRepository.count();
 		buildService.removeBuildById(1);
 		long l2 = buildRepository.count();
-		assertEquals((l-1), l2);
+		assertEquals((l - 1), l2);
 	}
-	
+
 	@Test
 	@Transactional
 	void testRemoveBuildByIdError() {
-		AssertionError exception = assertThrows(AssertionError.class,()->buildService.removeBuildById(4637));
+		AssertionError exception = assertThrows(AssertionError.class, () -> buildService.removeBuildById(4637));
 		assertEquals(AssertionError.class, exception.getClass());
 	}
-	
+
 	@Test
 	@Transactional
 	void testSaveBuild() {
-	Role r = new Role("Rol1", "Soy un rol de prueba ten paciencia", "https://www.youtube.com/");
-	roleRepository.save(r);
-	Champion c = new Champion("Cham1", "La descripción es algo superfluo sin cabida en una mente abierta",
-			10., 5., null, 20., 50., r);
-	championRepository.save(c);
-	Collection<Champion> mains = new ArrayList<Champion>();
-	mains.add(c);
-	User user = new User();
-	user.setUsername("Pepin");
-	user.setPassword("papin");
-	Summoner summoner = new Summoner();
-	summoner.setUser(user);
-	summoner.setEmail("pru@gmail.com");
-	summoner.setMains(mains);
-	Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan");
-	threadRepository.save(t1);
-	League leg = new League("L1", t1);
-	leagueRepository.save(leg);
-	summoner.setLeague(leg);
-	summonerRepository.save(summoner);
-	Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
-	buildService.saveBuild(build);
-	Build build2 = buildService.findBuildById(build.getId());
-	assertEquals(build, build2);
+		Role r = new Role("Rol1", "Soy un rol de prueba ten paciencia", "https://www.youtube.com/");
+		roleRepository.save(r);
+		Champion c = new Champion("Cham1", "La descripción es algo superfluo sin cabida en una mente abierta", 10., 5.,
+				null, 20., 50., r);
+		championRepository.save(c);
+		Collection<Champion> mains = new ArrayList<Champion>();
+		mains.add(c);
+		User user = new User();
+		user.setUsername("Pepin");
+		user.setPassword("papin");
+		Summoner summoner = new Summoner();
+		summoner.setUser(user);
+		summoner.setEmail("pru@gmail.com");
+		summoner.setMains(mains);
+		Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan", null);
+		threadRepository.save(t1);
+		League leg = new League("L1", t1);
+		leagueRepository.save(leg);
+		summoner.setLeague(leg);
+		summonerRepository.save(summoner);
+		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false,
+				new ArrayList<>(), c, null, null, summoner);
+		buildService.saveBuild(build);
+		Build build2 = buildService.findBuildById(build.getId());
+		assertEquals(build, build2);
 	}
 }

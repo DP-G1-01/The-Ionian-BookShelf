@@ -23,8 +23,22 @@ public class VoteController {
 	@GetMapping("/threads/{threadId}/upVote")
 	public String upVoteThread(ModelMap map, @PathVariable("threadId") int threadId) {
 		
-		voteService.createUpVoteByThreadId(threadId);
+		try {
+			voteService.createUpVoteByThreadId(threadId);	
+		} catch (AssertionError e) {
+			return "/threads/error";
+		}
+		return "redirect:/threads";
+	}
+	
+	@GetMapping("/threads/{threadId}/downVote")
+	public String downThread(ModelMap map, @PathVariable("threadId") int threadId) {
 		
+		try {
+			voteService.createDownVoteByThreadId(threadId);	
+		} catch (AssertionError e) {
+			return "/threads/error";
+		}
 		return "redirect:/threads";
 	}
 }

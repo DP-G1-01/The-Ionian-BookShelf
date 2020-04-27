@@ -82,7 +82,7 @@ public class BuildControllerTests {
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
 		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
-		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala");
+		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala", null);
 		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true, new ArrayList<>(), c, null, thr, summoner);
 		List<Build> list = new ArrayList<>();
 		list.add(build);

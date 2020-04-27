@@ -30,7 +30,7 @@ public class Vote extends BaseEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "voter_id")
-	private User voter;
+	private Summoner voter;
 
 	@Valid
 	@ManyToOne(optional = true)
