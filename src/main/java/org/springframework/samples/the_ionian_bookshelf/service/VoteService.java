@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Vote;
+import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.repository.VoteRepository;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,25 @@ public class VoteService {
 
 		return res;
 	}
+	
+	public void deleteByThreadId(int id) {
+		Collection<Vote> votes = this.voteRepo.findByThread(id);
+		for (Vote vote : votes) {
+			this.delete(vote);
+		}
+	}
+	
+	public Integer getPuntuationThread(Thread thread) {
+		assertNotNull(thread);
+		assertTrue(thread.getId() != 0);
+		Integer positives = this.voteRepo.countPositivesVotesByThread(thread.getId());
+		Integer negatives = this.voteRepo.countNegativesVotesByThread(thread.getId());
+		
+		return positives-negatives;
+		
+	}
 
 	public Collection<Vote> findByMessageId(int id) {
-
 		assertTrue(id != 0);
 		Collection<Vote> res = this.voteRepo.findByMessageId(id);
 		assertNotNull(res);
@@ -37,16 +54,24 @@ public class VoteService {
 	}
 
 	public void deleteByMessageId(int id) {
-
-		Collection<Vote> votes = this.findByMessageId(id);
+		Collection<Vote> votes = this.voteRepo.findByMessageId(id);
 		for (Vote vote : votes) {
 			this.delete(vote);
 		}
 	}
+	
+	public Integer getPuntuationMessage(Message message) {
+		assertNotNull(message);
+		assertTrue(message.getId() != 0);
+		Integer positives = this.voteRepo.countPositivesVotesByThread(message.getId());
+		Integer negatives = this.voteRepo.countNegativesVotesByThread(message.getId());
+		
+		return positives-negatives;
+		
+	}
 
 	public void delete(Vote vote) {
 		this.voteRepo.delete(vote);
-
 	}
 
 }

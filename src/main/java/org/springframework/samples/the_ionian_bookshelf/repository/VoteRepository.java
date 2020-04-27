@@ -12,8 +12,20 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
 	@Query("select vote from Vote vote where vote.thread.id = ?1")
 	Collection<Vote> findByThread(int id);
+	
+	@Query("select count(vote) from Vote vote where vote.thread.id = ?1 and vote.status = TRUE")
+	Integer countPositivesVotesByThread(int id);
 
+	@Query("select count(vote) from Vote vote where vote.thread.id = ?1 and vote.status = FALSE")
+	Integer countNegativesVotesByThread(int id);
+	
 	@Query("select vote from Vote vote where vote.message.id = ?1")
 	Collection<Vote> findByMessageId(int id);
+	
+	@Query("select count(vote) from Vote vote where vote.message.id = ?1 and vote.status = TRUE")
+	Integer countPositivesVotesByMessage(int id);
+
+	@Query("select count(vote) from Vote vote where vote.message.id = ?1 and vote.status = FALSE")
+	Integer countNegativesVotesByMessage(int id);
 
 }

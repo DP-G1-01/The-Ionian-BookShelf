@@ -10,6 +10,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
+import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,12 +25,15 @@ public class ThreadController {
 	
 	private final MessageService messageService;
 	
+	private final VoteService voteService;
+	
 	private final AdministratorService administratorService;
 
 	@Autowired
-	public ThreadController(final ThreadService threadService, final MessageService messageService, final AdministratorService administratorService) {
+	public ThreadController(final ThreadService threadService, final MessageService messageService,final VoteService voteService, final AdministratorService administratorService) {
 		this.threadService = threadService;
 		this.messageService = messageService;
+		this.voteService = voteService;
 		this.administratorService = administratorService;
 	}
 
@@ -38,6 +42,9 @@ public class ThreadController {
 	public String showThreadList(ModelMap modelMap) {
 		String vista = "threads/listadoThreads";
 		Iterable<Thread> threads = this.threadService.findAll();
+		for(Thread thread : threads) {
+			thread.setPunctuation(voteService.getPuntuationThread(thread));
+		}
 		modelMap.addAttribute("threads", threads);
 		return vista;
 	}
