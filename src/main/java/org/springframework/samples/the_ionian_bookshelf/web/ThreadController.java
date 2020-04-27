@@ -20,17 +20,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ThreadController {
-	
+
 	private final ThreadService threadService;
-	
+
 	private final MessageService messageService;
-	
+
 	private final VoteService voteService;
-	
+
 	private final AdministratorService administratorService;
 
 	@Autowired
-	public ThreadController(final ThreadService threadService, final MessageService messageService,final VoteService voteService, final AdministratorService administratorService) {
+	public ThreadController(final ThreadService threadService, final MessageService messageService,
+			final VoteService voteService, final AdministratorService administratorService) {
 		this.threadService = threadService;
 		this.messageService = messageService;
 		this.voteService = voteService;
@@ -42,7 +43,7 @@ public class ThreadController {
 	public String showThreadList(ModelMap modelMap) {
 		String vista = "threads/listadoThreads";
 		Iterable<Thread> threads = this.threadService.findAll();
-		for(Thread thread : threads) {
+		for (Thread thread : threads) {
 			thread.setPunctuation(voteService.getPuntuationThread(thread));
 		}
 		modelMap.addAttribute("threads", threads);
@@ -55,6 +56,9 @@ public class ThreadController {
 		String vista = "messages/listadoMessages";
 		Thread thread = this.threadService.findOne(threadId);
 		Iterable<Message> messages = this.messageService.findByThread(thread);
+		for (Message message : messages) {
+			message.setPunctuation(voteService.getPuntuationMessage(message));
+		}
 		map.addAttribute("messages", messages);
 		map.addAttribute("threadId", threadId);
 		map.addAttribute("title", thread.getTitle());
@@ -86,7 +90,7 @@ public class ThreadController {
 	@GetMapping(value = "/threads/{threadId}/remove")
 	public String deleteThread(@PathVariable("threadId") int threadId, ModelMap modelMap) {
 		try {
-			this.administratorService.findByPrincipal();	
+			this.administratorService.findByPrincipal();
 		} catch (AssertionError e) {
 			modelMap.addAttribute("message", "You must be logged in as an admin");
 			return "redirect:/login";
@@ -98,9 +102,9 @@ public class ThreadController {
 		if (thread != null) {
 			try {
 				this.threadService.deleteFromMessages(thread);
-				this.threadService.delete(thread);	
+				this.threadService.delete(thread);
 			} catch (AssertionError e) {
-				modelMap.addAttribute("message",e.getMessage());
+				modelMap.addAttribute("message", e.getMessage());
 				return "/threads/error";
 			}
 			modelMap.addAttribute("message", "Thread deleted successfully");
@@ -109,5 +113,5 @@ public class ThreadController {
 		}
 		return "redirect:/threads";
 	}
-	
+
 }

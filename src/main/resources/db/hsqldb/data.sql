@@ -1,58 +1,72 @@
 INSERT INTO threads 
             (id, 
              description, 
-             title) 
+             title,
+             punctuation) 
 VALUES     (1, 
             'The IonianBookshelf´s Basic Thread', 
-            'Basic Thread'); 
+            'Basic Thread',
+            null); 
 
 INSERT INTO threads 
             (id, 
              description, 
-             title) 
+             title,
+             punctuation) 
 VALUES     (2, 
             'The IonianBookshelf´s Bronze Thread', 
-            'Bronze thread'); 
+            'Bronze thread',
+            null); 
 
 INSERT INTO threads 
             (id, 
              description, 
-             title) 
+             title,
+             punctuation) 
 VALUES      (3, 
              'Thread de la League de Silver', 
-             'SILVER'); 
+             'SILVER',
+             null); 
 
 INSERT INTO threads 
             (id, 
              description, 
-             title) 
+             title,
+             punctuation) 
 VALUES      (4, 
 			'Creo que Maestro Yi está over powereado. Estoy en una liga baja y no sé jugar contra alguien que elija este champion', 
-			'Yi OP'); 
+			'Yi OP'
+			null); 
 
 INSERT INTO threads 
             (id, 
              description, 
-             title) 
+             title,
+             punctuation) 
 VALUES      (5, 
 'Os dejo esta build que recomiendo para jugar Shaco con el rol de Support', 
-'Build para jugar con Shaco support'); 
+'Build para jugar con Shaco support',
+null); 
 
 INSERT INTO threads 
             (id, 
              description, 
-             title) 
+             title,
+             punctuation) 
 VALUES      (6, 
              'Description de ejemplo', 
-             'Thread de ejemplo'); 
+             'Thread de ejemplo',
+             null); 
              
 INSERT INTO threads
 			(id,
 			 description,
-			 title)
+			 title,
+             punctuation)
 VALUES		(100,
 			 'Test Thread for MessageServiceTest',
-			 'Test Thread');
+			 'Test Thread',
+			 null);
 
 INSERT INTO leagues 
             (id, 

@@ -54,4 +54,7 @@ public class Message extends BaseEntity {
 	@JoinColumn(name = "thread_id")
 	private Thread thread;
 
+	@Column(name = "punctuation")
+	public Integer punctuation;
+
 }

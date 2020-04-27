@@ -3,8 +3,8 @@ package org.springframework.samples.the_ionian_bookshelf.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class SummonerController extends AbstractController {
 
 	@PostMapping(value = "/edit", params = "save")
 	public ModelAndView save(@ModelAttribute("actor") @Valid final Summoner summoner, final BindingResult binding,
-			List<Integer> champsId) {
+			HttpServletRequest request) {
 
 		ModelAndView res;
 
@@ -60,8 +60,9 @@ public class SummonerController extends AbstractController {
 		else
 			try {
 				Collection<Champion> champs = new ArrayList<Champion>();
-				for (Integer id : champsId) {
-					champs.add(this.champService.findChampionById(id));
+				String[] champsId = request.getParameterValues("champsId");
+				for (String id : champsId) {
+					champs.add(this.champService.findChampionById(Integer.parseInt(id)));
 				}
 				summoner.setMains(champs);
 				this.summonerService.save(summoner);

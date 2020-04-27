@@ -270,7 +270,7 @@ public class BuildController {
 
             if (build.isVisibility() == true && build.getThread() == null) {
                 Thread th = new Thread("Thread of " + build.getTitle(), "Este es el thread publico de la build "
-                        + build.getTitle() + ", cuyo autor es " + build.getSummoner().getUser().getUsername());
+                        + build.getTitle() + ", cuyo autor es " + build.getSummoner().getUser().getUsername(), null);
                 threadService.save(th);
                 build.setThread(th);
             }

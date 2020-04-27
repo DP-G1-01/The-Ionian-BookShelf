@@ -51,7 +51,7 @@ public class MessageValidatorTest {
 		Summoner summ = this.summService.findOne(summonerId);
 		Thread thread = this.threadService.findOne(threadId);
 
-		Message toTest = new Message(text, moment, summ, thread);
+		Message toTest = new Message(text, moment, summ, thread, null);
 
 		if (toTest.getText().length() >= 10 && toTest.getText().length() <= 500) {
 			assertTrue(true);
@@ -75,7 +75,7 @@ public class MessageValidatorTest {
 		Summoner summ = this.summService.findOne(summonerId);
 		Thread thread = this.threadService.findOne(threadId);
 
-		Message toTest = new Message(text, moment, summ, thread);
+		Message toTest = new Message(text, moment, summ, thread, null);
 
 		Date now = new Date(System.currentTimeMillis());
 
@@ -104,7 +104,7 @@ public class MessageValidatorTest {
 			Summoner summ = this.summService.findOne(summonerId);
 			Thread thread = this.threadService.findOne(threadId);
 
-			Message toTest = new Message(text, moment, summ, thread);
+			Message toTest = new Message(text, moment, summ, thread, null);
 
 			if (!toTest.getSummoner().equals(null))
 				assertTrue(true);
@@ -124,7 +124,7 @@ public class MessageValidatorTest {
 			Summoner summ = this.summService.findOne(summonerId);
 			Thread thread = this.threadService.findOne(threadId);
 
-			Message toTest = new Message(text, moment, summ, thread);
+			Message toTest = new Message(text, moment, summ, thread, null);
 
 			if (!toTest.getThread().equals(null))
 				assertTrue(true);
