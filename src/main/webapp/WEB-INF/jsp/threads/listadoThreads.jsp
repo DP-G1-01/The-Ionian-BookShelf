@@ -9,6 +9,13 @@
 
 <petclinic:layout pageName="threads">
 	<h2>Threads</h2>
+	
+	<security:authorize access="isAuthenticated()">
+		<spring:url value="/threads/new" var="addThreadUrl" />
+		<a style="background-color: #000000 ; padding: 10px; border-radius:20px; float:right;" href="${fn:escapeXml(addThreadUrl)}">Add
+			New Thread</a>
+	</security:authorize>
+	<br><br><br>
 
 	<table id="threadsTable" class="table table-striped">
 		<thead>
@@ -59,11 +66,5 @@
 			</c:forEach>
 		</tbody>
 	</table>
-
-	<security:authorize access="isAuthenticated()">
-		<spring:url value="/threads/new" var="addThreadUrl" />
-		<a href="${fn:escapeXml(addThreadUrl)}" class="btn btn-default">Add
-			New Thread</a>
-	</security:authorize>
 
 </petclinic:layout>

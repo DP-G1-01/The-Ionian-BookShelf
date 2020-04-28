@@ -1,9 +1,6 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
-import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
-import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +23,7 @@ public class VoteController {
 		try {
 			voteService.createUpVoteByThreadId(threadId);	
 		} catch (AssertionError e) {
-			return "/threads/error";
+			return "/votes/voteError";
 		}
 		return "redirect:/threads";
 	}
@@ -37,7 +34,7 @@ public class VoteController {
 		try {
 			voteService.createDownVoteByThreadId(threadId);	
 		} catch (AssertionError e) {
-			return "/threads/error";
+			return "/votes/voteError";
 		}
 		return "redirect:/threads";
 	}
