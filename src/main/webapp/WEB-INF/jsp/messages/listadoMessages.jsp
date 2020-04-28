@@ -20,6 +20,10 @@
 				<th style="width: 200px;">Text</th>
 				<th style="width: 100px;">Moment</th>
 				<th style="width: 120px;">Summoner</th>
+				<th style="width: 120px;">Punctuation</th>
+				<security:authorize access="isAuthenticated()">
+					<th style="width: 120px;">Vote</th>
+				</security:authorize>
 				<security:authorize
 					access="hasAnyAuthority('administrator','reviewer')">
 					<th style="width: 120px;">Actions</th>
@@ -38,7 +42,7 @@
 								var="messageUpVote">
 								<spring:param name="messageId" value="${message.id}"></spring:param>
 							</spring:url> <a href="${fn:escapeXml(messageUpVote)}">Up Vote Message</a> <br>
-							<spring:url value="/messages/{messageId}/downVote"
+							<spring:url value="/message/{messageId}/downVote"
 								var="messageDownVote">
 								<spring:param name="messageId" value="${message.id}"></spring:param>
 							</spring:url> <a href="${fn:escapeXml(messageDownVote)}">Down Vote message</a>
