@@ -14,6 +14,7 @@
 		Messages from thread:
 		<c:out value="${title}"></c:out>
 	</h2>
+	
 	<table id="messagesTable" class="table table-striped">
 		<thead>
 			<tr>

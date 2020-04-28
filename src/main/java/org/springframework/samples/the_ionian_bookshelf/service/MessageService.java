@@ -88,7 +88,7 @@ public class MessageService {
 	public Message saveMessage(Message message) throws DataAccessException {
 
 		assertNotNull(message);
-		assertTrue(message.getId() == 0);
+		//assertTrue(message.getId() == 0);
 		Summoner principal = this.summonerService.findByPrincipal();
 		Date moment;
 		moment = new Date(System.currentTimeMillis() - 1);
