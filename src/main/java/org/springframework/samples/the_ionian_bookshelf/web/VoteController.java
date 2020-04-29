@@ -39,25 +39,25 @@ public class VoteController {
 		return "redirect:/threads";
 	}
 	
-	@GetMapping("/message/{messageId}/upVote")
-	public String upVoteMessage(ModelMap map, @PathVariable("messageId") int messageId) {
+	@GetMapping("threads/{threadId}/message/{messageId}/upVote")
+	public String upVoteMessage(ModelMap map, @PathVariable("threadId") int threadId, @PathVariable("messageId") int messageId) {
 		
 		try {
 			voteService.createUpVoteByMessageId(messageId);	
 		} catch (AssertionError e) {
 			return "/votes/voteError";
 		}
-		return "redirect:/threads/"+messageId;
+		return "redirect:/threads/"+threadId;
 	}
 	
-	@GetMapping("/message/{messageId}/downVote")
-	public String downVoteMessage(ModelMap map, @PathVariable("messageId") int messageId) {
+	@GetMapping("threads/{threadId}/message/{messageId}/downVote")
+	public String downVoteMessage(ModelMap map, @PathVariable("threadId") int threadId,@PathVariable("messageId") int messageId) {
 		
 		try {
 			voteService.createDownVoteByMessageId(messageId);	
 		} catch (AssertionError e) {
 			return "/votes/voteError";
 		}
-		return "redirect:/threads/"+messageId;
+		return "redirect:/threads/"+threadId;
 	}
 }

@@ -39,12 +39,14 @@
 					<td><c:out value="${message.summoner.user.username}" /></td>
 					<td><c:out value="${message.punctuation}" /></td>
 					<security:authorize access="hasAnyAuthority('summoner')">
-						<td><spring:url value="/message/{messageId}/upVote"
+						<td><spring:url value="{threadId}/message/{messageId}/upVote"
 								var="messageUpVote">
+								<spring:param name="threadId" value="${message.thread.id}"></spring:param>
 								<spring:param name="messageId" value="${message.id}"></spring:param>
-							</spring:url> <a href="${fn:escapeXml(messageUpVote)}">Up Vote Message</a> <br>
-							<spring:url value="/message/{messageId}/downVote"
+								</spring:url> <a href="${fn:escapeXml(messageUpVote)}">Up Vote Message</a> <br>
+							<spring:url value="{threadId}/message/{messageId}/downVote"
 								var="messageDownVote">
+								<spring:param name="threadId" value="${message.thread.id}"></spring:param>
 								<spring:param name="messageId" value="${message.id}"></spring:param>
 							</spring:url> <a href="${fn:escapeXml(messageDownVote)}">Down Vote message</a>
 						</td>
