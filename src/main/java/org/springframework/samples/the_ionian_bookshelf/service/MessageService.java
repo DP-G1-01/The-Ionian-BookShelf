@@ -44,7 +44,6 @@ public class MessageService {
 	public Message create(int threadId) {
 		assertNotEquals(threadId, 0);
 		Message res = new Message();
-		res.setId(0);
 		Date moment;
 		moment = new Date(System.currentTimeMillis() - 1);
 		res.setMoment(moment);

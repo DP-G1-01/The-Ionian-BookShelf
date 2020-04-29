@@ -22,7 +22,7 @@
 				<th style="width: 100px;">Moment</th>
 				<th style="width: 120px;">Summoner</th>
 				<th style="width: 120px;">Punctuation</th>
-				<security:authorize access="isAuthenticated()">
+				<security:authorize access="hasAnyAuthority('summoner')">
 					<th style="width: 120px;">Vote</th>
 				</security:authorize>
 				<security:authorize
@@ -66,7 +66,7 @@
 		</tbody>
 	</table>
 
-	<security:authorize access="isAuthenticated()">
+	<security:authorize access="hasAnyAuthority('summoner')">
 		<spring:url value="{threadId}/messages/new" var="addMessageUrl">
 			<spring:param name="threadId" value="${threadId}" />
 		</spring:url>

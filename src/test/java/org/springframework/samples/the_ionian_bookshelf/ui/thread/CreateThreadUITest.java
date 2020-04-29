@@ -39,14 +39,14 @@ public class CreateThreadUITest {
     driver.findElement(By.id("username")).sendKeys("admin");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[7]/a/span")).click();
-    driver.findElement(By.xpath("//a[contains(text(),'Add\n		New Thread')]")).click();
+    driver.findElement(By.xpath("//a[contains(text(),'Add\n			New Thread')]")).click();
     driver.findElement(By.id("title")).clear();
-    driver.findElement(By.id("title")).sendKeys("New Thread");
+    driver.findElement(By.id("title")).sendKeys("Nuevo Hilo");
     driver.findElement(By.id("description")).clear();
     driver.findElement(By.id("description")).sendKeys("DescriptionTestNewUI");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[7]/a/span")).click();
-    assertEquals("New Thread", driver.findElement(By.xpath("//a[contains(text(),'New Thread')]")).getText());
+    assertEquals("Nuevo Hilo", driver.findElement(By.xpath("//a[contains(text(),'Nuevo Hilo')]")).getText());
   }
   
   @Test

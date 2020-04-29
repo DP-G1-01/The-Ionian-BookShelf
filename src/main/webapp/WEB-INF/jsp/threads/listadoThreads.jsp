@@ -23,7 +23,7 @@
 				<th style="width: 150px;">Title</th>
 				<th style="width: 200px;">Description</th>
 				<th style="width: 120px;">Punctuation</th>
-				<security:authorize access="isAuthenticated()">
+				<security:authorize access="hasAnyAuthority('summoner')">
 					<th style="width: 120px;">Vote</th>
 				</security:authorize>
 				<security:authorize
@@ -43,7 +43,7 @@
 
 					<td><c:out value="${thread.description}" /></td>
 					<td><c:out value="${thread.punctuation}" /></td>
-					<security:authorize access="isAuthenticated()">
+					<security:authorize access="hasAnyAuthority('summoner')">
 						<td><spring:url value="/threads/{threadId}/upVote"
 								var="threadUpVote">
 								<spring:param name="threadId" value="${thread.id}"></spring:param>
