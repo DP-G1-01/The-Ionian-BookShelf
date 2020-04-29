@@ -27,17 +27,6 @@ public class VoteService {
 	@Autowired
 	private SummonerService summonerService;
 
-	public Vote create(boolean status) {
-
-		Summoner voter = this.summonerService.findByPrincipal();
-
-		Vote res = new Vote();
-		res.setStatus(status);
-		res.setVoter(voter);
-
-		return res;
-	}
-
 	public Collection<Vote> findByThread(Thread thread) {
 
 		assertNotNull(thread);
@@ -49,7 +38,6 @@ public class VoteService {
 		return res;
 	}
 
-	
 	public void createUpVoteByThreadId(int id) {
 		assertTrue(id != 0);
 		Thread thread = threadService.findOne(id);
@@ -58,19 +46,19 @@ public class VoteService {
 		assertNotNull(voter);
 		Collection<Vote> votes = voteRepo.findByThread(id);
 		assertNotNull(votes);
-		for(Vote v : votes) {
-			if(v.getVoter().equals(voter)) {
-				if(v.isStatus()==false) {
+		for (Vote v : votes) {
+			if (v.getVoter().getId().equals(voter.getId())) {
+				if (v.isStatus() == false) {
 					delete(v);
-				}else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO",v.getVoter(),voter);
+				} else {
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
 				}
 			}
 		}
 		Vote vote = new Vote(voter, null, thread, null, true);
 		save(vote);
 	}
-	
+
 	public void createDownVoteByThreadId(int id) {
 		assertTrue(id != 0);
 		Thread thread = threadService.findOne(id);
@@ -79,12 +67,12 @@ public class VoteService {
 		assertNotNull(voter);
 		Collection<Vote> votes = voteRepo.findByThread(id);
 		assertNotNull(votes);
-		for(Vote v : votes) {
-			if(v.getVoter().equals(voter)) {
-				if(v.isStatus()==true) {
+		for (Vote v : votes) {
+			if (v.getVoter().getId().equals(voter.getId())) {
+				if (v.isStatus() == true) {
 					delete(v);
-				}else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO",v.getVoter(),voter);
+				} else {
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
 				}
 			}
 		}
@@ -92,8 +80,8 @@ public class VoteService {
 		save(vote);
 	}
 
-
 	public void deleteByThreadId(int id) {
+		assertTrue(id != 0);
 		Collection<Vote> votes = this.voteRepo.findByThread(id);
 		for (Vote vote : votes) {
 			this.delete(vote);
@@ -117,13 +105,6 @@ public class VoteService {
 		return res;
 	}
 
-	public void deleteByMessageId(int id) {
-		Collection<Vote> votes = this.voteRepo.findByMessageId(id);
-		for (Vote vote : votes) {
-			this.delete(vote);
-		}
-	}
-
 	public Integer getPuntuationMessage(Message message) {
 		assertNotNull(message);
 		assertTrue(message.getId() != 0);
@@ -134,15 +115,6 @@ public class VoteService {
 
 	}
 
-	public void save(Vote vote) {
-		assertNotNull(vote);
-		this.voteRepo.save(vote);
-	}
-
-	public void delete(Vote vote) {
-		this.voteRepo.delete(vote);
-	}
-
 	public void createUpVoteByMessageId(int messageId) {
 		assertTrue(messageId != 0);
 		Message message = messageService.findOneMesageById(messageId);
@@ -151,12 +123,12 @@ public class VoteService {
 		assertNotNull(voter);
 		Collection<Vote> votes = voteRepo.findByMessageId(messageId);
 		assertNotNull(votes);
-		for(Vote v : votes) {
-			if(v.getVoter().equals(voter)) {
-				if(v.isStatus()==false) {
+		for (Vote v : votes) {
+			if (v.getVoter().getId().equals(voter.getId())) {
+				if (v.isStatus() == false) {
 					delete(v);
-				}else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO",v.getVoter(),voter);
+				} else {
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
 				}
 			}
 		}
@@ -172,17 +144,34 @@ public class VoteService {
 		assertNotNull(voter);
 		Collection<Vote> votes = voteRepo.findByMessageId(messageId);
 		assertNotNull(votes);
-		for(Vote v : votes) {
-			if(v.getVoter().equals(voter)) {
-				if(v.isStatus()==true) {
+		for (Vote v : votes) {
+			if (v.getVoter().getId().equals(voter.getId())) {
+				if (v.isStatus() == true) {
 					delete(v);
-				}else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO",v.getVoter(),voter);
+				} else {
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
 				}
 			}
 		}
 		Vote vote = new Vote(voter, null, null, message, false);
 		save(vote);
+	}
+
+	public void deleteByMessageId(int id) {
+		assertTrue(id != 0);
+		Collection<Vote> votes = this.voteRepo.findByMessageId(id);
+		for (Vote vote : votes) {
+			this.delete(vote);
+		}
+	}
+
+	public void save(Vote vote) {
+		assertNotNull(vote);
+		this.voteRepo.save(vote);
+	}
+
+	public void delete(Vote vote) {
+		this.voteRepo.delete(vote);
 	}
 
 }

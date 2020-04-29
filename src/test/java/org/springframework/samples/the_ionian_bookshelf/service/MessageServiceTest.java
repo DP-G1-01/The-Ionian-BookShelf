@@ -27,11 +27,6 @@ public class MessageServiceTest extends AbstractTest {
 	private ThreadService threadService;
 
 	@Test
-	void createTest() {
-
-	}
-
-	@Test
 	void findAllTest() {
 
 		Iterable<Message> aux = this.messageService.findAll();
