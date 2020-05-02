@@ -51,7 +51,7 @@ public class BuildController {
     }
 
     @GetMapping(value = "/builds")
-    public String listPublicBuilds(Item Build, BindingResult result, Model model) {
+    public String listPublicBuilds(ModelMap model) {
 
         Collection<Build> builds = this.buildService.findAllPublics();
         model.addAttribute("builds", builds);
@@ -59,7 +59,7 @@ public class BuildController {
     }
 
     @GetMapping(value = "/mine/builds")
-    public String listMineBuilds(Item Build, BindingResult result, Model model) {
+    public String listMineBuilds(ModelMap model) {
 
         try {
             this.summonerService.findByPrincipal();

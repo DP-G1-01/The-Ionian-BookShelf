@@ -205,7 +205,7 @@ public class ChangeRequestController {
 			model.addAttribute("message","Change Request save successfully");
 		}
 		
-		return "redirect:/";
+		return "redirect:/mine/requests";
 	}
 	
 	@GetMapping(value="/requests/{requestId}/accept")
