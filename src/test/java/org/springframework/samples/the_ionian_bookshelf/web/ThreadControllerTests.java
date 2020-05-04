@@ -30,6 +30,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
+import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -51,6 +52,9 @@ public class ThreadControllerTests {
 
 	@MockBean
 	private MessageService messageService;
+	
+	@MockBean
+	private VoteService voteService;
 
 	@MockBean
 	private AdministratorService administratorService;
