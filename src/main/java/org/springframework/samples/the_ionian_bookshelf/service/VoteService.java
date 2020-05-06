@@ -51,7 +51,7 @@ public class VoteService {
 				if (v.isStatus() == false) {
 					delete(v);
 				} else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.isStatus(), true);
 				}
 			}
 		}
@@ -72,7 +72,7 @@ public class VoteService {
 				if (v.isStatus() == true) {
 					delete(v);
 				} else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.isStatus(), false);
 				}
 			}
 		}
@@ -128,7 +128,7 @@ public class VoteService {
 				if (v.isStatus() == false) {
 					delete(v);
 				} else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.isStatus(), true);
 				}
 			}
 		}
@@ -149,7 +149,7 @@ public class VoteService {
 				if (v.isStatus() == true) {
 					delete(v);
 				} else {
-					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.getVoter(), voter);
+					assertNotEquals("HAS VUELTO A VOTAR LO MISMO", v.isStatus(), false);
 				}
 			}
 		}
