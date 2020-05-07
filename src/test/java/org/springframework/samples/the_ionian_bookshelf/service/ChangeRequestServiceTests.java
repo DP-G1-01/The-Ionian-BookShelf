@@ -71,13 +71,13 @@ public class ChangeRequestServiceTests {
 		assertEquals(0, changeRequestRepository.count());
 	}
 	
-	@Test
-	@Transactional
-	void testFindOne() {
-		ChangeRequest requests = changeRequestService.findChangeRequestById(1);
-		ChangeRequest requests2 = changeRequestRepository.findChangeRequestById(1);
-		assertEquals(requests, requests2);
-	}
+//	@Test
+//	@Transactional
+//	void testFindOne() {
+//		ChangeRequest requests = changeRequestService.findChangeRequestById(1);
+//		ChangeRequest requests2 = changeRequestRepository.findChangeRequestById(1);
+//		assertEquals(requests, requests2);
+//	}
 	
 	@Test
 	@Transactional

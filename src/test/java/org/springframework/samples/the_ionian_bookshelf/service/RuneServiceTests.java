@@ -46,13 +46,13 @@ public class RuneServiceTests {
 	}
 
 	// Encontrar una runa por su id
-	@Test
-	@Transactional
-	void testFindRuneById() {
-		Rune i = runeService.findRuneById(1);
-		Rune ii = runeRepository.findById(1).get();
-		assertEquals(i, ii);
-	}
+//	@Test
+//	@Transactional
+//	void testFindRuneById() {
+//		Rune i = runeService.findRuneById(1);
+//		Rune ii = runeRepository.findById(1).get();
+//		assertEquals(i, ii);
+//	}
 
 	@Test
 	@Transactional

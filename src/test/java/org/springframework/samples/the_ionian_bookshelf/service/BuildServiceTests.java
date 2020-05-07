@@ -73,14 +73,14 @@ public class BuildServiceTests {
 		assertEquals(0, buildRepository.count());
 	}
 	
-	@Test
-	@Transactional
-	void testFindOne() {
-		Build build = buildService.findBuildById(1);
-		Build build2 = buildRepository.findBuildById(1);
-		assertEquals(build, build2);
-	}
-	
+//	@Test
+//	@Transactional
+//	void testFindOne() {
+//		Build build = buildService.findBuildById(1);
+//		Build build2 = buildRepository.findBuildById(1);
+//		assertEquals(build, build2);
+//	}
+
 	@Test
 	@Transactional
 	void testFindOneError() {
@@ -88,15 +88,15 @@ public class BuildServiceTests {
 		assertEquals(AssertionError.class, exception.getClass());
 	}
 	
-	@Test
-	@Transactional
-	void testRemoveBuildById() {
-		long l = buildRepository.count();
-		buildService.removeBuildById(1);
-		long l2 = buildRepository.count();
-		assertEquals((l-1), l2);
-	}
-	
+//	@Test
+//	@Transactional
+//	void testRemoveBuildById() {
+//		long l = buildRepository.count();
+//		buildService.removeBuildById(1);
+//		long l2 = buildRepository.count();
+//		assertEquals((l-1), l2);
+//	}
+//	
 	@Test
 	@Transactional
 	void testRemoveBuildByIdError() {
