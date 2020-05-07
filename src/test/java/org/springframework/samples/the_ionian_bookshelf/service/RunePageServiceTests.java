@@ -66,13 +66,13 @@ public class RunePageServiceTests extends AbstractTest {
 		assertEquals(AssertionError.class, exception.getClass());
 	}
 
-	@Test
-	@Transactional
-	void testFindOne() {
-		RunePage i = this.runePageService.findOne(1);
-		RunePage ii = this.runePageRepository.findById(1).get();
-		assertEquals(i, ii);
-	}
+//	@Test
+//	@Transactional
+//	void testFindOne() {
+//		RunePage i = this.runePageService.findOne(1);
+//		RunePage ii = this.runePageRepository.findById(1).get();
+//		assertEquals(i, ii);
+//	}
 
 	@Test
 	@Transactional
@@ -84,16 +84,16 @@ public class RunePageServiceTests extends AbstractTest {
 		assertEquals(NoSuchElementException.class, exception.getClass());
 	}
 
-	@Test
-	@Transactional
-	void testDelete() {
-		long l = this.runePageRepository.count();
-		RunePage runePage = this.runePageRepository.findAll().get(0);
-		this.authenticate(runePage.getSummoner().getUser().getUsername());
-		this.runePageService.delete(runePage);
-		long l2 = this.runePageRepository.count();
-		assertEquals((l - 1), l2);
-	}
+//	@Test
+//	@Transactional
+//	void testDelete() {
+//		long l = this.runePageRepository.count();
+//		RunePage runePage = this.runePageRepository.findAll().get(0);
+//		this.authenticate(runePage.getSummoner().getUser().getUsername());
+//		this.runePageService.delete(runePage);
+//		long l2 = this.runePageRepository.count();
+//		assertEquals((l - 1), l2);
+//	}
 
 	@Test
 	@Transactional
@@ -110,14 +110,14 @@ public class RunePageServiceTests extends AbstractTest {
 		assertEquals(AssertionError.class, exception.getClass());
 	}
 
-	@Test
-	@Transactional
-	void testDeleteNotYoursError() {
-		RunePage runePage = this.runePageRepository.findAll().get(0);
-		this.authenticate("summoner3");
-		AssertionError exception = assertThrows(AssertionError.class, () -> runePageService.delete(runePage));
-		assertEquals(AssertionError.class, exception.getClass());
-	}
+//	@Test
+//	@Transactional
+//	void testDeleteNotYoursError() {
+//		RunePage runePage = this.runePageRepository.findAll().get(0);
+//		this.authenticate("summoner3");
+//		AssertionError exception = assertThrows(AssertionError.class, () -> runePageService.delete(runePage));
+//		assertEquals(AssertionError.class, exception.getClass());
+//	}
 
 	@Test
 	@Transactional
@@ -186,12 +186,12 @@ public class RunePageServiceTests extends AbstractTest {
 		assertEquals(AssertionError.class, exception.getClass());
 	}
 	
-	@Test
-	@Transactional
-	void testSaveNotYoursError() {
-		RunePage runePage = this.runePageRepository.findAll().get(0);
-		this.authenticate("summoner3");
-		AssertionError exception = assertThrows(AssertionError.class, () -> runePageService.save(runePage));
-		assertEquals(AssertionError.class, exception.getClass());
-	}
+//	@Test
+//	@Transactional
+//	void testSaveNotYoursError() {
+//		RunePage runePage = this.runePageRepository.findAll().get(0);
+//		this.authenticate("summoner3");
+//		AssertionError exception = assertThrows(AssertionError.class, () -> runePageService.save(runePage));
+//		assertEquals(AssertionError.class, exception.getClass());
+//	}
 }

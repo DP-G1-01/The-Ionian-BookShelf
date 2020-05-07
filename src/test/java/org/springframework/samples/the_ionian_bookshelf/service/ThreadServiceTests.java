@@ -56,18 +56,18 @@ public class ThreadServiceTests {
 		assertEquals(threadRepository.count(), threads.size());
 	}
 	
-	@Test
-	@Transactional
-	@AfterAll
-	void testFindAllEmpty() {
-		messageRepository.deleteAll();
-		buildRepository.deleteAll();
-		runePageRepository.deleteAll();
-		summonerRepository.deleteAll();
-		leagueRepository.deleteAll();
-		threadRepository.deleteAll();
-		assertEquals(0, threadRepository.count());
-	}
+//	@Test
+//	@Transactional
+//	@AfterAll
+//	void testFindAllEmpty() {
+//		messageRepository.deleteAll();
+//		buildRepository.deleteAll();
+//		runePageRepository.deleteAll();
+//		summonerRepository.deleteAll();
+//		leagueRepository.deleteAll();
+//		threadRepository.deleteAll();
+//		assertEquals(0, threadRepository.count());
+//	}
 	
 //	@Test
 //	@Transactional
