@@ -126,7 +126,7 @@ public class RuneController {
 	
 	//Update
 	@GetMapping(value = "/runes/{runeId}/edit")
-	public String initUpdateRuneForm(@PathVariable("runeId") int runeId, Model model) {
+	public String initUpdateRuneForm(@PathVariable("runeId") int runeId, ModelMap model) {
 		try {
 			this.administratorService.findByPrincipal();
 		} catch (AssertionError e) {

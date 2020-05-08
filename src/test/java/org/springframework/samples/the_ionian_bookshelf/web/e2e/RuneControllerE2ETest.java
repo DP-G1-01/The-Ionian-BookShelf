@@ -61,6 +61,14 @@ public class RuneControllerE2ETest {
 				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/runes/"));
 	}
 	
+	@WithMockUser(value = "summoner1", authorities = {"summoner1"})
+	@Test
+	void testProcessCreationRuneFormSuccessNotAdmin() throws Exception {
+		mockMvc.perform(post("/runes/save").with(csrf()).param("name", "nombre runa").param("description", "Una descripción de runa")
+				.param("branch", "Precision").param("node", "1"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/login"));
+	}
+	
 	@WithMockUser(value = "admin", authorities = {"admin"})
 	@Test
 	void testProcessCreationRuneFormHasErrors() throws Exception {
@@ -84,4 +92,41 @@ public class RuneControllerE2ETest {
 		mockMvc.perform(get("/runes/{runeId}/remove", 1)).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/login"));
 	}
+	
+	
+	
+	@WithMockUser(value = "admin", authorities = {"admin"})
+	@Test
+	void testInitUpdateRuneFormAdmin() throws Exception {
+		mockMvc.perform(get("/runes/1/edit")).andExpect(status().is2xxSuccessful()).andExpect(model()
+				.attributeExists("rune"))
+				.andExpect(view().name("runes/editRune"));
+	}
+	
+	@WithMockUser(value = "summoner1", authorities = {"summoner1"})
+	@Test
+	void testInitUpdateRuneFormNotAdmin() throws Exception {
+		mockMvc.perform(get("/runes/1/edit")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/login"));
+	}
+	
+	@WithMockUser(value = "admin", authorities = {"admin"})
+	@Test
+	void testProcessUpdateRuneFormSuccess() throws Exception {
+		mockMvc.perform(post("/runes/1/edit").with(csrf()).param("name", "newname").param("description", "Una descripción de runa")
+				.param("branch", "Precision").param("node", "1"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/runes/"));
+	}
+	
+	@WithMockUser(value = "admin", authorities = {"admin"})
+	@Test
+	void testProcessUpdateRuneFormError() throws Exception {
+		mockMvc.perform(post("/runes/1/edit").with(csrf()).param("name", "").param("description", "Una descripción de runa")
+				.param("branch", "Precision").param("node", "1"))
+				.andExpect(status().isOk()).andExpect(view().name("runes/editRune"))
+				.andExpect(model().attributeHasFieldErrors("rune", "name"));
+	}
+	
+	
+	
 }

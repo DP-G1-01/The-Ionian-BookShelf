@@ -125,7 +125,7 @@ public class ChampionController {
 
     // Update
     @GetMapping(value = "/champions/{championId}/edit")
-    public String initUpdateOwnerForm(@PathVariable("championId") int championId, Model model) {
+    public String initUpdateChampionForm(@PathVariable("championId") int championId, ModelMap model) {
         try {
             this.administratorService.findByPrincipal();
         } catch (AssertionError e) {
@@ -141,7 +141,7 @@ public class ChampionController {
     }
 
     @PostMapping(value = "/champions/{championId}/edit")
-    public String processUpdateOwnerForm(@Valid Champion champion, BindingResult result,
+    public String processUpdateChampionForm(@Valid Champion champion, BindingResult result,
             @PathVariable("championId") int championId) {
         if (result.hasErrors()) {
             return "redirect:/champions/editCampeon";

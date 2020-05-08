@@ -58,6 +58,15 @@ public class ChampionControllerAPITest {
 		assertNotNull(model.get("champion"));	
 	}
 	
+	@WithMockUser(username = "summoner1", authorities = "summoner1")
+	@Test
+	void testNewChampionFormNoAdmin() throws Exception {
+		ModelMap model = new ModelMap();
+		String view=championController.crearCampeon(model);
+		assertEquals(view,"redirect:/login");
+		assertNotNull(model.get("message"));	
+	}
+	
 	@WithMockUser(username = "admin", authorities = "admin")
 	@Test
 	void testCreationChampionForm() throws Exception {
@@ -80,13 +89,24 @@ public class ChampionControllerAPITest {
 		assertNotNull(model.getAttribute("message"));
 	}
 	
-
-	
-	@WithMockUser(username = "summoner1", authorities = "summoner")
+	@WithMockUser(username = "summoner1", authorities = "summoner1")
 	@Test
-	void testRemoveChampionNotAdmin() throws Exception {
+	void testCreationChampionFormNotAdmin() throws Exception {
 		ModelMap model = new ModelMap();
-		String view=championController.borrarChampion(1, model);
+		Champion champion= new Champion();
+		Role role = roleService.findOneById(1);
+		
+		champion.setName("Champion name");
+		champion.setDescription("desc");
+		champion.setHealth(1000.0);
+		champion.setMana(500.0);
+		champion.setEnergy(null);
+		champion.setAttack(1.0);
+		champion.setSpeed(1.2);
+		champion.setRole(role);
+		
+		BindingResult bindingResult=new MapBindingResult(Collections.emptyMap(),"");
+		String view=championController.salvarCampeon(champion, bindingResult, model);
 		assertEquals(view,"redirect:/login");
 		assertNotNull(model.get("message"));	
 	}
@@ -112,6 +132,77 @@ public class ChampionControllerAPITest {
 		bindingResult.reject("name", "el tamaño tiene que estar entre 10 y 500");
 		String view=championController.salvarCampeon(champion, bindingResult, model);
 		assertEquals(view,"champions/editCampeon");
+	}
+	
+
+	@WithMockUser(username = "admin", authorities = "admin")
+	@Test
+	void testRemoveChampion() throws Exception {
+		ModelMap model = new ModelMap();
+		String view=championController.borrarChampion(1, model);
+		assertEquals(view,"redirect:/champions/");
+	}
+	
+	@WithMockUser(username = "summoner1", authorities = "summoner")
+	@Test
+	void testRemoveChampionNotAdmin() throws Exception {
+		ModelMap model = new ModelMap();
+		String view=championController.borrarChampion(1, model);
+		assertEquals(view,"redirect:/login");
+		assertNotNull(model.get("message"));	
+	}
+
+	@WithMockUser(username = "admin", authorities = "admin")
+	@Test
+	void testUpdateInitChampionForm() throws Exception {
+		ModelMap model = new ModelMap();
+		int championId = championService.findChampionById(2).getId(); //Es la unica forma que me ha funcionado, si ponia el id del tiron petaba
+		String view=championController.initUpdateChampionForm(championId, model);
+		assertEquals(view,"champions/editCampeon");
+		assertNotNull(model.get("champion"));	
+	}
+	
+	@WithMockUser(username = "summoner1", authorities = "summoner")
+	@Test
+	void testUpdateInitChampionFormNoAdmin() throws Exception {
+		ModelMap model = new ModelMap();
+		int championId = championService.findChampionById(2).getId(); //Es la unica forma que me ha funcionado, si ponia el id del tiron petaba
+		String view=championController.initUpdateChampionForm(championId, model);
+		assertEquals(view,"redirect:/login");
+	}
+	
+	
+	@WithMockUser(username = "admin", authorities = "admin")
+	@Test
+	void testProcessUpdateChampion() throws Exception {
+		BindingResult bindingResult=new MapBindingResult(Collections.emptyMap(),"");
+		Role role = roleService.findOneById(1);
+		Champion newChampion = new Champion("newname", "newdesc", 1000.0, 500.0, null, 1.0, 1.0, role);
+		String view=championController.processUpdateChampionForm(newChampion, bindingResult, 1);
+		assertEquals(view,"redirect:/champions/"); 
+	}
+	
+	@WithMockUser(username = "admin", authorities = "admin")
+	@Test
+	void testProcessUpdateChampionsError() throws Exception {
+		ModelMap model = new ModelMap();
+		Champion champion= new Champion();
+		Role role = roleService.findOneById(1);
+		
+		champion.setName("");
+		champion.setDescription("desc");
+		champion.setHealth(1000.0);
+		champion.setMana(500.0);
+		champion.setEnergy(null);
+		champion.setAttack(1.0);
+		champion.setSpeed(1.2);
+		champion.setRole(role);
+		
+		BindingResult bindingResult=new MapBindingResult(Collections.emptyMap(),"");
+		bindingResult.reject("name", "no puede estar vacío");
+		bindingResult.reject("name", "el tamaño tiene que estar entre 10 y 500");
+		String view=championController.processUpdateChampionForm(champion, bindingResult, 1);
+		assertEquals(view,"redirect:/champions/editCampeon");
 	}
 	
 }

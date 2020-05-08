@@ -29,7 +29,7 @@ public class ChampionControllerE2ETest {
 	
 	@WithMockUser(username="admin",authorities= {"admin"})
 	@Test
-	void testShowChampionListHtml() throws Exception {
+	void testShowChampionListHtml() throws Exception { 
 		
 		mockMvc.perform(get("/champions")).andExpect(status().isOk()).andExpect(model().attributeExists("champions"))
 		.andExpect(model().attributeExists("role"))
@@ -61,6 +61,14 @@ public class ChampionControllerE2ETest {
 				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/champions/"));
 	}
 	
+	@WithMockUser(value = "summoner1", authorities = {"summoner1"})
+	@Test
+	void testProcessCreationChampionFormNotAdmin() throws Exception {
+		mockMvc.perform(post("/champions/save").with(csrf()).param("name", "nombre campeón").param("description", "Una descripción de runa").param("health", "1000.0")
+				.param("mana", "500.0").param("energy", "").param("attack", "1.0").param("speed", "1.2").param("role", "Tirador"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/login"));
+	}
+	
 	@WithMockUser(value = "admin", authorities = {"admin"})
 	@Test
 	void testProcessCreationChampionFormHasErrors() throws Exception {
@@ -84,4 +92,37 @@ public class ChampionControllerE2ETest {
 		mockMvc.perform(get("/champions/{championId}/remove", 1)).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/login"));
 	}
+	
+	//
+	@WithMockUser(value = "admin", authorities = {"admin"})
+	@Test
+	void testInitUpdateChampionFormAdmin() throws Exception {
+		mockMvc.perform(get("/champions/1/edit")).andExpect(status().is2xxSuccessful()).andExpect(model()
+				.attributeExists("champion"))
+				.andExpect(view().name("champions/editCampeon"));
+	}
+	
+	@WithMockUser(value = "summoner1", authorities = {"summoner1"})
+	@Test
+	void testInitUpdateChampionFormNotAdmin() throws Exception {
+		mockMvc.perform(get("/champions/1/edit")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/login"));
+	}
+	
+	@WithMockUser(value = "admin", authorities = {"admin"})
+	@Test
+	void testProcessUpdateChampionFormSuccess() throws Exception {
+		mockMvc.perform(post("/champions/1/edit").with(csrf()).param("name", "newname").param("description", "Una descripción de runa").param("health", "1000.0")
+				.param("mana", "500.0").param("energy", "").param("attack", "1.0").param("speed", "1.2").param("role", "Tirador"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/champions/"));
+	}
+	
+	@WithMockUser(value = "admin", authorities = {"admin"})
+	@Test
+	void testProcessUpdatChampionFormError() throws Exception {
+		mockMvc.perform(post("/champions/1/edit").with(csrf()).param("name", "").param("description", "Una descripción de runa").param("health", "1000.0")
+				.param("mana", "500.0").param("energy", "").param("attack", "1.0").param("speed", "1.2").param("role", "Tirador"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/champions/editCampeon"));
+	}
+	
 }
