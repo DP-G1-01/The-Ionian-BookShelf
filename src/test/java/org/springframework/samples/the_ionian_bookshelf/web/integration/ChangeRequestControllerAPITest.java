@@ -118,4 +118,22 @@ public class ChangeRequestControllerAPITest {
 		assertEquals(view,"redirect:/");
 		assertNotNull(model.get("message"));	
 	}
+	
+	@WithMockUser(username = "summoner1", authorities = "summoner")
+	@Test
+	void testAcceptChangeRequestNotReviewer() throws Exception {
+		ModelMap model = new ModelMap();
+		String view=requestController.aceptarChangeRequest(1, model);
+		assertEquals(view,"redirect:/");
+		assertNotNull(model.get("message"));	
+	}
+	
+	@WithMockUser(username = "summoner1", authorities = "summoner")
+	@Test
+	void testRejectChangeRequestNotReviewer() throws Exception {
+		ModelMap model = new ModelMap();
+		String view=requestController.rechazarChangeRequest(1, model);
+		assertEquals(view,"redirect:/");
+		assertNotNull(model.get("message"));	
+	}
 }

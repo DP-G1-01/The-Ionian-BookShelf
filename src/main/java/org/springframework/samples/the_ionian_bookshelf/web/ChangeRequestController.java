@@ -210,6 +210,17 @@ public class ChangeRequestController {
 	
 	@GetMapping(value="/requests/{requestId}/accept")
 	public String aceptarChangeRequest(@PathVariable("requestId") int requestId, ModelMap modelMap) {
+		
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
+		
 		ChangeRequest request = changeRequestService.findOne(requestId);
 		request.setStatus("ACCEPTED");
 		changeRequestService.resolve(request);
@@ -220,6 +231,17 @@ public class ChangeRequestController {
 	
 	@GetMapping(value="/requests/{requestId}/reject")
 	public String rechazarChangeRequest(@PathVariable("requestId") int requestId, ModelMap modelMap) {
+		
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
+		
 		ChangeRequest request = changeRequestService.findOne(requestId);
 		request.setStatus("REJECTED");
 		changeRequestService.resolve(request);
