@@ -128,7 +128,7 @@ public class BuildServiceTests {
 		summoner.setLeague(leg);
 		summonerRepository.save(summoner);
 		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false,
-				new ArrayList<>(), c, null, null, summoner);
+				new ArrayList<>(), c, null, null, summoner, null);
 		buildService.saveBuild(build);
 		Build build2 = buildService.findBuildById(build.getId());
 		assertEquals(build, build2);

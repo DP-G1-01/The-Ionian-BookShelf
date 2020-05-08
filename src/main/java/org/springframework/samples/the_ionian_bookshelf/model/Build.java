@@ -69,4 +69,7 @@ public class Build extends BaseEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "summoner_id")
 	private Summoner summoner;
+	
+	@Column(name = "punctuation")
+	public Integer punctuation;
 }

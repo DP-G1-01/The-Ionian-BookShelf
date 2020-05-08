@@ -27,5 +27,14 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
 	@Query("select count(vote) from Vote vote where vote.message.id = ?1 and vote.status = FALSE")
 	Integer countNegativesVotesByMessage(int id);
+	
+	@Query("select vote from Vote vote where vote.build.id = ?1")
+	Collection<Vote> findByBuildId(int id);
+	
+	@Query("select count(vote) from Vote vote where vote.build.id = ?1 and vote.status = TRUE")
+	Integer countPositivesVotesByBuild(int id);
+
+	@Query("select count(vote) from Vote vote where vote.build.id = ?1 and vote.status = FALSE")
+	Integer countNegativesVotesByBuild(int id);
 
 }

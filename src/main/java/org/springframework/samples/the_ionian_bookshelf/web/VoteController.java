@@ -60,4 +60,26 @@ public class VoteController {
 		}
 		return "redirect:/threads/"+threadId;
 	}
+	
+	@GetMapping("builds/{buildId}/upVote")
+	public String upVoteBuild(ModelMap map, @PathVariable("buildId") int buildId) {
+		
+		try {
+			voteService.createUpVoteByBuildId(buildId);	
+		} catch (AssertionError e) {
+			return "/votes/voteError";
+		}
+		return "redirect:/builds";
+	}
+	
+	@GetMapping("builds/{buildId}/downVote")
+	public String downVoteBuild(ModelMap map, @PathVariable("buildId") int buildId) {
+		
+		try {
+			voteService.createDownVoteByBuildId(buildId);	
+		} catch (AssertionError e) {
+			return "/votes/voteError";
+		}
+		return "redirect:/builds";
+	}
 }

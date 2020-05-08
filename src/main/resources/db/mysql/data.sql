@@ -387,9 +387,9 @@ INSERT INTO item_roles(item_id,role_id) VALUES(5,1);
 INSERT INTO item_roles(item_id,role_id) VALUES(5,2);
 INSERT INTO item_roles(item_id,role_id) VALUES(5,3);
 
-INSERT INTO builds VALUES(1,'Soy la primera build de tus sueños y soy publica, lo juro un rato.', 'Build publica', true, 1, 1, 1, 5);
-INSERT INTO builds VALUES(2,'Soy la segunda build de tus sueños y soy publica, lo juro un rato.', 'Build publica2', true, 1, 1, 2, 6);
-INSERT INTO builds VALUES(3,'Soy la tercera build de tus sueños y soy privada, respeta, porfavor.', 'Build privada', false, 2, 1, 1, null);
+INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(1,'Soy la primera build de tus sueños y soy publica, lo juro un rato.', 'Build publica', true, 1, 1, 1, 5, null);
+INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(2,'Soy la segunda build de tus sueños y soy publica, lo juro un rato.', 'Build publica2', true, 1, 1, 2, 6, null);
+INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(3,'Soy la tercera build de tus sueños y soy privada, respeta, porfavor.', 'Build privada', false, 2, 1, 1, null, null);
 INSERT INTO build_items VALUES(1, 1);
 INSERT INTO build_items VALUES(1, 2);
 INSERT INTO build_items VALUES(2, 5);
