@@ -22,6 +22,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequestRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.LeagueRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.MessageRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RunePageRepository;
@@ -34,6 +35,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 @TestInstance(Lifecycle.PER_CLASS)
 public class ThreadServiceTests {
 	
+	@Autowired
+	private ChangeRequestRepository changeRequestRepository;
 	@Autowired
 	private ThreadService threadService;
 	@Autowired
@@ -56,18 +59,19 @@ public class ThreadServiceTests {
 		assertEquals(threadRepository.count(), threads.size());
 	}
 	
-//	@Test
-//	@Transactional
-//	@AfterAll
-//	void testFindAllEmpty() {
-//		messageRepository.deleteAll();
-//		buildRepository.deleteAll();
-//		runePageRepository.deleteAll();
-//		summonerRepository.deleteAll();
-//		leagueRepository.deleteAll();
-//		threadRepository.deleteAll();
-//		assertEquals(0, threadRepository.count());
-//	}
+	@Test
+	@Transactional
+	@AfterAll
+	void testFindAllEmpty() {
+		changeRequestRepository.deleteAll();
+		messageRepository.deleteAll();
+		buildRepository.deleteAll();
+		runePageRepository.deleteAll();
+		summonerRepository.deleteAll();
+		leagueRepository.deleteAll();
+		threadRepository.deleteAll();
+		assertEquals(0, threadRepository.count());
+	}
 	
 //	@Test
 //	@Transactional
@@ -133,7 +137,7 @@ public class ThreadServiceTests {
 //	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
 //	assertEquals(AssertionError.class, error.getClass());
 //	}
-	
+//	
 //	@Test
 //	@Transactional
 //	@WithMockUser(value = "RAIMUNDOKARATE98")
@@ -142,7 +146,8 @@ public class ThreadServiceTests {
 //		thread.setTitle("Titulo Thread Testing");
 //		thread.setDescription("Description Thread Testing");
 //		threadService.save(thread);
-//		AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
+//		
+//		AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(threadService.findOne(thread.getId())));
 //		assertEquals(AssertionError.class, error.getClass());
 //	}
 	

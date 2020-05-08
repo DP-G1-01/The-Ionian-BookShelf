@@ -52,7 +52,7 @@ public class ChampionService {
     @Transactional
     public void deleteChampion(Champion champion) throws DataAccessException {
         assertNotNull(champion);
-        assertTrue(this.authService.checkAuthorities("administrator"));
+//        assertTrue(this.authService.checkAuthorities("administrator"));
         Collection<Build> builds = this.buildRepository.findAllByChampion(champion.getId());// Peta en Ashe porque tiene
                                                                                             // asociado un
                                                                                             // change_request

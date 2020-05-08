@@ -9,7 +9,8 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 
 public interface BuildRepository extends JpaRepository<Build, Integer> {
-
+	
+    @Query("SELECT b FROM Build b where b.id= ?1")
     Build findBuildById(int id);
 
     void removeBuildById(int id);

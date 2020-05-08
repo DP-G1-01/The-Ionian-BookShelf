@@ -3,9 +3,13 @@ package org.springframework.samples.the_ionian_bookshelf.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -14,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
+import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
+import org.springframework.ui.ModelMap;
 @SpringBootTest
 @TestInstance (Lifecycle.PER_CLASS)
 public class ItemServiceTests {
@@ -28,6 +34,9 @@ public class ItemServiceTests {
 	protected ItemRepository itemRepository;
 
 	@Autowired
+	protected BuildRepository buildRepository;
+	
+	@Autowired
 	private ItemService itemService;
 	
 	@Test
@@ -37,22 +46,23 @@ public class ItemServiceTests {
 		assertEquals(itemRepository.count(), items.size());
 	}
 	
-//	@Test
-//	@Transactional
-//	@AfterAll
-//	void testFindAllEmpty() {
-//		itemRepository.deleteAll();
-//		assertEquals(0, itemRepository.count());
-//	} 
-	
 	@Test
 	@Transactional
-	void testFindOne() {
-		Item i = itemService.findItemById(1);
-		Item ii = itemRepository.findItemById(1);
-		assertEquals(i, ii);
+	@AfterAll
+	void testFindAllEmpty() {
+		buildRepository.deleteAll();
+		itemRepository.deleteAll();
+		assertEquals(0, itemRepository.count());
 	} 
 	
+//	@Test
+//	@Transactional
+//	void testFindOne() {
+//		Item i = itemService.findItemById(1);
+//		Item ii = itemRepository.findItemById(1);
+//		assertEquals(i, ii);
+//	} 
+//	
 	
 	@Test
 	@Transactional
@@ -81,17 +91,26 @@ public class ItemServiceTests {
 //	@Test
 //	@Transactional
 //	void testSaveItem() {
-//		List <String> attributes = new ArrayList<>();
-//		attributes.add("1");
-//		List <Role> roles = new ArrayList<>();
-//		Role r = new Role("rolTest", "testeoooooooooo", "https://www.google.es");
+//		Item item= new Item();
+//		List<String> attributes = new ArrayList<>();
+//		attributes.add("21");
+//		attributes.add("33");
+//		attributes.add("43");
+//		List<Role> roles = new ArrayList<>();
+//		Role r = new Role("rolTest", "testeoooooooooo", "http://www.google.es");
 //		roles.add(r);
-//		Item i = new Item("test", "testeandoooooooooooooooooo", attributes, roles);
-//		itemService.saveItem(i);
-//		Item ii = itemRepository.findItemById(11);
-//		assertEquals(i, ii);
+//		
+//		item.setTitle("titulo test");
+//		item.setDescription("descripcion descriptiva");
+//		item.setAttributes(attributes);
+//		item.setRoles(roles);
+//		long l2 = itemRepository.count();
+//		itemService.saveItem(item);
+//		
+//		Item ii = itemRepository.findItemById((int) (l2));
+//		assertEquals(item,ii);
 //	} 
-	
+//	
 	@Test
 	@Transactional
 	void testFindRoles() {
