@@ -65,6 +65,8 @@ public class BuildServiceTests {
 		assertEquals(buildRepository.findAllPublics().size(), builds.size());
 	}
 	
+
+	
 	@Test
 	@Transactional
 	@AfterAll
@@ -75,10 +77,17 @@ public class BuildServiceTests {
 	
 //	@Test
 //	@Transactional
+//	@BeforeAll
 //	void testFindOne() {
-//		Build build = buildService.findBuildById(1);
-//		Build build2 = buildRepository.findBuildById(1);
-//		assertEquals(build, build2);
+//		Boolean bol= false;
+//		Build build = buildService.findBuildById(2);
+//		Build build2 = buildRepository.findBuildById(2);
+//		if(build.getChampion().getName()==build2.getChampion().getName()
+//				&& build.getTitle() == build.getTitle()) {
+//			bol=true;
+//		}
+//		System.out.println(bol);
+//		assertEquals(true, bol);
 //	}
 
 	@Test
@@ -87,16 +96,7 @@ public class BuildServiceTests {
 		AssertionError exception = assertThrows(AssertionError.class,()->buildService.findBuildById(3472));
 		assertEquals(AssertionError.class, exception.getClass());
 	}
-	
-//	@Test
-//	@Transactional
-//	void testRemoveBuildById() {
-//		long l = buildRepository.count();
-//		buildService.removeBuildById(1);
-//		long l2 = buildRepository.count();
-//		assertEquals((l-1), l2);
-//	}
-//	
+
 	@Test
 	@Transactional
 	void testRemoveBuildByIdError() {
@@ -115,21 +115,30 @@ public class BuildServiceTests {
 	Collection<Champion> mains = new ArrayList<Champion>();
 	mains.add(c);
 	User user = new User();
-	user.setUsername("Pepin");
-	user.setPassword("papin");
+	user.setUsername("Pepin23");
+	user.setPassword("papin23");
 	Summoner summoner = new Summoner();
 	summoner.setUser(user);
-	summoner.setEmail("pru@gmail.com");
+	summoner.setEmail("prupru@gmail.com");
 	summoner.setMains(mains);
 	Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan");
 	threadRepository.save(t1);
-	League leg = new League("L1", t1);
+	League leg = new League("QWERTY", t1);
 	leagueRepository.save(leg);
 	summoner.setLeague(leg);
 	summonerRepository.save(summoner);
-	Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
+	Build build = new Build("Build de testeooo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
 	buildService.saveBuild(build);
 	Build build2 = buildService.findBuildById(build.getId());
 	assertEquals(build, build2);
 	}
+	
+//	@Test
+//	@Transactional
+//	void testRemoveBuildById() {
+//		long l = buildRepository.count();
+//		buildService.removeBuildById(1);
+//		long l2 = buildRepository.count();
+//		assertEquals((l-1), l2);
+//	}
 }

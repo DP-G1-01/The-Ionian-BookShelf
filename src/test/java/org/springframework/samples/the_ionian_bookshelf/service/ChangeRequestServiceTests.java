@@ -135,11 +135,10 @@ public class ChangeRequestServiceTests {
 		assertEquals(request, request2);
 	} 
 	
-//	@Test
-//	@Transactional
-//	void testRemoveChangeRequestError() {
-//		ChangeRequest request = changeRequestService.findChangeRequestById(4637);
-//		AssertionError exception = assertThrows(AssertionError.class,()->changeRequestService.delete(request));
-//		assertEquals(AssertionError.class, exception.getClass());
-//	}
+	@Test
+	@Transactional
+	void testRemoveChangeRequestError() {
+		AssertionError exception = assertThrows(AssertionError.class,()->changeRequestService.delete(changeRequestService.findChangeRequestById(75)));
+		assertEquals(AssertionError.class, exception.getClass());
+	}
 }

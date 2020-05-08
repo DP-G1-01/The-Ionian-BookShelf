@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import javax.transaction.Transactional;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -86,28 +88,29 @@ public class ChampionServiceTests {
     }
 
     // Eliminar un campeon
-//    @WithMockUser(value = "admin")
-//    @Test
-//    @Transactional
-//    void testRemoveChampion() {
-//        Role tirador = new Role("Tirador", "Descripcion del rol", "http://www.miimagendetirador.coms");
-//        this.roleRepository.save(tirador);
-//
-//        String name = "nombre";
-//        String desc = "descripcion";
-//        Double health = 900.0;
-//        Double mana = 500.0;
-//        Double energy = null;
-//        Double attack = 1.2;
-//        Double speed = 1.0;
-//        Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
-//        championService.save(champion); // Creo un champion y lo guardo
-//        long l = championRepository.count(); // Cuento el numero en el repositorio
-//
-//        championService.deleteChampion(champion); // Lo borro
-//        long l2 = championRepository.count(); // Vuelvo a contar el numero total
-//        assertEquals((l - 1), l2);
-//    }
+    @WithMockUser(authorities = "admin" ,value = "admin")
+    @Test
+    @Transactional
+    @AfterAll
+    void testRemoveChampion() {
+        Role tirador = new Role("Tiradorres", "Descripcion del rol", "http://www.miimagendetirador.com");
+        this.roleRepository.save(tirador);
+
+        String name = "nombreeeeeeee";
+        String desc = "descripcionhfjkdshfdlkahfldjsahflkhdsafldsa";
+        Double health = 900.0;
+        Double mana = 500.0;
+        Double energy = null;
+        Double attack = 1.2;
+        Double speed = 1.0;
+        Champion champion = new Champion(name, desc, health, mana, energy, attack, speed, tirador);
+        this.championRepository.save(champion); // Creo un champion y lo guardo
+        long l = championRepository.count(); // Cuento el numero en el repositorio
+
+        this.championService.deleteChampion(champion); // Lo borro
+        long l2 = championRepository.count(); // Vuelvo a contar el numero total
+        assertEquals((l - 1), l2);
+    }
 
     // @WithMockUser(value = "admin") Creo que no es necesario ya que realmente el
     // delete no se realiza debido a que salta la excepcion NoSuchElementException
