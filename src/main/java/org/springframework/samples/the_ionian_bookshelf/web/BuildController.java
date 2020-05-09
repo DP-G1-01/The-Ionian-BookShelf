@@ -59,7 +59,7 @@ public class BuildController {
 
         Collection<Build> builds = this.buildService.findAllPublics();
         for (Build build : builds) {
-			build.setPunctuation(voteService.getPuntuationBuild(build));
+			build.setPunctuation(voteService.getPunctuationBuild(build));
 		}
         model.addAttribute("builds", builds);
         
@@ -81,7 +81,7 @@ public class BuildController {
 
         Collection<Build> builds = this.buildService.findMineBuilds(this.summonerService.findByPrincipal().getId());
         for (Build build : builds) {
-			build.setPunctuation(voteService.getPuntuationBuild(build));
+			build.setPunctuation(voteService.getPunctuationBuild(build));
 		}
         model.addAttribute("builds", builds);
         return "builds/buildsList";

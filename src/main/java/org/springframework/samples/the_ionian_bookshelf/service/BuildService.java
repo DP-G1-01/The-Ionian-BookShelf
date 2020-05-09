@@ -31,6 +31,9 @@ public class BuildService {
 
     @Autowired
     private RunePageRepository runePageRepository;
+    
+    @Autowired
+	private VoteService voteService;
 
     public Build create() {
 
@@ -76,6 +79,7 @@ public class BuildService {
     public void removeBuildById(int buildId) {
         Build build = buildRepository.findBuildById(buildId);
         assertNotNull(build);
+        this.voteService.deleteByBuildId(build.getId());
         buildRepository.delete(build);
     }
 

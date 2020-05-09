@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.utilities.AbstractTest;
@@ -22,6 +23,9 @@ public class VoteServiceTest extends AbstractTest {
 
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private BuildService buildService;
 
 	@Autowired
 	private ThreadService threadService;
@@ -225,6 +229,94 @@ public class VoteServiceTest extends AbstractTest {
 		} else {
 			this.voteService.createDownVoteByMessageId(id);
 		}
+	}
+	
+	
+	//Vote Build
+	
+	@DisplayName("Upvote a Build")
+	@ParameterizedTest(name = "\"{0}\": Represents the id of the Build to upvote")
+	@CsvSource({ "null", "0", "100" })
+	void upVoteBuildTest(String buildId) {
+
+		Integer id;
+		if (buildId.equals("null")) {
+			id = null;
+		} else {
+			id = Integer.parseInt(buildId);
+		}
+
+		this.authenticate("summoner1");
+
+		if (id == null) {
+			assertThrows(NullPointerException.class, () -> {
+				this.voteService.createUpVoteByBuildId(id);
+			});
+		} else if (id.equals(0)) {
+			assertThrows(AssertionError.class, () -> {
+				this.voteService.createUpVoteByBuildId(id);
+			});
+		} else {
+			this.voteService.createUpVoteByBuildId(id);
+		}
+	}
+
+	@DisplayName("Downvote a Build")
+	@ParameterizedTest(name = "\"{0}\": Represents the id of the Build to downvote")
+	@CsvSource({ "null", "0", "100" })
+	void downVoteBuildTest(String buildId) {
+
+		Integer id;
+		if (buildId.equals("null")) {
+			id = null;
+		} else {
+			id = Integer.parseInt(buildId);
+		}
+
+		this.authenticate("summoner1");
+
+		if (id == null) {
+			assertThrows(NullPointerException.class, () -> {
+				this.voteService.createDownVoteByBuildId(id);
+			});
+		} else if (id.equals(0)) {
+			assertThrows(AssertionError.class, () -> {
+				this.voteService.createDownVoteByBuildId(id);
+			});
+		} else {
+			this.voteService.createDownVoteByBuildId(id);
+		}
+	}
+	
+	@DisplayName("Delete by Build ID")
+	@ParameterizedTest(name = "\"{0}\": Represents Build's ID")
+	@CsvSource({ "0", "100" })
+	void deleteByBuildTest(Integer buildId) {
+
+		if (buildId == 0) {
+			assertThrows(AssertionError.class, () -> {
+				this.voteService.deleteByBuildId(buildId);
+			});
+		} else {
+			this.voteService.deleteByBuildId(buildId);
+		}
+
+	}
+
+	@DisplayName("Punctuation by Build ID")
+	@ParameterizedTest(name = "\"{0}\": Represents Build's ID")
+	@CsvSource({ "0", "100" })
+	void punctuationByBuildTest(Integer buildId) {
+
+		if (buildId == 0) {
+			assertThrows(AssertionError.class, () -> {
+				this.voteService.getPunctuationBuild(null);
+			});
+		} else {
+			Build build = this.buildService.findBuildById(buildId);
+			this.voteService.getPunctuationBuild(build);
+		}
+
 	}
 
 }

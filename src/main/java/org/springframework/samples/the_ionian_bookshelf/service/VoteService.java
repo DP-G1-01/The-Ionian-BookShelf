@@ -174,7 +174,7 @@ public class VoteService {
 		return res;
 	}
 
-	public Integer getPuntuationBuild(Build build) {
+	public Integer getPunctuationBuild(Build build) {
 		assertNotNull(build);
 		assertTrue(build.getId() != 0);
 		Integer positives = this.voteRepo.countPositivesVotesByBuild(build.getId());
