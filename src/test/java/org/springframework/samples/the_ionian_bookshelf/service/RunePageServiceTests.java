@@ -189,8 +189,8 @@ public class RunePageServiceTests extends AbstractTest {
 	@Test
 	@Transactional
 	void testSaveNotYoursError() {
-		RunePage runePage = this.runePageRepository.findAll().get(0);
 		this.authenticate("summoner3");
+		RunePage runePage = this.runePageRepository.findById(1).get();
 		AssertionError exception = assertThrows(AssertionError.class, () -> runePageService.save(runePage));
 		assertEquals(AssertionError.class, exception.getClass());
 	}
