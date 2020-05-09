@@ -318,5 +318,20 @@ public class VoteServiceTest extends AbstractTest {
 		}
 
 	}
+	
+	@DisplayName("Find by Build ID")
+	@ParameterizedTest(name = "\"{0}\": Represents Build's ID")
+	@CsvSource({ "0", "100" })
+	void findByBuildTest(Integer buildId) {
+
+		if (buildId == 0) {
+			assertThrows(AssertionError.class, () -> {
+				this.voteService.findByBuildId(0);
+			});
+		} else {
+			this.voteService.findByBuildId(buildId);
+		}
+
+	}
 
 }
