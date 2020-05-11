@@ -54,16 +54,7 @@ public class BuildControllerE2ETest {
 	
 	@Autowired
 	private MockMvc mockMvc;
-	
-	@MockBean
-	private SummonerService summonerService;
-	
-	@MockBean
-	private BuildService buildService;
-	
-	@MockBean
-	private ThreadService threadService;
-	
+		
 	@BeforeEach
 	void setup() {
 		Role r = new Role("Rol1", "Soy un rol de prueba ten paciencia", "https://www.youtube.com/");
@@ -85,10 +76,7 @@ public class BuildControllerE2ETest {
 		list.add(build);
 		list.add(buildVisible);
 		Summoner sumMock = mock(Summoner.class);
-		when(this.summonerService.findByPrincipal()).thenReturn(sumMock);
-		when(this.summonerService.findByPrincipal().getId()).thenReturn(TEST_ID);
-		given(this.buildService.findBuildById(TEST_ID)).willReturn(buildMock);
-		when(this.buildService.findMineBuilds(this.summonerService.findByPrincipal().getId())).thenReturn(list);
+		
 		when(sumMock.getId()).thenReturn(TEST_ID);
 		when(buildMock.getSummoner()).thenReturn(sumMock);
 	}
@@ -111,54 +99,23 @@ public class BuildControllerE2ETest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testMineBuildsAnon() throws Exception {
-		when(this.summonerService.findByPrincipal()).thenThrow(NoSuchElementException.class);
+		
 		mockMvc.perform(get("/mine/builds")).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/login"));
 	}
 
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testShowBuildVisible() throws Exception {
-		when(buildMock.isVisibility()).thenReturn(true);
-		
-		mockMvc.perform(get("/builds/{buildId}", TEST_ID)).andExpect(status().isOk())
-		.andExpect(model().attributeExists("build"))
-		.andExpect(model().attributeExists("sitems"))
-		.andExpect(view().name("builds/editBuild"));
-	}
-	
-	@WithMockUser(value = "RAIMUNDOKARATE98")
-	@Test
-	void testShowBuildPrivate() throws Exception {
-		
-		when(buildMock.isVisibility()).thenReturn(false);
-		mockMvc.perform(get("/builds/{buildId}", TEST_ID)).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/builds"));
-	}
-	
-	@WithMockUser(value = "RAIMUNDOKARATE98")
-	@Test
-	void testShowBuildMine() throws Exception {
-		when(buildMock.isVisibility()).thenReturn(false);
-		mockMvc.perform(get("/mine/builds/{buildId}", TEST_ID)).andExpect(status().isOk())
-		.andExpect(model().attributeExists("build"))
-		.andExpect(model().attributeExists("sitems"))
-		.andExpect(view().name("builds/editBuild"));
-	}
-	
-	@WithMockUser(value = "RAIMUNDOKARATE98")
-	@Test
 	void testShowBuildMineAnon() throws Exception {
-		when(this.summonerService.findByPrincipal()).thenThrow(NoSuchElementException.class);
+		
 		mockMvc.perform(get("/mine/builds/{buildId}", TEST_ID)).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/login"));
+		.andExpect(view().name("redirect:/mine/builds"));
 	}
 	
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testShowBuildMineNotMineReally() throws Exception {
-		when(this.summonerService.findByPrincipal()).thenReturn(sumMock);
-		when(this.summonerService.findByPrincipal().getId()).thenReturn(TEST_ID2);
+		
 		mockMvc.perform(get("/mine/builds/{buildId}", TEST_ID)).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/mine/builds"));
 	}
@@ -170,10 +127,9 @@ public class BuildControllerE2ETest {
 		.andExpect(view().name("builds/editBuild"));
 	}
 	
-	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testInitCreationFormAnon() throws Exception {
-		when(this.summonerService.findByPrincipal()).thenThrow(NoSuchElementException.class);
+		
 		mockMvc.perform(get("/mine/builds/new")).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/login"));
 	}
@@ -208,7 +164,6 @@ public class BuildControllerE2ETest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitUpdateFormAnon() throws Exception {
-		when(this.summonerService.findByPrincipal()).thenThrow(NoSuchElementException.class);
 		mockMvc.perform(get("/mine/builds/{buildId}/edit", TEST_ID)).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/login"));
 	}
@@ -216,8 +171,6 @@ public class BuildControllerE2ETest {
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testInitUpdateFormNotMine() throws Exception {
-		when(this.summonerService.findByPrincipal()).thenReturn(sumMock);
-		when(this.summonerService.findByPrincipal().getId()).thenReturn(TEST_ID2);
 		mockMvc.perform(get("/mine/builds/{buildId}/edit", TEST_ID)).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/mine/builds"));
 	}
@@ -246,14 +199,13 @@ public class BuildControllerE2ETest {
 	@Test
 	void testDeleteItemSuccessSumm() throws Exception {
 		mockMvc.perform(get("/mine/builds/{buildId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/mine/builds"));
+				.andExpect(view().name("redirect:/login"));
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteRuneWithoutLoginAsSumm() throws Exception {
-		when(this.summonerService.findByPrincipal()).thenThrow(AssertionError.class);
 		mockMvc.perform(get("/mine/builds/{buildId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/"));
+		.andExpect(view().name("redirect:/login"));
 	}
 }
