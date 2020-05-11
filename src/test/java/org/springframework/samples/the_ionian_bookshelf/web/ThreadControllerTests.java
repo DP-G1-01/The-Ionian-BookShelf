@@ -30,12 +30,12 @@ import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
+import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = ThreadController.class, excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE,
-classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = ThreadController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
 public class ThreadControllerTests {
@@ -44,21 +44,24 @@ public class ThreadControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	private Thread threadMock = mock(Thread.class);
-	
+
 	@MockBean
 	private ThreadService threadService;
-	
+
 	@MockBean
 	private MessageService messageService;
 	
 	@MockBean
+	private VoteService voteService;
+
+	@MockBean
 	private AdministratorService administratorService;
-	
+
 	@BeforeEach
 	void setup() {
-		Thread thread = new Thread("Titulo","Descripcion de thread");
+		Thread thread = new Thread("Titulo", "Descripcion de thread", null);
 		User user = new User();
 		user.setUsername("testThread");
 		user.setPassword("test");
@@ -66,95 +69,85 @@ public class ThreadControllerTests {
 		summoner.setUser(user);
 		summoner.setEmail("test@gmail.com");
 		Date moment = new Date(System.currentTimeMillis() - 1);
-		Message message = new Message("NUEVO MENSAJE DE THREAD PARA TEST", moment, summoner, thread);
-		Message message2 = new Message("NUEVO MENSAJE 2 DE THREAD PARA TEST", moment, summoner, thread);
-		Message message3 = new Message("NUEVO MENSAJE 3 DE THREAD PARA TEST", moment, summoner, thread);
+		Message message = new Message("NUEVO MENSAJE DE THREAD PARA TEST", moment, summoner, thread, null);
+		Message message2 = new Message("NUEVO MENSAJE 2 DE THREAD PARA TEST", moment, summoner, thread, null);
+		Message message3 = new Message("NUEVO MENSAJE 3 DE THREAD PARA TEST", moment, summoner, thread, null);
 		List<Message> messages = new ArrayList<Message>();
 		messages.add(message);
 		messages.add(message2);
 		messages.add(message3);
 
-		
 		when(this.threadService.findOne(THREAD_ID)).thenReturn(thread);
 		when(this.messageService.findByThread(threadMock)).thenReturn(messages);
 	}
-	
+
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testShowThreadListSuccess() throws Exception{
+	void testShowThreadListSuccess() throws Exception {
 		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
 		mockMvc.perform(get("/threads")).andExpect(status().isOk()).andExpect(model().attributeExists("threads"))
-		.andExpect(view().name("threads/listadoThreads"));
+				.andExpect(view().name("threads/listadoThreads"));
 	}
-	
+
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testShowThreadMessagesListSuccess() throws Exception{
+	void testShowThreadMessagesListSuccess() throws Exception {
 		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
-		mockMvc.perform(get("/threads/{threadId}",THREAD_ID)
-				.param("title", "Titulo del hilo"))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("messages"))
-		.andExpect(view().name("messages/listadoMessages"));
+		mockMvc.perform(get("/threads/{threadId}", THREAD_ID).param("title", "Titulo del hilo"))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("messages"))
+				.andExpect(view().name("messages/listadoMessages"));
 	}
-	
+
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testCreateThreadSuccess() throws Exception{
-		mockMvc.perform(get("/threads/new"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("threads/createThread"));
+	void testCreateThreadSuccess() throws Exception {
+		mockMvc.perform(get("/threads/new")).andExpect(status().isOk()).andExpect(view().name("threads/createThread"));
 	}
-	
+
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testSaveThreadSuccess() throws Exception{
-		mockMvc.perform(post("/threads/save").with(csrf()).param("title", "HiloTest").param("description", "HiloDescriptionTestSuccess"))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/threads"));
+	void testSaveThreadSuccess() throws Exception {
+		mockMvc.perform(post("/threads/save").with(csrf()).param("title", "HiloTest").param("description",
+				"HiloDescriptionTestSuccess")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/threads"));
 	}
-	
+
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testSaveThreadError() throws Exception{
+	void testSaveThreadError() throws Exception {
 		mockMvc.perform(post("/threads/save").with(csrf()).param("title", "").param("description", ""))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("thread"))
-		.andExpect(view().name("threads/createThread"));
+				.andExpect(status().isOk()).andExpect(model().attributeExists("thread"))
+				.andExpect(view().name("threads/createThread"));
 	}
-	
+
 	@WithMockUser(value = "admin")
 	@Test
-	void testDeleteThreadSuccess() throws Exception{
-		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/threads"));
+	void testDeleteThreadSuccess() throws Exception {
+		mockMvc.perform(get("/threads/{threadId}/remove", THREAD_ID)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/threads"));
 	}
-	
+
 	@WithMockUser(value = "admin")
 	@Test
-	void testDeleteThreadThatDoesntExistError() throws Exception{
+	void testDeleteThreadThatDoesntExistError() throws Exception {
 		when(this.threadService.findOne(THREAD_ID)).thenReturn(null);
-		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/threads"));
+		mockMvc.perform(get("/threads/{threadId}/remove", THREAD_ID)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/threads"));
 	}
-	
+
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
-	void testDeleteThreadWithoutLoginAsAdmin() throws Exception{
+	void testDeleteThreadWithoutLoginAsAdmin() throws Exception {
 		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
-		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/login"));
+		mockMvc.perform(get("/threads/{threadId}/remove", THREAD_ID)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/login"));
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
-	void testDeleteThreadWithNotLoggedUser() throws Exception{
+	void testDeleteThreadWithNotLoggedUser() throws Exception {
 		when(this.administratorService.findByPrincipal()).thenThrow(AssertionError.class);
-		mockMvc.perform(get("/threads/{threadId}/remove",THREAD_ID))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(view().name("redirect:/login"));
+		mockMvc.perform(get("/threads/{threadId}/remove", THREAD_ID)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/login"));
 	}
 }

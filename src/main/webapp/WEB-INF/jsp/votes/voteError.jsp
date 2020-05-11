@@ -6,9 +6,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="error">
+<petclinic:layout pageName="errorVote">
+
 	<h2>
-		Lo sentimos, el thread no se puede eliminar porque está vinculado a una liga o a una build.
+		Usted ya emitió este voto previamente.
 	</h2>
 	
 	<spring:url value="/threads" var="threadList">

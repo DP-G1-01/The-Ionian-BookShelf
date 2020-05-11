@@ -45,7 +45,7 @@ public class BuildValidatorTests {
 		summoner.setUser(user);
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
-		Build build = new Build("", "", false, new ArrayList<>(), c, null, null, summoner);
+		Build build = new Build("", "", false, new ArrayList<>(), c, null, null, summoner, null);
 		
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Build>> constraintViolations = validator.validate(build);
@@ -92,7 +92,7 @@ public class BuildValidatorTests {
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
 		Build build = new Build("Build de testeooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo",
-				"Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
+				"Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, null);
 		
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Build>> constraintViolations = validator.validate(build);
@@ -109,7 +109,7 @@ public class BuildValidatorTests {
 	@Test
 	void shouldNotValidateWhenChampionAndSummonerIsNull() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), null, null, null, null);
+		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), null, null, null, null, null);
 		
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Build>> constraintViolations = validator.validate(build);
@@ -167,7 +167,7 @@ public class BuildValidatorTests {
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
 		Build build = new Build("Build de testeo",
-				"Soy una build con una descripción muy bonita, sí", false, items, c, null, null, summoner);
+				"Soy una build con una descripción muy bonita, sí", false, items, c, null, null, summoner, null);
 		
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Build>> constraintViolations = validator.validate(build);

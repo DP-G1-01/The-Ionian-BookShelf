@@ -29,4 +29,6 @@ public class Thread extends BaseEntity {
 	@Column(name = "description")
 	public String description;
 
+	@Column(name = "punctuation")
+	public Integer punctuation;
 }

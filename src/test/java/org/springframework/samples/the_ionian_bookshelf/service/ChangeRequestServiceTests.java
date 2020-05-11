@@ -123,7 +123,7 @@ public class ChangeRequestServiceTests {
 		summoner.setUser(user);
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
-		Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan");
+		Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan", null);
 		threadRepository.save(t1);
 		League leg = new League("L1", t1);
 		leagueRepository.save(leg);

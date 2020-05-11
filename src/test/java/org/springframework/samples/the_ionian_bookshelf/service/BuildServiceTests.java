@@ -33,7 +33,7 @@ import org.springframework.samples.the_ionian_bookshelf.repository.ThreadReposit
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 public class BuildServiceTests {
-	
+
 	@Autowired
 	private BuildService buildService;
 
@@ -42,10 +42,10 @@ public class BuildServiceTests {
 
 	@Autowired
 	protected ChampionRepository championRepository;
-	
+
 	@Autowired
 	protected ItemRepository itemRepository;
-	
+
 	@Autowired
 	protected RoleRepository roleRepository;
 
@@ -54,18 +54,16 @@ public class BuildServiceTests {
 
 	@Autowired
 	protected LeagueRepository leagueRepository;
-	
+
 	@Autowired
 	protected SummonerRepository summonerRepository;
-	
+
 	@Test
 	@BeforeAll
 	void testFindAllPublics() {
 		Collection<Build> builds = buildService.findAllPublics();
 		assertEquals(buildRepository.findAllPublics().size(), builds.size());
 	}
-	
-
 	
 	@Test
 	@Transactional
@@ -93,17 +91,17 @@ public class BuildServiceTests {
 	@Test
 	@Transactional
 	void testFindOneError() {
-		AssertionError exception = assertThrows(AssertionError.class,()->buildService.findBuildById(3472));
+		AssertionError exception = assertThrows(AssertionError.class, () -> buildService.findBuildById(3472));
 		assertEquals(AssertionError.class, exception.getClass());
 	}
 
 	@Test
 	@Transactional
 	void testRemoveBuildByIdError() {
-		AssertionError exception = assertThrows(AssertionError.class,()->buildService.removeBuildById(4637));
+		AssertionError exception = assertThrows(AssertionError.class, () -> buildService.removeBuildById(4637));
 		assertEquals(AssertionError.class, exception.getClass());
 	}
-	
+
 	@Test
 	@Transactional
 	void testSaveBuild() {

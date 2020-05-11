@@ -17,17 +17,17 @@ import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 public class ThreadValidatorTests {
-	
+
 	private Validator createValidator() {
-		LocalValidatorFactoryBean localValidatorFactoryBean= new LocalValidatorFactoryBean();
+		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
 		localValidatorFactoryBean.afterPropertiesSet();
 		return localValidatorFactoryBean;
-		}
-	
+	}
+
 	@Test
 	void shouldNotValidateWhenDescriptionAndTitleBlank() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Thread thread = new Thread("", "");
+		Thread thread = new Thread("", "", null);
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Thread>> constraintViolations = validator.validate(thread);
 		List<ConstraintViolation<Thread>> list = new ArrayList<>();
@@ -60,8 +60,8 @@ public class ThreadValidatorTests {
 	@Test
 	void shouldNotValidateWhenTitleIsSoBig() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Thread thread = new Thread("Titulo de Hilo demasiado grande no debe superar los 50 caracteres", 
-				"La descripcion del hilo debe de tener entre 20 y 500 caracteres");
+		Thread thread = new Thread("Titulo de Hilo demasiado grande no debe superar los 50 caracteres",
+				"La descripcion del hilo debe de tener entre 20 y 500 caracteres", null);
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Thread>> constraintViolations = validator.validate(thread);
 		List<ConstraintViolation<Thread>> list = new ArrayList<>();
@@ -77,8 +77,7 @@ public class ThreadValidatorTests {
 	@Test
 	void shouldNotValidateWhenTitleIsSoSmall() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Thread thread = new Thread("NO", 
-				"La descripcion del hilo debe de tener entre 20 y 500 caracteres");
+		Thread thread = new Thread("NO", "La descripcion del hilo debe de tener entre 20 y 500 caracteres", null);
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Thread>> constraintViolations = validator.validate(thread);
 		List<ConstraintViolation<Thread>> list = new ArrayList<>();
@@ -90,19 +89,20 @@ public class ThreadValidatorTests {
 			assertThat(violation.getMessage()).isEqualTo("size must be between 5 and 50");
 		}
 	}
-	
+
 	@Test
 	void shouldNotValidateWhenDescriptionIsSoBig() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Thread thread = new Thread("Titulo de Hilo", 
+		Thread thread = new Thread("Titulo de Hilo",
 				"La descripcion del hilo debe de tener entre 20 y 500 caracteres."
-				+ "Esta descripcion es demasiado largaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-				+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-				+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-				+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-				+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-				+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-				+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+						+ "Esta descripcion es demasiado largaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+						+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+						+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+						+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+						+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+						+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+						+ "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+				null);
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Thread>> constraintViolations = validator.validate(thread);
 		List<ConstraintViolation<Thread>> list = new ArrayList<>();
@@ -118,8 +118,7 @@ public class ThreadValidatorTests {
 	@Test
 	void shouldNotValidateWhenDescriptionIsSoSmall() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Thread thread = new Thread("Titulo de Hilo", 
-				"Descripcion corta");
+		Thread thread = new Thread("Titulo de Hilo", "Descripcion corta", null);
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Thread>> constraintViolations = validator.validate(thread);
 		List<ConstraintViolation<Thread>> list = new ArrayList<>();

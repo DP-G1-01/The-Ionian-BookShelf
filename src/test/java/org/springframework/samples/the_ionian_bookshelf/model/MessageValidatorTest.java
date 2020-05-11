@@ -75,7 +75,7 @@ public class MessageValidatorTest {
 		when(threadService.findOne(threadId)).thenReturn(threadMock);
 		Thread thread = this.threadService.findOne(threadId);
 
-		Message toTest = new Message(text, moment, summ, thread);
+		Message toTest = new Message(text, moment, summ, thread, null);
 
 		if (toTest.getText().length() >= 10 && toTest.getText().length() <= 500) {
 			assertTrue(true);
@@ -102,7 +102,7 @@ public class MessageValidatorTest {
 		when(threadService.findOne(threadId)).thenReturn(threadMock);
 		Thread thread = this.threadService.findOne(threadId);
 
-		Message toTest = new Message(text, moment, summ, thread);
+		Message toTest = new Message(text, moment, summ, thread, null);
 
 		Date now = new Date(System.currentTimeMillis());
 

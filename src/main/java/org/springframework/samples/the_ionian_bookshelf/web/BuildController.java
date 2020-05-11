@@ -17,6 +17,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
+import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.samples.the_ionian_bookshelf.validators.BuildValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,12 +38,15 @@ public class BuildController {
     private final SummonerService summonerService;
 
     private final ThreadService threadService;
+    
+    private final VoteService voteService;
 
     @Autowired
-    public BuildController(BuildService buildService, SummonerService summonerService, ThreadService threadService) {
+    public BuildController(BuildService buildService, SummonerService summonerService, ThreadService threadService, VoteService voteService) {
         this.buildService = buildService;
         this.summonerService = summonerService;
         this.threadService = threadService;
+        this.voteService = voteService;
     }
 
     @InitBinder("build")
@@ -54,7 +58,11 @@ public class BuildController {
     public String listPublicBuilds(ModelMap model) {
 
         Collection<Build> builds = this.buildService.findAllPublics();
+        for (Build build : builds) {
+			build.setPunctuation(voteService.getPunctuationBuild(build));
+		}
         model.addAttribute("builds", builds);
+        
         return "builds/buildsList";
     }
 
@@ -72,6 +80,9 @@ public class BuildController {
         }
 
         Collection<Build> builds = this.buildService.findMineBuilds(this.summonerService.findByPrincipal().getId());
+        for (Build build : builds) {
+			build.setPunctuation(voteService.getPunctuationBuild(build));
+		}
         model.addAttribute("builds", builds);
         return "builds/buildsList";
     }
@@ -270,7 +281,7 @@ public class BuildController {
 
             if (build.isVisibility() == true && build.getThread() == null) {
                 Thread th = new Thread("Thread of " + build.getTitle(), "Este es el thread publico de la build "
-                        + build.getTitle() + ", cuyo autor es " + build.getSummoner().getUser().getUsername());
+                        + build.getTitle() + ", cuyo autor es " + build.getSummoner().getUser().getUsername(), null);
                 threadService.save(th);
                 build.setThread(th);
             }
