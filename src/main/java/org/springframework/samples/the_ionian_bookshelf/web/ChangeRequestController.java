@@ -191,7 +191,7 @@ public class ChangeRequestController {
 			result.getAllErrors().stream().forEach(x->System.out.println(x.toString()));
 			if(request.getChampion() != null) {
 				model.addAttribute("championId", request.getChampion().getId());
-			} else {
+			} else if(request.getItem() != null) {
 				model.addAttribute("itemId", request.getItem().getId());
 			}
 			model.addAttribute("request", request);
