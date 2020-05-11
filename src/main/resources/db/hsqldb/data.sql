@@ -308,7 +308,7 @@ INSERT INTO messages
 VALUES
     (100,
         '2010-10-10',
-        'Positive Tet Text',
+        'Positive Test Text',
         5,
         100,
         null);
