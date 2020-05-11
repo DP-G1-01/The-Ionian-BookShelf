@@ -71,7 +71,7 @@ public class MessageValidatorTest {
 
 		when(summService.findOne(summonerId)).thenReturn(summoner);
 		Summoner summ = this.summService.findOne(summonerId);
-		Thread threadMock = new Thread("Titulo","Descripcion de thread");
+		Thread threadMock = new Thread("Titulo","Descripcion de thread", 1);
 		when(threadService.findOne(threadId)).thenReturn(threadMock);
 		Thread thread = this.threadService.findOne(threadId);
 
@@ -98,7 +98,7 @@ public class MessageValidatorTest {
 	
 		when(summService.findOne(summonerId)).thenReturn(summoner);
 		Summoner summ = this.summService.findOne(summonerId);
-		Thread threadMock = new Thread("Titulo","Descripcion de thread");
+		Thread threadMock = new Thread("Titulo","Descripcion de thread", 1);
 		when(threadService.findOne(threadId)).thenReturn(threadMock);
 		Thread thread = this.threadService.findOne(threadId);
 

@@ -101,7 +101,7 @@ public class BuildControllerAPITest {
 	Collection<Champion> mains = new ArrayList<Champion>();
 	mains.add(c);
 	Summoner summoner = summonerService.findOne(1);
-	Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
+	Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, 1);
 	BindingResult bindingResult=new MapBindingResult(Collections.emptyMap(),"");
 	String view=buildController.salvarBuild(build, bindingResult, model);
 	assertEquals(view,"redirect:/mine/builds");
@@ -115,7 +115,7 @@ public class BuildControllerAPITest {
 		Collection<Champion> mains = new ArrayList<Champion>();
 		mains.add(c);
 		Summoner summoner = summonerService.findOne(1);
-		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
+		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, 1);
 		String view=buildController.processUpdateBuildForm(build, bindingResult, 1);
 		assertEquals(view,"redirect:/mine/builds");
 	}
@@ -129,7 +129,7 @@ public class BuildControllerAPITest {
 		Collection<Champion> mains = new ArrayList<Champion>();
 		mains.add(c);
 		Summoner summoner = summonerService.findOne(1);
-		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
+		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, 1);
 		String view=buildController.removeBuild(1, model);
 		assertEquals(view,"redirect:/mine/builds");
 	}

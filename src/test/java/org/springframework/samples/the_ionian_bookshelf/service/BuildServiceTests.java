@@ -19,6 +19,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
+import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
@@ -37,6 +38,9 @@ public class BuildServiceTests {
 	@Autowired
 	private BuildService buildService;
 
+	@Autowired
+	private RunePageService runePageService;
+	
 	@Autowired
 	protected BuildRepository buildRepository;
 
@@ -119,13 +123,13 @@ public class BuildServiceTests {
 	summoner.setUser(user);
 	summoner.setEmail("prupru@gmail.com");
 	summoner.setMains(mains);
-	Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan");
+	Thread t1 = new Thread("Estoy aquí", "Intentado acabar los tests ya que es tardecito hombre no es plan", 1);
 	threadRepository.save(t1);
 	League leg = new League("QWERTY", t1);
 	leagueRepository.save(leg);
 	summoner.setLeague(leg);
 	summonerRepository.save(summoner);
-	Build build = new Build("Build de testeooo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
+	Build build = new Build("Build de testeooo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, 1);
 	buildService.saveBuild(build);
 	Build build2 = buildService.findBuildById(build.getId());
 	assertEquals(build, build2);

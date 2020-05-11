@@ -69,9 +69,9 @@ public class BuildControllerE2ETest {
 		summoner.setUser(user);
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
-		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner);
-		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala");
-		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true, new ArrayList<>(), c, null, thr, summoner);
+		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, 1);
+		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala", 1);
+		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true, new ArrayList<>(), c, null, thr, summoner, 1);
 		List<Build> list = new ArrayList<>();
 		list.add(build);
 		list.add(buildVisible);
