@@ -28,6 +28,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
+import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
@@ -35,6 +36,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
+import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -65,6 +67,9 @@ public class BuildControllerTests {
 	private BuildService buildService;
 	
 	@MockBean
+	private VoteService voteService;
+	
+	@MockBean
 	private ThreadService threadService;
 	
 	@BeforeEach
@@ -81,9 +86,11 @@ public class BuildControllerTests {
 		summoner.setUser(user);
 		summoner.setEmail("pru@gmail.com");
 		summoner.setMains(mains);
-		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, null);
-		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala", null);
-		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true, new ArrayList<>(), c, null, thr, summoner, null);
+		Integer zero = 0;
+		List<Item> items = new ArrayList<>();
+		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, items, c, null, null, summoner, zero);
+		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala", 0);
+		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true,items, c, null, thr, summoner,zero);
 		List<Build> list = new ArrayList<>();
 		list.add(build);
 		list.add(buildVisible);

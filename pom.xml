@@ -319,7 +319,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<exclude>**/*UITest.java</exclude>
+						<exclude>**/*UITest.java</exclude>			
 					</excludes>
 				</configuration>
 			</plugin>
@@ -360,6 +360,8 @@
 						<configuration>
 							<includes>
 								<include>**/CucumberUITest.java</include>
+								<include>**/APITest.java</include>
+								<include>**/E2ETest.java</include>
 							</includes>
 						</configuration>
 					</plugin>

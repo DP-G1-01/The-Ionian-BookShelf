@@ -298,18 +298,18 @@ INSERT INTO item_attributes VALUES(10, '6');
 INSERT INTO item_attributes VALUES(10, '0');
 
 INSERT INTO change_requests VALUES(1, 'Soy una prueba que debe de tener 20 caracteres porquesi', 'PENDING', 'Gran titulo', 1, null, null, 1);
-INSERT INTO ChangeRequest_changechamp VALUES(1,'1');
-INSERT INTO ChangeRequest_changechamp VALUES(1,'5');
-INSERT INTO ChangeRequest_changechamp VALUES(1,'4');
-INSERT INTO ChangeRequest_changechamp VALUES(1,'2');
-INSERT INTO ChangeRequest_changechamp VALUES(1,'1');
+INSERT INTO ChangeRequest_changeChamp VALUES(1,'1');
+INSERT INTO ChangeRequest_changeChamp VALUES(1,'5');
+INSERT INTO ChangeRequest_changeChamp VALUES(1,'4');
+INSERT INTO ChangeRequest_changeChamp VALUES(1,'2');
+INSERT INTO ChangeRequest_changeChamp VALUES(1,'1');
 
 INSERT INTO change_requests VALUES(2, 'Soy una prueba que debe de tener 20 caracteres porquesi', 'PENDING', 'Gran titulo clonado', 1, null, null, 1);
-INSERT INTO ChangeRequest_changechamp VALUES(2,'1');
-INSERT INTO ChangeRequest_changechamp VALUES(2,'5');
-INSERT INTO ChangeRequest_changechamp VALUES(2,'4');
-INSERT INTO ChangeRequest_changechamp VALUES(2,'2');
-INSERT INTO ChangeRequest_changechamp VALUES(2,'1');
+INSERT INTO ChangeRequest_changeChamp VALUES(2,'1');
+INSERT INTO ChangeRequest_changeChamp VALUES(2,'5');
+INSERT INTO ChangeRequest_changeChamp VALUES(2,'4');
+INSERT INTO ChangeRequest_changeChamp VALUES(2,'2');
+INSERT INTO ChangeRequest_changeChamp VALUES(2,'1');
 
 INSERT INTO branches VALUES(1,'Slay your enemies in long term combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8000-8008.jpg','Precision');
 INSERT INTO branches VALUES(2,'Slay your enemies in short combats','https://lolstatic-a.akamaihd.net/frontpage/apps/prod/preseason-2018/es_ES/a6708b7ae3dbc0b25463f9c8e259a513d2c4c7e6/assets/img/runeBuilder/share/8100-8128.jpg','Domination');

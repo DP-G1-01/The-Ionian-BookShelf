@@ -50,7 +50,6 @@ public class BuildControllerE2ETest {
 	
 	private Build buildMock = mock(Build.class);
 	
-	private Summoner sumMock = mock(Summoner.class);
 	
 	@Autowired
 	private MockMvc mockMvc;

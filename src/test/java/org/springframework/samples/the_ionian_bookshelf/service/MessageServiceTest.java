@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -73,16 +75,14 @@ public class MessageServiceTest extends AbstractTest {
 			Integer auxMessId = null;
 			Message toSave = this.messageService.create(threadId);
 			toSave.setId(auxMessId);
-			assertThrows(NullPointerException.class, () -> {
+			assertThrows(ConstraintViolationException.class, () -> {
 				this.messageService.saveMessage(toSave);
 			});
 		} else {
 			Integer auxMessId = Integer.parseInt(messageId);
 			Message toSave = this.messageService.findOneMesageById(auxMessId);
-			assertThrows(AssertionError.class, () -> {
-				this.messageService.saveMessage(toSave);
-			});
-		}
+			assertTrue(!this.messageService.saveMessage(toSave).equals(null));
+			};
 		this.unauthenticate();
 	}
 
@@ -110,7 +110,7 @@ public class MessageServiceTest extends AbstractTest {
 			});
 		} else if (messageId.equals("0")) {
 			Message toDelete = this.messageService.create(100);
-			assertThrows(AssertionError.class, () -> {
+			assertThrows(NullPointerException.class, () -> {
 				this.messageService.delete(toDelete);
 			});
 		} else if (username.equals("summoner4")) {
