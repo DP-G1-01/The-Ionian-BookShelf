@@ -15,7 +15,6 @@ import org.springframework.samples.the_ionian_bookshelf.service.RunePageService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.validators.RunePageValidator;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -134,7 +133,7 @@ public class RunePageController {
 		
 		Summoner principal = this.summonerService.findByPrincipal();
 		RunePage runePage = runePageService.findOne(runePageId);
-		if (runePage != null && runePage.getSummoner().equals(principal)) {
+		if (runePage != null && runePage.getSummoner().getId().equals(principal.getId())) {
 			this.runePageService.delete(runePage);
 			modelMap.addAttribute("message", "Rune Page delete successfully");
 		} else if (runePage == null) {
@@ -146,7 +145,7 @@ public class RunePageController {
 	}
 	
 	@GetMapping(value = "/runePages/{runePageId}/edit")
-	public String initUpdateRuneForm(@PathVariable("runePageId") int runePageId, Model model) {
+	public String initUpdateRunePageForm(@PathVariable("runePageId") int runePageId, ModelMap model) {
 		String view = "redirect:/login";
 		try {
 			this.summonerService.findByPrincipal();
@@ -160,7 +159,7 @@ public class RunePageController {
 		RunePage runePage = this.runePageService.findOne(runePageId);
 		Summoner summoner = this.summonerService.findByPrincipal();
 		
-		if(runePage!=null && runePage.getSummoner().equals(summoner)) {
+		if(runePage!=null && runePage.getSummoner().getId().equals(summoner.getId())) {
 			model.addAttribute(runePage);
 			view = "runePages/editRunePage";
 		}else if(runePage == null) {
@@ -180,7 +179,7 @@ public class RunePageController {
 		} catch (NoSuchElementException u) {
 			return "redirect:/login";
 		}
-		if(runePage!=null && runePage.getSummoner().equals(this.summonerService.findByPrincipal()) && !result.hasErrors()) {
+		if(runePage!=null && runePage.getSummoner().getId().equals(this.summonerService.findByPrincipal().getId()) && !result.hasErrors()) {
 			runePage.setId(runePageId);
 			this.runePageService.save(runePage);
 			return "runePages/mine";

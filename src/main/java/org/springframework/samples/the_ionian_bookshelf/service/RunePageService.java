@@ -60,8 +60,7 @@ public class RunePageService {
 	public void save(RunePage runePage) throws DataAccessException {
 		assertNotNull(runePage);
 		assertNotNull(runePage.getSummoner());
-		//Comprobamos que la página de runas sea del summoner que está loggeado
-		assertEquals(runePage.getSummoner(), this.summonerService.findByPrincipal());
+		assertEquals(this.summonerService.findByPrincipal().getId(), runePage.getSummoner().getId());
 		this.runePageRepository.save(runePage);
 	}
 
@@ -70,7 +69,7 @@ public class RunePageService {
 		assertNotNull(runePage);
 		assertNotNull(runePage.getId());
 		Summoner principal = this.summonerService.findByPrincipal();
-		assertTrue(principal.equals(runePage.getSummoner()));
+		assertTrue(principal.getId().equals(runePage.getSummoner().getId()));
 		Collection<Build> builds = this.buildRepository.findAllByRunePage(runePage.getId());
 		builds.forEach(x -> this.buildRepository.delete(x));
 		this.runePageRepository.delete(runePage);

@@ -123,8 +123,7 @@ public class RuneControllerE2ETest {
 	void testProcessUpdateRuneFormError() throws Exception {
 		mockMvc.perform(post("/runes/1/edit").with(csrf()).param("name", "").param("description", "Una descripción de runa")
 				.param("branch", "Precision").param("node", "1"))
-				.andExpect(status().isOk()).andExpect(view().name("runes/editRune"))
-				.andExpect(model().attributeHasFieldErrors("rune", "name"));
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/runes/editRune"));
 	}
 	
 	
