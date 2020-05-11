@@ -20,6 +20,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,8 +28,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(
   webEnvironment=SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-/*@TestPropertySource(
-  locations = "classpath:application-mysql.properties")*/
+@TestPropertySource(
+  locations = "classpath:application-mysql.properties")
 public class ItemControllerE2ETest {
 	@Autowired
 	private MockMvc mockMvc;
