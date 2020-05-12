@@ -76,12 +76,11 @@ public class RunePageControllerAPITest extends AbstractTest{
 		String view=runePageController.crearPaginaRuna(model);
 		assertEquals(view,"redirect:/login");
 		assertNotNull(model.get("message"));	
-
 	}
 	
 	@WithMockUser(username = "summoner1", authorities = "summoner")
 	@Test
-	void testCreationRuneForm() throws Exception {
+	void testCreationRunePageForm() throws Exception {
 		ModelMap model = new ModelMap();
 		RunePage runePage= new RunePage();
 		Branch mainBranch = branchService.findBranchById(1);
