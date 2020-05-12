@@ -14,16 +14,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.repository.BranchRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RuneRepository;
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class RuneServiceTests {
 
 	@Autowired

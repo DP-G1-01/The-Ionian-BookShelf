@@ -6,7 +6,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collection;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
@@ -43,19 +46,19 @@ public class ItemService {
 
 		return res;
 	}
-
-	public Item findOne(final int id) {
+	@Transactional
+	public Item findOne(final int id) throws DataAccessException {
 
 		assertTrue(id != 0);
 
-		final Item res = this.itemRepository.findById(id).get();
+		final Item res = this.itemRepository.findById(id);
 		assertNotNull(res);
 
 		return res;
 	}
-
-	public Item findItemById(int itemId) {
-		Item item = itemRepository.findItemById(itemId);
+	@Transactional
+	public Item findItemById(int itemId) throws DataAccessException {
+		Item item = itemRepository.findById(itemId);
 		assertNotNull(item);
 		return item;
 		

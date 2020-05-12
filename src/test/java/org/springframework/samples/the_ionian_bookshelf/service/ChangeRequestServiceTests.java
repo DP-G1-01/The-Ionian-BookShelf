@@ -15,7 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.ChangeRequest;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
@@ -30,9 +33,11 @@ import org.springframework.samples.the_ionian_bookshelf.repository.LeagueReposit
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class ChangeRequestServiceTests {
 	
 	@Autowired
@@ -42,7 +47,7 @@ public class ChangeRequestServiceTests {
 	protected ChangeRequestRepository changeRequestRepository;
 
 	@Autowired
-	private ChangeRequestService changeRequestService;
+	protected ChangeRequestService changeRequestService;
 
 	@Autowired
 	protected ItemRepository itemRepository;
@@ -71,13 +76,13 @@ public class ChangeRequestServiceTests {
 		assertEquals(0, changeRequestRepository.count());
 	}
 	
-//	@Test
-//	@Transactional
-//	void testFindOne() {
-//		ChangeRequest requests = changeRequestService.findChangeRequestById(1);
-//		ChangeRequest requests2 = changeRequestRepository.findChangeRequestById(1);
-//		assertEquals(requests, requests2);
-//	}
+	@Test
+	@Transactional
+	void testFindOne() {
+		ChangeRequest requests = this.changeRequestService.findChangeRequestById(1);
+		ChangeRequest requests2 = changeRequestRepository.findChangeRequestById(1);
+		assertEquals(requests, requests2);
+	}
 	
 	@Test
 	@Transactional

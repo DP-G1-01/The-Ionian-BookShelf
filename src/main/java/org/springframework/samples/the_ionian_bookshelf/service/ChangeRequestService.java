@@ -63,7 +63,7 @@ public class ChangeRequestService {
 
 		return res;
 	}
-
+	@Transactional
 	public ChangeRequest findOne(int id) {
 
 		assertTrue(id != 0);
@@ -74,7 +74,7 @@ public class ChangeRequestService {
 		return res;
 
 	}
-
+	@Transactional
 	public ChangeRequest findChangeRequestById(int id) {
 		ChangeRequest request = changeRepository.findChangeRequestById(id);
 		assertNotNull(request);

@@ -16,7 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
@@ -29,28 +32,34 @@ import org.springframework.samples.the_ionian_bookshelf.repository.RunePageRepos
 import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+
+
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class ThreadServiceTests {
 
 	@Autowired
-	private ChangeRequestRepository changeRequestRepository;
+	protected ChangeRequestRepository changeRequestRepository;
 	@Autowired
-	private ThreadService threadService;
+	protected ThreadService threadService;
 	@Autowired
-	private ThreadRepository threadRepository;
+	protected ThreadRepository threadRepository;
 	@Autowired
-	private LeagueRepository leagueRepository;
+	protected LeagueRepository leagueRepository;
 	@Autowired
-	private SummonerRepository summonerRepository;
+	protected SummonerRepository summonerRepository;
 	@Autowired
-	private RunePageRepository runePageRepository;
+	protected RunePageRepository runePageRepository;
 	@Autowired
-	private BuildRepository buildRepository;
+	protected BuildRepository buildRepository;
 	@Autowired
-	private MessageRepository messageRepository;
-
+	protected MessageRepository messageRepository;
+//	@Autowired
+//	protected MessageRepository messageRepository;
+	
 	@Test
 	@BeforeAll
 	void testFindAll() {
@@ -63,22 +72,27 @@ public class ThreadServiceTests {
 	@AfterAll
 	void testFindAllEmpty() {
 		changeRequestRepository.deleteAll();
-		messageRepository.deleteAll();
+		
 		buildRepository.deleteAll();
 		runePageRepository.deleteAll();
+	
 		summonerRepository.deleteAll();
 		leagueRepository.deleteAll();
+		messageRepository.deleteAll();
 		threadRepository.deleteAll();
+		
+		
+		
 		assertEquals(0, threadRepository.count());
 	}
 	
-//	@Test
-//	@Transactional
-//	void testFindOne() {
-//		Thread i = threadService.findOne(1);
-//		Thread ii = threadRepository.findById(1).get();
-//		assertEquals(i, ii);
-//	} 
+	@Test
+	@Transactional
+	void testFindOne() {
+		Thread i = this.threadService.findOne(1);
+		Thread ii = this.threadRepository.findById(1).get();
+		assertEquals(i, ii);
+	} 
 	
 	@Test
 	@Transactional
@@ -122,34 +136,34 @@ public class ThreadServiceTests {
 		assertEquals((l - 1), l2);
 	}
 	
-//	@Test
-//	@Transactional
-//	@WithMockUser(value = "admin")
-//	void testDeleteThreadWithLeagueError() {
-//	Thread thread = new Thread();
-//	thread.setTitle("Titulo Thread Testing");
-//	thread.setDescription("Description Thread Testing");
-//	threadService.save(thread);
-//	League league = new League();
-//	league.setName("League");
-//	league.setThread(thread);
-//	leagueRepository.save(league);
-//	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
-//	assertEquals(AssertionError.class, error.getClass());
-//	}
-//	
-//	@Test
-//	@Transactional
-//	@WithMockUser(value = "RAIMUNDOKARATE98")
-//	void testDeleteThreadLoggedAsSummonerError() {
-//		Thread thread = new Thread();
-//		thread.setTitle("Titulo Thread Testing");
-//		thread.setDescription("Description Thread Testing");
-//		threadService.save(thread);
-//		
-//		AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(threadService.findOne(thread.getId())));
-//		assertEquals(AssertionError.class, error.getClass());
-//	}
+	@Test
+	@Transactional
+	@WithMockUser(value = "admin")
+	void testDeleteThreadWithLeagueError() {
+	Thread thread = new Thread();
+	thread.setTitle("Titulo Thread Testing");
+	thread.setDescription("Description Thread Testing");
+	threadService.save(thread);
+	League league = new League();
+	league.setName("League");
+	league.setThread(thread);
+	leagueRepository.save(league);
+	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
+	assertEquals(AssertionError.class, error.getClass());
+	}
+	
+	@Test
+	@Transactional
+	@WithMockUser(value = "RAIMUNDOKARATE98")
+	void testDeleteThreadLoggedAsSummonerError() {
+		Thread thread = new Thread();
+		thread.setTitle("Titulo Thread Testing");
+		thread.setDescription("Description Thread Testing");
+		threadService.save(thread);
+		
+		AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(threadService.findOne(thread.getId())));
+		assertEquals(AssertionError.class, error.getClass());
+	}
 	
 	@Test
 	@Transactional
@@ -167,7 +181,6 @@ public class ThreadServiceTests {
 	@Transactional
 	@WithMockUser(value = "admin")
 	void testDeleteFromMessages() {
-		messageRepository.deleteAll();
 		Thread thread = new Thread();
 		thread = threadService.findOne(3);
 		Date moment = new Date(System.currentTimeMillis() - 1);

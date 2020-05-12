@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(
   webEnvironment=SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class ChangeRequestControllerE2ETest {
 
 	private static final int TEST_ID = 1;
@@ -56,12 +58,12 @@ public class ChangeRequestControllerE2ETest {
 		.andExpect(view().name("redirect:/login"));
 	}
 
-//	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
-//	@Test
-//	void testShowRequest() throws Exception {
-//		mockMvc.perform(get("/requests/{requestId}", 1)).andExpect(status().isOk())
-//		.andExpect(view().name("requests/createRequest"));
-//	}
+	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
+	@Test
+	void testShowRequest() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}", 1)).andExpect(status().isOk())
+		.andExpect(view().name("requests/createRequest"));
+	}
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -70,12 +72,12 @@ public class ChangeRequestControllerE2ETest {
 		.andExpect(view().name("redirect:/login"));
 	}
 	
-//	@WithMockUser(username="summoner1",authorities= {"summoner"})
-//	@Test
-//	void testShowMineRequest() throws Exception {	
-//		mockMvc.perform(get("/mine/requests/{requestId}",1)).andExpect(status().isOk())
-//		.andExpect(view().name("requests/createRequest"));
-//	}
+	@WithMockUser(username="summoner1",authorities= {"summoner"})
+	@Test
+	void testShowMineRequest() throws Exception {	
+		mockMvc.perform(get("/mine/requests/{requestId}",1)).andExpect(status().isOk())
+		.andExpect(view().name("requests/createRequest"));
+	}
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -84,13 +86,13 @@ public class ChangeRequestControllerE2ETest {
 		.andExpect(view().name("redirect:/login"));
 	}
 	
-//	@WithMockUser(username="summoner1",authorities= {"summoner"})
-//	@Test
-//	void testInitCreationChangeRequestFromSummoner() throws Exception {
-//		mockMvc.perform(get("/champions/{championId}/newChangeRequest",1)).andExpect(status().is2xxSuccessful()).andExpect(model()
-//				.attributeExists("champion"))
-//				.andExpect(view().name("requests/createRequest"));
-//	}
+	@WithMockUser(username="summoner1",authorities= {"summoner"})
+	@Test
+	void testInitCreationChangeRequestFromSummoner() throws Exception {
+		mockMvc.perform(get("/champions/{championId}/newChangeRequest",1)).andExpect(status().is2xxSuccessful()).andExpect(model()
+				.attributeExists("champion"))
+				.andExpect(view().name("requests/createRequest"));
+	}
 
 	@WithMockUser(username="reviewer1",authorities= {"reviewer"})	
 	@Test
@@ -99,22 +101,22 @@ public class ChangeRequestControllerE2ETest {
 		.andExpect(view().name("redirect:/"));
 	}
 	
-//	@WithMockUser(username="summoner1",authorities= {"summoner"})
-//	@Test
-//	void testChangeRequestNew() throws Exception {
-//		mockMvc.perform(post("/requests/saveChangeRequest").with(csrf())
-//				.param("title", "nombre request")
-//				.param("description", "Una descripción de una request que esta aqui y ahora")
-//				.param("changeChamp[0]", "900")
-//				.param("changeChamp[1]", "500")
-//				.param("changeChamp[2]", "1")
-//				.param("changeChamp[3]", "1")
-//				.param("changeChamp[4]", "1")
-//				.param("status", "PENDING")
-//				.param("champion", "1")
-//				.param("summoner", "1"))
-//				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/mine/requests"));
-//	}
+	@WithMockUser(username="summoner1",authorities= {"summoner"})
+	@Test
+	void testChangeRequestNew() throws Exception {
+		mockMvc.perform(post("/requests/saveChangeRequest").with(csrf())
+				.param("title", "nombre request")
+				.param("description", "Una descripción de una request que esta aqui y ahora")
+				.param("changeChamp[0]", "900")
+				.param("changeChamp[1]", "500")
+				.param("changeChamp[2]", "1")
+				.param("changeChamp[3]", "1")
+				.param("changeChamp[4]", "1")
+				.param("status", "PENDING")
+				.param("champion", "1")
+				.param("summoner", "1"))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/mine/requests"));
+	}
 	
 	@WithMockUser(username="reviewer1",authorities= {"reviewer"})	
 	@Test
@@ -151,32 +153,32 @@ public class ChangeRequestControllerE2ETest {
 				.andExpect(model().attributeHasFieldErrors("request", "description"));;
 	}
 
-//	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
-//	@Test
-//	void testDeleteRequestSuccessRev() throws Exception {
-//		mockMvc.perform(get("/requests/{requestId}/remove", TEST_ID2)).andExpect(status().is3xxRedirection())
-//				.andExpect(view().name("redirect:/requests"));
-//	}
-//	
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testDeleteRequestWithoutLoginAsRev() throws Exception {
-//		mockMvc.perform(get("/requests/{requestId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
-//		.andExpect(view().name("redirect:/login"));
-//	}
+	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
+	@Test
+	void testDeleteRequestSuccessRev() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}/remove", TEST_ID2)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/requests"));
+	}
 	
-//	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
-//	@Test
-//	void testAcceptRequestRev() throws Exception {
-//		mockMvc.perform(get("/requests/{requestId}/accept", TEST_ID)).andExpect(status().is3xxRedirection())
-//		.andExpect(view().name("redirect:/requests"));
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteRequestWithoutLoginAsRev() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/login"));
+	}
 	
-//	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
-//	@Test
-//	void testRejectRequestRev() throws Exception {
-//		mockMvc.perform(get("/requests/{requestId}/reject", TEST_ID)).andExpect(status().is3xxRedirection())
-//		.andExpect(view().name("redirect:/requests"));
-//	}
+	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
+	@Test
+	void testAcceptRequestRev() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}/accept", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/requests"));
+	}
+	
+	@WithMockUser(username="reviewer1",authorities= {"reviewer"})
+	@Test
+	void testRejectRequestRev() throws Exception {
+		mockMvc.perform(get("/requests/{requestId}/reject", TEST_ID)).andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/requests"));
+	}
 }
 

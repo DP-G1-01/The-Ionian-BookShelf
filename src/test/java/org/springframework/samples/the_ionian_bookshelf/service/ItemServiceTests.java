@@ -15,16 +15,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
-@SpringBootTest
-@TestInstance (Lifecycle.PER_CLASS)
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class ItemServiceTests {
 
 	@Autowired
@@ -37,7 +42,7 @@ public class ItemServiceTests {
 	protected BuildRepository buildRepository;
 	
 	@Autowired
-	private ItemService itemService;
+	protected ItemService itemService;
 	
 	@Test
 	@BeforeAll
@@ -46,23 +51,16 @@ public class ItemServiceTests {
 		assertEquals(itemRepository.count(), items.size());
 	}
 	
+
+	
 	@Test
 	@Transactional
-	@AfterAll
-	void testFindAllEmpty() {
-		buildRepository.deleteAll();
-		itemRepository.deleteAll();
-		assertEquals(0, itemRepository.count());
+	void testFindOne() {
+		Item i = this.itemService.findItemById(1);
+		Item ii = itemRepository.findItemById(1);
+		assertEquals(i, ii);
 	} 
 	
-//	@Test
-//	@Transactional
-//	void testFindOne() {
-//		Item i = itemService.findItemById(1);
-//		Item ii = itemRepository.findItemById(1);
-//		assertEquals(i, ii);
-//	} 
-//	
 	
 	@Test
 	@Transactional
@@ -117,4 +115,12 @@ public class ItemServiceTests {
 		Collection<Role> roles = itemService.findRoles();
 		assertEquals(roleRepository.count(), roles.size());
 	}
+	@Test
+	@Transactional
+	@AfterAll
+	void testFindAllEmpty() {
+		buildRepository.deleteAll();
+		itemRepository.deleteAll();
+		assertEquals(0, itemRepository.count());
+	} 
 }

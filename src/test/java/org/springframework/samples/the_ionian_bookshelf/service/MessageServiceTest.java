@@ -1,6 +1,7 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
 import static org.junit.Assert.assertTrue;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
@@ -11,15 +12,23 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.utilities.AbstractTest;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class MessageServiceTest extends AbstractTest {
 
 	@Autowired

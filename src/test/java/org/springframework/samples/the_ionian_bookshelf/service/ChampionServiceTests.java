@@ -15,7 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Role;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepository;
@@ -23,9 +26,11 @@ import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepositor
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.RoleService;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class ChampionServiceTests {
 
     @Autowired
@@ -49,13 +54,13 @@ public class ChampionServiceTests {
     }
 
     // Encontrar un campeon por su id
-//    @Test
-//    @Transactional
-//    void testFindChampionById() {
-//        Champion i = championService.findChampionById(1);
-//        Champion ii = championRepository.findById(1).get();
-//        assertEquals(i, ii);
-//    }
+    @Test
+    @Transactional
+    void testFindChampionById() {
+        Champion i = championService.findChampionById(1);
+        Champion ii = championRepository.findById(1).get();
+        assertEquals(i, ii);
+    }
 
     @Test
     @Transactional

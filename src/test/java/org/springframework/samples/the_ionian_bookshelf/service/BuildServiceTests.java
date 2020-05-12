@@ -14,7 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.League;
@@ -30,16 +33,15 @@ import org.springframework.samples.the_ionian_bookshelf.repository.LeagueReposit
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class BuildServiceTests {
 
 	@Autowired
-	private BuildService buildService;
-
-	@Autowired
-	private RunePageService runePageService;
+	protected BuildService buildService;
 	
 	@Autowired
 	protected BuildRepository buildRepository;
@@ -77,20 +79,20 @@ public class BuildServiceTests {
 		assertEquals(0, buildRepository.count());
 	}
 	
-//	@Test
-//	@Transactional
-//	@BeforeAll
-//	void testFindOne() {
-//		Boolean bol= false;
-//		Build build = buildService.findBuildById(2);
-//		Build build2 = buildRepository.findBuildById(2);
-//		if(build.getChampion().getName()==build2.getChampion().getName()
-//				&& build.getTitle() == build.getTitle()) {
-//			bol=true;
-//		}
-//		System.out.println(bol);
-//		assertEquals(true, bol);
-//	}
+	@Test
+	@Transactional
+	@BeforeAll
+	void testFindOne() {
+		Boolean bol= false;
+		Build build = buildService.findBuildById(2);
+		Build build2 = buildRepository.findBuildById(2);
+		if(build.getChampion().getName()==build2.getChampion().getName()
+				&& build.getTitle() == build.getTitle()) {
+			bol=true;
+		}
+		System.out.println(bol);
+		assertEquals(true, bol);
+	}
 
 	@Test
 	@Transactional
@@ -135,12 +137,12 @@ public class BuildServiceTests {
 	assertEquals(build, build2);
 	}
 	
-//	@Test
-//	@Transactional
-//	void testRemoveBuildById() {
-//		long l = buildRepository.count();
-//		buildService.removeBuildById(1);
-//		long l2 = buildRepository.count();
-//		assertEquals((l-1), l2);
-//	}
+	@Test
+	@Transactional
+	void testRemoveBuildById() {
+		long l = buildRepository.count();
+		buildService.removeBuildById(1);
+		long l2 = buildRepository.count();
+		assertEquals((l-1), l2);
+	}
 }

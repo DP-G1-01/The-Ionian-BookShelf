@@ -14,7 +14,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Branch;
 import org.springframework.samples.the_ionian_bookshelf.model.Rune;
 import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
@@ -24,9 +27,11 @@ import org.springframework.samples.the_ionian_bookshelf.repository.RunePageRepos
 import org.springframework.samples.the_ionian_bookshelf.repository.RuneRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepository;
 import org.springframework.samples.the_ionian_bookshelf.utilities.AbstractTest;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class RunePageServiceTests extends AbstractTest {
 
 	@Mock
@@ -39,13 +44,13 @@ public class RunePageServiceTests extends AbstractTest {
 	protected RunePageRepository runePageRepository;
 
 	@Autowired
-	private RunePageService runePageService;
+	protected RunePageService runePageService;
 	
 	@Autowired
-	private RuneRepository runeRepository;
+	protected RuneRepository runeRepository;
 
 	@Autowired
-	private SummonerRepository summonerRepository;
+	protected SummonerRepository summonerRepository;
 
 	@Test
 	@Transactional
@@ -66,13 +71,13 @@ public class RunePageServiceTests extends AbstractTest {
 		assertEquals(AssertionError.class, exception.getClass());
 	}
 
-//	@Test
-//	@Transactional
-//	void testFindOne() {
-//		RunePage i = this.runePageService.findOne(1);
-//		RunePage ii = this.runePageRepository.findById(1).get();
-//		assertEquals(i, ii);
-//	}
+	@Test
+	@Transactional
+	void testFindOne() {
+		RunePage i = this.runePageService.findOne(1);
+		RunePage ii = this.runePageRepository.findById(1).get();
+		assertEquals(i, ii);
+	}
 
 	@Test
 	@Transactional
