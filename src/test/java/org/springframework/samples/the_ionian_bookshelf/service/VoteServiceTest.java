@@ -2,36 +2,43 @@ package org.springframework.samples.the_ionian_bookshelf.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.utilities.AbstractTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Service;
 
-@SpringBootTest
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
-public class VoteServiceTest extends AbstractTest {
+public class VoteServiceTest  {
 
 	@Autowired
-	private VoteService voteService;
+	protected VoteService voteService;
 
 	@Autowired
-	private SummonerService summonerService;
+	protected SummonerService summonerService;
 
 	@Autowired
-	private MessageService messageService;
+	protected MessageService messageService;
 	
 	@Autowired
-	private BuildService buildService;
+	protected BuildService buildService;
 
 	@Autowired
-	private ThreadService threadService;
+	protected ThreadService threadService;
 
 	@DisplayName("Find by Thread ID")
 	@ParameterizedTest(name = "\"{0}\": Represents Thread's ID")
@@ -125,6 +132,7 @@ public class VoteServiceTest extends AbstractTest {
 		}
 
 	}
+	
 	@WithMockUser("RAIMUNDOKARATE98")
 	@DisplayName("Upvote a Thread")
 	@ParameterizedTest(name = "\"{0}\": Represents the id of the Thread to upvote")
@@ -178,7 +186,7 @@ public class VoteServiceTest extends AbstractTest {
 			this.voteService.createDownVoteByThreadId(id);
 		}
 	}
-
+	
 	@WithMockUser("RAIMUNDOKARATE98")
 	@DisplayName("Upvote a Message")
 	@ParameterizedTest(name = "\"{0}\": Represents the id of the Message to upvote")
