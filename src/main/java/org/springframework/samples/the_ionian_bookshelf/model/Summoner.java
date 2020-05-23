@@ -27,8 +27,7 @@ public class Summoner extends Actor {
 
 	@NotNull
 	@Valid
-	@ManyToMany()
-	@ElementCollection
+	@ManyToMany
 	@JoinTable(name = "summoner_mains", joinColumns = @JoinColumn(name = "summoner_id"), inverseJoinColumns = @JoinColumn(name = "champion_id"))
 	private Collection<Champion> mains;
 

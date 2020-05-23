@@ -9,8 +9,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
+import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
+import org.springframework.samples.the_ionian_bookshelf.service.LeagueService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -30,6 +32,9 @@ public class SummonerController extends AbstractController {
 
 	@Autowired
 	private ChampionService champService;
+	
+	@Autowired
+	private LeagueService leagueService;
 
 	// Edition --------------------------------------------------------
 
@@ -39,8 +44,8 @@ public class SummonerController extends AbstractController {
 		ModelAndView res;
 		try {
 			final Summoner principal = this.summonerService.findByPrincipal();
-
 			res = this.createEditModelAndView(principal);
+
 		} catch (Throwable oups) {
 			return new ModelAndView("redirect:/");
 		}
@@ -55,22 +60,31 @@ public class SummonerController extends AbstractController {
 
 		ModelAndView res;
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
 			res = this.createEditModelAndView(summoner);
-		else
+		} else {
+			Collection<Champion> champs = new ArrayList<Champion>();
+
 			try {
-				Collection<Champion> champs = new ArrayList<Champion>();
 				String[] champsId = request.getParameterValues("champsId");
 				for (String id : champsId) {
 					champs.add(this.champService.findChampionById(Integer.parseInt(id)));
 				}
-				summoner.setMains(champs);
-				this.summonerService.save(summoner);
-
-				res = new ModelAndView("redirect:/");
 			} catch (final Throwable oops) {
-				res = this.createEditModelAndView(summoner, "actor.commit.error");
 			}
+			String[] leagueId = request.getParameterValues("leagueId");
+			League league = this.leagueService.findOne(Integer.parseInt(leagueId[0]));
+			summoner.setLeague(league);
+			summoner.setMains(champs);
+			res = new ModelAndView("redirect:/");
+
+			try {
+				this.summonerService.save(summoner);
+			}catch(final Throwable oops){
+				res = this.createEditModelAndView(summoner);
+			}
+
+		}
 		return res;
 
 	}
@@ -101,7 +115,7 @@ public class SummonerController extends AbstractController {
 			Summoner summoner;
 
 			summoner = this.summonerService.findByPrincipal();
-			res = new ModelAndView("summoner/show");
+			res = new ModelAndView("summoner/display");
 			res.addObject("summoner", summoner);
 		} catch (Throwable oups) {
 			return new ModelAndView("redirect:/");
@@ -121,12 +135,23 @@ public class SummonerController extends AbstractController {
 	}
 
 	protected ModelAndView createEditModelAndView(final Summoner summoner, final String messageCode) {
-
 		ModelAndView res;
-
+		final String role = "summoner";
+		Collection<Champion> champs = this.champService.findAll();
+		Collection<League> leagues = this.leagueService.findAll();
 		res = new ModelAndView("actor/edit");
 		res.addObject("actor", summoner);
-		res.addObject("role", "summoner");
+		res.addObject("role", role);
+		res.addObject("champs", champs);
+		res.addObject("leagues", leagues);
+		try {
+			Integer leagueId = summoner.getLeague().getId();
+			res.addObject("curLeagueId", leagueId);
+		}catch(NullPointerException e) {
+		}
+
+		res.addObject("curMains", summoner.getMains());
+
 //		res.addObject("requestURI", "summoner/edit.do");
 		res.addObject("message", messageCode);
 		// the message code references an error message or null

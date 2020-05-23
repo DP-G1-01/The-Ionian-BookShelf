@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Actor;
 import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
+import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Reviewer;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
+import org.springframework.samples.the_ionian_bookshelf.service.LeagueService;
 import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,9 @@ public class ActorController extends AbstractController {
 
 	@Autowired
 	private ChampionService champService;
+	
+	@Autowired
+	private LeagueService leagueService;
 
 	@Autowired
 	private AuthoritiesService authService;
@@ -58,10 +63,13 @@ public class ActorController extends AbstractController {
 
 			final String role = "summoner";
 			Collection<Champion> champs = this.champService.findAll();
+			Collection<League> leagues = this.leagueService.findAll();
 
 			result = this.createEditModelAndView(summoner);
 			result.addObject("role", role);
 			result.addObject("champs", champs);
+			result.addObject("leagues", leagues);
+
 		} catch (Exception oups) {
 			return new ModelAndView("redirect:/");
 		} catch (AssertionError oups) {
