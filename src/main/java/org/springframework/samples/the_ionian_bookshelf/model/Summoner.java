@@ -37,4 +37,5 @@ public class Summoner extends Actor {
 	@JoinColumn(name = "league_id")
 	private League league;
 
+	private Boolean banned;
 }
