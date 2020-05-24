@@ -5,10 +5,12 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
+import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
+import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
+import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.stereotype.Controller;
@@ -29,18 +31,32 @@ public class ThreadController {
 
 	private final AdministratorService administratorService;
 
+	private final SummonerService summonerService;
+
 	@Autowired
 	public ThreadController(final ThreadService threadService, final MessageService messageService,
-			final VoteService voteService, final AdministratorService administratorService) {
+			final VoteService voteService, final AdministratorService administratorService,
+			SummonerService summonerService) {
 		this.threadService = threadService;
 		this.messageService = messageService;
 		this.voteService = voteService;
 		this.administratorService = administratorService;
+		this.summonerService = summonerService;
 	}
 
 	// Listado de threads
 	@GetMapping(value = "/threads")
 	public String showThreadList(ModelMap modelMap) {
+
+		try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+		
 		String vista = "threads/listadoThreads";
 		Iterable<Thread> threads = this.threadService.findAll();
 		for (Thread thread : threads) {
@@ -53,6 +69,15 @@ public class ThreadController {
 	// Listado de Mensajes
 	@GetMapping(value = "threads/{threadId}")
 	public String showMessageListFromThread(ModelMap map, @PathVariable("threadId") int threadId) {
+		try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+		
 		String vista = "messages/listadoMessages";
 		Thread thread = this.threadService.findOne(threadId);
 		Iterable<Message> messages = this.messageService.findByThread(thread);
@@ -68,6 +93,14 @@ public class ThreadController {
 	// Creacion de thread
 	@GetMapping(value = "/threads/new")
 	public String createThread(ModelMap modelMap) {
+		try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
 		String vista = "threads/createThread";
 		Thread thread = this.threadService.create();
 		modelMap.addAttribute("thread", thread);
@@ -76,6 +109,15 @@ public class ThreadController {
 
 	@PostMapping(value = "/threads/save")
 	public String saveThread(@Valid Thread thread, BindingResult result, ModelMap modelMap) {
+		try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+		
 		if (result.hasErrors()) {
 			modelMap.addAttribute("thread", thread);
 			return "threads/createThread";
