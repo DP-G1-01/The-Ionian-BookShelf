@@ -16,8 +16,10 @@ import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepos
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RunePageRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class BuildService {
 
     @Autowired
@@ -42,6 +44,7 @@ public class BuildService {
         return res;
     }
 
+    
     public Collection<Build> findAllPublics() {
 
         final Collection<Build> res = this.buildRepository.findAllPublics();

@@ -15,6 +15,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
@@ -37,6 +38,8 @@ public class BuildController {
 
     private final SummonerService summonerService;
 
+//    private final ChampionService championService;
+    
     private final ThreadService threadService;
     
     private final VoteService voteService;
@@ -189,7 +192,7 @@ public class BuildController {
 
     @PostMapping(value = "mine/builds/save")
     public String salvarBuild(@Valid Build build, BindingResult result, ModelMap model) {
-
+    	
         try {
             this.summonerService.findByPrincipal();
         } catch (NoSuchElementException u) {
@@ -206,7 +209,7 @@ public class BuildController {
             model.addAttribute("summonerId", summonerId);
             return "builds/editBuild";
         } else {
-            System.out.println("else");
+            
             buildService.saveBuild(build);
             model.addAttribute("message", "Build save successfully");
         }

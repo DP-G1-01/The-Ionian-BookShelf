@@ -14,6 +14,7 @@ import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequest
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class ChangeRequestService {
 
 	@Autowired
