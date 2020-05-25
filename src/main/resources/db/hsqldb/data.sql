@@ -251,35 +251,35 @@ VALUES
 INSERT INTO summoners
 VALUES
     (1,
-        'summoner1@gmail.com',
+        'summoner1@gmail.com', false,
         'summoner1',
         1);
 
 INSERT INTO summoners
 VALUES
     (2,
-        'summoner2@gmail.com',
+        'summoner2@gmail.com', false,
         'summoner2',
         1);
 
 INSERT INTO summoners
 VALUES
     (3,
-        'summoner3@gmail.com',
+        'summoner3@gmail.com', false,
         'summoner3',
         1);
 
 INSERT INTO summoners
 VALUES
     (4,
-        'summoner4@gmail.com',
+        'summoner4@gmail.com', false,
         'summoner4',
         1);
 
 INSERT INTO summoners
 VALUES
     (5,
-        'raimundokarate@gmail.com',
+        'raimundokarate@gmail.com', true,
         'RAIMUNDOKARATE98',
         3);
 

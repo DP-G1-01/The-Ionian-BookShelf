@@ -80,6 +80,20 @@ public class SummonerService {
 
 		return saved;
 	}
+	
+	public void banear(Summoner summ) {
+		
+		assertNotNull(summ);
+		
+		summ.setBanned(true);
+	}
+	
+	public void desbanear(Summoner summ) {
+		
+		assertNotNull(summ);
+
+		summ.setBanned(false);
+	}
 
 	/**
 	 * This method finds the logged user that is using the application. Apart from
@@ -98,7 +112,7 @@ public class SummonerService {
 		return res;
 	}
 
-	private Summoner findByUsername(String username) {
+	public Summoner findByUsername(String username) {
 		assertNotNull(username);
 
 		final Summoner res = this.summonerRepository.findByUsername(username);

@@ -59,7 +59,16 @@ public class BuildController {
 
     @GetMapping(value = "/builds")
     public String listPublicBuilds(ModelMap model) {
-
+    	
+    	try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+    	
         Collection<Build> builds = this.buildService.findAllPublics();
         for (Build build : builds) {
 			build.setPunctuation(voteService.getPunctuationBuild(build));
@@ -92,6 +101,16 @@ public class BuildController {
 
     @GetMapping("/builds/{buildId}")
     public String showPublicBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
+    	
+    	try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+    	
         String view = "";
         Build build = this.buildService.findBuildById(buildId);
         if (build.isVisibility()) {
@@ -283,6 +302,15 @@ public class BuildController {
             build.setId(buildId);
 
             if (build.isVisibility() == true && build.getThread() == null) {
+            	try {
+        			Summoner summ = this.summonerService.findByPrincipal();
+        			if (summ.getBanned() == true) {
+        				return "redirect:/banned";
+        			}
+        		} catch (AssertionError e) {
+        		} catch (NoSuchElementException e) {
+        		}
+            	
                 Thread th = new Thread("Thread of " + build.getTitle(), "Este es el thread publico de la build "
                         + build.getTitle() + ", cuyo autor es " + build.getSummoner().getUser().getUsername(), null);
                 threadService.save(th);
