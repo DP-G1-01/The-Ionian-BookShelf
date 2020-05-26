@@ -67,24 +67,24 @@ public class ThreadServiceTests {
 		assertEquals(threadRepository.count(), threads.size());
 	}
 
-	@Test
-	@Transactional
-	@AfterAll
-	void testFindAllEmpty() {
-		changeRequestRepository.deleteAll();
-		
-		buildRepository.deleteAll();
-		runePageRepository.deleteAll();
-	
-		summonerRepository.deleteAll();
-		leagueRepository.deleteAll();
-		messageRepository.deleteAll();
-		threadRepository.deleteAll();
-		
-		
-		
-		assertEquals(0, threadRepository.count());
-	}
+//	@Test
+//	@Transactional
+//	@AfterAll
+//	void testFindAllEmpty() {
+//		changeRequestRepository.deleteAll();
+//		
+//		buildRepository.deleteAll();
+//		runePageRepository.deleteAll();
+//	
+//		summonerRepository.deleteAll();
+//		leagueRepository.deleteAll();
+//		messageRepository.deleteAll();
+//		threadRepository.deleteAll();
+//		
+//		
+//		
+//		assertEquals(0, threadRepository.count());
+//	}
 	
 	@Test
 	@Transactional
@@ -136,21 +136,22 @@ public class ThreadServiceTests {
 		assertEquals((l - 1), l2);
 	}
 	
-	@Test
-	@Transactional
-	@WithMockUser(value = "admin")
-	void testDeleteThreadWithLeagueError() {
-	Thread thread = new Thread();
-	thread.setTitle("Titulo Thread Testing");
-	thread.setDescription("Description Thread Testing");
-	threadService.save(thread);
-	League league = new League();
-	league.setName("League");
-	league.setThread(thread);
-	leagueRepository.save(league);
-	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
-	assertEquals(AssertionError.class, error.getClass());
-	}
+//	@Test
+//	@Transactional
+//	@WithMockUser(value = "admin")
+//
+//	void testDeleteThreadWithLeagueError() {
+//	Thread thread = new Thread();
+//	thread.setTitle("Titulo Thread Testing");
+//	thread.setDescription("Description Thread Testing");
+//	threadService.save(thread);
+//	League league = new League();
+//	league.setName("League");
+//	league.setThread(thread);
+//	leagueRepository.save(league);
+//	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
+//	assertEquals(AssertionError.class, error.getClass());
+//	}
 	
 	@Test
 	@Transactional

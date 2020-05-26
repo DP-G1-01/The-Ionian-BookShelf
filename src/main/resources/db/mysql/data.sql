@@ -229,7 +229,7 @@ VALUES     (4,
 
 INSERT INTO summoners 
 VALUES      (5, 
-             'raimundokarate@gmail.com', true,
+             'raimundokarate@gmail.com', false,
              'RAIMUNDOKARATE98', 
              3); 
 
