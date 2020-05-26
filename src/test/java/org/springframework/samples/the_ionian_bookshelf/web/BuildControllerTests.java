@@ -261,7 +261,7 @@ public class BuildControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testDeleteRuneWithoutLoginAsSumm() throws Exception {
+	void testDeleteBuildWithoutLoginAsSumm() throws Exception {
 		when(this.summonerService.findByPrincipal()).thenThrow(AssertionError.class);
 		mockMvc.perform(get("/mine/builds/{buildId}/remove", TEST_ID)).andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/"));
