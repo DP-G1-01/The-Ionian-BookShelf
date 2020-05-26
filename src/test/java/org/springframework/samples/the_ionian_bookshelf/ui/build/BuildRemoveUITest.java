@@ -1,8 +1,7 @@
-package org.springframework.samples.the_ionian_bookshelf.ui.request;
-
+package org.springframework.samples.the_ionian_bookshelf.ui.build;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,14 +15,14 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ChangeRequestStatusUITest {
-
+public class BuildRemoveUITest {
 	@LocalServerPort
 	private int port;
 
@@ -34,9 +33,9 @@ public class ChangeRequestStatusUITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-//			String pathToGeckoDriver="/home/blackylyzard/Descargas/";
-//			System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "geckodriver");
-//		    driver = new FirefoxDriver();
+//		String pathToGeckoDriver="/home/blackylyzard/Descargas/";
+//		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "geckodriver");
+//	    driver = new FirefoxDriver();
 		String pathToGeckoDriver = "C:\\Users\\mitea\\Desktop\\Universidad";
 		System.setProperty("webdriver.chrome.driver", pathToGeckoDriver + "\\chromedriver.exe");
 
@@ -46,41 +45,40 @@ public class ChangeRequestStatusUITest {
 	}
 
 	@Test
-	public void testChangeRequestStatusUI() throws Exception {
+	public void testBuildDeleteUI() throws Exception {
 		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
 		driver.findElement(By.id("username")).click();
 		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys("reviewer1");
-		driver.findElement(By.id("password")).click();
+		driver.findElement(By.id("username")).sendKeys("summoner2");
 		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys("reviewer1");
+		driver.findElement(By.id("password")).sendKeys("summoner2");
+		driver.findElement(By.xpath("//html")).click();
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[8]/a/span[2]")).click();
-		assertEquals("PENDING", driver.findElement(By.xpath("//table[@id='requestTable']/tbody/tr/td[3]")).getText());
-		driver.findElement(By.linkText("Accept")).click();
-		assertEquals("ACCEPTED", driver.findElement(By.xpath("//table[@id='requestTable']/tbody/tr/td[3]")).getText());
+		driver.findElement(By.xpath("//a[contains(text(),'My Builds')]")).click();
+		assertEquals("Build publica2",
+				driver.findElement(By.xpath("//table[@id='buildTable']/tbody/tr/td")).getText());
+		driver.findElement(By.xpath("//a[contains(text(),'Remove')]")).click();
+		assertNotEquals("Build publica2",
+				driver.findElement(By.xpath("//table[@id='buildTable']/tbody/tr/td")).getText());
 	}
 
 	@Test
-	public void testChangeRequestStatusAlreadyChangedUI() throws Exception {
+	public void testBuildCantDeleteInPublicViewUI() throws Exception {
 		driver.get("http://localhost:" + port);
 		driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
 		driver.findElement(By.id("username")).click();
 		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys("reviewer1");
-		driver.findElement(By.id("password")).click();
+		driver.findElement(By.id("username")).sendKeys("summoner2");
 		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys("reviewer1");
+		driver.findElement(By.id("password")).sendKeys("summoner2");
+		driver.findElement(By.xpath("//html")).click();
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[8]/a/span[2]")).click();
-		assertEquals("PENDING", driver.findElement(By.xpath("//table[@id='requestTable']/tbody/tr[2]/td[3]")).getText());
-		driver.findElement(By.linkText("Accept")).click();
-		assertNotEquals("Show / Remove\r\n" + 
-				"Accept / Reject",
-				driver.findElement(By.xpath("//table[@id='requestTable']/tbody/tr[2]/td[5]")).getText());
+		driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[6]/a/span[2]")).click();
+		assertNotEquals("Show / Edit / Remove",
+				driver.findElement(By.xpath("//table[@id='buildTable']/tbody/tr/td[8]")).getText());
 	}
-
+	
 	@AfterEach
 	public void tearDown() throws Exception {
 		driver.quit();
@@ -122,4 +120,5 @@ public class ChangeRequestStatusUITest {
 			acceptNextAlert = true;
 		}
 	}
+
 }

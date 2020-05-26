@@ -222,7 +222,14 @@ public class ChangeRequestController {
 		}
 		
 		ChangeRequest request = changeRequestService.findOne(requestId);
-		request.setStatus("ACCEPTED");
+		
+		if(request.getStatus().equals("PENDING")) {
+			request.setStatus("ACCEPTED");
+		}
+		else {
+			modelMap.addAttribute("message","The request has been already resolved");
+			return "redirect:/requests";
+		}
 		changeRequestService.resolve(request);
 		modelMap.addAttribute("message","Request accepted successfully");
 		
@@ -243,7 +250,14 @@ public class ChangeRequestController {
 		}
 		
 		ChangeRequest request = changeRequestService.findOne(requestId);
-		request.setStatus("REJECTED");
+		
+		if(request.getStatus().equals("PENDING")) {
+			request.setStatus("REJECTED");
+		}
+		else {
+			modelMap.addAttribute("message","The request has been already resolved");
+			return "redirect:/requests";
+		}
 		changeRequestService.resolve(request);
 		modelMap.addAttribute("message","Request rejected successfully");
 		

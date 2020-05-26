@@ -390,6 +390,7 @@ INSERT INTO item_roles(item_id,role_id) VALUES(5,3);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(1,'Soy la primera build de tus sueños y soy publica, lo juro un rato.', 'Build publica', true, 1, 1, 1, 5, null);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(2,'Soy la segunda build de tus sueños y soy publica, lo juro un rato.', 'Build publica2', true, 1, 1, 2, 6, null);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(3,'Soy la tercera build de tus sueños y soy privada, respeta, porfavor.', 'Build privada', false, 2, 1, 1, null, null);
+INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(4,'Soy la cuarta build de tus sueños y soy privada, respeta, porfavor.', 'Build privada2', false, 2, 1, 2, null, null);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(100,'Build for BuildServiceTests', 'Build for tests', true, 2, 1, 1, null, null);
 
 INSERT INTO build_items VALUES(1, 1);
