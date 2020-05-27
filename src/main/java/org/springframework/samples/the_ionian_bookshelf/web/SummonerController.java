@@ -154,7 +154,7 @@ public class SummonerController extends AbstractController {
 			League league = this.leagueService.findOne(Integer.parseInt(leagueId[0]));
 			summoner.setLeague(league);
 			summoner.setMains(champs);
-			res = new ModelAndView("redirect:/login");
+			res = new ModelAndView("redirect:/");
 
 			try {
 				this.summonerService.save(summoner);
