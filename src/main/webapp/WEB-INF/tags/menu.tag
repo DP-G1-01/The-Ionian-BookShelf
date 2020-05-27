@@ -27,8 +27,8 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'champions'}" url="/champions/"
-					title="champions">
+				<petclinic:menuItem active="${name eq 'champions'}"
+					url="/champions/" title="champions">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Champions</span>
 				</petclinic:menuItem>
@@ -38,19 +38,19 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Runes</span>
 				</petclinic:menuItem>
-				
-				<petclinic:menuItem active="${name eq 'runePage'}" url="/runePages/mine"
-					title="runes page">
+
+				<petclinic:menuItem active="${name eq 'runePage'}"
+					url="/runePages/mine" title="runes page">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Rune Page</span>
 				</petclinic:menuItem>
-				
+
 				<petclinic:menuItem active="${name eq 'items'}" url="/items"
 					title="items">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Items</span>
 				</petclinic:menuItem>
-				
+
 				<petclinic:menuItem active="${name eq 'builds'}" url="/builds"
 					title="builds">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -62,13 +62,13 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Threads</span>
 				</petclinic:menuItem>
-				
+
 				<petclinic:menuItem active="${name eq 'requests'}" url="/requests"
 					title="requests">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Requests</span>
 				</petclinic:menuItem>
-				
+
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
@@ -84,10 +84,14 @@
 				</sec:authorize>
 			</ul>
 
-
-
-
 			<ul class="nav navbar-nav navbar-right">
+				<sec:authorize access="hasAnyAuthority('reviewer')">
+					<li><a href="<c:url value="/summoner/all" />">All
+							Summoners</a></li>
+				</sec:authorize>
+				<sec:authorize access="hasAnyAuthority('summoner')">
+					<li><a href="<c:url value="/mine/builds" />">My Builds</a></li>
+				</sec:authorize>
 				<sec:authorize access="hasAnyAuthority('administrator')">
 					<li><a
 						href="<c:url value="/actor/administrator/createAdministrator" />">Register

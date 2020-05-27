@@ -205,31 +205,31 @@ VALUES     (1,
 
 INSERT INTO summoners 
 VALUES     (1, 
-            'summoner1@gmail.com', 
+            'summoner1@gmail.com', false,
             'summoner1', 
             1); 
 
 INSERT INTO summoners 
 VALUES     (2, 
-            'summoner2@gmail.com', 
+            'summoner2@gmail.com', false,
             'summoner2', 
             1); 
 
 INSERT INTO summoners 
 VALUES     (3, 
-            'summoner3@gmail.com', 
+            'summoner3@gmail.com', false,
             'summoner3', 
             1); 
 
 INSERT INTO summoners 
 VALUES     (4, 
-            'summoner4@gmail.com', 
+            'summoner4@gmail.com', false,
             'summoner4', 
             1); 
 
 INSERT INTO summoners 
 VALUES      (5, 
-             'raimundokarate@gmail.com', 
+             'raimundokarate@gmail.com', false,
              'RAIMUNDOKARATE98', 
              3); 
 
@@ -390,6 +390,7 @@ INSERT INTO item_roles(item_id,role_id) VALUES(5,3);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(1,'Soy la primera build de tus sueños y soy publica, lo juro un rato.', 'Build publica', true, 1, 1, 1, 5, null);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(2,'Soy la segunda build de tus sueños y soy publica, lo juro un rato.', 'Build publica2', true, 1, 1, 2, 6, null);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(3,'Soy la tercera build de tus sueños y soy privada, respeta, porfavor.', 'Build privada', false, 2, 1, 1, null, null);
+INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(4,'Soy la cuarta build de tus sueños y soy privada, respeta, porfavor.', 'Build privada2', false, 2, 1, 2, null, null);
 INSERT INTO builds (id, description, title, visibility, champion_id, rune_page_id, summoner_id, thread_id, punctuation ) VALUES(100,'Build for BuildServiceTests', 'Build for tests', true, 2, 1, 1, null, null);
 
 INSERT INTO build_items VALUES(1, 1);

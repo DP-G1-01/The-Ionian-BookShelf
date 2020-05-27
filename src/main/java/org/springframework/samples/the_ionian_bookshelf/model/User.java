@@ -24,6 +24,6 @@ public class User {
 	@NotBlank
 	@Size(min = 5, max = 32)
 	String password;
-
+	
 	boolean enabled;
 }

@@ -1,5 +1,6 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -12,6 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -23,19 +26,24 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
+import org.springframework.samples.the_ionian_bookshelf.model.Administrator;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
+import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = ThreadController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = ThreadController.class
+,excludeFilters = @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE
+, classes = WebSecurityConfigurer.class)
+, excludeAutoConfiguration = SecurityConfiguration.class)
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
 public class ThreadControllerTests {
@@ -45,7 +53,8 @@ public class ThreadControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private Thread threadMock = mock(Thread.class);
+	@MockBean
+	private Thread threadMock;
 
 	@MockBean
 	private ThreadService threadService;
@@ -58,6 +67,9 @@ public class ThreadControllerTests {
 
 	@MockBean
 	private AdministratorService administratorService;
+	
+	@MockBean
+	private SummonerService summonerService;
 
 	@BeforeEach
 	void setup() {
@@ -77,6 +89,8 @@ public class ThreadControllerTests {
 		messages.add(message2);
 		messages.add(message3);
 
+		Summoner summMock = mock(Summoner.class);
+		when(this.summonerService.findByPrincipal()).thenReturn(summMock);
 		when(this.threadService.findOne(THREAD_ID)).thenReturn(thread);
 		when(this.messageService.findByThread(threadMock)).thenReturn(messages);
 	}
@@ -84,7 +98,6 @@ public class ThreadControllerTests {
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test
 	void testShowThreadListSuccess() throws Exception {
-		when(this.administratorService.findByPrincipal()).thenCallRealMethod();
 		mockMvc.perform(get("/threads")).andExpect(status().isOk()).andExpect(model().attributeExists("threads"))
 				.andExpect(view().name("threads/listadoThreads"));
 	}

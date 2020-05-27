@@ -36,7 +36,6 @@ import org.springframework.samples.the_ionian_bookshelf.repository.ThreadReposit
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class BuildServiceTests {
 
@@ -65,32 +64,23 @@ public class BuildServiceTests {
 	protected SummonerRepository summonerRepository;
 
 	@Test
-	@BeforeAll
 	void testFindAllPublics() {
 		Collection<Build> builds = buildService.findAllPublics();
 		assertEquals(buildRepository.findAllPublics().size(), builds.size());
 	}
 	
-	@Test
-	@Transactional
-	@AfterAll
-	void testFindAllEmpty() {
-		buildRepository.deleteAll();
-		assertEquals(0, buildRepository.count());
-	}
+
 	
 	@Test
 	@Transactional
-	@BeforeAll
 	void testFindOne() {
 		Boolean bol= false;
 		Build build = buildService.findBuildById(2);
-		Build build2 = buildRepository.findBuildById(2);
-		if(build.getChampion().getName()==build2.getChampion().getName()
-				&& build.getTitle() == build.getTitle()) {
+		//Build build2 = buildRepository.findBuildById(2);
+		if(build.getChampion().getName().equals("Ashe")
+				) {
 			bol=true;
 		}
-		System.out.println(bol);
 		assertEquals(true, bol);
 	}
 
@@ -141,8 +131,15 @@ public class BuildServiceTests {
 	@Transactional
 	void testRemoveBuildById() {
 		long l = buildRepository.count();
-		buildService.removeBuildById(1);
+		buildService.removeBuildById((int) (l-1));
 		long l2 = buildRepository.count();
 		assertEquals((l-1), l2);
 	}
+	
+//	@Test
+//	@Transactional
+//	void testFindAllEmpty() {
+//		buildRepository.deleteAll();
+//		assertEquals(0, buildRepository.count());
+//	}
 }

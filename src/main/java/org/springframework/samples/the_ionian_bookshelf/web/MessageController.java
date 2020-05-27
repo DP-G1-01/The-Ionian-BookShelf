@@ -1,9 +1,12 @@
 package org.springframework.samples.the_ionian_bookshelf.web;
 
+import java.util.NoSuchElementException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
+import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
@@ -18,16 +21,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MessageController {
 
 	private final MessageService messageService;
+	
+	private final SummonerService summonerService;
 
 	@Autowired
 	private MessageController(MessageService messageService, ThreadService threadService,
 			SummonerService summonerService) {
 		this.messageService = messageService;
+		this.summonerService = summonerService;
 	}
 
 	// Creacion de mensajes
 	@GetMapping(value = "threads/{threadId}/messages/new")
 	public String createMessage(ModelMap modelMap, @PathVariable("threadId") int threadId) {
+		try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+		
 		String vista = "messages/createMessage";
 		try {
 			Message message = this.messageService.create(threadId);

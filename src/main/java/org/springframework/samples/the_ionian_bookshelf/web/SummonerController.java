@@ -3,6 +3,7 @@ package org.springframework.samples.the_ionian_bookshelf.web;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -13,11 +14,14 @@ import org.springframework.samples.the_ionian_bookshelf.model.League;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.LeagueService;
+import org.springframework.samples.the_ionian_bookshelf.service.ReviewerService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,15 +31,89 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/summoner")
 public class SummonerController extends AbstractController {
 
-	@Autowired
-	private SummonerService summonerService;
+	private final SummonerService summonerService;
 
 	@Autowired
 	private ChampionService champService;
 	
 	@Autowired
 	private LeagueService leagueService;
+  
+	private final ReviewerService reviewerService;
+	
 
+	@Autowired
+	public SummonerController(SummonerService summonerService, ReviewerService reviewerService, ChampionService championService) {
+		this.summonerService = summonerService;
+		this.reviewerService = reviewerService;
+		this.champService = championService;
+	}
+	
+	@GetMapping(value = "/all")
+	public String listSummoner(ModelMap model) {
+		
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			model.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			model.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
+		
+		Collection<Summoner> results = this.summonerService.findAll();
+			model.addAttribute("summoners", results);
+			return "summoner/summonersList";
+		}
+	
+	@GetMapping(value="/{summonerId}/ban")
+	public String banearSummoner(@PathVariable("summonerId") int summonerId, ModelMap modelMap) {
+		
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
+		
+		Summoner summoner = summonerService.findOne(summonerId);
+		
+		summonerService.banear(summoner);
+		summonerService.save(summoner);
+		
+		modelMap.addAttribute("message","Summoner banned successfully");
+		
+		return "redirect:/summoner/all";
+	}
+	
+	@GetMapping(value="/{summonerId}/desban")
+	public String desbanearSummoner(@PathVariable("summonerId") int summonerId, ModelMap modelMap) {
+		
+		try {
+			this.reviewerService.findByPrincipal();
+		} catch (NoSuchElementException u) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/login";
+		} catch (AssertionError e) {
+			modelMap.addAttribute("message", "You must be logged in as a reviewer");
+			return "redirect:/";
+		}
+		
+		Summoner summoner = summonerService.findOne(summonerId);
+		
+		summonerService.desbanear(summoner);
+		summonerService.save(summoner);
+		
+		modelMap.addAttribute("message","Summoner disbanned successfully");
+		
+		return "redirect:/summoner/all";
+	}
+	
+	
 	// Edition --------------------------------------------------------
 
 	@GetMapping(value = "/edit")

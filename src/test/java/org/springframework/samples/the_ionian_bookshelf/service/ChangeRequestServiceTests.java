@@ -36,7 +36,6 @@ import org.springframework.samples.the_ionian_bookshelf.repository.ThreadReposit
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
 public class ChangeRequestServiceTests {
 	
@@ -62,26 +61,24 @@ public class ChangeRequestServiceTests {
 	protected SummonerRepository summonerRepository;
 	
 	@Test
-	@BeforeAll
 	void testFindAll() {
 		Collection<ChangeRequest> requests = changeRequestService.findAll();
 		assertEquals(changeRequestRepository.count(), requests.size());
 	}
 	
-	@Test
-	@Transactional
-	@AfterAll
-	void testFindAllEmpty() {
-		changeRequestRepository.deleteAll();
-		assertEquals(0, changeRequestRepository.count());
-	}
+//	@Test
+//	@Transactional
+//	@AfterAll
+//	void testFindAllEmpty() {
+//		changeRequestRepository.deleteAll();
+//		assertEquals(0, changeRequestRepository.count());
+//	}
 	
 	@Test
 	@Transactional
 	void testFindOne() {
 		ChangeRequest requests = this.changeRequestService.findChangeRequestById(1);
-		ChangeRequest requests2 = changeRequestRepository.findChangeRequestById(1);
-		assertEquals(requests, requests2);
+		assertEquals(requests.getTitle(), "Gran titulo");
 	}
 	
 	@Test
@@ -95,7 +92,7 @@ public class ChangeRequestServiceTests {
 	@Transactional
 	void testRemoveChangeRequest() {
 		long l = changeRequestRepository.count();
-		ChangeRequest request = changeRequestService.findChangeRequestById(1);
+		ChangeRequest request = changeRequestService.findChangeRequestById((int) l);
 		changeRequestService.delete(request);
 		long l2 = changeRequestRepository.count();
 		assertEquals((l-1), l2);

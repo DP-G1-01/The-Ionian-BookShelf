@@ -15,6 +15,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.RunePage;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.service.BuildService;
+import org.springframework.samples.the_ionian_bookshelf.service.ChampionService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
@@ -37,6 +38,8 @@ public class BuildController {
 
     private final SummonerService summonerService;
 
+//    private final ChampionService championService;
+    
     private final ThreadService threadService;
     
     private final VoteService voteService;
@@ -56,7 +59,16 @@ public class BuildController {
 
     @GetMapping(value = "/builds")
     public String listPublicBuilds(ModelMap model) {
-
+    	
+    	try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+    	
         Collection<Build> builds = this.buildService.findAllPublics();
         for (Build build : builds) {
 			build.setPunctuation(voteService.getPunctuationBuild(build));
@@ -89,6 +101,16 @@ public class BuildController {
 
     @GetMapping("/builds/{buildId}")
     public String showPublicBuild(@PathVariable("buildId") int buildId, ModelMap modelmap) {
+    	
+    	try {
+			Summoner summ = this.summonerService.findByPrincipal();
+			if (summ.getBanned() == true) {
+				return "redirect:/banned";
+			}
+		} catch (AssertionError e) {
+		} catch (NoSuchElementException e) {
+		}
+    	
         String view = "";
         Build build = this.buildService.findBuildById(buildId);
         if (build.isVisibility()) {
@@ -189,7 +211,7 @@ public class BuildController {
 
     @PostMapping(value = "mine/builds/save")
     public String salvarBuild(@Valid Build build, BindingResult result, ModelMap model) {
-
+    	
         try {
             this.summonerService.findByPrincipal();
         } catch (NoSuchElementException u) {
@@ -206,7 +228,7 @@ public class BuildController {
             model.addAttribute("summonerId", summonerId);
             return "builds/editBuild";
         } else {
-            System.out.println("else");
+            
             buildService.saveBuild(build);
             model.addAttribute("message", "Build save successfully");
         }
@@ -280,6 +302,15 @@ public class BuildController {
             build.setId(buildId);
 
             if (build.isVisibility() == true && build.getThread() == null) {
+            	try {
+        			Summoner summ = this.summonerService.findByPrincipal();
+        			if (summ.getBanned() == true) {
+        				return "redirect:/banned";
+        			}
+        		} catch (AssertionError e) {
+        		} catch (NoSuchElementException e) {
+        		}
+            	
                 Thread th = new Thread("Thread of " + build.getTitle(), "Este es el thread publico de la build "
                         + build.getTitle() + ", cuyo autor es " + build.getSummoner().getUser().getUsername(), null);
                 threadService.save(th);

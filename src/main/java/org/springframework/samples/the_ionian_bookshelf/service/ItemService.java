@@ -21,6 +21,7 @@ import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepositor
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class ItemService {
 	
 	@Autowired
