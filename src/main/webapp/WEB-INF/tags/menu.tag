@@ -74,6 +74,14 @@
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
+				
+				<sec:authorize access="hasAnyAuthority('summoner')">
+					<petclinic:menuItem active="${name eq 'Display summoner details'}" url="/summoner/show"
+					title="Show your profile">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Summoner details</span>
+				</petclinic:menuItem>
+				</sec:authorize>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
