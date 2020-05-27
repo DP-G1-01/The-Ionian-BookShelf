@@ -47,7 +47,7 @@ public class SummonerController extends AbstractController {
 			res = this.createEditModelAndView(principal);
 
 		} catch (Throwable oups) {
-			return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/login");
 		}
 		return res;
 	}
@@ -76,7 +76,7 @@ public class SummonerController extends AbstractController {
 			League league = this.leagueService.findOne(Integer.parseInt(leagueId[0]));
 			summoner.setLeague(league);
 			summoner.setMains(champs);
-			res = new ModelAndView("redirect:/");
+			res = new ModelAndView("redirect:/login");
 
 			try {
 				this.summonerService.save(summoner);
@@ -102,7 +102,7 @@ public class SummonerController extends AbstractController {
 			res = new ModelAndView("summoner/display");
 			res.addObject("summoner", summoner);
 		} catch (Throwable oups) {
-			return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/login");
 		}
 		return res;
 	}
@@ -118,7 +118,7 @@ public class SummonerController extends AbstractController {
 			res = new ModelAndView("summoner/display");
 			res.addObject("summoner", summoner);
 		} catch (Throwable oups) {
-			return new ModelAndView("redirect:/");
+			return new ModelAndView("redirect:/login");
 		}
 		return res;
 	}
