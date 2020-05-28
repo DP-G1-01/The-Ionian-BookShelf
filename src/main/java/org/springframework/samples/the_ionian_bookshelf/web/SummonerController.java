@@ -125,7 +125,7 @@ public class SummonerController extends AbstractController {
 			res = this.createEditModelAndView(principal);
 
 		} catch (Throwable oups) {
-			return new ModelAndView("redirect:/login");
+			res = new ModelAndView("redirect:/login");
 		}
 		return res;
 	}
@@ -225,10 +225,11 @@ public class SummonerController extends AbstractController {
 		try {
 			Integer leagueId = summoner.getLeague().getId();
 			res.addObject("curLeagueId", leagueId);
+
 		}catch(NullPointerException e) {
 		}
-
 		res.addObject("curMains", summoner.getMains());
+
 
 //		res.addObject("requestURI", "summoner/edit.do");
 		res.addObject("message", messageCode);
