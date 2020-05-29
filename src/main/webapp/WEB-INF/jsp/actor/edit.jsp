@@ -16,6 +16,8 @@
 		<br />
 
 		<form:hidden path="id" />
+		<form:hidden path="banned" />
+		
 
 		<jstl:if test="${role eq 'summoner'}">			
 					Main champs:

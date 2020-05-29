@@ -150,6 +150,10 @@ public class SummonerController extends AbstractController {
 				}
 			} catch (final Throwable oops) {
 			}
+			String [] banned = request.getParameterValues("banned");
+			if(banned[0].isEmpty()) {
+				summoner.setBanned(false);
+			}
 			String[] leagueId = request.getParameterValues("leagueId");
 			League league = this.leagueService.findOne(Integer.parseInt(leagueId[0]));
 			summoner.setLeague(league);
