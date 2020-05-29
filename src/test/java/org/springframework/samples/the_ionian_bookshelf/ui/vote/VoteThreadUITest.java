@@ -22,9 +22,6 @@ public class VoteThreadUITest {
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
-  
-  @Autowired
-  private VoteService voteService;
 
   @BeforeEach
   public void setUp() throws Exception {
