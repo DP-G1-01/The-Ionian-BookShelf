@@ -31,7 +31,7 @@ public class RemoveThreadAdminUITest {
   
   @Test
   public void testRemoveThreadAdminUI() throws Exception {
-    driver.get("http://localhost:8080/");
+    driver.get("http://localhost/");
     driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("admin");
@@ -51,7 +51,7 @@ public class RemoveThreadAdminUITest {
   
   @Test
   public void testRemoveThreadAdminErrorUI() throws Exception {
-    driver.get("http://localhost:8080/");
+    driver.get("http://localhost/");
     driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("admin");

@@ -22,7 +22,7 @@ public class CreateThreadUITest {
 
   @BeforeEach
   public void setUp() throws Exception {
-	String pathToGeckoDriver="C:\\Users\\Pedro Biedma\\Downloads";
+	String pathToGeckoDriver="C:\\\\Users\\\\pbied\\\\Downloads";
 	System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
     driver = new FirefoxDriver();
     baseUrl = "https://www.google.com/";
@@ -31,27 +31,29 @@ public class CreateThreadUITest {
   
   @Test
   public void testCreateThreadAsAdminUI() throws Exception {
-    driver.get("http://localhost:8080/");
+    driver.get("http://localhost/");
     driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
     driver.findElement(By.id("password")).clear();
     driver.findElement(By.id("password")).sendKeys("admin");
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("admin");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[7]/a/span")).click();
-    driver.findElement(By.xpath("//a[contains(text(),'Add\n			New Thread')]")).click();
+    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[7]/a/span[2]")).click();
+    driver.findElement(By.linkText("Add New Thread")).click();
+    driver.findElement(By.id("title")).click();
     driver.findElement(By.id("title")).clear();
     driver.findElement(By.id("title")).sendKeys("Nuevo Hilo");
+    driver.findElement(By.id("description")).click();
     driver.findElement(By.id("description")).clear();
-    driver.findElement(By.id("description")).sendKeys("DescriptionTestNewUI");
+    driver.findElement(By.id("description")).sendKeys("DescripcionUITESTDePrueba");
+    driver.findElement(By.xpath("//div/div/div/div/div")).click();
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[7]/a/span")).click();
-    assertEquals("Nuevo Hilo", driver.findElement(By.xpath("//a[contains(text(),'Nuevo Hilo')]")).getText());
-  }
+    assertEquals("DescripcionUITESTDePrueba", driver.findElement(By.xpath("//table[@id='threadsTable']/tbody/tr[8]/td[2]")).getText());
+    }
   
   @Test
   public void testCreateThreadWithoutLoginErrorUI() throws Exception {
-	  driver.get("http://localhost:8080/");
+	  driver.get("http://localhost/");
 	    driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[7]/a/span")).click();
 	    assertFalse(driver.findElement(By.cssSelector("BODY")).getText().matches("^[\\s\\S]*//a\\[contains\\(text\\(\\),'Add\\n		New Thread'\\)\\][\\s\\S]*$")); 
 	    }

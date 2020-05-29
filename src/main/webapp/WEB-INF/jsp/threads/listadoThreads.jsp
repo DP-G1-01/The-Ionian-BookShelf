@@ -12,8 +12,7 @@
 	
 	<security:authorize access="isAuthenticated()">
 		<spring:url value="/threads/new" var="addThreadUrl" />
-		<a style="background-color: #000000 ; padding: 10px; border-radius:20px; float:right;" href="${fn:escapeXml(addThreadUrl)}">Add
-			New Thread</a>
+		<a style="background-color: #000000 ; padding: 10px; border-radius:20px; float:right;" href="${fn:escapeXml(addThreadUrl)}">Add New Thread</a>
 	</security:authorize>
 	<br><br><br>
 
