@@ -28,12 +28,12 @@ public class Summoner extends Actor {
 
 	@NotNull
 	@Valid
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name = "summoner_mains", joinColumns = @JoinColumn(name = "summoner_id"), inverseJoinColumns = @JoinColumn(name = "champion_id"))
 	private Collection<Champion> mains;
 
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "league_id")
 	private League league;
 
