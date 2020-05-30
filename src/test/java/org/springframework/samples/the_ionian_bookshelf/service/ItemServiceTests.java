@@ -11,9 +11,12 @@ import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -25,6 +28,7 @@ import org.springframework.samples.the_ionian_bookshelf.repository.BuildReposito
 import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepository;
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -51,33 +55,30 @@ class ItemServiceTests {
 	}
 	
 
-	
-	@Test
-	@Transactional
-	void testFindOne() {
-		Item i = this.itemService.findItemById(1);
-		String ii = "titulo1";
-		assertEquals(i.getTitle(), ii);
-	} 
-	
-	
-	@Test
-	@Transactional
-	void testFindOneError() {
-		AssertionError exception = assertThrows(AssertionError.class,()->itemService.findItemById(3472));
-		assertEquals(AssertionError.class, exception.getClass());
+	@WithMockUser(username = "admin")
+	@DisplayName("Find by Item ID")
+	@ParameterizedTest(name = "\"{0}\": Represents Item's ID")
+	@CsvSource({ "0", "1", "3","278494" })
+	void findOneByItemIdTest(Integer itemId) {
+
+		if (itemId == 0 || itemId == 278494) {
+			assertThrows(AssertionError.class, () -> {
+				this.itemService.findItemById(itemId);
+			});
+			
+		} else {
+			Item i = this.itemService.findItemById(itemId);
+			String s = "titulo1";
+			String ii = "Amuleto de las hadas";
+			if(itemId==1) {
+				assertEquals(i.getTitle(), s);
+			}else {
+				assertEquals(i.getTitle(), ii);
+			}
+		}
+
 	}
-	
-	
-//	@Test
-//	@Transactional
-//	void testRemoveItemById() {
-//		long l = itemRepository.count();
-//		itemService.removeItemById((int) (l-1));
-//		long l2 = itemRepository.count();
-//		assertEquals((l-1), l2);
-//	}
-//	
+
 	@Test
 	@Transactional
 	void testRemoveItemByIdError() {
@@ -113,12 +114,23 @@ class ItemServiceTests {
 		Collection<Role> roles = itemService.findRoles();
 		assertEquals(roleRepository.count(), roles.size());
 	}
-//	@Test
-//	@Transactional
-//	@AfterAll
-//	void testFindAllEmpty() {
-//		buildRepository.deleteAll();
-//		itemRepository.deleteAll();
-//		assertEquals(0, itemRepository.count());
-//	} 
+	
+	@WithMockUser(username = "admin")
+	@DisplayName("Delete by Item ID")
+	@ParameterizedTest(name = "\"{0}\": Represents Item's ID")
+	@CsvSource({ "0", "1","278494" })
+	void deleteByItemIdTest(Integer itemId) {
+
+		if (itemId == 0 || itemId == 278494) {
+			AssertionError exception = assertThrows(AssertionError.class, () -> {
+				this.itemService.removeItemById(itemId);
+				
+			});
+			assertEquals(AssertionError.class, exception.getClass());
+		} else {
+			this.itemService.removeItemById(itemId);
+		}
+
+	}
+	
 }

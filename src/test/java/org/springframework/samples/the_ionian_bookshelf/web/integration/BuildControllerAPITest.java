@@ -115,7 +115,8 @@ public class BuildControllerAPITest {
 		Collection<Champion> mains = new ArrayList<Champion>();
 		mains.add(c);
 		Summoner summoner = summonerService.findOne(1);
-		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, 1);
+		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>()
+				, c, null, null, summoner, 1);
 		String view=buildController.processUpdateBuildForm(build, bindingResult, 1);
 		assertEquals(view,"redirect:/mine/builds");
 	}

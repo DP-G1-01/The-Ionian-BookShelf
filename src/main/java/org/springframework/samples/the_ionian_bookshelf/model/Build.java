@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -43,19 +44,19 @@ public class Build extends BaseEntity {
 	private boolean visibility;
 
 	@Valid
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@Size(min = 0, max = 6)
 	@JoinTable(name = "build_items", joinColumns = @JoinColumn(name = "build_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private List<Item> items;
 
 	@NotNull
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "champion_id")
 	private Champion champion;
 
 	@Valid
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "rune_page_id")
 	private RunePage runePage;
 

@@ -54,31 +54,6 @@ public class BuildControllerE2ETest {
 	@Autowired
 	private MockMvc mockMvc;
 		
-	@BeforeEach
-	void setup() {
-		Role r = new Role("Rol1", "Soy un rol de prueba ten paciencia", "https://www.youtube.com/");
-		Champion c = new Champion("Cham1", "La descripción es algo superfluo sin cabida en una mente abierta",
-				10., 5., null, 20., 50., r);
-		Collection<Champion> mains = new ArrayList<Champion>();
-		mains.add(c);
-		User user = new User();
-		user.setUsername("Pepin");
-		user.setPassword("papin");
-		Summoner summoner = new Summoner();
-		summoner.setUser(user);
-		summoner.setEmail("pru@gmail.com");
-		summoner.setMains(mains);
-		Build build = new Build("Build de testeo", "Soy una build con una descripción muy bonita, sí", false, new ArrayList<>(), c, null, null, summoner, 1);
-		Thread thr = new Thread("Thread de teste", "Soy el thread creado para el hoy y el mañana, ala", 1);
-		Build buildVisible = new Build("Build de testeo visible", "Soy una build con una descripción muy bonita, sí", true, new ArrayList<>(), c, null, thr, summoner, 1);
-		List<Build> list = new ArrayList<>();
-		list.add(build);
-		list.add(buildVisible);
-		Summoner sumMock = mock(Summoner.class);
-		
-		when(sumMock.getId()).thenReturn(TEST_ID);
-		when(buildMock.getSummoner()).thenReturn(sumMock);
-	}
 	
 	@WithMockUser(value = "RAIMUNDOKARATE98")
 	@Test

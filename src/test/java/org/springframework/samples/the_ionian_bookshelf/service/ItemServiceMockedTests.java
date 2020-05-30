@@ -1,12 +1,15 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +32,13 @@ public class ItemServiceMockedTests {
 	    void setup() {
 	        itemService = new ItemService(itemRepository);
 	    }
-
+	    
+		@Test
+		@Transactional
+		void testRemoveItemByIdError() {
+			AssertionError exception = assertThrows(AssertionError.class,()->itemService.removeItemById(4637));
+			assertEquals(AssertionError.class, exception.getClass());
+		}
 	    @Test
 	    void shouldFindItems() {
 	    	List <String> attributes = new ArrayList<>();
@@ -48,5 +57,11 @@ public class ItemServiceMockedTests {
 	        Item item = items.iterator().next();
 	        assertEquals(i, item);
 	    }
+		
 	    
+	    @Test
+	    void shouldDeleteAll() {
+			itemRepository.deleteAll();
+			assertEquals(0, itemRepository.count());
+	    }
 }

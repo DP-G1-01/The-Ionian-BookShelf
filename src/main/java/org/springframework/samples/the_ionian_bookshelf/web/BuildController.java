@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.samples.the_ionian_bookshelf.model.Build;
 import org.springframework.samples.the_ionian_bookshelf.model.Champion;
 import org.springframework.samples.the_ionian_bookshelf.model.Item;
@@ -21,6 +22,7 @@ import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.service.VoteService;
 import org.springframework.samples.the_ionian_bookshelf.validators.BuildValidator;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -172,16 +174,20 @@ public class BuildController {
     }
 
     @ModelAttribute("items")
+    @Cacheable("populateItems")
+    @Transactional(readOnly = true)
     public Collection<Item> populateItems() {
         return this.buildService.findItems();
     }
 
     @ModelAttribute("champions")
+    @Cacheable("populateChampions")
     public Collection<Champion> populateChampions() {
         return this.buildService.findChampions();
     }
 
     @ModelAttribute("runePages")
+    @Cacheable("populateRunePages")
     public Collection<RunePage> populateRunePages() {
         return this.buildService.findRunePages();
     }
