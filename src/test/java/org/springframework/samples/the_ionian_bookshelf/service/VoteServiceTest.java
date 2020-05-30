@@ -1,5 +1,6 @@
 package org.springframework.samples.the_ionian_bookshelf.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.transaction.Transactional;
@@ -264,11 +265,14 @@ public class VoteServiceTest  {
 				this.voteService.createUpVoteByBuildId(id);
 			});
 	} else if (id.equals(0)) {
-//			assertThrows(AssertionError.class, () -> {
-//				this.voteService.createUpVoteByBuildId(id);
-		;
+			assertThrows(AssertionError.class, () ->{ 
+				this.voteService.createUpVoteByBuildId(id);
+				});
 		} else {
+			Integer initialPunctuation = this.voteService.getPunctuationBuild(this.buildService.findBuildById(id));
 			this.voteService.createUpVoteByBuildId(id);
+			Integer finalPunctuation = this.voteService.getPunctuationBuild(this.buildService.findBuildById(id));
+			assertEquals(initialPunctuation+1, finalPunctuation);
 		}
 	}
 	@WithMockUser("summoner1")
@@ -293,24 +297,27 @@ public class VoteServiceTest  {
 				this.voteService.createDownVoteByBuildId(id);
 			});
 		} else {
+			Integer initialPunctuation = this.voteService.getPunctuationBuild(this.buildService.findBuildById(id));
 			this.voteService.createDownVoteByBuildId(id);
+			Integer finalPunctuation = this.voteService.getPunctuationBuild(this.buildService.findBuildById(id));
+			assertEquals(initialPunctuation-1, finalPunctuation);
 		}
 	}
-//	@WithMockUser(username = "admin")
-//	@DisplayName("Delete by Build ID")
-//	@ParameterizedTest(name = "\"{0}\": Represents Build's ID")
-//	@CsvSource({ "0", "1" })
-//	void deleteByBuildTest(Integer buildId) {
-//
-//		if (buildId == 0) {
-//			assertThrows(AssertionError.class, () -> {
-//				this.voteService.deleteByBuildId(buildId);
-//			});
-//		} else {
-//			this.voteService.deleteByBuildId(buildId);
-//		}
-//
-//	}
+	@WithMockUser(username = "admin")
+	@DisplayName("Delete by Build ID")
+	@ParameterizedTest(name = "\"{0}\": Represents Build's ID")
+	@CsvSource({ "0", "1" })
+	void deleteByBuildTest(Integer buildId) {
+
+		if (buildId == 0) {
+			assertThrows(AssertionError.class, () -> {
+				this.voteService.deleteByBuildId(buildId);
+			});
+		} else {
+			this.voteService.deleteByBuildId(buildId);
+		}
+
+	}
 
 	@DisplayName("Punctuation by Build ID")
 	@ParameterizedTest(name = "\"{0}\": Represents Build's ID")
