@@ -9,6 +9,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
+import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ThreadController {
 
+	private final AuthoritiesService authoritiesService;
+	
 	private final ThreadService threadService;
 
 	private final MessageService messageService;
@@ -36,27 +39,29 @@ public class ThreadController {
 	@Autowired
 	public ThreadController(final ThreadService threadService, final MessageService messageService,
 			final VoteService voteService, final AdministratorService administratorService,
-			SummonerService summonerService) {
+			SummonerService summonerService, final AuthoritiesService authoritiesService) {
 		this.threadService = threadService;
 		this.messageService = messageService;
 		this.voteService = voteService;
 		this.administratorService = administratorService;
 		this.summonerService = summonerService;
+		this.authoritiesService = authoritiesService;
 	}
 
 	// Listado de threads
 	@GetMapping(value = "/threads")
 	public String showThreadList(ModelMap modelMap) {
-
-		try {
-			Summoner summ = this.summonerService.findByPrincipal();
-			if (summ.getBanned() == true) {
-				return "redirect:/banned";
-			}
-		} catch (AssertionError e) {
-		} catch (NoSuchElementException e) {
-		}
 		
+		if(this.authoritiesService.checkAuthorities("summoner")) {
+			try {
+				Summoner summ = this.summonerService.findByPrincipal();
+					if (summ.getBanned() == true) {
+						return "redirect:/banned";
+					}
+				} catch (AssertionError e) {
+				} catch (NoSuchElementException e) {
+				}
+		}
 		String vista = "threads/listadoThreads";
 		Iterable<Thread> threads = this.threadService.findAll();
 		for (Thread thread : threads) {

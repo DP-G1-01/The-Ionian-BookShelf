@@ -32,6 +32,7 @@ import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.model.User;
 import org.springframework.samples.the_ionian_bookshelf.service.AdministratorService;
+import org.springframework.samples.the_ionian_bookshelf.service.AuthoritiesService;
 import org.springframework.samples.the_ionian_bookshelf.service.MessageService;
 import org.springframework.samples.the_ionian_bookshelf.service.SummonerService;
 import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
@@ -70,6 +71,9 @@ public class ThreadControllerTests {
 	
 	@MockBean
 	private SummonerService summonerService;
+	
+	@MockBean
+	private AuthoritiesService authoritiesService;
 
 	@BeforeEach
 	void setup() {
@@ -90,6 +94,7 @@ public class ThreadControllerTests {
 		messages.add(message3);
 
 		Summoner summMock = mock(Summoner.class);
+		when(this.authoritiesService.checkAuthorities("summoner")).thenReturn(true);
 		when(this.summonerService.findByPrincipal()).thenReturn(summMock);
 		when(this.threadService.findOne(THREAD_ID)).thenReturn(thread);
 		when(this.messageService.findByThread(threadMock)).thenReturn(messages);
