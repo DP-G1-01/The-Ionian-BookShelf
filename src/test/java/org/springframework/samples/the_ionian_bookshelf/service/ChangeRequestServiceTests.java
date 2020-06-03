@@ -34,9 +34,13 @@ import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepositor
 import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
+@TestInstance(Lifecycle.PER_CLASS)
+@Transactional
+@EnableTransactionManagement
 public class ChangeRequestServiceTests {
 	
 	@Autowired
@@ -66,13 +70,13 @@ public class ChangeRequestServiceTests {
 		assertEquals(changeRequestRepository.count(), requests.size());
 	}
 	
-//	@Test
-//	@Transactional
-//	@AfterAll
-//	void testFindAllEmpty() {
-//		changeRequestRepository.deleteAll();
-//		assertEquals(0, changeRequestRepository.count());
-//	}
+	@Test
+	@Transactional
+	@AfterAll
+	void testFindAllEmpty() {
+		changeRequestRepository.deleteAll();
+		assertEquals(0, changeRequestRepository.count());
+	}
 	
 	@Test
 	@Transactional

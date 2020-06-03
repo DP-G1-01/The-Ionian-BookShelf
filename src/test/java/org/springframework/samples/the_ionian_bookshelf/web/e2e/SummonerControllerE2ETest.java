@@ -60,7 +60,7 @@ public class SummonerControllerE2ETest {
 	void testProcessUpdateFormSuccess() throws Exception {
 		mockMvc.perform(post("/summoner/edit").with(csrf()).param("email", "summoner21@gmail.com").param("user.username", "summoner21")
 				.param("user.password", "summoner21").param("save", "Save").param("champsId", "1")
-				.param("champsId", "2").param("leagueId", "1")).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/"));
+				.param("champsId", "2").param("leagueId", "1").param("banned", "false")).andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/"));
 	}
 	
 	@WithMockUser(value = "summoner21", authorities= {"summoner"})
@@ -68,6 +68,6 @@ public class SummonerControllerE2ETest {
 	void testProcessUpdateFormNoPassword() throws Exception {
 		mockMvc.perform(post("/summoner/edit").with(csrf()).param("email", "summoner21@gmail.com").param("user.username", "summoner21")
 				.param("user.password", "").param("save", "Save").param("champsId", "1")
-				.param("champsId", "2").param("leagueId", "1")).andExpect(status().is2xxSuccessful()).andExpect(view().name("actor/edit"));
+				.param("champsId", "2").param("leagueId", "1").param("banned", "false")).andExpect(status().is2xxSuccessful()).andExpect(view().name("actor/edit"));
 	}
 }

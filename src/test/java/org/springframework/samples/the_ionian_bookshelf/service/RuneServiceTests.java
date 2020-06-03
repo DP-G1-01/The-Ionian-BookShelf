@@ -25,10 +25,13 @@ import org.springframework.samples.the_ionian_bookshelf.repository.RuneRepositor
 import org.springframework.samples.the_ionian_bookshelf.service.RuneService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
+@EnableTransactionManagement
 public class RuneServiceTests {
 
 	@Autowired
@@ -51,13 +54,13 @@ public class RuneServiceTests {
 	}
 
 	// Encontrar una runa por su id
-//	@Test
-//	@Transactional
-//	void testFindRuneById() {
-//		Rune i = runeService.findRuneById(1);
-//		Rune ii = runeRepository.findById(1).get();
-//		assertEquals(i, ii);
-//	}
+	@Test
+	@Transactional
+	void testFindRuneById() {
+		Rune i = runeService.findRuneById(1);
+		Rune ii = runeRepository.findById(1).get();
+		assertEquals(i, ii);
+	}
 
 	@Test
 	@Transactional

@@ -25,7 +25,9 @@ import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
 import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.repository.BuildRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.ChampionRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.ChangeRequestRepository;
+import org.springframework.samples.the_ionian_bookshelf.repository.ItemRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.LeagueRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.MessageRepository;
 import org.springframework.samples.the_ionian_bookshelf.repository.RunePageRepository;
@@ -33,12 +35,15 @@ import org.springframework.samples.the_ionian_bookshelf.repository.SummonerRepos
 import org.springframework.samples.the_ionian_bookshelf.repository.ThreadRepository;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
+@EnableTransactionManagement
 public class ThreadServiceTests {
 
 	@Autowired
@@ -57,8 +62,10 @@ public class ThreadServiceTests {
 	protected BuildRepository buildRepository;
 	@Autowired
 	protected MessageRepository messageRepository;
-//	@Autowired
-//	protected MessageRepository messageRepository;
+	@Autowired
+	protected ChampionRepository championRepository;
+	@Autowired
+	protected ItemRepository itemRepository;
 	
 	@Test
 	@BeforeAll
@@ -75,13 +82,10 @@ public class ThreadServiceTests {
 //		
 //		buildRepository.deleteAll();
 //		runePageRepository.deleteAll();
-//	
-//		summonerRepository.deleteAll();
-//		leagueRepository.deleteAll();
+//		championRepository.deleteAll();
+//		itemRepository.deleteAll();
 //		messageRepository.deleteAll();
-//		threadRepository.deleteAll();
-//		
-//		
+//		threadRepository.deleteAll();	
 //		
 //		assertEquals(0, threadRepository.count());
 //	}
@@ -136,22 +140,22 @@ public class ThreadServiceTests {
 		assertEquals((l - 1), l2);
 	}
 	
-//	@Test
-//	@Transactional
-//	@WithMockUser(value = "admin")
-//
-//	void testDeleteThreadWithLeagueError() {
-//	Thread thread = new Thread();
-//	thread.setTitle("Titulo Thread Testing");
-//	thread.setDescription("Description Thread Testing");
-//	threadService.save(thread);
-//	League league = new League();
-//	league.setName("League");
-//	league.setThread(thread);
-//	leagueRepository.save(league);
-//	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
-//	assertEquals(AssertionError.class, error.getClass());
-//	}
+	@Test
+	@Transactional
+	@WithMockUser(value = "admin")
+
+	void testDeleteThreadWithLeagueError() {
+	Thread thread = new Thread();
+	thread.setTitle("Titulo Thread Testing");
+	thread.setDescription("Description Thread Testing");
+	threadService.save(thread);
+	League league = new League();
+	league.setName("League");
+	league.setThread(thread);
+	leagueRepository.save(league);
+	AssertionError error = assertThrows(AssertionError.class, ()->threadService.delete(thread));
+	assertEquals(AssertionError.class, error.getClass());
+	}
 	
 	@Test
 	@Transactional

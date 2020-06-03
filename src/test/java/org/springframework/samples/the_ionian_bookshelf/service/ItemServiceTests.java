@@ -30,9 +30,13 @@ import org.springframework.samples.the_ionian_bookshelf.repository.RoleRepositor
 import org.springframework.samples.the_ionian_bookshelf.service.ItemService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.ModelMap;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
+@TestInstance(Lifecycle.PER_CLASS)
+@Transactional
+@EnableTransactionManagement
 class ItemServiceTests {
 
 	@Autowired
@@ -132,5 +136,15 @@ class ItemServiceTests {
 		}
 
 	}
+	
+//	@Test
+//	@Transactional
+//	@AfterAll
+//	void shouldDeleteAll() {
+//		roleRepository.deleteAll();
+//		itemRepository.deleteAll();
+//		assertEquals(0, itemRepository.count());
+//	   }  
+	   
 	
 }

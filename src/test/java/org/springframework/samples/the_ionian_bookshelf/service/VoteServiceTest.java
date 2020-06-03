@@ -21,10 +21,13 @@ import org.springframework.samples.the_ionian_bookshelf.model.Thread;
 import org.springframework.samples.the_ionian_bookshelf.utilities.AbstractTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@TestInstance(Lifecycle.PER_CLASS)
 @AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
+@EnableTransactionManagement
 public class VoteServiceTest  {
 
 	@Autowired
@@ -245,6 +248,7 @@ public class VoteServiceTest  {
 	
 	//Vote Build
 	
+
 	@WithMockUser("summoner1")
 	@DisplayName("Upvote a Build")
 	@ParameterizedTest(name = "\"{0}\": Represents the id of the Build to upvote")
@@ -271,6 +275,7 @@ public class VoteServiceTest  {
 			this.voteService.createUpVoteByBuildId(id);
 		}
 	}
+
 	@WithMockUser("summoner1")
 	@DisplayName("Downvote a Build")
 	@ParameterizedTest(name = "\"{0}\": Represents the id of the Build to downvote")
@@ -327,7 +332,7 @@ public class VoteServiceTest  {
 		}
 
 	}
-	
+
 	@DisplayName("Find by Build ID")
 	@ParameterizedTest(name = "\"{0}\": Represents Build's ID")
 	@CsvSource({ "0", "1" })

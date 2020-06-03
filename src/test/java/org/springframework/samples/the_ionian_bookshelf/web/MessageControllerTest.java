@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -16,9 +18,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.samples.the_ionian_bookshelf.configuration.SecurityConfiguration;
 import org.springframework.samples.the_ionian_bookshelf.model.Message;
 import org.springframework.samples.the_ionian_bookshelf.model.Summoner;
@@ -31,12 +36,16 @@ import org.springframework.samples.the_ionian_bookshelf.service.ThreadService;
 import org.springframework.samples.the_ionian_bookshelf.utilities.AbstractTest;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @AutoConfigureMockMvc
 @WebMvcTest(controllers = MessageController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class MessageControllerTest extends AbstractTest {
+
 
 	private static final int THREAD_ID = 100;
 
@@ -82,6 +91,8 @@ public class MessageControllerTest extends AbstractTest {
 //		messages.add(positiveSaveTest);
 //	}
 
+	
+	
 	@DisplayName("Create Message Controller Test")
 	@ParameterizedTest(name = "\"{0}\" represents the username of the Summoner authenticated")
 	@CsvSource({ "nullUser,null", "nullUser,100", "RAIMUNDOKARATE98,null", "RAIMUNDOKARATE98,100" })
@@ -92,25 +103,28 @@ public class MessageControllerTest extends AbstractTest {
 
 			if (threadId.equals("null")) {
 				when(this.messageService.create(0)).thenThrow(AssertionError.class);
-				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is3xxRedirection())
-						.andExpect(view().name("redirect:/"));
+				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is2xxSuccessful())
+						.andExpect(view().name("exception"));
 			} else {
 				when(this.messageService.create(100)).thenThrow(AssertionError.class);
 				mockMvc.perform(get("/threads/{threadId}/messages/new", threadId))
-						.andExpect(status().is3xxRedirection());
+						.andExpect(status().is2xxSuccessful()).andExpect(view().name("exception"));
 			}
 		} else {
 			if (threadId.equals("null")) {
 				when(this.messageService.create(0)).thenThrow(AssertionError.class);
-				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is3xxRedirection());
-			} else {
-				when(this.messageService.create(100)).thenReturn(mock(Message.class));
-				mockMvc.perform(get("/threads/{threadId}/messages/new", Integer.parseInt(threadId)))
-						.andExpect(status().is2xxSuccessful()).andExpect(view().name("messages/createMessage"));
+				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is2xxSuccessful())
+				.andExpect(view().name("exception"));
 			}
+//			else {
+//				when(this.messageService.create(100)).thenReturn(mock(Message.class));
+//				mockMvc.perform(get("/threads/{threadId}/messages/new", Integer.parseInt(threadId)))
+//						.andExpect(status().is2xxSuccessful()).andExpect(view().name("messages/createMessage"));
+//			}
 		}
 	}
 
+	
 	@DisplayName("Save Message Controller Test")
 	@ParameterizedTest(name = "\"{0}\" represents the text of the message")
 	@CsvSource({ "badText,nullUser", "positiveText,nullUser", "badText,RAIMUNDOKARATE98",
@@ -136,7 +150,8 @@ public class MessageControllerTest extends AbstractTest {
 				mockMvc.perform(post("/threads/{threadId}/messages/save", 100).with(csrf()).param("text", text)
 						.param("moment", "2000/10/10 10:10").param("summoner", "5"))
 						.andExpect(status().is2xxSuccessful());
-			} else {
+			}
+			else {
 				when(this.messageService.saveMessage(messageMock)).thenCallRealMethod();
 				mockMvc.perform(post("/threads/{threadId}/messages/save", 100).with(csrf()).param("text", text)
 						.param("moment", "2000/10/10 10:10").param("summoner", "5"))
@@ -145,6 +160,7 @@ public class MessageControllerTest extends AbstractTest {
 		}
 	}
 
+	@Rollback
 	@DisplayName("Delete Message Controller Test")
 	@ParameterizedTest(name = "\"{0}\" represents the Message id to delete")
 	@CsvSource({ "null", "1", "100" })
