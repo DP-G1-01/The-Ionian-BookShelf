@@ -2,9 +2,9 @@
 
 Desde un fork de https://github.com/spring-projects/spring-petclinic. 
 
- - Todas las pruebas se pueden realizar de forma automática desde el perfil de ejecución compatible con MySQL, salvo las de interfaz de usuario, que es necesario ir realizando manualmente la ejecución de cada una eligiendo , o descomentando el driver del navegador que se vaya a usar con su ruta.
+ - Todas las pruebas se pueden realizar de forma automática desde el perfil de ejecución compatible con MySQL, salvo las de interfaz de usuario, que es necesario ir realizando manualmente la ejecución de cada una integrando el driver a utilizar con su respectiva ruta.
  
- - Hemos tenido numerosos problemas de 'compatibilidad' con la base de datos MySQL por ello, y tras numerosos cambios, la consola mediante la ejecución de las pruebas o de la aplicación presenta numerosos mensajes de error, éstos no perjudican la ejecución en si.
+ - Hemos tenido numerosos problemas de "compatibilidad" con la base de datos MySQL. Por ello, y tras numerosos cambios, durante la ejecución de las pruebas y en el despliegue de la aplicación en la consola se presentan varios mensajes de error. Sin embargo, estos no interfieren en la ejecución en sí misma, finalizando todo de manera correcta independientemente de estos mensajes.
  
  - El script que hemos utilizado para generar la base de datos es el siguiente y lo hemos ejecutado desde MySQL Workbench
 ```
@@ -22,3 +22,7 @@ grant select, insert, update, delete, create, drop, references, index, alter,
 ```
 
 - El puerto donde se lanzará la aplicación tal y como está ahora mismo es el siguiente: http://localhost:80
+
+- Sobre los tests de UI, comentar que salvo en los tests de baneo de Summoners y todos los relacionados con ChangeRequest y Build, que se ejecutan de forma separada en un puerto independiente, todos los tests deben ejecutarse con la aplicación iniciada manualmente sobre el puerto 8080 y se debe de reiniciar la aplicación al final de cada uno de ellos, para que los efectos de algunos tests no interfieran en el resultado de otros.
+
+- El enlace con todo el contenido extra que se ha ido recopilando a lo largo de desarrollo de la asignatura es el siguiente: https://drive.google.com/drive/u/0/folders/1qTZ3GBc5iL9cPtoe6fdVbKVCDqd4fw65
