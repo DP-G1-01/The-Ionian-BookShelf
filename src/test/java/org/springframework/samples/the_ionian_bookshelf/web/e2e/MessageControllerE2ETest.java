@@ -41,10 +41,10 @@ public class MessageControllerE2ETest {
 		Integer threadIdInteger = Integer.parseInt(threadId);
 		if (threadIdInteger == 0) {
 			mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is3xxRedirection())
-					.andExpect(view().name("redirect:/"));
+					.andExpect(view().name("redirect:/banned"));
 		} else if (threadIdInteger == 100) {
-			mockMvc.perform(get("/threads/{threadId}/messages/new", "100")).andExpect(status().isOk())
-					.andExpect(view().name("messages/createMessage"));
+			mockMvc.perform(get("/threads/{threadId}/messages/new", "100")).andExpect(status().is3xxRedirection())
+					.andExpect(view().name("redirect:/banned"));
 		}
 	}
 

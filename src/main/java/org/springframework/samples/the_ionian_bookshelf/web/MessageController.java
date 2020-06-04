@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MessageController {
 
 	private final MessageService messageService;
-	
+
 	private final SummonerService summonerService;
 
 	@Autowired
@@ -42,7 +42,7 @@ public class MessageController {
 		} catch (AssertionError e) {
 		} catch (NoSuchElementException e) {
 		}
-		
+
 		String vista = "messages/createMessage";
 		try {
 			Message message = this.messageService.create(threadId);

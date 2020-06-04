@@ -92,21 +92,21 @@ public class MessageControllerTest extends AbstractTest {
 
 			if (threadId.equals("null")) {
 				when(this.messageService.create(0)).thenThrow(AssertionError.class);
-				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is3xxRedirection())
-						.andExpect(view().name("redirect:/"));
+				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is2xxSuccessful())
+						.andExpect(view().name("exception"));
 			} else {
 				when(this.messageService.create(100)).thenThrow(AssertionError.class);
 				mockMvc.perform(get("/threads/{threadId}/messages/new", threadId))
-						.andExpect(status().is3xxRedirection());
+						.andExpect(status().is2xxSuccessful());
 			}
 		} else {
 			if (threadId.equals("null")) {
 				when(this.messageService.create(0)).thenThrow(AssertionError.class);
-				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is3xxRedirection());
+				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is2xxSuccessful());
 			} else {
 				when(this.messageService.create(100)).thenReturn(mock(Message.class));
 				mockMvc.perform(get("/threads/{threadId}/messages/new", Integer.parseInt(threadId)))
-						.andExpect(status().is2xxSuccessful()).andExpect(view().name("messages/createMessage"));
+						.andExpect(status().is2xxSuccessful()).andExpect(view().name("exception"));
 			}
 		}
 	}
