@@ -1,1 +1,0 @@
-Al hacer la transición de H2 a MySQL dejaron de funcionar la gran mayoría de los tests que teníamos hasta el momento. Pese a haber solucionado y adaptado la gran mayoría para su correcto funcionamiento con MySQL, sigue habiendo algunos que solo funcionan al ejecutarlos de la forma: Run As -> JUnit Test, ya que aquí se hace uso de H2.
