@@ -50,11 +50,10 @@ public class MessageControllerAPITest extends AbstractTest {
 
 		if (threadIdInteger == 0) {
 			String view = messageController.createMessage(model, threadIdInteger);
-			assertEquals(view, "redirect:/");
+			assertEquals(view, "redirect:/banned");
 		} else if (threadIdInteger == 100) {
 			String view = messageController.createMessage(model, threadIdInteger);
-			assertEquals(view, "messages/createMessage");
-			assertNotNull(model.get("message"));
+			assertEquals(view, "redirect:/banned");
 		}
 	}
 

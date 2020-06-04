@@ -99,4 +99,12 @@ public class ReviewerService {
 		return res;
 	}
 
+	public boolean exists(int id) {
+
+		assertTrue(id != 0);
+		boolean res = this.reviewerRepository.existsById(id);
+
+		return res;
+	}
+
 }
