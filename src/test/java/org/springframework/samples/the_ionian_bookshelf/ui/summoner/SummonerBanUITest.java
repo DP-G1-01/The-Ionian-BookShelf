@@ -58,7 +58,7 @@ public class SummonerBanUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 	    driver.findElement(By.xpath("//a[contains(@href, '/summoner/all')]")).click();
 	    assertEquals("false", driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[5]/td[2]")).getText());
-	    driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[4]/td[3]/a")).click();
+	    driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[5]/td[3]/a")).click();
 	    assertEquals("true", driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[5]/td[2]")).getText());
 	}
 	
@@ -75,7 +75,7 @@ public class SummonerBanUITest {
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 	    driver.findElement(By.xpath("//a[contains(@href, '/summoner/all')]")).click();
 	    assertEquals("true", driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[4]/td[2]")).getText());
-	    driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[5]/td[3]/a")).click();
+	    driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[4]/td[3]/a")).click();
 	    assertEquals("false", driver.findElement(By.xpath("//table[@id='summonerTable']/tbody/tr[4]/td[2]")).getText());
 	}
 	

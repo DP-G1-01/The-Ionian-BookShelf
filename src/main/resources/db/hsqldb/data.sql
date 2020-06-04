@@ -272,14 +272,14 @@ VALUES
 INSERT INTO summoners
 VALUES
     (4,
-        'summoner4@gmail.com', false,
+        'summoner4@gmail.com', true,
         'summoner4',
         1);
 
 INSERT INTO summoners
 VALUES
     (5,
-        'raimundokarate@gmail.com', true,
+        'raimundokarate@gmail.com', false,
         'RAIMUNDOKARATE98',
         3);
 
