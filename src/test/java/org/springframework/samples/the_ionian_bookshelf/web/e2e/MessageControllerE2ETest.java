@@ -35,7 +35,7 @@ public class MessageControllerE2ETest {
 	@DisplayName("Create Message Controller Test")
 	@ParameterizedTest(name = "\"{0}\" represents the id of the Thread for which we are creating a message")
 	@CsvSource({ "0", "100" })
-	@WithMockUser(value = "RAIMUNDOKARATE98", authorities = "summoner")
+	@WithMockUser(value = "summoner4", authorities = "summoner")
 	void createMessageTest(String threadId) throws Exception {
 
 		Integer threadIdInteger = Integer.parseInt(threadId);

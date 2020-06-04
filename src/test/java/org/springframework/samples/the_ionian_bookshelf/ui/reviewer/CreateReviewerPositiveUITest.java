@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateReviewerPositiveTest {
+public class CreateReviewerPositiveUITest {
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -20,9 +20,9 @@ public class CreateReviewerPositiveTest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		String pathToGeckoDriver = "C:\\Users\\Raikonen\\Descargas";
-		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
-		driver = new FirefoxDriver();
+//		String pathToGeckoDriver = "C:\\Users\\Raikonen\\Descargas";
+//		System.setProperty("webdriver.gecko.driver", pathToGeckoDriver + "\\geckodriver.exe");
+//		driver = new FirefoxDriver();
 		baseUrl = "https://www.google.com/";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}

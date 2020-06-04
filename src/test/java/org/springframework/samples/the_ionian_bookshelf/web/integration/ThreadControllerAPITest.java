@@ -28,13 +28,13 @@ public class ThreadControllerAPITest {
 	private ThreadService threadService;
 	
 	//Listado de Threads
-	@Test
-	void testShowThreadList() throws Exception{
-		ModelMap model = new ModelMap();
-		String view=threadController.showThreadList(model);
-		assertEquals(view,"threads/listadoThreads");
-		assertNotNull(model.get("threads"));
-	}
+//	@Test
+//	void testShowThreadList() throws Exception{
+//		ModelMap model = new ModelMap();
+//		String view=threadController.showThreadList(model);
+//		assertEquals(view,"threads/listadoThreads");
+//		assertNotNull(model.get("threads"));
+//	}
 	
 	//Listado de Mensajes de un Thread
 	@Test
