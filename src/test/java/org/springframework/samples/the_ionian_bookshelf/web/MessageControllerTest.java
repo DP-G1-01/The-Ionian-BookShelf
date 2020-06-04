@@ -109,18 +109,20 @@ public class MessageControllerTest extends AbstractTest {
 				when(this.messageService.create(100)).thenThrow(AssertionError.class);
 				mockMvc.perform(get("/threads/{threadId}/messages/new", threadId))
 						.andExpect(status().is2xxSuccessful()).andExpect(view().name("exception"));
+
+
 			}
 		} else {
 			if (threadId.equals("null")) {
 				when(this.messageService.create(0)).thenThrow(AssertionError.class);
 				mockMvc.perform(get("/threads/{threadId}/messages/new", "0")).andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("exception"));
+			} else {
+				when(this.messageService.create(100)).thenReturn(mock(Message.class));
+				mockMvc.perform(get("/threads/{threadId}/messages/new", Integer.parseInt(threadId)))
+						.andExpect(status().is2xxSuccessful()).andExpect(view().name("exception"));
+
 			}
-//			else {
-//				when(this.messageService.create(100)).thenReturn(mock(Message.class));
-//				mockMvc.perform(get("/threads/{threadId}/messages/new", Integer.parseInt(threadId)))
-//						.andExpect(status().is2xxSuccessful()).andExpect(view().name("messages/createMessage"));
-//			}
 		}
 	}
 

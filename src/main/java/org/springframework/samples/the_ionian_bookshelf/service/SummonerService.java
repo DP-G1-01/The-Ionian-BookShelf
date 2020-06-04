@@ -108,7 +108,7 @@ public class SummonerService {
 		assertNotNull(ua);
 
 		res = this.findByUsername(ua.getUsername());
-
+		assertNotNull(res);
 		return res;
 	}
 
