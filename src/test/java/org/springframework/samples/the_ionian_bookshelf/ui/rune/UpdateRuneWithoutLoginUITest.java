@@ -32,7 +32,7 @@ public class UpdateRuneWithoutLoginUITest {
 
   @Test
   public void testUpdateRuneNegative() throws Exception {
-    driver.get("http://localhost:8080/");
+	driver.get("http://localhost:80/"); //Ajuste el puerto
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[3]/a/span")).click();
     driver.findElement(By.linkText("Edit Rune")).click();
     driver.findElement(By.xpath("//html")).click();

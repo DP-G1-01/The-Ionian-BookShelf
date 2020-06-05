@@ -31,7 +31,7 @@ public class RemoveChampionWithoutLoginUITest {
 
   @Test
   public void testRemoveChampionWithoutLogin() throws Exception {
-    driver.get("http://localhost:8080/");
+	driver.get("http://localhost:80/"); //Ajuste el puerto 
     driver.findElement(By.xpath("//div[@id='main-navbar']/ul/li[2]/a/span[2]")).click();
     driver.findElement(By.linkText("Remove")).click();
     driver.findElement(By.xpath("//html")).click();

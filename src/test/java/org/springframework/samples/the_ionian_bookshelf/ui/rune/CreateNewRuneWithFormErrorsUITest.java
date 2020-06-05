@@ -33,7 +33,7 @@ public class CreateNewRuneWithFormErrorsUITest {
 
   @Test
   public void testCreateNewRuneWithFormErrors() throws Exception {
-    driver.get("http://localhost:8080/");
+	driver.get("http://localhost:80/"); //Ajuste el puerto
     driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
     driver.findElement(By.id("username")).clear();
     driver.findElement(By.id("username")).sendKeys("admin");
