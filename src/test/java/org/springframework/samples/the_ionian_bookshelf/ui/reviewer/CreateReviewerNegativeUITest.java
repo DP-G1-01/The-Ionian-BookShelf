@@ -13,7 +13,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateReviewerNegativeTest {
+public class CreateReviewerNegativeUITest {
 
 	private WebDriver driver;
 	private String baseUrl;
