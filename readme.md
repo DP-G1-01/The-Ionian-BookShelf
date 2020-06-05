@@ -27,6 +27,6 @@ grant select, insert, update, delete, create, drop, references, index, alter,
 
 - El enlace con todo el contenido extra que se ha ido recopilando a lo largo de desarrollo de la asignatura es el siguiente: https://drive.google.com/drive/u/0/folders/1qTZ3GBc5iL9cPtoe6fdVbKVCDqd4fw65
 
--Para ejecutar el test de Cucumber quizás sea necesario convertir el proyecto a proyecto Cucumber con click derecho.
+- Para ejecutar el test de Cucumber quizás sea necesario convertir el proyecto a proyecto Cucumber con click derecho.
 
--La configuración de Travis está realizada correctamente pero, por los errores comentados previamente, el log llega al límite y no se puede terminar la ejecución de las pruebas.
+- La configuración de Travis está realizada correctamente pero, por los errores comentados previamente, el log llega al límite y no se puede terminar la ejecución de las pruebas.
