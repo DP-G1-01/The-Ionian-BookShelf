@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="You already voted this Thread">
+<petclinic:layout pageName="errorVote">
 
 	<h2>
 		Usted ya emitió este voto previamente.
