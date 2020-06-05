@@ -45,7 +45,8 @@ public class VoteController {
 		try {
 			voteService.createUpVoteByMessageId(messageId);	
 		} catch (AssertionError e) {
-			return "/votes/voteError";
+			map.addAttribute("threadId", threadId);
+			return "/votes/voteErrorMessage";
 		}
 		return "redirect:/threads/"+threadId;
 	}
@@ -56,7 +57,8 @@ public class VoteController {
 		try {
 			voteService.createDownVoteByMessageId(messageId);	
 		} catch (AssertionError e) {
-			return "/votes/voteError";
+			map.addAttribute("threadId", threadId);
+			return "/votes/voteErrorMessage";
 		}
 		return "redirect:/threads/"+threadId;
 	}
@@ -67,7 +69,7 @@ public class VoteController {
 		try {
 			voteService.createUpVoteByBuildId(buildId);	
 		} catch (AssertionError e) {
-			return "/votes/voteError";
+			return "/votes/voteErrorBuild";
 		}
 		return "redirect:/builds";
 	}
@@ -78,7 +80,7 @@ public class VoteController {
 		try {
 			voteService.createDownVoteByBuildId(buildId);	
 		} catch (AssertionError e) {
-			return "/votes/voteError";
+			return "/votes/voteErrorBuild";
 		}
 		return "redirect:/builds";
 	}
