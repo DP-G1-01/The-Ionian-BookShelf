@@ -26,3 +26,7 @@ grant select, insert, update, delete, create, drop, references, index, alter,
 - Sobre los tests de UI, comentar que salvo en los tests de baneo de Summoners y todos los relacionados con ChangeRequest y Build, que se ejecutan de forma separada en un puerto independiente, todos los tests deben ejecutarse con la aplicación iniciada manualmente sobre el puerto 8080 y se debe de reiniciar la aplicación al final de cada uno de ellos, para que los efectos de algunos tests no interfieran en el resultado de otros.
 
 - El enlace con todo el contenido extra que se ha ido recopilando a lo largo de desarrollo de la asignatura es el siguiente: https://drive.google.com/drive/u/0/folders/1qTZ3GBc5iL9cPtoe6fdVbKVCDqd4fw65
+
+-Para ejecutar el test de Cucumber quizás sea necesario convertir el proyecto a proyecto Cucumber con click derecho.
+
+-La configuración de Travis está realizada correctamente pero, por los errores comentados previamente, el log llega al límite y no se puede terminar la ejecución de las pruebas.
