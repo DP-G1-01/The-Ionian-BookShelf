@@ -4,7 +4,7 @@
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
@@ -16,22 +16,23 @@
 		<br />
 
 		<form:hidden path="id" />
-		<form:hidden path="banned" />
-		
 
 		<jstl:if test="${role eq 'summoner'}">			
 					Main champs:
 					<select id="champsId" name="champsId" multiple>
 				<jstl:forEach var="champ" items="${champs}">
-					<option value="${champ.id}"<jstl:if test="${fn:contains(curMains, champ)}">selected</jstl:if>>${champ.name}</option>
+					<option value="${champ.id}"
+						<jstl:if test="${fn:contains(curMains, champ)}">selected</jstl:if>>${champ.name}</option>
 				</jstl:forEach>
 			</select>
 			League:
 					<select id="leagueId" name="leagueId">
 				<jstl:forEach var="league" items="${leagues}">
-					<option value="${league.id}" <jstl:if test="${league.id eq curLeagueId }">selected</jstl:if>>${league.name}</option>
+					<option value="${league.id}"
+						<jstl:if test="${league.id eq curLeagueId }">selected</jstl:if>>${league.name}</option>
 				</jstl:forEach>
 			</select>
+			<form:hidden path="banned" />
 		</jstl:if>
 
 		<petclinic:inputField label="Email*" name="email" />
