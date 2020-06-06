@@ -30,3 +30,5 @@ grant select, insert, update, delete, create, drop, references, index, alter,
 - Para ejecutar el test de Cucumber quizás sea necesario convertir el proyecto a proyecto Cucumber con click derecho.
 
 - La configuración de Travis está realizada correctamente pero, por los errores comentados previamente, el log llega al límite y no se puede terminar la ejecución de las pruebas.
+
+- El proyecto está preparado para ser lanzadas todas las pruebas con MySQL, para realizar maven install o cualquier comando de maven que necesite de h2 es necesario excluir en el pom todas las pruebas terminadas en UITest y en APITest, aparte de comentar en los tests de servicios la anotación que fuerza que se realicen con MySQL.
